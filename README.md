@@ -503,144 +503,555 @@ LOG_LEVEL=info
 ## 📝 Available Scripts
 
 ### Frontend
-- `npm run dev` - Start development server with HMR
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-
-### Backend
-- `npm start` - Start production server
-- `npm run dev` - Start development server with auto-reload
-
-## 🌐 Internationalization
-
-The project supports English and Arabic with full RTL support.
-
-### Translation Files
-- `src/i18n/en.json` - English translations
-- `src/i18n/ar.json` - Arabic translations
-
-### Adding New Translations
-1. Add key-value pairs to both `en.json` and `ar.json`
-2. Use in components with `useLanguage()` hook:
-```tsx
-const { ts } = useLanguage();
-<h1>{ts('key.path')}</h1>
+```bash
+npm run dev      # Start dev server with HMR (http://localhost:5173)
+npm run build    # Production build to dist/
+npm run preview  # Preview production build locally
+npm run lint     # Run ESLint checks
 ```
 
-## 🔐 Admin Panel
+### Backend
+```bash
+cd server
+npm run dev      # Start with auto-reload (http://localhost:5000)
+npm start        # Start production server
+```
 
-Access the admin dashboard at `/#/admin`
+## 🌐 Internationalization (i18n)
 
-### Default Admin Credentials
-- Username: admin
-- Password: (set during initial setup)
+### Supported Languages
+- 🇬🇧 **English** (en)
+- 🇸🇦 **Arabic** (ar) - Full RTL support
 
-### Admin Features
-- **Dashboard**: Overview and statistics
-- **Projects**: Create, edit, delete projects with images
-- **Blog**: Write and manage articles
-- **Services**: Customize service offerings
-- **Settings**: Site-wide configuration
-- **Arabic Content**: Separate management for Arabic content
-- **Contacts**: View and manage contact submissions
+### Translation Files
+```
+src/i18n/
+├── en.json       # English translations
+├── ar.json       # Arabic translations
+└── index.ts      # i18next configuration
+```
 
-## 🗄️ Database
+### Using Translations
 
-### SQLite (Development)
-Database file: `server/trq.db`
+```tsx
+import { useLanguage } from './context/LanguageContext';
 
-### Turso (Production)
-For production deployment, configure Turso:
-1. Create a Turso account at https://turso.tech
-2. Set `TURSO_CONNECTION_URL` and `TURSO_AUTH_TOKEN` in `.env`
+export function MyComponent() {
+  const { ts, isRTL } = useLanguage();
+  
+  return (
+    <div dir={isRTL ? 'rtl' : 'ltr'}>
+      <h1>{ts('page.title')}</h1>
+      <p>{ts('page.description')}</p>
+    </div>
+  );
+}
+```
+
+### Adding New Translations
+
+1. Add to `src/i18n/en.json`:
+```json
+{
+  "page": {
+    "title": "Welcome",
+    "description": "This is a description"
+  }
+}
+```
+
+2. Add to `src/i18n/ar.json`:
+```json
+{
+  "page": {
+    "title": "أهلا وسهلا",
+    "description": "هذا وصف"
+  }
+}
+```
+
+## 🎛️ Admin Panel
+
+### Access
+- **URL**: `http://localhost:5173/#/admin`
+- **Default Credentials**: Set during first setup
+
+### Features
+
+| Feature | Description |
+|---------|-------------|
+| 📊 Dashboard | Overview, statistics, recent activity |
+| 🖼️ Projects | Create, edit, delete projects with images |
+| 📝 Blog | Write articles with rich text editor |
+| �️ Services | Manage service offerings |
+| ⚙️ Settings | Site-wide configuration |
+| 🌍 Arabic Content | Separate management for Arabic version |
+| 📧 Contacts | View and manage submissions |
+| 👤 Account | Profile and password management |
+
+### Admin Routes
+```
+/admin                    # Dashboard
+/admin/projects          # Projects management
+/admin/blog              # Blog management
+/admin/services          # Services management
+/admin/settings          # Site settings
+/admin/arabic            # Arabic content
+/admin/contacts          # Contact submissions
+/admin/account           # Account settings
+```
+
+## �️ Database
+
+### Development (SQLite)
+```bash
+# Database file
+server/trq.db
+
+# Reset database
+rm server/trq.db
+npm run seed  # Reseed with sample data
+```
+
+### Production (Turso)
+
+1. **Create Turso Account**
+   - Visit [turso.tech](https://turso.tech)
+   - Create organization and database
+
+2. **Configure Environment**
+```bash
+TURSO_CONNECTION_URL=libsql://your-db-name-org.turso.io
+TURSO_AUTH_TOKEN=your_auth_token
+```
+
+3. **Migrate Data**
+```bash
+cd server
+node sync-to-turso.js
+```
+
+### Database Schema
+
+```sql
+-- Users
+CREATE TABLE users (
+  id TEXT PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  role TEXT DEFAULT 'admin',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Projects
+CREATE TABLE projects (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  title_ar TEXT,
+  description TEXT,
+  description_ar TEXT,
+  image_url TEXT,
+  category TEXT,
+  featured BOOLEAN DEFAULT false,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Blog Posts
+CREATE TABLE blog_posts (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  title_ar TEXT,
+  content TEXT NOT NULL,
+  content_ar TEXT,
+  author TEXT,
+  featured_image TEXT,
+  published BOOLEAN DEFAULT false,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Site Settings
+CREATE TABLE site_settings (
+  id TEXT PRIMARY KEY,
+  key TEXT UNIQUE NOT NULL,
+  value TEXT,
+  type TEXT,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Contacts
+CREATE TABLE contacts (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT,
+  message TEXT,
+  status TEXT DEFAULT 'new',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
 
 ## 📧 Email Configuration
 
-### Nodemailer (SMTP)
-Configure in `server/.env`:
-```env
+### Option 1: Nodemailer (SMTP)
+
+```bash
+# .env
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your_email@gmail.com
 SMTP_PASS=your_app_password
+SMTP_FROM=noreply@trq.design
 ```
 
-### Resend (Alternative)
-```env
-RESEND_API_KEY=your_resend_api_key
+**Gmail Setup:**
+1. Enable 2-Factor Authentication
+2. Generate App Password
+3. Use App Password in SMTP_PASS
+
+### Option 2: Resend
+
+```bash
+# .env
+RESEND_API_KEY=re_your_api_key
+RESEND_FROM=noreply@trq.design
+```
+
+### Email Templates
+
+```javascript
+// Contact Form Notification
+{
+  to: 'admin@trq.design',
+  subject: 'New Contact Form Submission',
+  template: 'contact-notification',
+  data: { name, email, message }
+}
+
+// Password Reset
+{
+  to: userEmail,
+  subject: 'Reset Your Password',
+  template: 'password-reset',
+  data: { resetLink, expiresIn: '1 hour' }
+}
 ```
 
 ## 🎨 Customization
 
-### Tailwind Configuration
-Edit `tailwind.config.js` to customize:
-- Colors
-- Typography
-- Spacing
-- Breakpoints
+### Tailwind CSS
+
+Edit `tailwind.config.js`:
+
+```javascript
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#000000',
+        secondary: '#ffffff'
+      },
+      fontFamily: {
+        sans: ['Graphik', 'sans-serif'],
+        serif: ['Larsseit', 'serif']
+      }
+    }
+  }
+}
+```
 
 ### Component Styling
-UI components use Radix UI primitives with Tailwind CSS. Customize in `src/components/ui/`
 
-## 📱 Responsive Design
+UI components in `src/components/ui/` use Radix UI + Tailwind:
 
-The design is mobile-first with breakpoints:
-- `sm`: 640px
-- `md`: 768px
-- `lg`: 1024px
-- `xl`: 1280px
-- `2xl`: 1536px
+```tsx
+// Example: Custom Button
+import { Button } from '@/components/ui/button';
 
-## 🔒 Security
+<Button 
+  variant="default"
+  size="lg"
+  className="custom-class"
+>
+  Click me
+</Button>
+```
 
-- JWT-based authentication
-- Password hashing with bcryptjs
-- CORS configuration
-- Environment variable protection
-- Input validation and sanitization
+### Responsive Breakpoints
+
+```css
+sm:   640px   /* Small devices */
+md:   768px   /* Tablets */
+lg:   1024px  /* Desktops */
+xl:   1280px  /* Large screens */
+2xl:  1536px  /* Extra large */
+```
 
 ## 🚢 Deployment
 
-### Frontend (Vercel/Netlify)
+### Frontend (Vercel)
+
 ```bash
-npm run build
-# Deploy the dist/ folder
+# 1. Push to GitHub
+git push origin main
+
+# 2. Connect to Vercel
+# - Import repository
+# - Set environment variables
+# - Deploy
+
+# 3. Configure domain
+# - Add custom domain in Vercel dashboard
 ```
 
-### Backend (Heroku/Railway/Render)
+### Frontend (Netlify)
+
 ```bash
-# Set environment variables
-# Deploy server/ directory
-npm start
+# 1. Build locally
+npm run build
+
+# 2. Deploy
+netlify deploy --prod --dir=dist
+```
+
+### Backend (Railway)
+
+```bash
+# 1. Create Railway project
+# 2. Connect GitHub repository
+# 3. Set environment variables
+# 4. Deploy automatically on push
+```
+
+### Backend (Render)
+
+```bash
+# 1. Create Web Service
+# 2. Connect GitHub
+# 3. Configure:
+#    - Build Command: npm install
+#    - Start Command: npm start
+# 4. Add environment variables
+```
+
+### Docker Deployment
+
+```dockerfile
+# Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Frontend build
+COPY package*.json ./
+RUN npm install
+RUN npm run build
+
+# Backend setup
+COPY server/package*.json ./server/
+RUN cd server && npm install
+
+EXPOSE 5000
+
+CMD ["node", "server/index.js"]
+```
+
+```bash
+# Build and run
+docker build -t trq-studio .
+docker run -p 5000:5000 -e NODE_ENV=production trq-studio
+```
+
+## 📊 Performance Optimization
+
+### Frontend
+- ✅ Code splitting with Vite
+- ✅ Lazy loading components
+- ✅ Image optimization (WebP)
+- ✅ CSS minification
+- ✅ Tree shaking unused code
+
+### Backend
+- ✅ Connection pooling
+- ✅ Query optimization
+- ✅ Caching strategies
+- ✅ Compression (gzip)
+- ✅ CDN for static assets
+
+### Monitoring
+
+```javascript
+// Sentry Integration
+import * as Sentry from "@sentry/react";
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  environment: process.env.NODE_ENV,
+  tracesSampleRate: 1.0
+});
+```
+
+## 🧪 Testing
+
+```bash
+# Unit tests
+npm run test
+
+# Integration tests
+npm run test:integration
+
+# E2E tests
+npm run test:e2e
+
+# Coverage report
+npm run test:coverage
+```
+
+## 📚 API Documentation
+
+### Authentication
+
+```bash
+# Login
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "SecurePassword123!"
+}
+
+# Response
+{
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIs...",
+  "user": { "id": "123", "email": "admin@example.com" }
+}
+```
+
+### Projects
+
+```bash
+# Get all projects
+GET /api/projects
+
+# Get single project
+GET /api/projects/:id
+
+# Create project (admin only)
+POST /api/projects
+Authorization: Bearer {token}
+Content-Type: multipart/form-data
+
+# Update project
+PUT /api/projects/:id
+Authorization: Bearer {token}
+
+# Delete project
+DELETE /api/projects/:id
+Authorization: Bearer {token}
+```
+
+### Blog
+
+```bash
+# Get all posts
+GET /api/blog
+
+# Get single post
+GET /api/blog/:id
+
+# Create post (admin only)
+POST /api/blog
+Authorization: Bearer {token}
+
+# Update post
+PUT /api/blog/:id
+Authorization: Bearer {token}
+
+# Delete post
+DELETE /api/blog/:id
+Authorization: Bearer {token}
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Port already in use**
+```bash
+# Find process using port 5000
+lsof -i :5000
+# Kill process
+kill -9 <PID>
+```
+
+**Database connection error**
+```bash
+# Check database file exists
+ls -la server/trq.db
+
+# Reset database
+rm server/trq.db
+npm run seed
+```
+
+**CORS errors**
+```bash
+# Check ALLOWED_ORIGINS in .env
+# Ensure frontend URL is whitelisted
+ALLOWED_ORIGINS=http://localhost:5173,https://yourdomain.com
+```
+
+**Build errors**
+```bash
+# Clear cache and reinstall
+rm -rf node_modules dist
+npm install
+npm run build
 ```
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT License - see [LICENSE](LICENSE) file
 
 ## 👤 Author
 
 **Muaddh Alsway**
-- Email: muaddhalsway@gmail.com
-- GitHub: [@muaddhalsway](https://github.com/muaddhalsway)
+- 📧 Email: muaddhalsway@gmail.com
+- 🐙 GitHub: [@muaddhalsway](https://github.com/muaddhalsway)
+- 🌐 Website: [trq.design](https://trq.design)
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions welcome! Please:
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
 
 ## 📞 Support
 
-For support, email muaddhalsway@gmail.com or open an issue on GitHub.
+- 📧 Email: muaddhalsway@gmail.com
+- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/trq-studio/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/trq-studio/discussions)
 
 ## 🙏 Acknowledgments
 
 - [Radix UI](https://www.radix-ui.com/) - Component primitives
-- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Tailwind CSS](https://tailwindcss.com/) - Styling framework
 - [Vite](https://vitejs.dev/) - Build tool
 - [React](https://react.dev/) - UI library
 - [i18next](https://www.i18next.com/) - Internationalization
+- [Express.js](https://expressjs.com/) - Web framework
 
 ---
 
-**Last Updated**: January 2026
+<div align="center">
+
+**[⬆ back to top](#-trq-studio)**
+
+Made with ❤️ by [Muaddh Alsway](https://github.com/muaddhalsway)
+
+</div>

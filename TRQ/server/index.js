@@ -4,10 +4,18 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 import db from './database.js';
+import upload, { handleUploadError, getFileUrl, extractFilenameFromUrl, deleteUploadedFile } from './upload-handler.js';
 
 const app = express();
 const PORT = 3001;
+
+// JWT Configuration
+const JWT_SECRET = process.env.JWT_SECRET || 'your_super_secret_key_change_in_production_min_32_chars';
+const JWT_EXPIRY = process.env.JWT_EXPIRY || '1h';
+const REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY || '7d';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,8 +26,22 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
+
+// ============ AUTH MIDDLEWARE ============
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ success: false, message: 'Access token required' });
+  }
+
+  req.authenticated = true;
+  next();
+};
 
 // ============ PROJECTS ============
 app.get('/api/projects', (req, res) => {
@@ -53,6 +75,48 @@ app.get('/api/projects/:id', (req, res) => {
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+// ============ FILE UPLOAD ============
+app.post('/api/upload', authenticateToken, upload.single('file'), handleUploadError, (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'No file uploaded' });
+    }
+
+    const fileUrl = getFileUrl(req.file.filename);
+    res.json({
+      success: true,
+      filename: req.file.filename,
+      url: fileUrl,
+      size: req.file.size,
+      mimetype: req.file.mimetype
+    });
+  } catch (error) {
+    console.error('Upload error:', error);
+    res.status(500).json({ success: false, message: 'Upload failed' });
+  }
+});
+
+// Delete uploaded file
+app.delete('/api/upload/:filename', authenticateToken, (req, res) => {
+  try {
+    const { filename } = req.params;
+    
+    // Validate filename to prevent directory traversal
+    if (filename.includes('..') || filename.includes('/')) {
+      return res.status(400).json({ success: false, message: 'Invalid filename' });
+    }
+
+    if (deleteUploadedFile(filename)) {
+      res.json({ success: true, message: 'File deleted' });
+    } else {
+      res.status(404).json({ success: false, message: 'File not found' });
+    }
+  } catch (error) {
+    console.error('Delete error:', error);
+    res.status(500).json({ success: false, message: 'Delete failed' });
   }
 });
 
@@ -140,19 +204,6 @@ app.listen(PORT, () => {
   console.log(`TRQ Server running on http://localhost:${PORT}`);
   console.log('Connected to SQLite database');
 });
-
-// ============ AUTH MIDDLEWARE ============
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    return res.status(401).json({ success: false, message: 'Access token required' });
-  }
-
-  req.authenticated = true;
-  next();
-};
 
 // ============ AUTH ============
 app.post('/api/auth/login', (req, res) => {

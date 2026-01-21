@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { ArrowLeft, Plus, X, Image as ImageIcon } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { ArrowLeft, Plus, X, Image as ImageIcon, Upload, Loader } from 'lucide-react';
 import { useAdmin } from './AdminContext';
 import { Project } from './types';
 import * as api from '../api';

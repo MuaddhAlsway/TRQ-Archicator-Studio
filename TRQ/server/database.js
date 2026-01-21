@@ -839,4 +839,15 @@ Technology integration is increasingly important. Large-format digital displays 
   }
 }
 
+// Initialize default portfolio data on startup
+const portfolioProjectCount = db.prepare('SELECT COUNT(*) as count FROM projects').get();
+if (portfolioProjectCount.count === 0) {
+  console.log('\n📦 No projects found. Loading default portfolio data...');
+  try {
+    const initDefaultData = (await import('./init-default-data.js')).default;
+  } catch (e) {
+    console.log('ℹ️  Default data will be loaded on first seed command');
+  }
+}
+
 export default db;
