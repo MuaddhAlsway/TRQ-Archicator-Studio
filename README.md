@@ -82,97 +82,423 @@ A cutting-edge, bilingual (English/Arabic) portfolio and content management plat
 ## 📁 Project Structure
 
 ```
-TRQ/
-├── src/
-│   ├── admin/              # Admin dashboard components
-│   ├── components/         # Reusable UI components
-│   ├── context/            # React context (Language, Admin, Projects)
-│   ├── i18n/               # Internationalization files (en.json, ar.json)
-│   ├── hooks/              # Custom React hooks
-│   ├── utils/              # Utility functions
-│   ├── store/              # State management
-│   ├── Styles/             # Global styles
-│   ├── App.tsx             # Main app component
-│   └── main.jsx            # Entry point
-├── server/
-│   ├── index.js            # Express server setup
-│   ├── database.js         # Database configuration
-│   ├── routes-arabic.js    # API routes
-│   ├── .env                # Environment variables
-│   └── package.json        # Server dependencies
-├── public/                 # Static assets
-├── vite.config.js          # Vite configuration
-├── tailwind.config.js      # Tailwind configuration
-├── package.json            # Frontend dependencies
-└── README.md               # This file
+trq-studio/
+├── 📂 src/                          # Frontend source
+│   ├── 📂 admin/                    # Admin dashboard components
+│   │   ├── Admin.tsx                # Main admin layout
+│   │   ├── AdminDashboard.tsx       # Dashboard overview
+│   │   ├── AdminProjects.tsx        # Project management
+│   │   ├── AdminBlog.tsx            # Blog management
+│   │   ├── AdminServices.tsx        # Services management
+│   │   ├── AdminSettings.tsx        # Site settings
+│   │   └── AdminArabic*.tsx         # Arabic-specific components
+│   ├── 📂 components/               # Reusable components
+│   │   ├── Home.tsx                 # Landing page
+│   │   ├── Portfolio.tsx            # Projects showcase
+│   │   ├── Blog.tsx                 # Blog listing
+│   │   ├── Services.tsx             # Services page
+│   │   ├── Contact.tsx              # Contact form
+│   │   └── ui/                      # Radix UI components
+│   ├── 📂 context/                  # React Context
+│   │   ├── LanguageContext.tsx      # i18n context
+│   │   ├── AdminContext.tsx         # Admin state
+│   │   └── ProjectsContext.tsx      # Projects state
+│   ├── 📂 i18n/                     # Translations
+│   │   ├── en.json                  # English strings
+│   │   ├── ar.json                  # Arabic strings
+│   │   └── index.ts                 # i18next config
+│   ├── 📂 hooks/                    # Custom hooks
+│   ├── 📂 utils/                    # Utilities
+│   ├── 📂 store/                    # State management
+│   ├── App.tsx                      # Main app component
+│   └── main.jsx                     # Entry point
+│
+├── 📂 server/                       # Backend source
+│   ├── index.js                     # Express server
+│   ├── database.js                  # DB configuration
+│   ├── routes-arabic.js             # API routes
+│   ├── middleware/                  # Auth, validation
+│   ├── .env                         # Environment vars
+│   ├── .env.example                 # Env template
+│   └── package.json                 # Dependencies
+│
+├── 📂 public/                       # Static assets
+│   ├── 📂 uploads/                  # User uploads
+│   └── 📂 TRQ STUDIO _ PROJECTS/    # Project images
+│
+├── vite.config.js                   # Vite configuration
+├── tailwind.config.js               # Tailwind config
+├── eslint.config.js                 # ESLint rules
+├── postcss.config.js                # PostCSS config
+├── package.json                     # Frontend deps
+└── README.md                        # This file
 ```
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 16+ and npm/yarn
-- Git
+- **Node.js** 16+ ([Download](https://nodejs.org))
+- **npm** or **yarn**
+- **Git**
 
 ### Installation
 
-1. **Clone the repository**
 ```bash
+# 1. Clone repository
 git clone https://github.com/yourusername/trq-studio.git
 cd trq-studio
-```
 
-2. **Install frontend dependencies**
-```bash
+# 2. Install frontend dependencies
 npm install
-```
 
-3. **Install server dependencies**
-```bash
-cd server
-npm install
-cd ..
-```
+# 3. Install backend dependencies
+cd server && npm install && cd ..
 
-4. **Setup environment variables**
-```bash
-# Create .env in server directory
+# 4. Setup environment
 cp server/.env.example server/.env
-```
-
-Edit `server/.env` with your configuration:
-```env
-PORT=5000
-DATABASE_URL=./trq.db
-JWT_SECRET=your_jwt_secret_key
-TURSO_CONNECTION_URL=your_turso_url
-TURSO_AUTH_TOKEN=your_turso_token
+# Edit server/.env with your configuration
 ```
 
 ### Development
 
-1. **Start the development server** (from root directory)
 ```bash
+# Terminal 1: Start frontend (http://localhost:5173)
 npm run dev
+
+# Terminal 2: Start backend (http://localhost:5000)
+cd server && npm run dev
 ```
 
-2. **Start the backend server** (in another terminal)
-```bash
-cd server
-npm run dev
-```
-
-The frontend will be available at `http://localhost:5173`
-The backend API will be available at `http://localhost:5000`
-
-### Build for Production
+### Production Build
 
 ```bash
 # Build frontend
 npm run build
 
-# Preview production build
-npm run preview
+# Start backend
+cd server && npm start
 ```
+
+## 🔐 Security & Data Protection
+
+### 🛡️ Authentication & Authorization
+
+#### JWT Token System
+```javascript
+// Token Structure
+{
+  "sub": "user_id",
+  "email": "admin@example.com",
+  "role": "admin",
+  "iat": 1234567890,
+  "exp": 1234571490  // 1 hour expiry
+}
+```
+
+**Implementation:**
+- ✅ Tokens stored in HTTP-only cookies (not localStorage)
+- ✅ Automatic token refresh mechanism
+- ✅ Token expiration: 1 hour (configurable)
+- ✅ Refresh token rotation on each use
+- ✅ Logout invalidates all tokens
+
+```bash
+# .env Configuration
+JWT_SECRET=your_super_secret_key_min_32_chars
+JWT_EXPIRY=3600
+REFRESH_TOKEN_EXPIRY=604800
+```
+
+#### Password Security
+```javascript
+// Bcryptjs Configuration
+const saltRounds = 12;  // OWASP recommended
+const hashedPassword = await bcrypt.hash(password, saltRounds);
+```
+
+**Requirements:**
+- ✅ Minimum 12 characters
+- ✅ Must include uppercase, lowercase, numbers, symbols
+- ✅ Bcryptjs with 12 salt rounds
+- ✅ Never stored in plain text
+- ✅ Password reset via secure email link
+
+### 🔒 Data Encryption
+
+#### Database Encryption
+```javascript
+// Sensitive fields encrypted at rest
+const encryptedFields = [
+  'email',
+  'phone',
+  'password_hash',
+  'api_keys'
+];
+
+// Encryption algorithm: AES-256-GCM
+const algorithm = 'aes-256-gcm';
+const keyLength = 32;  // 256 bits
+```
+
+#### API Request/Response Encryption
+```javascript
+// HTTPS/TLS 1.3 enforced
+// All data in transit encrypted
+// Certificate pinning recommended for mobile
+```
+
+### 🚫 Input Validation & Sanitization
+
+```javascript
+// Validation Rules
+const validationRules = {
+  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  phone: /^[0-9+\-\s()]{10,}$/,
+  url: /^https?:\/\/.+/,
+  maxLength: 5000,
+  minLength: 1
+};
+
+// Sanitization
+const sanitize = (input) => {
+  return DOMPurify.sanitize(input, {
+    ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
+    ALLOWED_ATTR: ['href', 'title']
+  });
+};
+```
+
+**Protection Against:**
+- ✅ SQL Injection (parameterized queries)
+- ✅ XSS (HTML sanitization)
+- ✅ CSRF (CSRF tokens)
+- ✅ NoSQL Injection (schema validation)
+
+### 🔄 CORS & CSRF Protection
+
+```javascript
+// CORS Configuration
+const corsOptions = {
+  origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:5173'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  maxAge: 3600
+};
+
+// CSRF Token
+app.use(csrf({ cookie: false }));
+```
+
+**Allowed Origins (Production):**
+```env
+ALLOWED_ORIGINS=https://trq.design,https://www.trq.design
+```
+
+### 📊 Rate Limiting
+
+```javascript
+// Rate Limiting Configuration
+const rateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,  // 15 minutes
+  max: 100,                   // 100 requests per window
+  message: 'Too many requests, please try again later',
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+// Stricter limits for auth endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,  // 5 login attempts per 15 minutes
+  skipSuccessfulRequests: true
+});
+```
+
+### 🔑 API Key Management
+
+```javascript
+// API Key Security
+const apiKeyRules = {
+  length: 32,
+  algorithm: 'sha256',
+  rotationPeriod: 90,  // days
+  storage: 'hashed_only'
+};
+
+// Usage
+const apiKey = crypto.randomBytes(16).toString('hex');
+const hashedKey = crypto.createHash('sha256').update(apiKey).digest('hex');
+```
+
+### 📁 File Upload Security
+
+```javascript
+// Upload Configuration
+const uploadConfig = {
+  maxFileSize: 10 * 1024 * 1024,  // 10MB
+  allowedMimes: [
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'application/pdf'
+  ],
+  allowedExtensions: ['.jpg', '.png', '.webp', '.pdf'],
+  scanForViruses: true,  // ClamAV integration
+  quarantineFolder: './uploads/quarantine'
+};
+
+// Validation
+const validateUpload = (file) => {
+  if (file.size > uploadConfig.maxFileSize) throw new Error('File too large');
+  if (!uploadConfig.allowedMimes.includes(file.mimetype)) throw new Error('Invalid type');
+  if (!uploadConfig.allowedExtensions.includes(path.extname(file.originalname))) throw new Error('Invalid extension');
+};
+```
+
+**Security Measures:**
+- ✅ File type validation (MIME + extension)
+- ✅ File size limits (10MB max)
+- ✅ Virus scanning (ClamAV)
+- ✅ Renamed with random hash
+- ✅ Stored outside web root
+- ✅ Served via CDN with headers
+
+### 🔍 Logging & Monitoring
+
+```javascript
+// Security Logging
+const securityLogger = {
+  loginAttempts: true,
+  failedAuth: true,
+  dataAccess: true,
+  fileUploads: true,
+  apiErrors: true,
+  retention: 90  // days
+};
+
+// Log Format
+{
+  timestamp: '2024-01-21T10:30:00Z',
+  level: 'WARN',
+  event: 'failed_login',
+  userId: 'user_123',
+  ip: '192.168.1.1',
+  userAgent: 'Mozilla/5.0...',
+  details: 'Invalid password attempt'
+}
+```
+
+### 🛡️ HTTP Security Headers
+
+```javascript
+// Helmet.js Configuration
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", 'data:', 'https:'],
+      connectSrc: ["'self'", 'https://api.example.com']
+    }
+  },
+  hsts: {
+    maxAge: 31536000,  // 1 year
+    includeSubDomains: true,
+    preload: true
+  },
+  frameguard: { action: 'deny' },
+  noSniff: true,
+  xssFilter: true
+}));
+```
+
+**Headers Applied:**
+- ✅ Content-Security-Policy (CSP)
+- ✅ X-Frame-Options: DENY
+- ✅ X-Content-Type-Options: nosniff
+- ✅ X-XSS-Protection: 1; mode=block
+- ✅ Strict-Transport-Security (HSTS)
+- ✅ Referrer-Policy: strict-origin-when-cross-origin
+
+### 🔐 Database Security
+
+```javascript
+// Database Configuration
+const dbConfig = {
+  encryption: 'AES-256-GCM',
+  backupEncryption: true,
+  backupFrequency: 'daily',
+  backupRetention: 30,  // days
+  accessControl: 'role_based',
+  auditLogging: true,
+  connectionPooling: true,
+  maxConnections: 10,
+  connectionTimeout: 5000
+};
+```
+
+**Best Practices:**
+- ✅ Encrypted backups stored separately
+- ✅ Daily automated backups
+- ✅ Connection pooling enabled
+- ✅ Read replicas for scaling
+- ✅ Audit trail for all changes
+- ✅ Row-level security (RLS)
+
+### 🌐 Environment Variables
+
+```bash
+# .env.example - NEVER commit actual values
+NODE_ENV=production
+PORT=5000
+
+# Database
+DATABASE_URL=file:./trq.db
+TURSO_CONNECTION_URL=libsql://...
+TURSO_AUTH_TOKEN=***
+
+# Security
+JWT_SECRET=min_32_character_random_string
+JWT_EXPIRY=3600
+REFRESH_TOKEN_EXPIRY=604800
+
+# CORS
+ALLOWED_ORIGINS=https://trq.design,https://www.trq.design
+
+# Email
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=app_specific_password
+
+# File Upload
+MAX_FILE_SIZE=10485760
+UPLOAD_DIR=./public/uploads
+
+# Monitoring
+SENTRY_DSN=https://...
+LOG_LEVEL=info
+```
+
+### ✅ Security Checklist
+
+- [ ] All environment variables configured
+- [ ] JWT secrets are strong (32+ chars, random)
+- [ ] HTTPS/TLS enabled in production
+- [ ] CORS origins whitelisted
+- [ ] Rate limiting enabled
+- [ ] Database backups automated
+- [ ] File uploads validated
+- [ ] Logging and monitoring active
+- [ ] Security headers configured
+- [ ] Dependencies updated (`npm audit`)
+- [ ] Admin credentials changed from defaults
+- [ ] Database encrypted at rest
+- [ ] API keys rotated regularly
+- [ ] Penetration testing completed
+- [ ] GDPR/Privacy compliance reviewed
 
 ## 📝 Available Scripts
 
