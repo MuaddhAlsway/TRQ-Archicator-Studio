@@ -1,0 +1,1315 @@
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
+import multer from 'multer';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
+import { createClient } from '@libsql/client';
+import { setupArabicRoutes } from './routes-arabic.js';
+
+const app = express();
+const PORT = 3001;
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Initialize Turso database
+const db = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+
+// Initialize database tables
+async function initializeDatabase() {
+  try {
+    await db.executeMultiple(`
+      CREATE TABLE IF NOT EXISTS translations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        sourceText TEXT NOT NULL,
+        targetLang TEXT NOT NULL,
+        translatedText TEXT NOT NULL,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(sourceText, targetLang)
+      );
+
+      CREATE TABLE IF NOT EXISTS blog_articles (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        slug TEXT UNIQUE NOT NULL,
+        excerpt TEXT,
+        content TEXT,
+        image TEXT,
+        author TEXT,
+        date TEXT,
+        readTime TEXT,
+        category TEXT,
+        categorySlug TEXT,
+        tags TEXT,
+        status TEXT DEFAULT 'draft',
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS settings (
+        key TEXT PRIMARY KEY,
+        value TEXT,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS services (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT,
+        image TEXT,
+        icon TEXT DEFAULT 'Briefcase',
+        features TEXT,
+        sortOrder INTEGER DEFAULT 0,
+        isActive INTEGER DEFAULT 1,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS projects (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        category TEXT NOT NULL,
+        subcategory TEXT,
+        description TEXT,
+        image TEXT,
+        year TEXT,
+        location TEXT,
+        client TEXT,
+        size TEXT,
+        duration TEXT,
+        detailedDescription TEXT,
+        challenge TEXT,
+        solution TEXT,
+        features TEXT,
+        materials TEXT,
+        awards TEXT,
+        team TEXT,
+        gallery TEXT,
+        clientQuote TEXT,
+        clientName TEXT,
+        status TEXT DEFAULT 'draft',
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        title_ar TEXT,
+        category_ar TEXT,
+        subcategory_ar TEXT,
+        description_ar TEXT,
+        location_ar TEXT,
+        client_ar TEXT,
+        size_ar TEXT,
+        duration_ar TEXT,
+        detailedDescription_ar TEXT,
+        challenge_ar TEXT,
+        solution_ar TEXT,
+        features_ar TEXT,
+        materials_ar TEXT,
+        awards_ar TEXT,
+        team_ar TEXT,
+        clientQuote_ar TEXT,
+        clientName_ar TEXT
+      );
+
+      CREATE TABLE IF NOT EXISTS contacts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT,
+        subject TEXT,
+        message TEXT,
+        date TEXT,
+        status TEXT DEFAULT 'new',
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS pricing_requests (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT,
+        company TEXT,
+        projectType TEXT,
+        projectSize TEXT,
+        location TEXT,
+        budget TEXT,
+        timeline TEXT,
+        description TEXT,
+        contactMethod TEXT,
+        date TEXT,
+        status TEXT DEFAULT 'new',
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE NOT NULL,
+        email TEXT,
+        password TEXT NOT NULL,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS password_resets (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userId INTEGER NOT NULL,
+        token TEXT UNIQUE NOT NULL,
+        expiresAt DATETIME NOT NULL,
+        used INTEGER DEFAULT 0,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS hero_slides (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tag TEXT NOT NULL,
+        title TEXT NOT NULL,
+        description TEXT,
+        image TEXT,
+        buttonPrimaryText TEXT DEFAULT 'VIEW PORTFOLIO',
+        buttonPrimaryLink TEXT DEFAULT 'portfolio',
+        buttonSecondaryText TEXT DEFAULT 'GET IN TOUCH',
+        buttonSecondaryLink TEXT DEFAULT 'contact',
+        sortOrder INTEGER DEFAULT 0,
+        isActive INTEGER DEFAULT 1,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT UNIQUE NOT NULL,
+        subscribedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        isActive INTEGER DEFAULT 1
+      );
+    `);
+    console.log('Turso database tables initialized');
+  } catch (error) {
+    console.log('Database tables already exist or initialization skipped:', error.message);
+  }
+}
+
+// Create uploads directory if it doesn't exist
+const uploadsDir = path.join(__dirname, '../public/uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadsDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedMimes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (allowedMimes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed.'));
+    }
+  }
+});
+
+// JWT Secret - In production, use environment variable
+const JWT_SECRET = process.env.JWT_SECRET || 'trq-design-studio-secret-key-2026';
+const JWT_EXPIRES_IN = '24h';
+
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Email configuration
+const EMAIL_PROVIDER = process.env.EMAIL_PROVIDER || 'resend'; // 'resend' or 'gmail'
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const EMAIL_FROM = process.env.EMAIL_FROM || 'TRQ Design <onboarding@resend.dev>'; // Use your verified domain with Resend
+
+// Gmail config (fallback)
+const emailConfig = {
+  user: process.env.EMAIL_USER || 'your-email@gmail.com',
+  pass: process.env.EMAIL_PASS || 'your-16-char-app-password',
+};
+
+// Initialize email providers
+const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: emailConfig.user,
+    pass: emailConfig.pass,
+  },
+});
+
+// Unified email sending function
+async function sendEmail({ to, subject, html }) {
+  console.log('Sending email with provider:', EMAIL_PROVIDER);
+  console.log('Resend API key present:', !!RESEND_API_KEY);
+  console.log('To:', to);
+  
+  if (EMAIL_PROVIDER === 'resend' && resend) {
+    console.log('Using Resend...');
+    const { data, error } = await resend.emails.send({
+      from: EMAIL_FROM,
+      to: [to],
+      subject,
+      html,
+    });
+    if (error) {
+      console.error('Resend error:', error);
+      throw new Error(error.message);
+    }
+    console.log('Resend success:', data);
+    return data;
+  } else {
+    // Fallback to Gmail/nodemailer
+    console.log('Using Gmail/nodemailer...');
+    return transporter.sendMail({
+      from: `"TRQ Design" <${emailConfig.user}>`,
+      to,
+      subject,
+      html,
+    });
+  }
+}
+
+// ============ AUTH MIDDLEWARE ============
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+  if (!token) {
+    return res.status(401).json({ success: false, message: 'Access token required' });
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ success: false, message: 'Invalid or expired token' });
+    }
+    req.user = user;
+    next();
+  });
+};
+
+// ============ FILE UPLOAD ============
+app.post('/api/upload', authenticateToken, upload.single('file'), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'No file uploaded' });
+    }
+
+    // Return the URL path for the uploaded file
+    const fileUrl = `/uploads/${req.file.filename}`;
+    res.json({ success: true, url: fileUrl, filename: req.file.filename });
+  } catch (error) {
+    console.error('Upload error:', error);
+    res.status(500).json({ success: false, message: error.message || 'Upload failed' });
+  }
+});
+
+// Multer error handling middleware
+app.use((error, req, res, next) => {
+  if (error instanceof multer.MulterError) {
+    if (error.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({ success: false, message: 'File size exceeds 5MB limit' });
+    }
+    return res.status(400).json({ success: false, message: error.message });
+  } else if (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+  next();
+});
+
+// Helper to hash password
+const hashPassword = async (password) => {
+  const salt = await bcrypt.genSalt(10);
+  return bcrypt.hash(password, salt);
+};
+
+// Helper to verify password
+const verifyPassword = async (password, hashedPassword) => {
+  // Check if password is already hashed (starts with $2)
+  if (hashedPassword.startsWith('$2')) {
+    return bcrypt.compare(password, hashedPassword);
+  }
+  // Legacy plain text password - compare directly
+  return password === hashedPassword;
+};
+
+// Helper to parse JSON fields
+const parseProject = (project) => ({
+  ...project,
+  features: JSON.parse(project.features || '[]'),
+  materials: JSON.parse(project.materials || '[]'),
+  awards: JSON.parse(project.awards || '[]'),
+  team: JSON.parse(project.team || '[]'),
+  gallery: JSON.parse(project.gallery || '[]'),
+});
+
+// ============ AUTH ============
+// Login with JWT
+app.post('/api/auth/login', async (req, res) => {
+  const { username, password } = req.body;
+  
+  try {
+    const result = await db.execute({
+      sql: 'SELECT * FROM users WHERE username = ?',
+      args: [username]
+    });
+    const user = result.rows[0];
+    
+    if (!user) {
+      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+
+    const isValidPassword = await verifyPassword(password, user.password);
+    
+    if (!isValidPassword) {
+      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+
+    // If password was plain text, hash it now for future logins
+    if (!user.password.startsWith('$2')) {
+      const hashedPassword = await hashPassword(password);
+      await db.execute({
+        sql: 'UPDATE users SET password = ? WHERE id = ?',
+        args: [hashedPassword, user.id]
+      });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      JWT_SECRET,
+      { expiresIn: JWT_EXPIRES_IN }
+    );
+
+    res.json({ 
+      success: true, 
+      token,
+      user: { id: user.id, username: user.username, email: user.email }
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+// Verify token
+app.get('/api/auth/verify', authenticateToken, (req, res) => {
+  res.json({ success: true, user: req.user });
+});
+
+// Forgot password - send reset link
+app.post('/api/auth/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  
+  try {
+    const result = await db.execute({
+      sql: 'SELECT * FROM users WHERE email = ?',
+      args: [email]
+    });
+    const user = result.rows[0];
+    
+    if (!user) {
+      // Don't reveal if email exists or not for security
+      return res.json({ success: true, message: 'If the email exists, a reset link has been sent' });
+    }
+
+    // Generate reset token
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + 3600000).toISOString(); // 1 hour
+
+    // Save reset token
+    await db.execute({
+      sql: 'INSERT INTO password_resets (userId, token, expiresAt) VALUES (?, ?, ?)',
+      args: [user.id, resetToken, expiresAt]
+    });
+
+    // Send reset email
+    const resetUrl = `http://localhost:5173/#/reset-password?token=${resetToken}`;
+    
+    await sendEmail({
+      to: email,
+      subject: 'Password Reset - TRQ Design Studio',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <div style="background: #000; color: #fff; padding: 30px; text-align: center;">
+            <h1 style="margin: 0; letter-spacing: 0.2em;">TRQ</h1>
+            <p style="margin: 10px 0 0; opacity: 0.8;">Interior Design Studio</p>
+          </div>
+          <div style="padding: 30px; background: #f9f9f9;">
+            <h2 style="color: #000;">Password Reset Request</h2>
+            <p>Hello ${user.username},</p>
+            <p>You requested to reset your password. Click the button below to set a new password:</p>
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="${resetUrl}" style="background: #000; color: #fff; padding: 15px 30px; text-decoration: none; display: inline-block;">
+                Reset Password
+              </a>
+            </div>
+            <p style="color: #666; font-size: 14px;">This link will expire in 1 hour.</p>
+            <p style="color: #666; font-size: 14px;">If you didn't request this, please ignore this email.</p>
+          </div>
+        </div>
+      `,
+    });
+
+    res.json({ success: true, message: 'If the email exists, a reset link has been sent' });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ success: false, message: 'Failed to send reset email' });
+  }
+});
+
+// Reset password with token
+app.post('/api/auth/reset-password', async (req, res) => {
+  const { token, newPassword } = req.body;
+  
+  try {
+    const result = await db.execute({
+      sql: 'SELECT * FROM password_resets WHERE token = ? AND used = 0 AND expiresAt > datetime("now")',
+      args: [token]
+    });
+    const resetRecord = result.rows[0];
+
+    if (!resetRecord) {
+      return res.status(400).json({ success: false, message: 'Invalid or expired reset token' });
+    }
+
+    // Hash new password
+    const hashedPassword = await hashPassword(newPassword);
+
+    // Update user password
+    await db.execute({
+      sql: 'UPDATE users SET password = ? WHERE id = ?',
+      args: [hashedPassword, resetRecord.userId]
+    });
+
+    // Mark token as used
+    await db.execute({
+      sql: 'UPDATE password_resets SET used = 1 WHERE id = ?',
+      args: [resetRecord.id]
+    });
+
+    res.json({ success: true, message: 'Password reset successfully' });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({ success: false, message: 'Failed to reset password' });
+  }
+});
+
+// Change password (authenticated)
+app.post('/api/auth/change-password', authenticateToken, async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  
+  try {
+    const result = await db.execute({
+      sql: 'SELECT * FROM users WHERE id = ?',
+      args: [req.user.id]
+    });
+    const user = result.rows[0];
+    
+    const isValidPassword = await verifyPassword(currentPassword, user.password);
+    
+    if (!isValidPassword) {
+      return res.status(400).json({ success: false, message: 'Current password is incorrect' });
+    }
+
+    const hashedPassword = await hashPassword(newPassword);
+    await db.execute({
+      sql: 'UPDATE users SET password = ? WHERE id = ?',
+      args: [hashedPassword, user.id]
+    });
+
+    res.json({ success: true, message: 'Password changed successfully' });
+  } catch (error) {
+    console.error('Change password error:', error);
+    res.status(500).json({ success: false, message: 'Failed to change password' });
+  }
+});
+
+// Update user email (for forgot password to work)
+app.put('/api/auth/update-email', authenticateToken, async (req, res) => {
+  const { email } = req.body;
+  
+  try {
+    await db.execute({
+      sql: 'UPDATE users SET email = ? WHERE id = ?',
+      args: [email, req.user.id]
+    });
+    res.json({ success: true, message: 'Email updated successfully' });
+  } catch (error) {
+    console.error('Update email error:', error);
+    res.status(500).json({ success: false, message: 'Failed to update email' });
+  }
+});
+
+// ============ PROJECTS ============
+app.get('/api/projects', async (req, res) => {
+  const result = await db.execute({
+    sql: 'SELECT * FROM projects ORDER BY id DESC'
+  });
+  res.json(result.rows.map(parseProject));
+});
+
+app.get('/api/projects/published', async (req, res) => {
+  const result = await db.execute({
+    sql: "SELECT * FROM projects WHERE status = 'published' ORDER BY id DESC"
+  });
+  res.json(result.rows.map(parseProject));
+});
+
+app.get('/api/projects/:id', async (req, res) => {
+  const result = await db.execute({
+    sql: 'SELECT * FROM projects WHERE id = ?',
+    args: [req.params.id]
+  });
+  const project = result.rows[0];
+  if (project) {
+    res.json(parseProject(project));
+  } else {
+    res.status(404).json({ message: 'Project not found' });
+  }
+});
+
+app.post('/api/projects', authenticateToken, async (req, res) => {
+  const { 
+    title, category, subcategory, description, image, year, location, client, size, duration, 
+    detailedDescription, challenge, solution, features, materials, awards, team, gallery, 
+    clientQuote, clientName, status,
+    // Arabic fields
+    title_ar, category_ar, subcategory_ar, description_ar, location_ar, client_ar, size_ar, 
+    duration_ar, detailedDescription_ar, challenge_ar, solution_ar, features_ar, materials_ar, 
+    awards_ar, team_ar, clientQuote_ar, clientName_ar
+  } = req.body;
+  
+  const result = await db.execute({
+    sql: `
+    INSERT INTO projects (
+      title, category, subcategory, description, image, year, location, client, size, duration, 
+      detailedDescription, challenge, solution, features, materials, awards, team, gallery, 
+      clientQuote, clientName, status,
+      title_ar, category_ar, subcategory_ar, description_ar, location_ar, client_ar, size_ar, 
+      duration_ar, detailedDescription_ar, challenge_ar, solution_ar, features_ar, materials_ar, 
+      awards_ar, team_ar, clientQuote_ar, clientName_ar
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `,
+    args: [
+      title, category, subcategory, description, image, year, location, client, size, duration, 
+      detailedDescription, challenge, solution,
+      JSON.stringify(features || []),
+      JSON.stringify(materials || []),
+      JSON.stringify(awards || []),
+      JSON.stringify(team || []),
+      JSON.stringify(gallery || []),
+      clientQuote, clientName, status || 'draft',
+      // Arabic fields
+      title_ar, category_ar, subcategory_ar, description_ar, location_ar, client_ar, size_ar, 
+      duration_ar, detailedDescription_ar, challenge_ar, solution_ar,
+      typeof features_ar === 'string' ? features_ar : JSON.stringify(features_ar || []),
+      typeof materials_ar === 'string' ? materials_ar : JSON.stringify(materials_ar || []),
+      typeof awards_ar === 'string' ? awards_ar : JSON.stringify(awards_ar || []),
+      typeof team_ar === 'string' ? team_ar : JSON.stringify(team_ar || []),
+      clientQuote_ar, clientName_ar
+    ]
+  });
+  
+  const newResult = await db.execute({
+    sql: 'SELECT * FROM projects WHERE id = ?',
+    args: [result.lastInsertRowid]
+  });
+  const newProject = newResult.rows[0];
+  res.json(parseProject(newProject));
+});
+
+app.put('/api/projects/:id', authenticateToken, async (req, res) => {
+  const { 
+    title, category, subcategory, description, image, year, location, client, size, duration, 
+    detailedDescription, challenge, solution, features, materials, awards, team, gallery, 
+    clientQuote, clientName, status,
+    // Arabic fields
+    title_ar, category_ar, subcategory_ar, description_ar, location_ar, client_ar, size_ar, 
+    duration_ar, detailedDescription_ar, challenge_ar, solution_ar, features_ar, materials_ar, 
+    awards_ar, team_ar, clientQuote_ar, clientName_ar
+  } = req.body;
+  
+  console.log('PUT /api/projects/:id received');
+  console.log('Project ID:', req.params.id);
+  console.log('Request body keys:', Object.keys(req.body));
+  
+  // Check if this is an Arabic-only update (ALL keys end with _ar)
+  const isArabicOnlyUpdate = Object.keys(req.body).length > 0 && Object.keys(req.body).every(key => key.endsWith('_ar'));
+  
+  console.log('Is Arabic-only update:', isArabicOnlyUpdate);
+  
+  if (isArabicOnlyUpdate) {
+    // Update ONLY Arabic fields, don't touch English fields
+    console.log('Executing Arabic-only update');
+    await db.execute({
+      sql: `
+      UPDATE projects SET 
+        title_ar=?, category_ar=?, subcategory_ar=?, description_ar=?, location_ar=?, client_ar=?, 
+        size_ar=?, duration_ar=?, detailedDescription_ar=?, challenge_ar=?, solution_ar=?, 
+        features_ar=?, materials_ar=?, awards_ar=?, team_ar=?, clientQuote_ar=?, clientName_ar=?
+      WHERE id=?
+    `,
+      args: [
+        title_ar, category_ar, subcategory_ar, description_ar, location_ar, client_ar, size_ar, 
+        duration_ar, detailedDescription_ar, challenge_ar, solution_ar,
+        typeof features_ar === 'string' ? features_ar : JSON.stringify(features_ar || []),
+        typeof materials_ar === 'string' ? materials_ar : JSON.stringify(materials_ar || []),
+        typeof awards_ar === 'string' ? awards_ar : JSON.stringify(awards_ar || []),
+        typeof team_ar === 'string' ? team_ar : JSON.stringify(team_ar || []),
+        clientQuote_ar, clientName_ar,
+        req.params.id
+      ]
+    });
+    console.log('Update result: success');
+  } else {
+    // Full update - update both English and Arabic fields
+    console.log('Executing full update');
+    await db.execute({
+      sql: `
+      UPDATE projects SET 
+        title=?, category=?, subcategory=?, description=?, image=?, year=?, location=?, client=?, 
+        size=?, duration=?, detailedDescription=?, challenge=?, solution=?, features=?, materials=?, 
+        awards=?, team=?, gallery=?, clientQuote=?, clientName=?, status=?,
+        title_ar=?, category_ar=?, subcategory_ar=?, description_ar=?, location_ar=?, client_ar=?, 
+        size_ar=?, duration_ar=?, detailedDescription_ar=?, challenge_ar=?, solution_ar=?, 
+        features_ar=?, materials_ar=?, awards_ar=?, team_ar=?, clientQuote_ar=?, clientName_ar=?
+      WHERE id=?
+    `,
+      args: [
+        title, category, subcategory, description, image, year, location, client, size, duration, 
+        detailedDescription, challenge, solution,
+        JSON.stringify(features || []),
+        JSON.stringify(materials || []),
+        JSON.stringify(awards || []),
+        JSON.stringify(team || []),
+        JSON.stringify(gallery || []),
+        clientQuote, clientName, status,
+        // Arabic fields
+        title_ar, category_ar, subcategory_ar, description_ar, location_ar, client_ar, size_ar, 
+        duration_ar, detailedDescription_ar, challenge_ar, solution_ar,
+        typeof features_ar === 'string' ? features_ar : JSON.stringify(features_ar || []),
+        typeof materials_ar === 'string' ? materials_ar : JSON.stringify(materials_ar || []),
+        typeof awards_ar === 'string' ? awards_ar : JSON.stringify(awards_ar || []),
+        typeof team_ar === 'string' ? team_ar : JSON.stringify(team_ar || []),
+        clientQuote_ar, clientName_ar,
+        req.params.id
+      ]
+    });
+    console.log('Update result: success');
+  }
+  
+  const updatedResult = await db.execute({
+    sql: 'SELECT * FROM projects WHERE id = ?',
+    args: [req.params.id]
+  });
+  const updated = updatedResult.rows[0];
+  console.log('Updated project from DB:', updated);
+  res.json(parseProject(updated));
+});
+
+app.delete('/api/projects/:id', authenticateToken, async (req, res) => {
+  await db.execute({
+    sql: 'DELETE FROM projects WHERE id = ?',
+    args: [req.params.id]
+  });
+  res.json({ success: true });
+});
+
+// ============ CONTACTS ============
+app.get('/api/contacts', async (req, res) => {
+  const result = await db.execute({
+    sql: 'SELECT * FROM contacts ORDER BY id DESC'
+  });
+  res.json(result.rows);
+});
+
+app.post('/api/contacts', async (req, res) => {
+  const { name, email, phone, subject, message } = req.body;
+  const date = new Date().toISOString().split('T')[0];
+  
+  const result = await db.execute({
+    sql: `
+    INSERT INTO contacts (name, email, phone, subject, message, date, status)
+    VALUES (?, ?, ?, ?, ?, ?, 'new')
+  `,
+    args: [name, email, phone, subject, message, date]
+  });
+  
+  const newResult = await db.execute({
+    sql: 'SELECT * FROM contacts WHERE id = ?',
+    args: [result.lastInsertRowid]
+  });
+  const newContact = newResult.rows[0];
+  res.json(newContact);
+});
+
+app.put('/api/contacts/:id/status', authenticateToken, async (req, res) => {
+  const { status } = req.body;
+  await db.execute({
+    sql: 'UPDATE contacts SET status = ? WHERE id = ?',
+    args: [status, req.params.id]
+  });
+  const result = await db.execute({
+    sql: 'SELECT * FROM contacts WHERE id = ?',
+    args: [req.params.id]
+  });
+  const updated = result.rows[0];
+  res.json(updated);
+});
+
+// Send reply email to contact
+app.post('/api/contacts/:id/reply', authenticateToken, async (req, res) => {
+  const { subject, message } = req.body;
+  const result = await db.execute({
+    sql: 'SELECT * FROM contacts WHERE id = ?',
+    args: [req.params.id]
+  });
+  const contact = result.rows[0];
+  
+  if (!contact) {
+    return res.status(404).json({ success: false, message: 'Contact not found' });
+  }
+
+  const emailHtml = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: #000; color: #fff; padding: 30px; text-align: center;">
+        <h1 style="margin: 0; letter-spacing: 0.2em;">TRQ</h1>
+        <p style="margin: 10px 0 0; opacity: 0.8;">Interior Design Studio</p>
+      </div>
+      <div style="padding: 30px; background: #f9f9f9;">
+        <p>Dear ${contact.name},</p>
+        <p style="white-space: pre-wrap;">${message}</p>
+        <p style="margin-top: 30px;">Best regards,<br>TRQ Design Team</p>
+      </div>
+      <div style="background: #000; color: #fff; padding: 20px; text-align: center; font-size: 12px;">
+        <p style="margin: 0; opacity: 0.6;">TRQ Interior Design Studio | Riyadh, Saudi Arabia</p>
+      </div>
+    </div>
+  `;
+
+  try {
+    await sendEmail({
+      to: contact.email,
+      subject: subject || `Re: ${contact.subject}`,
+      html: emailHtml,
+    });
+
+    // Update status to replied
+    await db.execute({
+      sql: 'UPDATE contacts SET status = ? WHERE id = ?',
+      args: ['replied', req.params.id]
+    });
+    
+    res.json({ success: true, message: 'Reply sent successfully' });
+  } catch (error) {
+    console.error('Email error:', error);
+    res.json({ success: false, message: 'Failed to send email. Check email configuration.' });
+  }
+});
+
+// ============ PRICING REQUESTS ============
+app.get('/api/pricing', async (req, res) => {
+  const result = await db.execute({
+    sql: 'SELECT * FROM pricing_requests ORDER BY id DESC'
+  });
+  res.json(result.rows);
+});
+
+app.post('/api/pricing', async (req, res) => {
+  const { name, email, phone, company, projectType, projectSize, location, budget, timeline, description, contactMethod } = req.body;
+  const date = new Date().toISOString().split('T')[0];
+  
+  const result = await db.execute({
+    sql: `
+    INSERT INTO pricing_requests (name, email, phone, company, projectType, projectSize, location, budget, timeline, description, contactMethod, date, status)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new')
+  `,
+    args: [name, email, phone, company, projectType, projectSize, location, budget, timeline, description, contactMethod, date]
+  });
+  
+  const newResult = await db.execute({
+    sql: 'SELECT * FROM pricing_requests WHERE id = ?',
+    args: [result.lastInsertRowid]
+  });
+  const newRequest = newResult.rows[0];
+  res.json(newRequest);
+});
+
+app.put('/api/pricing/:id/status', authenticateToken, async (req, res) => {
+  const { status } = req.body;
+  await db.execute({
+    sql: 'UPDATE pricing_requests SET status = ? WHERE id = ?',
+    args: [status, req.params.id]
+  });
+  const result = await db.execute({
+    sql: 'SELECT * FROM pricing_requests WHERE id = ?',
+    args: [req.params.id]
+  });
+  const updated = result.rows[0];
+  res.json(updated);
+});
+
+// Send quote email
+app.post('/api/pricing/:id/send-quote', authenticateToken, async (req, res) => {
+  const { subject, message, quoteAmount } = req.body;
+  const result = await db.execute({
+    sql: 'SELECT * FROM pricing_requests WHERE id = ?',
+    args: [req.params.id]
+  });
+  const request = result.rows[0];
+  
+  if (!request) {
+    return res.status(404).json({ success: false, message: 'Request not found' });
+  }
+
+  const emailHtml = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: #000; color: #fff; padding: 30px; text-align: center;">
+        <h1 style="margin: 0; letter-spacing: 0.2em;">TRQ</h1>
+        <p style="margin: 10px 0 0; opacity: 0.8;">Interior Design Studio</p>
+      </div>
+      <div style="padding: 30px; background: #f9f9f9;">
+        <h2 style="color: #000;">Your Quote Request</h2>
+        <p>Dear ${request.name},</p>
+        <p>${message}</p>
+        ${quoteAmount ? `
+        <div style="background: #000; color: #fff; padding: 20px; text-align: center; margin: 20px 0;">
+          <p style="margin: 0; font-size: 14px; opacity: 0.8;">Estimated Quote</p>
+          <p style="margin: 10px 0 0; font-size: 28px; font-weight: bold;">${quoteAmount} SAR</p>
+        </div>
+        ` : ''}
+        <p>If you have any questions, please don't hesitate to contact us.</p>
+        <p>Best regards,<br>TRQ Design Team</p>
+      </div>
+      <div style="background: #000; color: #fff; padding: 20px; text-align: center; font-size: 12px;">
+        <p style="margin: 0; opacity: 0.6;">TRQ Interior Design Studio | Riyadh, Saudi Arabia</p>
+      </div>
+    </div>
+  `;
+
+  try {
+    await sendEmail({
+      to: request.email,
+      subject: subject || 'Your Quote from TRQ Design',
+      html: emailHtml,
+    });
+
+    // Update status to quoted
+    await db.execute({
+      sql: 'UPDATE pricing_requests SET status = ? WHERE id = ?',
+      args: ['quoted', req.params.id]
+    });
+    
+    res.json({ success: true, message: 'Quote sent successfully' });
+  } catch (error) {
+    console.error('Email error:', error);
+    res.json({ success: false, message: 'Failed to send email. Check email configuration.' });
+  }
+});
+
+// ============ SERVICES ============
+const parseService = (service) => ({
+  ...service,
+  features: JSON.parse(service.features || '[]'),
+});
+
+app.get('/api/services', async (req, res) => {
+  const result = await db.execute({
+    sql: 'SELECT * FROM services ORDER BY sortOrder ASC'
+  });
+  res.json(result.rows.map(parseService));
+});
+
+app.get('/api/services/active', async (req, res) => {
+  const result = await db.execute({
+    sql: 'SELECT * FROM services WHERE isActive = 1 ORDER BY sortOrder ASC'
+  });
+  res.json(result.rows.map(parseService));
+});
+
+app.get('/api/services/:id', async (req, res) => {
+  const result = await db.execute({
+    sql: 'SELECT * FROM services WHERE id = ?',
+    args: [req.params.id]
+  });
+  const service = result.rows[0];
+  if (service) {
+    res.json(parseService(service));
+  } else {
+    res.status(404).json({ message: 'Service not found' });
+  }
+});
+
+app.post('/api/services', authenticateToken, async (req, res) => {
+  const { title, description, image, icon, features, sortOrder, isActive } = req.body;
+  
+  const result = await db.execute({
+    sql: `
+    INSERT INTO services (title, description, image, icon, features, sortOrder, isActive)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `,
+    args: [title, description, image, icon || 'Briefcase', JSON.stringify(features || []), sortOrder || 0, isActive !== undefined ? isActive : 1]
+  });
+  
+  const newResult = await db.execute({
+    sql: 'SELECT * FROM services WHERE id = ?',
+    args: [result.lastInsertRowid]
+  });
+  const newService = newResult.rows[0];
+  res.json(parseService(newService));
+});
+
+app.put('/api/services/:id', authenticateToken, async (req, res) => {
+  const { title, description, image, icon, features, sortOrder, isActive } = req.body;
+  
+  await db.execute({
+    sql: `
+    UPDATE services SET title=?, description=?, image=?, icon=?, features=?, sortOrder=?, isActive=?
+    WHERE id=?
+  `,
+    args: [title, description, image, icon, JSON.stringify(features || []), sortOrder, isActive, req.params.id]
+  });
+  
+  const result = await db.execute({
+    sql: 'SELECT * FROM services WHERE id = ?',
+    args: [req.params.id]
+  });
+  const updated = result.rows[0];
+  res.json(parseService(updated));
+});
+
+app.delete('/api/services/:id', authenticateToken, async (req, res) => {
+  await db.execute({
+    sql: 'DELETE FROM services WHERE id = ?',
+    args: [req.params.id]
+  });
+  res.json({ success: true });
+});
+
+// ============ BLOG ARTICLES ============
+const parseArticle = (article) => ({
+  ...article,
+  tags: JSON.parse(article.tags || '[]'),
+});
+
+app.get('/api/articles', (req, res) => {
+  const articles = db.prepare('SELECT * FROM blog_articles ORDER BY id DESC').all();
+  res.json(articles.map(parseArticle));
+});
+
+app.get('/api/articles/published', (req, res) => {
+  const articles = db.prepare("SELECT * FROM blog_articles WHERE status = 'published' ORDER BY id DESC").all();
+  res.json(articles.map(parseArticle));
+});
+
+app.get('/api/articles/:id', (req, res) => {
+  const article = db.prepare('SELECT * FROM blog_articles WHERE id = ?').get(req.params.id);
+  if (article) {
+    res.json(parseArticle(article));
+  } else {
+    res.status(404).json({ message: 'Article not found' });
+  }
+});
+
+app.get('/api/articles/slug/:slug', (req, res) => {
+  const article = db.prepare('SELECT * FROM blog_articles WHERE slug = ?').get(req.params.slug);
+  if (article) {
+    res.json(parseArticle(article));
+  } else {
+    res.status(404).json({ message: 'Article not found' });
+  }
+});
+
+app.post('/api/articles', authenticateToken, (req, res) => {
+  const { title, slug, excerpt, content, image, author, date, readTime, category, categorySlug, tags, status } = req.body;
+  
+  const result = db.prepare(`
+    INSERT INTO blog_articles (title, slug, excerpt, content, image, author, date, readTime, category, categorySlug, tags, status)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(title, slug, excerpt, content, image, author, date, readTime, category, categorySlug, JSON.stringify(tags || []), status || 'draft');
+  
+  const newArticle = db.prepare('SELECT * FROM blog_articles WHERE id = ?').get(result.lastInsertRowid);
+  res.json(parseArticle(newArticle));
+});
+
+app.put('/api/articles/:id', authenticateToken, (req, res) => {
+  const { title, slug, excerpt, content, image, author, date, readTime, category, categorySlug, tags, status } = req.body;
+  
+  db.prepare(`
+    UPDATE blog_articles SET title=?, slug=?, excerpt=?, content=?, image=?, author=?, date=?, readTime=?, category=?, categorySlug=?, tags=?, status=?
+    WHERE id=?
+  `).run(title, slug, excerpt, content, image, author, date, readTime, category, categorySlug, JSON.stringify(tags || []), status, req.params.id);
+  
+  const updated = db.prepare('SELECT * FROM blog_articles WHERE id = ?').get(req.params.id);
+  res.json(parseArticle(updated));
+});
+
+app.delete('/api/articles/:id', authenticateToken, (req, res) => {
+  db.prepare('DELETE FROM blog_articles WHERE id = ?').run(req.params.id);
+  res.json({ success: true });
+});
+
+// ============ SETTINGS ============
+app.get('/api/settings', (req, res) => {
+  const settings = db.prepare('SELECT key, value FROM settings').all();
+  const result = {};
+  settings.forEach(s => { result[s.key] = s.value; });
+  res.json(result);
+});
+
+app.get('/api/settings/:key', (req, res) => {
+  const setting = db.prepare('SELECT value FROM settings WHERE key = ?').get(req.params.key);
+  if (setting) {
+    res.json({ key: req.params.key, value: setting.value });
+  } else {
+    res.status(404).json({ message: 'Setting not found' });
+  }
+});
+
+app.put('/api/settings', authenticateToken, (req, res) => {
+  const settings = req.body;
+  const updateSetting = db.prepare('INSERT OR REPLACE INTO settings (key, value, updatedAt) VALUES (?, ?, CURRENT_TIMESTAMP)');
+  
+  for (const [key, value] of Object.entries(settings)) {
+    updateSetting.run(key, value);
+  }
+  
+  res.json({ success: true });
+});
+
+// ============ TRANSLATION DISABLED ============
+// No automatic translation - use direct database fields only
+// Arabic content is managed through admin panels
+
+// ============ HERO SLIDES ============
+app.get('/api/slides', (req, res) => {
+  const slides = db.prepare('SELECT * FROM hero_slides ORDER BY sortOrder ASC').all();
+  res.json(slides);
+});
+
+app.get('/api/slides/active', (req, res) => {
+  const slides = db.prepare('SELECT * FROM hero_slides WHERE isActive = 1 ORDER BY sortOrder ASC').all();
+  res.json(slides);
+});
+
+app.get('/api/slides/:id', (req, res) => {
+  const slide = db.prepare('SELECT * FROM hero_slides WHERE id = ?').get(req.params.id);
+  if (slide) {
+    res.json(slide);
+  } else {
+    res.status(404).json({ message: 'Slide not found' });
+  }
+});
+
+app.post('/api/slides', authenticateToken, (req, res) => {
+  const { tag, title, description, image, buttonPrimaryText, buttonPrimaryLink, buttonSecondaryText, buttonSecondaryLink, sortOrder, isActive } = req.body;
+  
+  const result = db.prepare(`
+    INSERT INTO hero_slides (tag, title, description, image, buttonPrimaryText, buttonPrimaryLink, buttonSecondaryText, buttonSecondaryLink, sortOrder, isActive)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(tag, title, description, image, buttonPrimaryText || 'VIEW PORTFOLIO', buttonPrimaryLink || 'portfolio', buttonSecondaryText || 'GET IN TOUCH', buttonSecondaryLink || 'contact', sortOrder || 0, isActive !== undefined ? isActive : 1);
+  
+  const newSlide = db.prepare('SELECT * FROM hero_slides WHERE id = ?').get(result.lastInsertRowid);
+  res.json(newSlide);
+});
+
+app.put('/api/slides/:id', authenticateToken, (req, res) => {
+  const { tag, title, description, image, buttonPrimaryText, buttonPrimaryLink, buttonSecondaryText, buttonSecondaryLink, sortOrder, isActive } = req.body;
+  
+  db.prepare(`
+    UPDATE hero_slides SET tag=?, title=?, description=?, image=?, buttonPrimaryText=?, buttonPrimaryLink=?, buttonSecondaryText=?, buttonSecondaryLink=?, sortOrder=?, isActive=?
+    WHERE id=?
+  `).run(tag, title, description, image, buttonPrimaryText, buttonPrimaryLink, buttonSecondaryText, buttonSecondaryLink, sortOrder, isActive, req.params.id);
+  
+  const updated = db.prepare('SELECT * FROM hero_slides WHERE id = ?').get(req.params.id);
+  res.json(updated);
+});
+
+app.delete('/api/slides/:id', authenticateToken, (req, res) => {
+  db.prepare('DELETE FROM hero_slides WHERE id = ?').run(req.params.id);
+  res.json({ success: true });
+});
+
+// ============ NEWSLETTER SUBSCRIPTIONS ============
+// Create newsletter table if not exists
+db.exec(`
+  CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE NOT NULL,
+    status TEXT DEFAULT 'active',
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+  )
+`);
+
+// Subscribe to newsletter
+app.post('/api/newsletter/subscribe', async (req, res) => {
+  const { email } = req.body;
+  
+  if (!email || !email.includes('@')) {
+    return res.status(400).json({ success: false, message: 'Valid email is required' });
+  }
+
+  try {
+    // Check if already subscribed
+    const existing = db.prepare('SELECT * FROM newsletter_subscribers WHERE email = ?').get(email);
+    
+    if (existing) {
+      if (existing.status === 'active') {
+        return res.json({ success: true, message: 'Already subscribed' });
+      }
+      // Reactivate if previously unsubscribed
+      db.prepare('UPDATE newsletter_subscribers SET status = ? WHERE email = ?').run('active', email);
+    } else {
+      // Add new subscriber
+      db.prepare('INSERT INTO newsletter_subscribers (email) VALUES (?)').run(email);
+    }
+
+    // Send welcome email
+    try {
+      await sendEmail({
+        to: email,
+        subject: 'Welcome to TRQ Design Newsletter',
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: #000; color: #fff; padding: 30px; text-align: center;">
+              <h1 style="margin: 0; letter-spacing: 0.2em;">TRQ</h1>
+              <p style="margin: 10px 0 0; opacity: 0.8;">Interior Design Studio</p>
+            </div>
+            <div style="padding: 30px; background: #f9f9f9;">
+              <h2 style="color: #000;">Welcome to Our Newsletter!</h2>
+              <p>Thank you for subscribing to the TRQ Design newsletter.</p>
+              <p>You'll receive updates on:</p>
+              <ul>
+                <li>Latest design trends and insights</li>
+                <li>New project showcases</li>
+                <li>Exclusive design tips</li>
+                <li>Special offers and events</li>
+              </ul>
+              <p>Stay inspired!</p>
+              <p>Best regards,<br>TRQ Design Team</p>
+            </div>
+            <div style="background: #000; color: #fff; padding: 20px; text-align: center; font-size: 12px;">
+              <p style="margin: 0; opacity: 0.6;">TRQ Interior Design Studio | Riyadh, Saudi Arabia</p>
+            </div>
+          </div>
+        `,
+      });
+    } catch (emailError) {
+      console.error('Welcome email failed:', emailError);
+      // Don't fail the subscription if email fails
+    }
+
+    res.json({ success: true, message: 'Successfully subscribed!' });
+  } catch (error) {
+    console.error('Newsletter subscription error:', error);
+    res.status(500).json({ success: false, message: 'Failed to subscribe' });
+  }
+});
+
+// Get all subscribers (admin)
+app.get('/api/newsletter/subscribers', authenticateToken, (req, res) => {
+  const subscribers = db.prepare('SELECT * FROM newsletter_subscribers ORDER BY createdAt DESC').all();
+  res.json(subscribers);
+});
+
+// Unsubscribe
+app.post('/api/newsletter/unsubscribe', (req, res) => {
+  const { email } = req.body;
+  
+  try {
+    db.prepare('UPDATE newsletter_subscribers SET status = ? WHERE email = ?').run('unsubscribed', email);
+    res.json({ success: true, message: 'Successfully unsubscribed' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to unsubscribe' });
+  }
+});
+
+// Send newsletter to all active subscribers
+app.post('/api/newsletter/send', authenticateToken, async (req, res) => {
+  const { subject, content } = req.body;
+  
+  if (!subject || !content) {
+    return res.status(400).json({ success: false, message: 'Subject and content are required' });
+  }
+
+  try {
+    const subscribers = db.prepare('SELECT email FROM newsletter_subscribers WHERE status = ?').all('active');
+    
+    if (subscribers.length === 0) {
+      return res.json({ success: false, message: 'No active subscribers' });
+    }
+
+    let sent = 0;
+    let failed = 0;
+
+    for (const subscriber of subscribers) {
+      try {
+        await sendEmail({
+          to: subscriber.email,
+          subject: subject,
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <div style="background: #000; color: #fff; padding: 30px; text-align: center;">
+                <h1 style="margin: 0; letter-spacing: 0.2em;">TRQ</h1>
+                <p style="margin: 10px 0 0; opacity: 0.8;">Interior Design Studio</p>
+              </div>
+              <div style="padding: 30px; background: #f9f9f9;">
+                <div style="white-space: pre-wrap; line-height: 1.6;">${content}</div>
+              </div>
+              <div style="background: #000; color: #fff; padding: 20px; text-align: center; font-size: 12px;">
+                <p style="margin: 0; opacity: 0.6;">TRQ Interior Design Studio | Riyadh, Saudi Arabia</p>
+                <p style="margin: 10px 0 0; opacity: 0.4;">
+                  <a href="http://localhost:5173/#/unsubscribe?email=${encodeURIComponent(subscriber.email)}" style="color: #fff; opacity: 0.6;">Unsubscribe</a>
+                </p>
+              </div>
+            </div>
+          `,
+        });
+        sent++;
+      } catch (emailError) {
+        console.error('Failed to send to:', subscriber.email, emailError);
+        failed++;
+      }
+    }
+
+    res.json({ 
+      success: true, 
+      message: `Newsletter sent to ${sent} subscribers${failed > 0 ? ` (${failed} failed)` : ''}` 
+    });
+  } catch (error) {
+    console.error('Newsletter send error:', error);
+    res.status(500).json({ success: false, message: 'Failed to send newsletter' });
+  }
+});
+
+// ============ SETUP ARABIC ROUTES ============
+setupArabicRoutes(app, db);
+
+// Initialize database and start server
+(async () => {
+  try {
+    await initializeDatabase();
+    app.listen(PORT, () => {
+      console.log(`TRQ Server running on http://localhost:${PORT}`);
+      console.log('Connected to Turso database');
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+})();

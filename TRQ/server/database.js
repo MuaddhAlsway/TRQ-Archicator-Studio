@@ -1,0 +1,842 @@
+import Database from 'better-sqlite3';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+console.log('Initializing database at:', join(__dirname, 'trq.db'));
+const db = new Database(join(__dirname, 'trq.db'));
+console.log('Database connection established');
+console.log('Database object:', typeof db, db.constructor.name);
+
+// Initialize database tables
+console.log('Creating database tables...');
+try {
+  console.log('About to execute CREATE TABLE statements...');
+  db.exec(`
+  CREATE TABLE IF NOT EXISTS translations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sourceText TEXT NOT NULL,
+    targetLang TEXT NOT NULL,
+    translatedText TEXT NOT NULL,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(sourceText, targetLang)
+  );
+
+  CREATE TABLE IF NOT EXISTS blog_articles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    slug TEXT UNIQUE NOT NULL,
+    excerpt TEXT,
+    content TEXT,
+    image TEXT,
+    author TEXT,
+    date TEXT,
+    readTime TEXT,
+    category TEXT,
+    categorySlug TEXT,
+    tags TEXT,
+    status TEXT DEFAULT 'draft',
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE IF NOT EXISTS settings (
+    key TEXT PRIMARY KEY,
+    value TEXT,
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE IF NOT EXISTS services (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    description TEXT,
+    image TEXT,
+    icon TEXT DEFAULT 'Briefcase',
+    features TEXT,
+    sortOrder INTEGER DEFAULT 0,
+    isActive INTEGER DEFAULT 1,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE IF NOT EXISTS projects (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    category TEXT NOT NULL,
+    subcategory TEXT,
+    description TEXT,
+    image TEXT,
+    year TEXT,
+    location TEXT,
+    client TEXT,
+    size TEXT,
+    duration TEXT,
+    detailedDescription TEXT,
+    challenge TEXT,
+    solution TEXT,
+    features TEXT,
+    materials TEXT,
+    awards TEXT,
+    team TEXT,
+    gallery TEXT,
+    clientQuote TEXT,
+    clientName TEXT,
+    status TEXT DEFAULT 'draft',
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE IF NOT EXISTS contacts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT,
+    subject TEXT,
+    message TEXT,
+    date TEXT,
+    status TEXT DEFAULT 'new',
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE IF NOT EXISTS pricing_requests (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT,
+    company TEXT,
+    projectType TEXT,
+    projectSize TEXT,
+    location TEXT,
+    budget TEXT,
+    timeline TEXT,
+    description TEXT,
+    contactMethod TEXT,
+    date TEXT,
+    status TEXT DEFAULT 'new',
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    email TEXT,
+    password TEXT NOT NULL,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE IF NOT EXISTS password_resets (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    userId INTEGER NOT NULL,
+    token TEXT UNIQUE NOT NULL,
+    expiresAt DATETIME NOT NULL,
+    used INTEGER DEFAULT 0,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES users(id)
+  );
+
+  CREATE TABLE IF NOT EXISTS hero_slides (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tag TEXT NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT,
+    image TEXT,
+    buttonPrimaryText TEXT DEFAULT 'VIEW PORTFOLIO',
+    buttonPrimaryLink TEXT DEFAULT 'portfolio',
+    buttonSecondaryText TEXT DEFAULT 'GET IN TOUCH',
+    buttonSecondaryLink TEXT DEFAULT 'contact',
+    sortOrder INTEGER DEFAULT 0,
+    isActive INTEGER DEFAULT 1,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+`);
+  console.log('✓ CREATE TABLE statements executed successfully');
+  console.log('Database tables created successfully');
+} catch (e) {
+  console.error('Error creating database tables:', e.message);
+}
+
+// Migration: Add new columns to services table if they don't exist
+try {
+  db.exec(`ALTER TABLE services ADD COLUMN icon TEXT DEFAULT 'Briefcase'`);
+} catch (e) { /* column already exists */ }
+
+try {
+  db.exec(`ALTER TABLE services ADD COLUMN features TEXT`);
+} catch (e) { /* column already exists */ }
+
+try {
+  db.exec(`ALTER TABLE services ADD COLUMN isActive INTEGER DEFAULT 1`);
+} catch (e) { /* column already exists */ }
+
+// Update existing services with default values if they have NULL
+try {
+  db.exec(`UPDATE services SET icon = 'Briefcase' WHERE icon IS NULL`);
+  db.exec(`UPDATE services SET features = '[]' WHERE features IS NULL`);
+  db.exec(`UPDATE services SET isActive = 1 WHERE isActive IS NULL`);
+} catch (e) { /* table might be empty */ }
+
+// Update existing services with proper icons based on title
+try {
+  const updateServiceIcon = db.prepare(`UPDATE services SET icon = ? WHERE title LIKE ?`);
+  updateServiceIcon.run('Home', '%Residential%');
+  updateServiceIcon.run('Briefcase', '%Commercial%');
+  updateServiceIcon.run('Store', '%Retail%');
+  updateServiceIcon.run('Building2', '%Hotel%');
+  updateServiceIcon.run('Boxes', '%Booth%');
+  updateServiceIcon.run('Boxes', '%Exhibition%');
+  updateServiceIcon.run('Calendar', '%Event%');
+  updateServiceIcon.run('Armchair', '%Furniture%');
+} catch (e) { /* table might be empty */ }
+
+// Insert default admin user if not exists
+const adminExists = db.prepare('SELECT id FROM users WHERE username = ?').get('admin');
+if (!adminExists) {
+  db.prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)').run('admin', 'admin@trq.design', 'trq2026');
+}
+
+// Migration: Add email column to users if not exists
+try {
+  db.exec(`ALTER TABLE users ADD COLUMN email TEXT`);
+} catch (e) { /* column already exists */ }
+
+// Migration: Add Arabic columns to projects table if they don't exist
+try {
+  db.exec(`ALTER TABLE projects ADD COLUMN title_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN category_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN subcategory_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN description_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN location_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN client_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN size_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN duration_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN detailedDescription_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN challenge_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN solution_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN features_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN materials_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN awards_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN team_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN clientQuote_ar TEXT`);
+  db.exec(`ALTER TABLE projects ADD COLUMN clientName_ar TEXT`);
+} catch (e) { /* columns already exist */ }
+
+// Insert default hero slides if table is empty
+const slideCount = db.prepare('SELECT COUNT(*) as count FROM hero_slides').get();
+if (slideCount.count === 0) {
+  const defaultSlides = [
+    {
+      tag: 'TRQ Design Studio',
+      title: 'Elevating Spaces, Defining Luxury',
+      description: 'Premium interior design solutions for discerning clients who demand excellence.',
+      image: 'https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?w=1920&q=80',
+      buttonPrimaryText: 'VIEW PORTFOLIO',
+      buttonPrimaryLink: 'portfolio',
+      buttonSecondaryText: 'GET IN TOUCH',
+      buttonSecondaryLink: 'contact',
+      sortOrder: 1,
+      isActive: 1,
+    },
+    {
+      tag: 'Residential Design',
+      title: 'Luxury Living Spaces',
+      description: 'Creating timeless residential interiors that reflect your unique lifestyle and taste.',
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80',
+      buttonPrimaryText: 'VIEW PORTFOLIO',
+      buttonPrimaryLink: 'portfolio',
+      buttonSecondaryText: 'GET IN TOUCH',
+      buttonSecondaryLink: 'contact',
+      sortOrder: 2,
+      isActive: 1,
+    },
+    {
+      tag: 'Commercial Design',
+      title: 'Inspiring Workspaces',
+      description: 'Transforming commercial environments into productive and aesthetically stunning spaces.',
+      image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80',
+      buttonPrimaryText: 'VIEW PORTFOLIO',
+      buttonPrimaryLink: 'portfolio',
+      buttonSecondaryText: 'GET IN TOUCH',
+      buttonSecondaryLink: 'contact',
+      sortOrder: 3,
+      isActive: 1,
+    },
+    {
+      tag: 'Interior Excellence',
+      title: 'Refined Interiors',
+      description: 'We aspire to create an interior experience that is both memorable and timeless.',
+      image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&q=80',
+      buttonPrimaryText: 'VIEW PORTFOLIO',
+      buttonPrimaryLink: 'portfolio',
+      buttonSecondaryText: 'GET IN TOUCH',
+      buttonSecondaryLink: 'contact',
+      sortOrder: 4,
+      isActive: 1,
+    },
+    {
+      tag: 'Our Portfolio',
+      title: 'Featured Projects',
+      description: 'Explore our collection of award-winning design projects across Saudi Arabia.',
+      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80',
+      buttonPrimaryText: 'VIEW PORTFOLIO',
+      buttonPrimaryLink: 'portfolio',
+      buttonSecondaryText: 'GET IN TOUCH',
+      buttonSecondaryLink: 'contact',
+      sortOrder: 5,
+      isActive: 1,
+    },
+  ];
+
+  const insertSlide = db.prepare(`
+    INSERT INTO hero_slides (tag, title, description, image, buttonPrimaryText, buttonPrimaryLink, buttonSecondaryText, buttonSecondaryLink, sortOrder, isActive)
+    VALUES (@tag, @title, @description, @image, @buttonPrimaryText, @buttonPrimaryLink, @buttonSecondaryText, @buttonSecondaryLink, @sortOrder, @isActive)
+  `);
+
+  for (const slide of defaultSlides) {
+    insertSlide.run(slide);
+  }
+}
+
+// Insert default settings if not exists
+const defaultSettings = {
+  servicesTitle: 'Complete Design Solutions',
+  servicesDescription: 'From intimate residential spaces to grand commercial projects, from exhibition booths to custom furniture, TRQ offers a comprehensive suite of design services. Our multidisciplinary approach ensures seamless integration across all aspects of your project, delivering cohesive, exceptional results.',
+  homeIntroTitle: 'Creating Timeless Design Solutions',
+  homeIntroText1: 'TRQ is a luxury and creative interior design studio based in Riyadh, Saudi Arabia. We specialize in delivering high-quality, creative, and refined solutions for both residential and commercial clients.',
+  homeIntroText2: 'Our approach combines artistic vision with practical expertise to create spaces that not only look exceptional but also enhance the way you live and work.',
+  homeIntroImage: '/uploads/5.webp',
+};
+
+const insertSetting = db.prepare('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)');
+for (const [key, value] of Object.entries(defaultSettings)) {
+  insertSetting.run(key, value);
+}
+
+// Insert default services if table is empty
+const serviceCount = db.prepare('SELECT COUNT(*) as count FROM services').get();
+if (serviceCount.count === 0) {
+  const defaultServices = [
+    {
+      title: 'Residential Interior Design',
+      description: 'Transform your home into a sanctuary that reflects your personality and lifestyle.',
+      image: 'https://images.unsplash.com/photo-1669387448840-610c588f003d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBpbnRlcmlvciUyMGRlc2lnbiUyMGxpdmluZyUyMHJvb218ZW58MXx8fHwxNzY4MDI4ODQ1fDA&ixlib=rb-4.1.0&q=80&w=1080',
+      icon: 'Home',
+      features: JSON.stringify(['Custom space planning and layout design', 'Material selection and color palettes', 'Furniture and fixture specification', 'Lighting design and integration', 'Complete project management', 'Post-completion support']),
+      sortOrder: 1,
+      isActive: 1,
+    },
+    {
+      title: 'Commercial Interior Design',
+      description: 'Create inspiring workspaces that enhance productivity and reflect your brand identity.',
+      image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBpbnRlcmlvcnxlbnwxfHx8fDE3NjgwMDk5MzF8MA&ixlib=rb-4.1.0&q=80&w=1080',
+      icon: 'Briefcase',
+      features: JSON.stringify(['Office design and planning', 'Brand integration and identity', 'Ergonomic workspace solutions', 'Meeting room and collaboration spaces', 'Reception and common areas', 'Sustainable design practices']),
+      sortOrder: 2,
+      isActive: 1,
+    },
+    {
+      title: 'Retail Design',
+      description: 'Design retail spaces that attract customers and maximize sales potential.',
+      image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
+      icon: 'Store',
+      features: JSON.stringify(['Store layout and flow optimization', 'Visual merchandising solutions', 'Brand experience design', 'Customer journey mapping', 'Point-of-sale integration', 'Adaptive design for seasonal changes']),
+      sortOrder: 3,
+      isActive: 1,
+    },
+    {
+      title: 'Hotel Design',
+      description: 'Craft memorable hospitality experiences through thoughtful and luxurious design.',
+      image: 'https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBob3RlbCUyMGxvYmJ5fGVufDF8fHx8MTc2ODA0Njc1OXww&ixlib=rb-4.1.0&q=80&w=1080',
+      icon: 'Building2',
+      features: JSON.stringify(['Lobby and reception design', 'Guest room and suite planning', 'Restaurant and bar concepts', 'Spa and wellness facilities', 'Public areas and amenities', 'Brand consistency throughout']),
+      sortOrder: 4,
+      isActive: 1,
+    },
+    {
+      title: 'Booth & Exhibition Stand Design',
+      description: 'Stand out at trade shows and exhibitions with captivating, custom-designed booths.',
+      image: 'https://images.unsplash.com/photo-1761225646548-bc92fea0dc72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxleGhpYml0aW9uJTIwYm9vdGglMjBkZXNpZ258ZW58MXx8fHwxNzY4MDI3ODU4fDA&ixlib=rb-4.1.0&q=80&w=1080',
+      icon: 'Boxes',
+      features: JSON.stringify(['Custom booth design and fabrication', 'Brand storytelling and messaging', 'Interactive display integration', 'Modular and reusable solutions', 'Fast turnaround capabilities', 'On-site installation and support']),
+      sortOrder: 5,
+      isActive: 1,
+    },
+    {
+      title: 'Event Design',
+      description: 'Create unforgettable experiences with bespoke event design and styling.',
+      image: 'https://images.unsplash.com/photo-1759519238029-689e99c6d19e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBldmVudCUyMHNwYWNlfGVufDF8fHx8MTc2Nzk4ODM2M3ww&ixlib=rb-4.1.0&q=80&w=1080',
+      icon: 'Calendar',
+      features: JSON.stringify(['Concept development and theming', 'Space planning and layout', 'Décor and styling', 'Lighting and audiovisual design', 'Coordination with vendors', 'On-site execution and management']),
+      sortOrder: 6,
+      isActive: 1,
+    },
+    {
+      title: 'Furniture Design',
+      description: 'Bespoke furniture pieces that combine functionality with artistic expression.',
+      image: 'https://images.unsplash.com/photo-1709346739762-e8ecacc96e0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXNpZ25lciUyMGZ1cm5pdHVyZSUyMG1vZGVybnxlbnwxfHx8fDE3NjgwNTA5NjF8MA&ixlib=rb-4.1.0&q=80&w=1080',
+      icon: 'Armchair',
+      features: JSON.stringify(['Custom furniture design', 'Material and finish selection', 'Prototype development', 'Collaboration with master craftsmen', 'Quality control and finishing', 'Installation and placement']),
+      sortOrder: 7,
+      isActive: 1,
+    },
+  ];
+
+  const insertService = db.prepare(`
+    INSERT INTO services (title, description, image, icon, features, sortOrder, isActive)
+    VALUES (@title, @description, @image, @icon, @features, @sortOrder, @isActive)
+  `);
+
+  for (const service of defaultServices) {
+    insertService.run(service);
+  }
+}
+
+// Insert default projects if table is empty
+const projectCount = db.prepare('SELECT COUNT(*) as count FROM projects').get();
+if (projectCount.count === 0) {
+  const defaultProjects = [
+    {
+      title: 'Royal Residence',
+      category: 'residential',
+      subcategory: 'Luxury Villa',
+      description: 'A timeless luxury villa featuring classical elegance and modern comfort.',
+      image: 'https://images.unsplash.com/photo-1669387448840-610c588f003d?w=1080',
+      year: '2025',
+      location: 'Riyadh, Saudi Arabia',
+      client: 'Private Client',
+      size: '800 sqm',
+      duration: '8 months',
+      detailedDescription: 'This exceptional luxury villa project represents the pinnacle of residential interior design.',
+      challenge: 'Creating a space that balanced contemporary design with timeless elegance.',
+      solution: 'We developed a comprehensive design strategy with premium materials and custom elements.',
+      features: JSON.stringify(['Custom-designed furniture', 'Premium imported materials', 'Smart home technology']),
+      materials: JSON.stringify(['Italian marble flooring', 'Custom walnut wood paneling', 'Brass fixtures']),
+      awards: JSON.stringify(['Best Residential Design 2025']),
+      team: JSON.stringify(['Lead Designer: Sarah Al-Mutairi', 'Project Manager: Ahmed Hassan']),
+      gallery: JSON.stringify(['https://images.unsplash.com/photo-1669387448840-610c588f003d?w=1080']),
+      clientQuote: 'TRQ transformed our vision into reality with exceptional attention to detail.',
+      clientName: 'Private Client',
+      status: 'published',
+    },
+    {
+      title: 'Master Suite Retreat',
+      category: 'residential',
+      subcategory: 'Bedroom Design',
+      description: 'Serene and sophisticated bedroom suite with custom furniture and luxe finishes.',
+      image: 'https://images.unsplash.com/photo-1625579002297-aeebbf69de89?w=1080',
+      year: '2025',
+      location: 'Riyadh, Saudi Arabia',
+      client: 'Private Client',
+      size: '120 sqm',
+      duration: '3 months',
+      detailedDescription: 'A serene master suite designed for ultimate relaxation and comfort.',
+      challenge: 'Creating a peaceful retreat within a busy family home.',
+      solution: 'Implemented sound insulation, calming color palettes, and custom storage solutions.',
+      features: JSON.stringify(['Custom bed design', 'Walk-in closet', 'En-suite bathroom']),
+      materials: JSON.stringify(['Silk wallcoverings', 'Cashmere textiles', 'Oak flooring']),
+      awards: JSON.stringify([]),
+      team: JSON.stringify(['Lead Designer: Sarah Al-Mutairi']),
+      gallery: JSON.stringify(['https://images.unsplash.com/photo-1625579002297-aeebbf69de89?w=1080']),
+      clientQuote: 'Our bedroom is now our favorite place in the house.',
+      clientName: 'Private Client',
+      status: 'published',
+    },
+    {
+      title: 'Culinary Excellence',
+      category: 'residential',
+      subcategory: 'Kitchen Design',
+      description: 'Modern kitchen design blending functionality with stunning aesthetics.',
+      image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1080',
+      year: '2024',
+      location: 'Jeddah, Saudi Arabia',
+      client: 'Private Client',
+      size: '80 sqm',
+      duration: '4 months',
+      detailedDescription: 'A chef-inspired kitchen combining professional-grade equipment with elegant design.',
+      challenge: 'Integrating professional kitchen equipment while maintaining a warm atmosphere.',
+      solution: 'Custom cabinetry to house equipment, with warm wood tones and strategic lighting.',
+      features: JSON.stringify(['Professional appliances', 'Custom cabinetry', 'Island with seating']),
+      materials: JSON.stringify(['Quartzite countertops', 'Custom oak cabinets', 'Brass hardware']),
+      awards: JSON.stringify([]),
+      team: JSON.stringify(['Lead Designer: Nora Al-Fahad']),
+      gallery: JSON.stringify(['https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1080']),
+      clientQuote: 'Cooking has become a joy in this beautiful space.',
+      clientName: 'Private Client',
+      status: 'published',
+    },
+    {
+      title: 'Grand Hotel Lobby',
+      category: 'commercial',
+      subcategory: 'Hospitality',
+      description: 'Breathtaking hotel lobby that sets the tone for luxury hospitality.',
+      image: 'https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?w=1080',
+      year: '2025',
+      location: 'Riyadh, Saudi Arabia',
+      client: 'Luxury Hotels Group',
+      size: '2000 sqm',
+      duration: '12 months',
+      detailedDescription: 'A grand hotel lobby designed to create an unforgettable first impression.',
+      challenge: 'Creating a space that feels both grand and intimate.',
+      solution: 'Zoned areas with distinct characters unified by a cohesive design language.',
+      features: JSON.stringify(['Grand chandelier', 'Reception area', 'Lounge seating']),
+      materials: JSON.stringify(['Marble flooring', 'Gold leaf details', 'Crystal fixtures']),
+      awards: JSON.stringify(['Best Hospitality Design 2025']),
+      team: JSON.stringify(['Lead Designer: Sarah Al-Mutairi', 'Project Manager: Ahmed Hassan']),
+      gallery: JSON.stringify(['https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?w=1080']),
+      clientQuote: 'The lobby has become a destination in itself.',
+      clientName: 'Luxury Hotels Group',
+      status: 'published',
+    },
+    {
+      title: 'Tech Startup Headquarters',
+      category: 'commercial',
+      subcategory: 'Office Design',
+      description: 'Innovative office space promoting collaboration and creativity.',
+      image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1080',
+      year: '2024',
+      location: 'Riyadh, Saudi Arabia',
+      client: 'TechVenture Inc.',
+      size: '1500 sqm',
+      duration: '6 months',
+      detailedDescription: 'A modern office designed to foster innovation and team collaboration.',
+      challenge: 'Balancing open collaboration spaces with quiet focus areas.',
+      solution: 'Flexible zones with acoustic solutions and varied seating options.',
+      features: JSON.stringify(['Open plan workspace', 'Meeting pods', 'Breakout areas']),
+      materials: JSON.stringify(['Polished concrete', 'Acoustic panels', 'Glass partitions']),
+      awards: JSON.stringify(['Best Office Design 2024']),
+      team: JSON.stringify(['Lead Designer: Khalid Al-Rashid']),
+      gallery: JSON.stringify(['https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1080']),
+      clientQuote: 'Our team productivity has increased significantly.',
+      clientName: 'TechVenture Inc.',
+      status: 'published',
+    },
+    {
+      title: 'Executive Workspace',
+      category: 'commercial',
+      subcategory: 'Corporate Design',
+      description: 'Refined corporate office reflecting professionalism and sophistication.',
+      image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1080',
+      year: '2024',
+      location: 'Riyadh, Saudi Arabia',
+      client: 'Al-Faisal Holdings',
+      size: '500 sqm',
+      duration: '4 months',
+      detailedDescription: 'An executive suite designed to impress clients and inspire leadership.',
+      challenge: 'Creating a prestigious environment that also feels welcoming.',
+      solution: 'Rich materials with comfortable furnishings and personal touches.',
+      features: JSON.stringify(['Executive offices', 'Boardroom', 'Private lounge']),
+      materials: JSON.stringify(['Walnut paneling', 'Leather furniture', 'Brass accents']),
+      awards: JSON.stringify([]),
+      team: JSON.stringify(['Lead Designer: Sarah Al-Mutairi']),
+      gallery: JSON.stringify(['https://images.unsplash.com/photo-1497366216548-37526070297c?w=1080']),
+      clientQuote: 'The perfect balance of prestige and comfort.',
+      clientName: 'Al-Faisal Holdings',
+      status: 'published',
+    },
+    {
+      title: 'Luxury Boutique',
+      category: 'commercial',
+      subcategory: 'Retail Design',
+      description: 'High-end retail space designed to showcase luxury products beautifully.',
+      image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1080',
+      year: '2025',
+      location: 'Riyadh, Saudi Arabia',
+      client: 'Maison Elegance',
+      size: '300 sqm',
+      duration: '5 months',
+      detailedDescription: 'A luxury retail environment that elevates the shopping experience.',
+      challenge: 'Creating an intimate boutique feel within a larger retail space.',
+      solution: 'Curated display areas with dramatic lighting and luxurious materials.',
+      features: JSON.stringify(['Custom display cases', 'VIP room', 'Fitting rooms']),
+      materials: JSON.stringify(['Marble floors', 'Velvet drapes', 'Gold fixtures']),
+      awards: JSON.stringify(['Best Retail Design 2025']),
+      team: JSON.stringify(['Lead Designer: Nora Al-Fahad']),
+      gallery: JSON.stringify(['https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1080']),
+      clientQuote: 'Sales have increased 40% since the redesign.',
+      clientName: 'Maison Elegance',
+      status: 'published',
+    },
+    {
+      title: 'Fine Dining Experience',
+      category: 'commercial',
+      subcategory: 'Restaurant Design',
+      description: 'Elegant restaurant interior creating an unforgettable dining atmosphere.',
+      image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1080',
+      year: '2024',
+      location: 'Jeddah, Saudi Arabia',
+      client: 'Saveur Restaurant Group',
+      size: '400 sqm',
+      duration: '6 months',
+      detailedDescription: 'A fine dining restaurant designed to engage all the senses.',
+      challenge: 'Creating distinct dining experiences within one cohesive space.',
+      solution: 'Multiple dining zones with unique characters connected by design elements.',
+      features: JSON.stringify(['Main dining room', 'Private dining', 'Bar lounge']),
+      materials: JSON.stringify(['Dark oak', 'Leather banquettes', 'Copper accents']),
+      awards: JSON.stringify(['Restaurant Design Award 2024']),
+      team: JSON.stringify(['Lead Designer: Khalid Al-Rashid']),
+      gallery: JSON.stringify(['https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1080']),
+      clientQuote: 'Guests come for the food and stay for the atmosphere.',
+      clientName: 'Saveur Restaurant Group',
+      status: 'published',
+    },
+    {
+      title: 'Tech Expo Booth',
+      category: 'booths',
+      subcategory: 'Exhibition Stand',
+      description: 'Eye-catching exhibition booth designed for maximum visitor engagement.',
+      image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1080',
+      year: '2025',
+      location: 'Dubai, UAE',
+      client: 'InnoTech Solutions',
+      size: '100 sqm',
+      duration: '3 weeks',
+      detailedDescription: 'A dynamic exhibition booth that attracted record visitor numbers.',
+      challenge: 'Standing out in a crowded exhibition hall with limited space.',
+      solution: 'Bold architectural elements with interactive technology displays.',
+      features: JSON.stringify(['LED video wall', 'Product demo stations', 'Meeting area']),
+      materials: JSON.stringify(['Aluminum structure', 'LED panels', 'Acrylic displays']),
+      awards: JSON.stringify(['Best Booth Design - Tech Expo 2025']),
+      team: JSON.stringify(['Lead Designer: Ahmed Hassan']),
+      gallery: JSON.stringify(['https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1080']),
+      clientQuote: 'We had triple the leads compared to previous years.',
+      clientName: 'InnoTech Solutions',
+      status: 'published',
+    },
+    {
+      title: 'Trade Show Pavilion',
+      category: 'booths',
+      subcategory: 'Exhibition Design',
+      description: 'Custom trade show booth combining brand storytelling with functionality.',
+      image: 'https://images.unsplash.com/photo-1560439514-4e9645039924?w=1080',
+      year: '2024',
+      location: 'Riyadh, Saudi Arabia',
+      client: 'Saudi Industries',
+      size: '200 sqm',
+      duration: '4 weeks',
+      detailedDescription: 'A pavilion design that told the brand story through immersive experiences.',
+      challenge: 'Communicating complex industrial products in an engaging way.',
+      solution: 'Interactive displays and guided journey through the brand history.',
+      features: JSON.stringify(['Brand timeline wall', 'Product showcases', 'VR experience']),
+      materials: JSON.stringify(['Steel structure', 'Fabric graphics', 'Wood accents']),
+      awards: JSON.stringify([]),
+      team: JSON.stringify(['Lead Designer: Ahmed Hassan']),
+      gallery: JSON.stringify(['https://images.unsplash.com/photo-1560439514-4e9645039924?w=1080']),
+      clientQuote: 'The booth perfectly represented our brand values.',
+      clientName: 'Saudi Industries',
+      status: 'published',
+    },
+    {
+      title: 'Gala Evening',
+      category: 'events',
+      subcategory: 'Event Design',
+      description: 'Sophisticated event design for an unforgettable evening celebration.',
+      image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1080',
+      year: '2025',
+      location: 'Riyadh, Saudi Arabia',
+      client: 'Royal Foundation',
+      size: '1000 sqm',
+      duration: '2 weeks',
+      detailedDescription: 'A gala event design that created a magical atmosphere for 500 guests.',
+      challenge: 'Transforming a convention center into an elegant gala venue.',
+      solution: 'Dramatic draping, lighting design, and custom installations.',
+      features: JSON.stringify(['Grand entrance', 'Dining area', 'Stage design']),
+      materials: JSON.stringify(['Silk draping', 'Crystal chandeliers', 'Fresh florals']),
+      awards: JSON.stringify(['Best Event Design 2025']),
+      team: JSON.stringify(['Lead Designer: Nora Al-Fahad']),
+      gallery: JSON.stringify(['https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1080']),
+      clientQuote: 'Guests are still talking about the beautiful venue.',
+      clientName: 'Royal Foundation',
+      status: 'published',
+    },
+    {
+      title: 'Designer Collection',
+      category: 'furniture',
+      subcategory: 'Custom Furniture',
+      description: 'Bespoke furniture pieces showcasing craftsmanship and modern design.',
+      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1080',
+      year: '2024',
+      location: 'Riyadh, Saudi Arabia',
+      client: 'TRQ Collection',
+      size: 'N/A',
+      duration: '6 months',
+      detailedDescription: 'A collection of custom furniture pieces designed for luxury interiors.',
+      challenge: 'Creating unique pieces that work across different interior styles.',
+      solution: 'Timeless designs with customizable finishes and materials.',
+      features: JSON.stringify(['Sofas', 'Dining tables', 'Accent chairs']),
+      materials: JSON.stringify(['Solid wood', 'Premium leather', 'Brass details']),
+      awards: JSON.stringify(['Furniture Design Award 2024']),
+      team: JSON.stringify(['Lead Designer: Sarah Al-Mutairi']),
+      gallery: JSON.stringify(['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1080']),
+      clientQuote: 'These pieces are the centerpiece of our home.',
+      clientName: 'Multiple Clients',
+      status: 'published',
+    },
+  ];
+
+  const insertProject = db.prepare(`
+    INSERT INTO projects (title, category, subcategory, description, image, year, location, client, size, duration, detailedDescription, challenge, solution, features, materials, awards, team, gallery, clientQuote, clientName, status)
+    VALUES (@title, @category, @subcategory, @description, @image, @year, @location, @client, @size, @duration, @detailedDescription, @challenge, @solution, @features, @materials, @awards, @team, @gallery, @clientQuote, @clientName, @status)
+  `);
+
+  for (const project of defaultProjects) {
+    insertProject.run(project);
+  }
+}
+
+// Insert default blog articles if table is empty
+const articleCount = db.prepare('SELECT COUNT(*) as count FROM blog_articles').get();
+if (articleCount.count === 0) {
+  const defaultArticles = [
+    {
+      title: 'The Art of Minimalism in Modern Interior Design',
+      slug: 'art-of-minimalism-modern-interior-design',
+      excerpt: 'Discover how less can truly be more when it comes to creating sophisticated, timeless spaces that breathe elegance.',
+      content: `Minimalism has evolved from a design trend to a lifestyle philosophy that continues to dominate the world of interior design. At its core, minimalist design is about creating spaces that are both functional and beautiful, free from unnecessary clutter and ornamentation.
+
+The key to successful minimalist design lies in understanding that it's not about having less—it's about having just enough. Each element in a minimalist space serves a purpose, whether functional or aesthetic. This intentional approach to design creates environments that are calm, organized, and inherently sophisticated.
+
+In luxury minimalist interiors, quality always trumps quantity. Investment pieces like a perfectly crafted sofa, a statement lighting fixture, or a piece of original art become focal points that define the space. The materials chosen—natural stone, fine woods, premium metals—speak to craftsmanship and durability.
+
+Color palettes in minimalist design tend toward neutrals, but this doesn't mean they're boring. Subtle variations in tone, texture, and finish create depth and interest. A monochromatic scheme can be incredibly dynamic when you layer different materials and textures.
+
+Light plays a crucial role in minimalist spaces. Large windows, strategic lighting design, and reflective surfaces maximize natural light, making spaces feel open and airy. The interplay of light and shadow adds dimension and drama to simple forms.
+
+The beauty of minimalist design is its timelessness. While trends come and go, a well-executed minimalist interior remains relevant and sophisticated year after year.`,
+      image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1080',
+      author: 'Sarah Al-Mutairi',
+      date: 'January 10, 2026',
+      readTime: '6 min read',
+      category: 'Design Tips',
+      categorySlug: 'design-tips',
+      tags: JSON.stringify(['Minimalism', 'Modern Design', 'Interior Tips', 'Luxury']),
+      status: 'published',
+    },
+    {
+      title: "2026 Interior Design Trends: What's Shaping Luxury Spaces",
+      slug: '2026-interior-design-trends',
+      excerpt: 'Explore the emerging trends that are redefining luxury interior design in 2026, from sustainable materials to biophilic design.',
+      content: `As we navigate through 2026, the interior design landscape continues to evolve, shaped by technological innovation, environmental consciousness, and a deepening appreciation for craftsmanship.
+
+Sustainable luxury has moved from aspiration to expectation. Today's discerning clients demand eco-friendly materials without compromising on quality or aesthetics. Reclaimed woods, recycled metals, and natural textiles are being crafted into stunning pieces.
+
+Biophilic design continues its ascent, but with greater sophistication. Beyond simple houseplants, we're seeing living walls, indoor gardens, and water features integrated into residential and commercial spaces.
+
+Technology integration has become seamless and invisible. Smart home systems are now designed to disappear into the architecture, controlled by voice, gesture, or automated based on learned preferences.
+
+The return of artisanal craftsmanship represents a counter-movement to mass production. Hand-crafted furniture, custom metalwork, and bespoke textiles are increasingly valued.
+
+Wellness-centric design has expanded beyond spas and gyms. Entire homes are being designed to support physical and mental wellbeing, with dedicated meditation spaces and materials chosen for their health benefits.`,
+      image: 'https://images.unsplash.com/photo-1672927936377-97d1be3976cd?w=1080',
+      author: 'Ahmed Hassan',
+      date: 'January 8, 2026',
+      readTime: '8 min read',
+      category: 'Trends',
+      categorySlug: 'trends',
+      tags: JSON.stringify(['2026 Trends', 'Luxury Design', 'Sustainability', 'Innovation']),
+      status: 'published',
+    },
+    {
+      title: 'Behind the Design: Creating Our Award-Winning Royal Residence',
+      slug: 'behind-design-royal-residence',
+      excerpt: 'Take an exclusive look at the design process behind one of our most prestigious projects, from concept to completion.',
+      content: `The Royal Residence project stands as a testament to what's possible when vision, craftsmanship, and dedication converge. This 5,000 square meter villa in Riyadh represents two years of intensive design and construction.
+
+The initial client brief was both exciting and challenging: create a home that honors Saudi heritage while embracing modern living. The family wanted spaces that could accommodate large gatherings and intimate moments.
+
+Our design journey began with extensive research into traditional Saudi architecture. We studied the majlis tradition, the importance of private family spaces, and the role of courtyards in creating comfortable microclimates.
+
+The spatial planning was crucial. We organized the villa around three courtyards, each with its distinct character and purpose. Material selection was paramount—we sourced marble from Italy, selected for its subtle veining and warm tones.
+
+The project took 24 months from design to completion, involving over 100 skilled craftspeople. The result is a home that has won multiple design awards and provides our clients with a beautiful, functional environment.`,
+      image: 'https://images.unsplash.com/photo-1758448756880-01dbaf85597d?w=1080',
+      author: 'Sarah Al-Mutairi',
+      date: 'January 5, 2026',
+      readTime: '10 min read',
+      category: 'Projects',
+      categorySlug: 'projects',
+      tags: JSON.stringify(['Case Study', 'Residential', 'Luxury Villa', 'Saudi Design']),
+      status: 'published',
+    },
+    {
+      title: 'The Role of Lighting in Luxury Interior Design',
+      slug: 'role-of-lighting-luxury-design',
+      excerpt: 'Learn how strategic lighting design can transform spaces and create the perfect ambiance for any environment.',
+      content: `Lighting is often called the most important element in interior design, and with good reason. It has the power to transform spaces, influence mood, and showcase design elements in their best light.
+
+In luxury interiors, lighting design goes far beyond simply illuminating a room. It's about creating layers, establishing hierarchy, and crafting an atmosphere that enhances the overall design vision.
+
+The foundation of good lighting design is understanding the three types of lighting: ambient, task, and accent. The art lies in balancing these layers to create a cohesive, flexible lighting scheme.
+
+Natural light should always be the starting point. In luxury design, we maximize natural light through strategic window placement, skylights, and glass doors.
+
+Color temperature is crucial but often overlooked. Warm white light creates intimate atmospheres suitable for living areas, while cooler light is energizing for kitchens and offices.
+
+Statement lighting fixtures serve dual purposes—they provide illumination while acting as sculptural elements. A spectacular chandelier can become a room's focal point.`,
+      image: 'https://images.unsplash.com/photo-1731639635672-bb70a5b0cb67?w=1080',
+      author: 'Noor Al-Rashid',
+      date: 'January 3, 2026',
+      readTime: '7 min read',
+      category: 'Design Tips',
+      categorySlug: 'design-tips',
+      tags: JSON.stringify(['Lighting Design', 'Ambiance', 'Luxury Interiors', 'Tips']),
+      status: 'published',
+    },
+    {
+      title: 'Crafting Custom Furniture: When Bespoke is Better',
+      slug: 'crafting-custom-furniture-bespoke',
+      excerpt: 'Discover why custom-designed furniture is the ultimate luxury and how it can transform your interior spaces.',
+      content: `In the world of luxury interior design, custom furniture represents the ultimate expression of individuality and refinement. While high-end retail furniture can be beautiful, nothing quite matches the perfect fit of bespoke pieces.
+
+Custom furniture begins with a conversation about how you live. What are your daily rituals? How do you entertain? These questions inform every design decision.
+
+Scale and proportion are where custom furniture truly excels. A custom dining table can be sized exactly to your dining room and the number of guests you typically entertain.
+
+Material selection in custom furniture is virtually limitless. Want that rare burl wood for your desk? A specific leather for your reading chair? Custom work makes it possible.
+
+The construction quality of custom furniture typically exceeds anything available retail. Artisan craftspeople use traditional joinery techniques and hand-finishing.
+
+Yes, custom furniture requires greater investment and patience. But the result—pieces that are perfectly suited to your space—represents true luxury.`,
+      image: 'https://images.unsplash.com/photo-1709346739762-e8ecacc96e0a?w=1080',
+      author: 'Ahmed Hassan',
+      date: 'December 30, 2025',
+      readTime: '6 min read',
+      category: 'Insights',
+      categorySlug: 'insights',
+      tags: JSON.stringify(['Custom Furniture', 'Bespoke Design', 'Craftsmanship', 'Luxury']),
+      status: 'published',
+    },
+    {
+      title: 'Designing Exhibition Booths That Command Attention',
+      slug: 'designing-exhibition-booths',
+      excerpt: 'Explore the strategies behind creating memorable exhibition stands that attract visitors and communicate brand excellence.',
+      content: `In the competitive landscape of trade shows and exhibitions, your booth is your brand's physical manifestation. It needs to attract attention, communicate your message, and create memorable experiences.
+
+The first rule of exhibition design is visibility from distance. Your booth must stand out in a crowded hall, drawing attendees from across the floor.
+
+Brand consistency is paramount. Your booth should be instantly recognizable as an extension of your brand, incorporating key visual elements, colors, and messaging.
+
+Spatial planning in booth design requires particular skill. Every square meter must work hard, accommodating display areas, demonstration spaces, and meeting zones.
+
+Interactive elements transform passive viewers into engaged participants. Whether it's product demonstrations or digital displays, interaction creates memorable moments.
+
+Technology integration is increasingly important. Large-format digital displays and interactive touchscreens allow for dynamic content that can be updated for different shows.`,
+      image: 'https://images.unsplash.com/photo-1747633130999-dbf3527b0639?w=1080',
+      author: 'Layla Al-Mansour',
+      date: 'December 28, 2025',
+      readTime: '8 min read',
+      category: 'Insights',
+      categorySlug: 'insights',
+      tags: JSON.stringify(['Exhibition Design', 'Trade Shows', 'Brand Experience', 'Commercial']),
+      status: 'published',
+    },
+  ];
+
+  const insertArticle = db.prepare(`
+    INSERT INTO blog_articles (title, slug, excerpt, content, image, author, date, readTime, category, categorySlug, tags, status)
+    VALUES (@title, @slug, @excerpt, @content, @image, @author, @date, @readTime, @category, @categorySlug, @tags, @status)
+  `);
+
+  for (const article of defaultArticles) {
+    insertArticle.run(article);
+  }
+}
+
+export default db;
