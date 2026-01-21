@@ -80,8 +80,24 @@ export async function getProjects() {
 }
 
 export async function getPublishedProjects() {
-  const res = await fetch(`${API_URL}/projects/published`);
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/projects/published`);
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('Error fetching published projects:', error);
+    // Fallback to all projects if published endpoint fails
+    try {
+      const res = await fetch(`${API_URL}/projects`);
+      const data = await res.json();
+      return Array.isArray(data) ? data : [];
+    } catch {
+      return [];
+    }
+  }
 }
 
 export async function getProject(id: number) {

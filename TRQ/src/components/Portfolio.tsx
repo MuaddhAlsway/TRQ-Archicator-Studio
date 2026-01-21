@@ -61,6 +61,7 @@ export function Portfolio() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [settings, setSettings] = useState({
     portfolioHeroTitle: 'OUR PORTFOLIO',
     portfolioHeroParagraph: 'Explore our collection of exceptional design projects',
@@ -89,18 +90,54 @@ export function Portfolio() {
     portfolioCtaButton2Page: 'contact',
   });
 
+  const getProjectData = (project: Project): Project => {
+    if (language === 'ar') {
+      return {
+        ...project,
+        title: project.title_ar || project.title,
+        category: project.category_ar || project.category,
+        subcategory: project.subcategory_ar || project.subcategory,
+        description: project.description_ar || project.description,
+        location: project.location_ar || project.location,
+        client: project.client_ar || project.client,
+        size: project.size_ar || project.size,
+        duration: project.duration_ar || project.duration,
+        detailedDescription: project.detailedDescription_ar || project.detailedDescription,
+        challenge: project.challenge_ar || project.challenge,
+        solution: project.solution_ar || project.solution,
+        features: project.features_ar || project.features,
+        materials: project.materials_ar || project.materials,
+        awards: project.awards_ar || project.awards,
+        team: project.team_ar || project.team,
+        clientQuote: project.clientQuote_ar || project.clientQuote,
+        clientName: project.clientName_ar || project.clientName,
+      };
+    }
+    return project;
+  };
+
   useEffect(() => {
     const loadProjects = async () => {
       try {
         const data = await api.getPublishedProjects();
-        setProjects(data);
+        console.log('Loaded projects:', data);
+        const projectsArray = Array.isArray(data) ? data : [];
+        setProjects(projectsArray);
+        setError(null);
+        
+        // Check if we need to load a specific project from hash
         const projectId = getProjectIdFromHash();
-        if (projectId) {
-          const project = data.find((p: Project) => p.id === projectId);
-          if (project) setSelectedProject(getProjectData(project));
+        if (projectId && projectsArray.length > 0) {
+          const project = projectsArray.find((p: Project) => p.id === projectId);
+          if (project) {
+            console.log('Found project from hash:', project.title);
+            setSelectedProject(getProjectData(project));
+          }
         }
-      } catch (error) {
-        console.error('Error loading projects:', error);
+      } catch (err) {
+        console.error('Error loading projects:', err);
+        setError('Failed to load projects. Please try refreshing the page.');
+        setProjects([]);
       }
       setLoading(false);
     };
@@ -131,32 +168,6 @@ export function Portfolio() {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, [projects, language]);
-
-  const getProjectData = (project: Project): Project => {
-    if (language === 'ar') {
-      return {
-        ...project,
-        title: project.title_ar || project.title,
-        category: project.category_ar || project.category,
-        subcategory: project.subcategory_ar || project.subcategory,
-        description: project.description_ar || project.description,
-        location: project.location_ar || project.location,
-        client: project.client_ar || project.client,
-        size: project.size_ar || project.size,
-        duration: project.duration_ar || project.duration,
-        detailedDescription: project.detailedDescription_ar || project.detailedDescription,
-        challenge: project.challenge_ar || project.challenge,
-        solution: project.solution_ar || project.solution,
-        features: project.features_ar || project.features,
-        materials: project.materials_ar || project.materials,
-        awards: project.awards_ar || project.awards,
-        team: project.team_ar || project.team,
-        clientQuote: project.clientQuote_ar || project.clientQuote,
-        clientName: project.clientName_ar || project.clientName,
-      };
-    }
-    return project;
-  };
 
   const handleSelectProject = (project: Project) => {
     window.location.hash = `portfolio/${project.id}`;
@@ -277,6 +288,8 @@ export function Portfolio() {
       <section className="py-8 sm:py-10 md:py-12 px-4 max-w-7xl mx-auto pb-16 sm:pb-20 md:pb-24">
         {loading ? (
           <div className="text-center py-12 sm:py-16"><p className="text-base sm:text-lg text-black/60">{ts('common.loading')}</p></div>
+        ) : error ? (
+          <div className="text-center py-12 sm:py-16"><p className="text-base sm:text-lg text-red-600">{error}</p></div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {displayedProjects.map((project, index) => {
@@ -306,7 +319,7 @@ export function Portfolio() {
             })}
           </div>
         )}
-        {!loading && filteredProjects.length === 0 && (
+        {!loading && !error && filteredProjects.length === 0 && (
           <div className="text-center py-12 sm:py-16"><p className="text-base sm:text-lg text-black/60">{ts('portfolio.noProjects')}</p></div>
         )}
         

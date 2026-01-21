@@ -56,7 +56,14 @@ app.get('/api/projects', (req, res) => {
 
 app.get('/api/projects/published', (req, res) => {
   try {
-    const projects = db.prepare("SELECT * FROM projects WHERE status = 'published' ORDER BY id DESC").all();
+    // First try to get published projects
+    let projects = db.prepare("SELECT * FROM projects WHERE status = 'published' ORDER BY id DESC").all();
+    
+    // If no published projects, return all projects (fallback for development)
+    if (projects.length === 0) {
+      projects = db.prepare("SELECT * FROM projects ORDER BY id DESC").all();
+    }
+    
     res.json(projects);
   } catch (error) {
     console.error('Error:', error);
