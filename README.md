@@ -1,43 +1,83 @@
-# TRQ Studio - Portfolio & Admin Platform
+# 🎨 TRQ Studio
 
-A modern, bilingual (English/Arabic) portfolio and content management platform built with React, Vite, and Express. Features a responsive design system, admin dashboard, and comprehensive project/blog management.
+> **Modern Portfolio & CMS Platform** | Bilingual • Secure • Production-Ready
 
-## 🎯 Features
+[![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-7.2-646CFF?logo=vite)](https://vitejs.dev)
+[![Node.js](https://img.shields.io/badge/Node.js-16+-339933?logo=node.js)](https://nodejs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript)](https://www.typescriptlang.org)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-- **Bilingual Support**: Full English/Arabic language switching with RTL support
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
-- **Admin Dashboard**: Complete CMS for managing projects, blog posts, services, and site settings
-- **Project Portfolio**: Showcase projects with detailed views and filtering
-- **Blog System**: Create and manage blog articles with rich text editing
-- **Services Management**: Customize and display services with descriptions
-- **Contact & Pricing**: Integrated contact forms and pricing request system
-- **Authentication**: Secure admin login with JWT tokens
-- **Database**: SQLite with Turso support for production
-- **Email Integration**: Nodemailer and Resend for email notifications
-- **Image Upload**: Multer-based file upload system
+A cutting-edge, bilingual (English/Arabic) portfolio and content management platform with enterprise-grade security, built for modern design studios and creative agencies.
+
+## ✨ Key Features
+
+| Feature | Details |
+|---------|---------|
+| 🌍 **Bilingual** | Full English/Arabic support with RTL rendering |
+| 🔐 **Enterprise Security** | JWT auth, encryption, rate limiting, CORS |
+| 📱 **Responsive** | Mobile-first design with Tailwind CSS |
+| 🎛️ **Admin CMS** | Projects, blog, services, settings management |
+| 🖼️ **Portfolio** | Rich project showcase with filtering |
+| 📝 **Blog Engine** | Rich text editor with media support |
+| 📧 **Email** | Nodemailer & Resend integration |
+| 🗄️ **Database** | SQLite + Turso cloud support |
+| ⚡ **Performance** | Vite HMR, optimized builds, lazy loading |
+| 🎯 **Analytics** | Built-in contact tracking & statistics |
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    TRQ Studio Platform                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                               │
+│  ┌──────────────────┐          ┌──────────────────────┐     │
+│  │   React Frontend │          │   Express Backend    │     │
+│  │  (Vite + TS)     │◄────────►│  (Node.js + JWT)     │     │
+│  │                  │  REST    │                      │     │
+│  │  • Components    │  API     │  • Auth Routes       │     │
+│  │  • i18n (EN/AR)  │          │  • CMS Routes        │     │
+│  │  • Admin Panel   │          │  • File Upload       │     │
+│  └──────────────────┘          └──────────────────────┘     │
+│           │                              │                   │
+│           │                              │                   │
+│           └──────────────┬───────────────┘                   │
+│                          │                                    │
+│                    ┌─────▼──────┐                            │
+│                    │  Database  │                            │
+│                    │ SQLite/    │                            │
+│                    │ Turso      │                            │
+│                    └────────────┘                            │
+│                                                               │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React 19** - UI library
-- **Vite 7** - Build tool with HMR
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Utility-first styling
-- **Radix UI** - Accessible component primitives
-- **i18next** - Internationalization
-- **React Hook Form** - Form management
-- **React Quill** - Rich text editor
-- **GSAP** - Animation library
-- **Recharts** - Data visualization
+| Technology | Purpose | Version |
+|-----------|---------|---------|
+| React | UI Framework | 19.2 |
+| Vite | Build Tool | 7.2 |
+| TypeScript | Type Safety | 5.0+ |
+| Tailwind CSS | Styling | 3.4 |
+| Radix UI | Components | Latest |
+| i18next | i18n | 25.7 |
+| React Hook Form | Forms | 7.54 |
+| React Quill | Rich Editor | 3.7 |
+| GSAP | Animations | 3.14 |
 
 ### Backend
-- **Express.js** - Web framework
-- **SQLite/Turso** - Database
-- **JWT** - Authentication
-- **Bcryptjs** - Password hashing
-- **Multer** - File uploads
-- **Nodemailer** - Email service
-- **CORS** - Cross-origin requests
+| Technology | Purpose | Version |
+|-----------|---------|---------|
+| Express.js | Web Framework | 4.21 |
+| SQLite/Turso | Database | Latest |
+| JWT | Authentication | 9.0 |
+| Bcryptjs | Password Hashing | 3.0 |
+| Multer | File Upload | 2.0 |
+| Nodemailer | Email | 7.0 |
+| CORS | Security | 2.8 |
 
 ## 📁 Project Structure
 
