@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import compression from 'compression';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
@@ -10,7 +11,7 @@ import db from './database.js';
 import upload, { handleUploadError, getFileUrl, extractFilenameFromUrl, deleteUploadedFile } from './upload-handler.js';
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 4242;
 
 // JWT Configuration
 const JWT_SECRET = process.env.JWT_SECRET || 'your_super_secret_key_change_in_production_min_32_chars';
@@ -25,10 +26,30 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-app.use(cors());
+app.use(compression());
+
+// CORS Configuration
+const corsOptions = {
+  origin: process.env.CORS_ORIGINS?.split(',') || [
+    'http://localhost:5173',      // Vite dev
+    'http://localhost:4242',      // Local backend
+    'http://localhost:3000',      // Alternative local
+    'https://trq-studio.pages.dev' // Cloudflare Pages
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
+
+// ============ HEALTH CHECK ============
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
 // ============ AUTH MIDDLEWARE ============
 const authenticateToken = (req, res, next) => {
@@ -46,6 +67,7 @@ const authenticateToken = (req, res, next) => {
 // ============ PROJECTS ============
 app.get('/api/projects', (req, res) => {
   try {
+    res.set('Cache-Control', 'public, max-age=300');
     const projects = db.prepare('SELECT * FROM projects ORDER BY id DESC').all();
     res.json(projects);
   } catch (error) {
@@ -56,14 +78,11 @@ app.get('/api/projects', (req, res) => {
 
 app.get('/api/projects/published', (req, res) => {
   try {
-    // First try to get published projects
+    res.set('Cache-Control', 'public, max-age=300');
     let projects = db.prepare("SELECT * FROM projects WHERE status = 'published' ORDER BY id DESC").all();
-    
-    // If no published projects, return all projects (fallback for development)
     if (projects.length === 0) {
       projects = db.prepare("SELECT * FROM projects ORDER BY id DESC").all();
     }
-    
     res.json(projects);
   } catch (error) {
     console.error('Error:', error);
@@ -172,6 +191,7 @@ app.get('/api/slides/active', (req, res) => {
 // ============ SETTINGS ============
 app.get('/api/settings', (req, res) => {
   try {
+    res.set('Cache-Control', 'public, max-age=600'); // 10 minutes
     const settings = db.prepare('SELECT key, value FROM settings').all();
     const result = {};
     settings.forEach(s => { result[s.key] = s.value; });
@@ -205,11 +225,6 @@ app.get('/api/articles/slug/:slug', (req, res) => {
     console.error('Error:', error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`TRQ Server running on http://localhost:${PORT}`);
-  console.log('Connected to SQLite database');
 });
 
 // ============ AUTH ============
@@ -286,6 +301,18 @@ app.delete('/api/projects/:id', authenticateToken, (req, res) => {
   }
 });
 
+// Scan projects from TRQ STUDIO _ PROJECTS folder
+app.post('/api/projects/scan-folder', authenticateToken, async (req, res) => {
+  try {
+    const { scanProjectsFromFolder } = await import('./scan-projects-from-folder.js');
+    const result = await scanProjectsFromFolder();
+    res.json(result);
+  } catch (error) {
+    console.error('Error scanning projects:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // ============ ADMIN - SETTINGS ============
 app.put('/api/settings', authenticateToken, (req, res) => {
   try {
@@ -345,9 +372,9 @@ app.delete('/api/slides/:id', authenticateToken, (req, res) => {
 // ============ ADMIN - SERVICES ============
 app.post('/api/services', authenticateToken, (req, res) => {
   try {
-    const { title, description, image, icon, features, sortOrder, isActive } = req.body;
+    const { title, description, image, icon, features, sortOrder, isActive, title_ar, description_ar, features_ar } = req.body;
     
-    const result = db.prepare(`INSERT INTO services (title, description, image, icon, features, sortOrder, isActive) VALUES (?, ?, ?, ?, ?, ?, ?)`).run(title, description, image, icon || 'Briefcase', JSON.stringify(features || []), sortOrder || 0, isActive !== undefined ? isActive : 1);
+    const result = db.prepare(`INSERT INTO services (title, description, image, icon, features, sortOrder, isActive, title_ar, description_ar, features_ar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(title, description, image, icon || 'Briefcase', JSON.stringify(features || []), sortOrder || 0, isActive !== undefined ? isActive : 1, title_ar, description_ar, typeof features_ar === 'string' ? features_ar : JSON.stringify(features_ar || []));
     
     const newService = db.prepare('SELECT * FROM services WHERE id = ?').get(result.lastInsertRowid);
     res.json(newService);
@@ -359,9 +386,9 @@ app.post('/api/services', authenticateToken, (req, res) => {
 
 app.put('/api/services/:id', authenticateToken, (req, res) => {
   try {
-    const { title, description, image, icon, features, sortOrder, isActive } = req.body;
+    const { title, description, image, icon, features, sortOrder, isActive, title_ar, description_ar, features_ar } = req.body;
     
-    db.prepare(`UPDATE services SET title=?, description=?, image=?, icon=?, features=?, sortOrder=?, isActive=? WHERE id=?`).run(title, description, image, icon, JSON.stringify(features || []), sortOrder, isActive, req.params.id);
+    db.prepare(`UPDATE services SET title=?, description=?, image=?, icon=?, features=?, sortOrder=?, isActive=?, title_ar=?, description_ar=?, features_ar=? WHERE id=?`).run(title, description, image, icon, JSON.stringify(features || []), sortOrder, isActive, title_ar, description_ar, typeof features_ar === 'string' ? features_ar : JSON.stringify(features_ar || []), req.params.id);
     
     const updated = db.prepare('SELECT * FROM services WHERE id = ?').get(req.params.id);
     res.json(updated);
@@ -380,3 +407,111 @@ app.delete('/api/services/:id', authenticateToken, (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
+
+// ============ CONTACTS ============
+app.get('/api/contacts', (req, res) => {
+  try {
+    const contacts = db.prepare('SELECT * FROM contacts ORDER BY id DESC').all();
+    res.json(contacts);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+app.post('/api/contacts', (req, res) => {
+  try {
+    const { name, email, phone, subject, message } = req.body;
+    const result = db.prepare('INSERT INTO contacts (name, email, phone, subject, message, date, status) VALUES (?, ?, ?, ?, ?, ?, ?)').run(name, email, phone, subject, message, new Date().toISOString(), 'new');
+    res.json({ success: true, id: result.lastInsertRowid });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+app.put('/api/contacts/:id/status', authenticateToken, (req, res) => {
+  try {
+    const { status } = req.body;
+    db.prepare('UPDATE contacts SET status = ? WHERE id = ?').run(status, req.params.id);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+// ============ PRICING REQUESTS ============
+app.get('/api/pricing', (req, res) => {
+  try {
+    const requests = db.prepare('SELECT * FROM pricing_requests ORDER BY id DESC').all();
+    res.json(requests);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+app.post('/api/pricing', (req, res) => {
+  try {
+    const { name, email, phone, company, projectType, projectSize, location, budget, timeline, description, contactMethod } = req.body;
+    const result = db.prepare('INSERT INTO pricing_requests (name, email, phone, company, projectType, projectSize, location, budget, timeline, description, contactMethod, date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(name, email, phone, company, projectType, projectSize, location, budget, timeline, description, contactMethod, new Date().toISOString(), 'new');
+    res.json({ success: true, id: result.lastInsertRowid });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+app.put('/api/pricing/:id/status', authenticateToken, (req, res) => {
+  try {
+    const { status } = req.body;
+    db.prepare('UPDATE pricing_requests SET status = ? WHERE id = ?').run(status, req.params.id);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+// ============ NEWSLETTER ============
+app.post('/api/newsletter/subscribe', (req, res) => {
+  try {
+    const { email } = req.body;
+    db.prepare('INSERT OR IGNORE INTO newsletter_subscribers (email, isActive) VALUES (?, ?)').run(email, 1);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+app.post('/api/newsletter/unsubscribe', (req, res) => {
+  try {
+    const { email } = req.body;
+    db.prepare('UPDATE newsletter_subscribers SET isActive = 0 WHERE email = ?').run(email);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+app.get('/api/newsletter/subscribers', authenticateToken, (req, res) => {
+  try {
+    const subscribers = db.prepare('SELECT * FROM newsletter_subscribers WHERE isActive = 1').all();
+    res.json(subscribers);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+// ============ SERVER START ============
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`TRQ Server running on http://localhost:${PORT}`);
+  console.log('Connected to SQLite database');
+});
+
+

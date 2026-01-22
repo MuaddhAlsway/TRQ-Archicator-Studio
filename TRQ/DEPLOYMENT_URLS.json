@@ -1,0 +1,81 @@
+{
+  "deployment": {
+    "status": "LIVE",
+    "date": "2026-01-22",
+    "platform": "Cloudflare"
+  },
+  "frontend": {
+    "platform": "Cloudflare Pages",
+    "production": "https://production.trq-studio.pages.dev",
+    "latest": "https://b89d9e0f.trq-studio.pages.dev",
+    "status": "✅ Active"
+  },
+  "backend": {
+    "platform": "Cloudflare Workers",
+    "api_base": "https://trq-api-prod.muaddhalsway.workers.dev/api",
+    "health_check": "https://trq-api-prod.muaddhalsway.workers.dev/api/health",
+    "version_id": "a09f8b2f-b9d7-465e-ac8a-e4549ff54c01",
+    "status": "✅ Active"
+  },
+  "database": {
+    "platform": "Turso",
+    "url": "libsql://trq-database-muaddhalsway.aws-ap-south-1.turso.io",
+    "status": "✅ Connected"
+  },
+  "api_endpoints": {
+    "public": {
+      "health": "GET /api/health",
+      "projects": "GET /api/projects",
+      "projects_published": "GET /api/projects/published",
+      "project_detail": "GET /api/projects/:id",
+      "services": "GET /api/services",
+      "services_active": "GET /api/services/active",
+      "slides": "GET /api/slides",
+      "slides_active": "GET /api/slides/active",
+      "settings": "GET /api/settings",
+      "articles_published": "GET /api/articles/published",
+      "article_by_slug": "GET /api/articles/slug/:slug",
+      "contact_submit": "POST /api/contacts",
+      "pricing_submit": "POST /api/pricing",
+      "newsletter_subscribe": "POST /api/newsletter/subscribe",
+      "newsletter_unsubscribe": "POST /api/newsletter/unsubscribe"
+    },
+    "admin": {
+      "create_project": "POST /api/projects",
+      "update_project": "PUT /api/projects/:id",
+      "delete_project": "DELETE /api/projects/:id",
+      "create_service": "POST /api/services",
+      "update_service": "PUT /api/services/:id",
+      "delete_service": "DELETE /api/services/:id",
+      "create_slide": "POST /api/slides",
+      "update_slide": "PUT /api/slides/:id",
+      "delete_slide": "DELETE /api/slides/:id",
+      "update_settings": "PUT /api/settings"
+    }
+  },
+  "commands": {
+    "deploy_backend": "npm run deploy:worker:prod",
+    "deploy_frontend": "npm run deploy:prod",
+    "view_logs": "wrangler tail --config wrangler-workers.toml --env production",
+    "local_frontend": "npm run dev",
+    "local_backend": "npm run worker:dev"
+  },
+  "environment": {
+    "frontend": {
+      "file": ".env.production",
+      "VITE_API_URL": "https://trq-api-prod.muaddhalsway.workers.dev/api"
+    },
+    "backend": {
+      "file": "wrangler-workers.toml",
+      "TURSO_DATABASE_URL": "libsql://trq-database-muaddhalsway.aws-ap-south-1.turso.io",
+      "JWT_SECRET": "trq-design-studio-secret-key-2026",
+      "CORS_ORIGINS": "https://trq-studio.pages.dev,https://trq-api-prod.muaddhalsway.workers.dev"
+    }
+  },
+  "costs": {
+    "free_tier": "$0/month",
+    "workers": "100k requests/day",
+    "pages": "Unlimited",
+    "turso": "9GB storage"
+  }
+}

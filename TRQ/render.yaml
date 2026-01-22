@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: trq-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: TURSO_DATABASE_URL
+        value: libsql://trq-database-muaddhalsway.aws-ap-south-1.turso.io
+      - key: TURSO_AUTH_TOKEN
+        fromDatabase:
+          name: trq-db
+          property: authToken
+      - key: JWT_SECRET
+        value: trq-design-studio-secret-key-2026
+      - key: CORS_ORIGINS
+        value: https://197f8c96.trq-studio.pages.dev,https://trq-studio.pages.dev

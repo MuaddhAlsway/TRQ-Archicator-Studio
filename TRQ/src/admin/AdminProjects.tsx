@@ -17,6 +17,8 @@ export function AdminProjects() {
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [isScanning, setIsScanning] = useState(false);
+  const [scanMessage, setScanMessage] = useState('');
   const [categories, setCategories] = useState<Category[]>([
     { id: 'all', label: 'All Categories' },
     { id: 'residential', label: 'Residential' },

@@ -62,9 +62,12 @@ export function Portfolio() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   const [settings, setSettings] = useState({
     portfolioHeroTitle: 'OUR PORTFOLIO',
     portfolioHeroParagraph: 'Explore our collection of exceptional design projects',
+    portfolioHeroImage: '/TRQ STUDIO _ PROJECTS/A Fusion of Art and Elegance  Living room/14.webp',
     portfolioIntroParagraph: 'Each project represents our commitment to excellence, creativity, and attention to detail.',
     portfolioCategories: JSON.stringify([
       { id: 'all', label: 'All Projects' },
@@ -89,6 +92,14 @@ export function Portfolio() {
     portfolioCtaButton2Text: 'CONTACT US',
     portfolioCtaButton2Page: 'contact',
   });
+
+  // Helper to normalize image paths
+  const normalizeImagePath = (imagePath: string): string => {
+    if (!imagePath) return '';
+    if (imagePath.startsWith('http')) return imagePath;
+    if (imagePath.startsWith('/')) return imagePath;
+    return `/${imagePath}`;
+  };
 
   const getProjectData = (project: Project): Project => {
     if (language === 'ar') {
@@ -181,11 +192,8 @@ export function Portfolio() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
-  // Infinite scroll state - loops continuously
+  // Display all projects
   const [displayedProjects, setDisplayedProjects] = useState<Project[]>([]);
-  const [loadingMore, setLoadingMore] = useState(false);
-  const loadMoreRef = useRef<HTMLDivElement>(null);
-  const loopCountRef = useRef(1);
 
   let categories: { id: string; label: string }[] = [];
   try {
@@ -195,62 +203,10 @@ export function Portfolio() {
 
   const filteredProjects = activeCategory === 'all' ? projects : projects.filter(project => project.category === activeCategory);
 
-  // Reset displayed projects when category changes or projects load
+  // Show all filtered projects immediately
   useEffect(() => {
-    loopCountRef.current = 1;
-    if (filteredProjects.length > 0) {
-      setDisplayedProjects([...filteredProjects.slice(0, PROJECTS_PER_PAGE)]);
-    } else {
-      setDisplayedProjects([]);
-    }
+    setDisplayedProjects([...filteredProjects]);
   }, [activeCategory, projects]);
-
-  // Infinite scroll observer - loops back to start
-  const loadMore = useCallback(() => {
-    if (loadingMore || filteredProjects.length === 0) return;
-    setLoadingMore(true);
-    setTimeout(() => {
-      setDisplayedProjects(prev => {
-        const currentLength = prev.length;
-        const startIndex = currentLength % filteredProjects.length;
-        const nextProjects: Project[] = [];
-        
-        for (let i = 0; i < PROJECTS_PER_PAGE; i++) {
-          const index = (startIndex + i) % filteredProjects.length;
-          // Add unique key by appending loop count
-          const project = { 
-            ...filteredProjects[index], 
-            _loopKey: `${filteredProjects[index].id}-${loopCountRef.current}-${i}` 
-          };
-          nextProjects.push(project as Project);
-        }
-        
-        if (startIndex + PROJECTS_PER_PAGE >= filteredProjects.length) {
-          loopCountRef.current++;
-        }
-        
-        return [...prev, ...nextProjects];
-      });
-      setLoadingMore(false);
-    }, 300);
-  }, [loadingMore, filteredProjects]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !loadingMore && filteredProjects.length > 0) {
-          loadMore();
-        }
-      },
-      { threshold: 0.1, rootMargin: '200px' }
-    );
-
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [loadingMore, loadMore, filteredProjects.length]);
 
   if (selectedProject) {
     return <ProjectDetail project={selectedProject} onBack={handleBackToPortfolio} />;
@@ -260,7 +216,7 @@ export function Portfolio() {
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
       <section className="relative h-[50vh] sm:h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
-        <ImageWithFallback src="https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?w=1080" alt="Our Portfolio" className="absolute inset-0 w-full h-full object-cover" />
+        <ImageWithFallback src={settings.portfolioHeroImage || '/TRQ STUDIO _ PROJECTS/A Fusion of Art and Elegance  Living room/14.webp'} alt="Our Portfolio" className="absolute inset-0 w-full h-full object-cover" />
         <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wider mb-4 sm:mb-6">{ts('portfolio.heroTitle')}</h1>
           <p className="text-base sm:text-lg md:text-xl opacity-90">{ts('portfolio.heroSubtitle')}</p>
@@ -294,28 +250,29 @@ export function Portfolio() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {displayedProjects.map((project, index) => {
               const displayProject = getProjectData(project);
+              const imageUrl = normalizeImagePath(project.image);
               return (
-              <div key={(project as any)._loopKey || `${project.id}-${index}`} onClick={() => handleSelectProject(project)} className={`group cursor-pointer overflow-hidden bg-white ${isRTL ? 'text-right' : ''}`}>
-                <div className="relative h-56 sm:h-64 md:h-80 overflow-hidden">
-                  <ImageWithFallback src={project.image} alt={displayProject.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className={`absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ${isRTL ? 'text-right' : ''}`}>
-                    <p className="text-xs sm:text-sm tracking-widest opacity-90 mb-1 sm:mb-2">{td(displayProject.subcategory)}</p>
-                    <h3 className="text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2 tracking-wide">{td(displayProject.title)}</h3>
-                    <p className="text-xs sm:text-sm opacity-80 line-clamp-2">{td(displayProject.description)}</p>
-                  </div>
-                </div>
-                <div className="p-4 sm:p-6 border-t border-black/5">
-                  <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-                    <div>
-                      <h3 className="text-base sm:text-lg md:text-xl mb-1 tracking-wide">{td(displayProject.title)}</h3>
-                      <p className="text-xs sm:text-sm text-black/60">{td(displayProject.subcategory)}</p>
+                <div key={(project as any)._loopKey || `${project.id}-${index}`} onClick={() => handleSelectProject(project)} className={`group cursor-pointer overflow-hidden bg-white ${isRTL ? 'text-right' : ''}`}>
+                  <div className="relative h-56 sm:h-64 md:h-80 overflow-hidden">
+                    <ImageWithFallback src={imageUrl} alt={displayProject.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className={`absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ${isRTL ? 'text-right' : ''}`}>
+                      <p className="text-xs sm:text-sm tracking-widest opacity-90 mb-1 sm:mb-2">{td(displayProject.subcategory)}</p>
+                      <h3 className="text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2 tracking-wide">{td(displayProject.title)}</h3>
+                      <p className="text-xs sm:text-sm opacity-80 line-clamp-2">{td(displayProject.description)}</p>
                     </div>
-                    <span className="text-xs sm:text-sm text-black/40">{project.year}</span>
+                  </div>
+                  <div className="p-4 sm:p-6 border-t border-black/5">
+                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
+                      <div>
+                        <h3 className="text-base sm:text-lg md:text-xl mb-1 tracking-wide">{td(displayProject.title)}</h3>
+                        <p className="text-xs sm:text-sm text-black/60">{td(displayProject.subcategory)}</p>
+                      </div>
+                      <span className="text-xs sm:text-sm text-black/40">{project.year}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
+              );
             })}
           </div>
         )}

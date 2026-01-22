@@ -20,6 +20,27 @@ export interface Project {
   awards?: string[];
   team?: string[];
   gallery?: string[];
+  clientQuote?: string;
+  clientName?: string;
+  status?: 'draft' | 'published';
+  // Arabic fields
+  title_ar?: string;
+  category_ar?: string;
+  subcategory_ar?: string;
+  description_ar?: string;
+  location_ar?: string;
+  client_ar?: string;
+  size_ar?: string;
+  duration_ar?: string;
+  detailedDescription_ar?: string;
+  challenge_ar?: string;
+  solution_ar?: string;
+  features_ar?: string[];
+  materials_ar?: string[];
+  awards_ar?: string[];
+  team_ar?: string[];
+  clientQuote_ar?: string;
+  clientName_ar?: string;
 }
 
 export interface ContactSubmission {
@@ -50,60 +71,78 @@ export interface PricingRequest {
   status: 'new' | 'contacted' | 'quoted' | 'closed';
 }
 
-export interface SiteContent {
-  about: {
-    heroTitle: string;
-    heroSubtitle: string;
-    whoWeAre: string;
-    vision: string;
-    mission: string;
-  };
-  contact: {
-    address: string;
-    phone: string;
-    email: string;
-    whatsapp: string;
-  };
+export interface SiteSettings {
+  id?: number;
+  heroTitle?: string;
+  heroSubtitle?: string;
+  aboutTitle?: string;
+  aboutDescription?: string;
+  servicesTitle?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  contactAddress?: string;
+  // Arabic fields
+  heroTitle_ar?: string;
+  heroSubtitle_ar?: string;
+  aboutTitle_ar?: string;
+  aboutDescription_ar?: string;
+  servicesTitle_ar?: string;
+  contactEmail_ar?: string;
+  contactPhone_ar?: string;
+  contactAddress_ar?: string;
 }
 
 interface AdminContextType {
   isAuthenticated: boolean;
-  login: (password: string) => boolean;
+  login: (password: string) => Promise<boolean>;
   logout: () => void;
   projects: Project[];
-  addProject: (project: Omit<Project, 'id'>) => void;
-  updateProject: (id: number, project: Partial<Project>) => void;
-  deleteProject: (id: number) => void;
+  loadProjects: () => Promise<void>;
+  addProject: (project: Omit<Project, 'id'>) => Promise<void>;
+  updateProject: (id: number, project: Partial<Project>) => Promise<void>;
+  deleteProject: (id: number) => Promise<void>;
   contactSubmissions: ContactSubmission[];
-  addContactSubmission: (submission: Omit<ContactSubmission, 'id' | 'date' | 'read'>) => void;
-  markContactRead: (id: number) => void;
+  loadContactSubmissions: () => Promise<void>;
+  markContactRead: (id: number) => Promise<void>;
+  deleteContact: (id: number) => Promise<void>;
   pricingRequests: PricingRequest[];
-  addPricingRequest: (request: Omit<PricingRequest, 'id' | 'date' | 'status'>) => void;
-  updatePricingStatus: (id: number, status: PricingRequest['status']) => void;
-  siteContent: SiteContent;
-  updateSiteContent: (content: Partial<SiteContent>) => void;
+  loadPricingRequests: () => Promise<void>;
+  updatePricingStatus: (id: number, status: PricingRequest['status']) => Promise<void>;
+  deletePricingRequest: (id: number) => Promise<void>;
+  siteSettings: SiteSettings;
+  loadSiteSettings: () => Promise<void>;
+  updateSiteSettings: (settings: Partial<SiteSettings>) => Promise<void>;
+  loading: boolean;
+  error: string | null;
 }
 
 const AdminContext = createContext<AdminContextType | null>(null);
 
-const ADMIN_PASSWORD = 'trq2024';
+export function AdminProvider({ children }: { children: ReactNode }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [contactSubmissions, setContactSubmissions] = useState<ContactSubmission[]>([]);
+  const [pricingRequests, setPricingRequests] = useState<PricingRequest[]>([]);
+  const [siteSettings, setSiteSettings] = useState<SiteSettings>({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-const defaultProjects: Project[] = [
-  {
-    id: 1,
-    title: 'Royal Residence',
-    category: 'residential',
-    subcategory: 'Luxury Villa',
-    description: 'A timeless luxury villa featuring classical elegance and modern comfort.',
-    image: 'https://images.unsplash.com/photo-1669387448840-610c588f003d?w=1080',
-    year: '2025',
-    location: 'Riyadh, Saudi Arabia',
-    client: 'Private Client',
-    size: '800 sqm',
-    duration: '12 months',
-  },
-  {
-    id: 2,
-    title: 'Master Suite Retreat',
-    category: 'residential',
-    subcategory: 'B
+  // Load projects from API on mount
+  useEffect(() => {
+    loadProjects();
+  }, []);
+
+  const getAuthToken = () => {
+    return localStorage.getItem('adminToken');
+  };
+
+  const login = async (password: string): Promise<boolean> => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pass
+
+  const login = (pa

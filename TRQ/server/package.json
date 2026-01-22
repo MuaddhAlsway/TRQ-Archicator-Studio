@@ -13,6 +13,7 @@
     "@vitalets/google-translate-api": "^9.2.1",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^11.7.0",
+    "compression": "^1.8.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",

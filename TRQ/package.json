@@ -7,7 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && wrangler pages deploy dist",
+    "deploy:prod": "npm run build && wrangler pages deploy dist --branch production",
+    "build:worker": "echo 'Worker code is ready'",
+    "deploy:worker": "wrangler deploy --config wrangler-workers.toml",
+    "deploy:worker:prod": "wrangler deploy --config wrangler-workers.toml --env production",
+    "worker:dev": "wrangler dev --config wrangler-workers.toml"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.2",
@@ -58,6 +64,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@libsql/client": "^0.5.6",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
@@ -69,6 +76,7 @@
     "postcss": "^8.5.4",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "wrangler": "^3.80.0"
   }
 }

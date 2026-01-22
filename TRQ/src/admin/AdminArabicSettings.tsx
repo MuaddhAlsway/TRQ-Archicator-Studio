@@ -25,7 +25,7 @@ export function AdminArabicSettings() {
     setError(null);
     try {
       const token = localStorage.getItem('trq_token');
-      const response = await fetch(`http://localhost:3001/api/arabic/settings`, {
+      const response = await fetch(`http://localhost:4242/api/arabic/settings`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

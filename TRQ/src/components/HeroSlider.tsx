@@ -61,7 +61,7 @@ export function HeroSlider({ onNavigate }: HeroSliderProps) {
         const slidesData = await api.getActiveSlides();
         
         // Fetch settings for Arabic content
-        const settingsResponse = await fetch('http://localhost:3001/api/settings');
+        const settingsResponse = await fetch('http://localhost:4242/api/settings');
         const settingsData = await settingsResponse.json();
         
         if (slidesData && slidesData.length > 0) {

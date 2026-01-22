@@ -1,4 +1,19 @@
-const API_URL = 'http://localhost:3001/api';
+// Use environment variable or fallback based on environment
+const API_URL = import.meta.env.VITE_API_URL || (
+  import.meta.env.DEV 
+    ? 'http://localhost:8787/api'  // Wrangler dev server
+    : 'https://trq-api-prod.muaddhalsway.workers.dev/api'  // Production Cloudflare Workers
+);
+
+console.log('API URL:', API_URL);
+
+// Retry configuration
+const RETRY_CONFIG = {
+  maxRetries: 3,
+  initialDelay: 1000, // 1 second
+  maxDelay: 5000, // 5 seconds
+  backoffMultiplier: 2,
+};
 
 // Helper to get auth headers
 const getAuthHeaders = () => {
@@ -8,6 +23,34 @@ const getAuthHeaders = () => {
     ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
   };
 };
+
+// Retry wrapper for fetch requests
+async function fetchWithRetry(url: string, options: RequestInit = {}, retries = 0): Promise<Response> {
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: AbortSignal.timeout(10000), // 10 second timeout
+    });
+    return response;
+  } catch (error: any) {
+    const isNetworkError = error.name === 'TypeError' || error.name === 'AbortError';
+    const shouldRetry = isNetworkError && retries < RETRY_CONFIG.maxRetries;
+
+    if (shouldRetry) {
+      const delay = Math.min(
+        RETRY_CONFIG.initialDelay * Math.pow(RETRY_CONFIG.backoffMultiplier, retries),
+        RETRY_CONFIG.maxDelay
+      );
+      
+      console.warn(`API request failed (attempt ${retries + 1}/${RETRY_CONFIG.maxRetries}). Retrying in ${delay}ms...`, error);
+      
+      await new Promise(resolve => setTimeout(resolve, delay));
+      return fetchWithRetry(url, options, retries + 1);
+    }
+
+    throw error;
+  }
+}
 
 // ============ AUTH ============
 export async function login(username: string, password: string) {
@@ -261,8 +304,23 @@ export async function getSlides() {
 }
 
 export async function getActiveSlides() {
-  const res = await fetch(`${API_URL}/slides/active`);
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/slides/active`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      mode: 'cors',
+      credentials: 'omit',
+    });
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    return res.json();
+  } catch (error) {
+    console.error('Error fetching slides:', error);
+    return [];
+  }
 }
 
 export async function getSlide(id: number) {

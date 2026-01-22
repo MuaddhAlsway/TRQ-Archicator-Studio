@@ -25,6 +25,8 @@ export function AdminSettings() {
   const [loading, setLoading] = useState(true);
 
   const [settings, setSettings] = useState({
+    // Blog visibility - hidden by default
+    blogHidden: 'true',
     // Home page - Introduction section
     homeIntroTitle: 'Creating Timeless Design Solutions',
     homeIntroText1: 'TRQ is a luxury and creative interior design studio based in Riyadh, Saudi Arabia. We specialize in delivering high-quality, creative, and refined solutions for both residential and commercial clients.',
@@ -108,6 +110,7 @@ export function AdminSettings() {
     // Services page - Hero
     servicesHeroTitle: 'OUR SERVICES',
     servicesHeroParagraph: 'Comprehensive design solutions tailored to your unique vision',
+    servicesHeroImage: '/uploads/5.webp',
     // Services page - Introduction
     servicesTitle: 'Complete Design Solutions',
     servicesDescription: 'From intimate residential spaces to grand commercial projects, from exhibition booths to custom furniture, TRQ offers a comprehensive suite of design services.',
@@ -177,6 +180,7 @@ export function AdminSettings() {
     // Portfolio page - Hero
     portfolioHeroTitle: 'OUR PORTFOLIO',
     portfolioHeroParagraph: 'Explore our collection of exceptional design projects',
+    portfolioHeroImage: '/TRQ STUDIO _ PROJECTS/A Fusion of Art and Elegance  Living room/14.webp',
     // Portfolio page - Introduction
     portfolioIntroParagraph: 'Each project represents our commitment to excellence, creativity, and attention to detail. From intimate residential spaces to grand commercial environments, our portfolio showcases the breadth and depth of our design expertise.',
     // Portfolio page - Categories (JSON array - all editable)
@@ -207,6 +211,7 @@ export function AdminSettings() {
     // Contact page - Hero
     contactHeroTitle: 'GET IN TOUCH',
     contactHeroParagraph: 'Let\'s discuss your project and create something extraordinary together',
+    contactHeroImage: '/TRQ STUDIO _ PROJECTS/REC. HEAVEN/13.jpg',
     // Contact page - Contact Info
     contactInfo1Show: 'true',
     contactInfo1Icon: 'MapPin',
@@ -281,6 +286,7 @@ export function AdminSettings() {
     contactStudioButtonText: 'SCHEDULE A VISIT',
     contactStudioButtonPage: 'contact',
     // Contact page - Map
+    contactMapShow: 'true',
     contactMapTitle: 'Find Us',
     contactMapAddress: 'TRQ Design Studio, King Fahd Road, Riyadh',
     contactMapImage: '',
@@ -424,6 +430,8 @@ export function AdminSettings() {
       };
       await api.updateSettings(settingsToSave);
       setSaved(true);
+      // Dispatch event to notify App.tsx to refresh settings
+      window.dispatchEvent(new Event('settingsUpdated'));
       setTimeout(() => setSaved(false), 2000);
     } catch (error) {
       console.error('Failed to save settings:', error);
@@ -2508,8 +2516,26 @@ export function AdminSettings() {
               {/* Map Section */}
               <div className="border-t pt-8">
                 <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">Map Section</h2>
-                  <p className="text-sm text-black/60 mt-1">Map title, image, and Google Maps link</p>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-xl font-medium">Map Section</h2>
+                      <p className="text-sm text-black/60 mt-1">Map title, image, and Google Maps link</p>
+                    </div>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <span className="text-xs text-black/60">Show</span>
+                      <div className="relative">
+                        <input
+                          type="checkbox"
+                          checked={settings.contactMapShow === 'true'}
+                          onChange={(e) => setSettings({ ...settings, contactMapShow: e.target.checked ? 'true' : 'false' })}
+                          className="sr-only"
+                        />
+                        <div className={`w-12 h-6 rounded-full transition-colors ${settings.contactMapShow === 'true' ? 'bg-black' : 'bg-black/20'}`}>
+                          <div className={`w-5 h-5 bg-white rounded-full shadow transform transition-transform mt-0.5 ${settings.contactMapShow === 'true' ? 'translate-x-6' : 'translate-x-0.5'}`}></div>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
                 </div>
 
                 <div className="space-y-4">
@@ -3040,6 +3066,28 @@ export function AdminSettings() {
           {/* Blog Page Settings */}
           {activeTab === 'blog' && (
             <div className="space-y-8">
+              {/* Blog Visibility Toggle */}
+              <div>
+                <div className="border-b pb-4 mb-6">
+                  <h2 className="text-xl font-medium">Blog Visibility</h2>
+                  <p className="text-sm text-black/60 mt-1">Control whether the blog is visible on the website</p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={settings.blogHidden === 'false'}
+                      onChange={(e) => setSettings({ ...settings, blogHidden: e.target.checked ? 'false' : 'true' })}
+                      className="w-5 h-5 border border-black/20 rounded cursor-pointer"
+                    />
+                    <span className="text-sm tracking-wider">Show Blog on Website</span>
+                  </label>
+                  <span className={`text-xs px-3 py-1 rounded ${settings.blogHidden === 'false' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                    {settings.blogHidden === 'false' ? 'VISIBLE' : 'HIDDEN'}
+                  </span>
+                </div>
+              </div>
+
               {/* Hero Section */}
               <div>
                 <div className="border-b pb-4 mb-6">

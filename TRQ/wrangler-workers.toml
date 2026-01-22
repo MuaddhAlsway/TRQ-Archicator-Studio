@@ -1,0 +1,37 @@
+name = "trq-api"
+main = "server/worker.js"
+compatibility_date = "2024-01-15"
+
+# Environment variables
+[env.production]
+name = "trq-api-prod"
+# Using Cloudflare Pages subdomain - no custom domain needed
+# Your API will be at: https://trq-api-prod.workers.dev
+
+[env.staging]
+name = "trq-api-staging"
+# Staging API will be at: https://trq-api-staging.workers.dev
+
+# Bindings for environment variables
+[env.production.vars]
+TURSO_DATABASE_URL = "libsql://trq-database-muaddhalsway.aws-ap-south-1.turso.io"
+TURSO_AUTH_TOKEN = "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NjkwNjA1ODcsImlkIjoiYmZjYWE5ZGItMjZlOC00Njc4LThiZjYtOGExYmVmYWZjNTQxIiwicmlkIjoiNjdkMTVjMzMtN2M3OC00YWViLTkzOTMtN2YwMGQzYTBhZmQyIn0.5SImIwTalcpI1jc70PZYuV-0Prjlvnia2FABgAO267z5qOK-JaRWAcNw_Kz9tvR9r-2_SdAlB_R8s-Uy9ZANAA"
+JWT_SECRET = "trq-design-studio-secret-key-2026"
+JWT_EXPIRY = "1h"
+CORS_ORIGINS = "https://acd5b79e.trq-studio.pages.dev,https://0fe9c81d.trq-studio.pages.dev,https://trq-studio.pages.dev,https://trq-api-prod.muaddhalsway.workers.dev"
+
+[env.staging.vars]
+TURSO_DATABASE_URL = "libsql://trq-database-muaddhalsway.aws-ap-south-1.turso.io"
+TURSO_AUTH_TOKEN = "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NjkwNjA1ODcsImlkIjoiYmZjYWE5ZGItMjZlOC00Njc4LThiZjYtOGExYmVmYWZjNTQxIiwicmlkIjoiNjdkMTVjMzMtN2M3OC00YWViLTkzOTMtN2YwMGQzYTBhZmQyIn0.5SImIwTalcpI1jc70PZYuV-0Prjlvnia2FABgAO267z5qOK-JaRWAcNw_Kz9tvR9r-2_SdAlB_R8s-Uy9ZANAA"
+JWT_SECRET = "trq-design-studio-secret-key-2026"
+JWT_EXPIRY = "1h"
+CORS_ORIGINS = "http://localhost:5173,https://trq-api-staging.workers.dev"
+
+# Build configuration
+[build]
+command = "npm run build:worker"
+cwd = "./"
+
+# Observability
+[observability]
+enabled = true

@@ -14,6 +14,7 @@ export function Workflow() {
   const [settings, setSettings] = useState({
     workflowHeroTitle: 'HOW WE WORK',
     workflowHeroParagraph: 'A seamless process designed to bring your vision to life',
+    workflowHeroImage: '/uploads/14c.webp',
     workflowIntroTitle: 'Our Proven Process',
     workflowIntroParagraph: 'At TRQ, we believe that exceptional design requires a structured yet flexible approach.',
     workflowStep1Title: 'Discovery & Consultation', workflowStep1Icon: 'Search', workflowStep1Description: 'Understanding your vision and requirements', workflowStep1Features: 'Initial consultation|Site visit and assessment|Discussion of project goals|Review of inspiration materials|Preliminary scope definition',
@@ -42,16 +43,21 @@ export function Workflow() {
   // Translate dynamic content from database (step titles, descriptions, features)
   useEffect(() => {
     if (language === 'ar') {
-      const dynamicTexts: string[] = [];
+      const dynamicTexts: string[] = [
+        settings.workflowHeroTitle,
+        settings.workflowHeroParagraph,
+        settings.workflowIntroTitle,
+        settings.workflowIntroParagraph,
+      ];
       for (let i = 1; i <= 5; i++) {
-        dynamicTexts.push((settings as any)[`workflowStep${i}Title`]);
-        dynamicTexts.push((settings as any)[`workflowStep${i}Description`]);
-        const features = ((settings as any)[`workflowStep${i}Features`] || '').split('|');
+        dynamicTexts.push((settings as any)[`workflowStep${i}Title_ar`] || (settings as any)[`workflowStep${i}Title`]);
+        dynamicTexts.push((settings as any)[`workflowStep${i}Description_ar`] || (settings as any)[`workflowStep${i}Description`]);
+        const features = ((settings as any)[`workflowStep${i}Features_ar`] || (settings as any)[`workflowStep${i}Features`] || '').split('|');
         dynamicTexts.push(...features);
       }
       for (let i = 1; i <= 3; i++) {
-        dynamicTexts.push((settings as any)[`workflowWhy${i}Title`]);
-        dynamicTexts.push((settings as any)[`workflowWhy${i}Description`]);
+        dynamicTexts.push((settings as any)[`workflowWhy${i}Title_ar`] || (settings as any)[`workflowWhy${i}Title`]);
+        dynamicTexts.push((settings as any)[`workflowWhy${i}Description_ar`] || (settings as any)[`workflowWhy${i}Description`]);
       }
       translateBatch(dynamicTexts.filter(Boolean));
     }
@@ -60,9 +66,9 @@ export function Workflow() {
   const steps = [1, 2, 3, 4, 5].map((num) => ({
     number: `0${num}`,
     icon: getIconComponent((settings as any)[`workflowStep${num}Icon`]),
-    title: (settings as any)[`workflowStep${num}Title`],
-    description: (settings as any)[`workflowStep${num}Description`],
-    details: ((settings as any)[`workflowStep${num}Features`] || '').split('|').filter((f: string) => f.trim()),
+    title: language === 'ar' ? ((settings as any)[`workflowStep${num}Title_ar`] || (settings as any)[`workflowStep${num}Title`]) : (settings as any)[`workflowStep${num}Title`],
+    description: language === 'ar' ? ((settings as any)[`workflowStep${num}Description_ar`] || (settings as any)[`workflowStep${num}Description`]) : (settings as any)[`workflowStep${num}Description`],
+    details: (language === 'ar' ? ((settings as any)[`workflowStep${num}Features_ar`] || (settings as any)[`workflowStep${num}Features`]) : (settings as any)[`workflowStep${num}Features`] || '').split('|').filter((f: string) => f.trim()),
   }));
 
   const stepImages = [
@@ -79,14 +85,14 @@ export function Workflow() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
         <ImageWithFallback src="/uploads/3.webp" alt="Our Workflow" className="absolute inset-0 w-full h-full object-cover" />
         <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-6xl tracking-wider mb-6">{ts('workflow.heroTitle')}</h1>
-          <p className="text-xl opacity-90">{ts('workflow.heroSubtitle')}</p>
+          <h1 className="text-5xl md:text-6xl tracking-wider mb-6">{td(settings.workflowHeroTitle)}</h1>
+          <p className="text-xl opacity-90">{td(settings.workflowHeroParagraph)}</p>
         </div>
       </section>
 
       <section className="py-24 px-4 max-w-4xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{ts('workflow.introTitle')}</h2>
-        <p className="text-lg text-black/70">{ts('workflow.introText')}</p>
+        <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{td(settings.workflowIntroTitle)}</h2>
+        <p className="text-lg text-black/70">{td(settings.workflowIntroParagraph)}</p>
       </section>
 
       <section className="pb-24">
@@ -157,7 +163,7 @@ export function Workflow() {
           <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{ts('workflow.ctaTitle')}</h2>
           <p className="text-lg text-black/60 mb-12">{ts('workflow.ctaText')}</p>
           <div className={`flex flex-col sm:flex-row gap-4 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-            <a href={`#${settings.workflowCtaButton1Page}`} className="px-8 py-4 bg-black text-white hover:bg-black/80 transition-colors tracking-wider inline-block">{ts('common.requestPricing')}</a>
+            <a href="https://form.typeform.com/to/aTxRPmXX" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-black text-white hover:bg-black/80 transition-colors tracking-wider inline-block">{ts('common.requestPricing')}</a>
             <a href={`#${settings.workflowCtaButton2Page}`} className="px-8 py-4 border-2 border-black text-black hover:bg-black hover:text-white transition-colors tracking-wider inline-block">{ts('common.scheduleConsultation')}</a>
           </div>
         </div>

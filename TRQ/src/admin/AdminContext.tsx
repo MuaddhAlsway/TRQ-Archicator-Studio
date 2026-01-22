@@ -153,9 +153,10 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const loadContacts = async () => {
     try {
       const data = await api.getContacts();
-      setContacts(data);
+      setContacts(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error loading contacts:', error);
+      setContacts([]);
     }
   };
 

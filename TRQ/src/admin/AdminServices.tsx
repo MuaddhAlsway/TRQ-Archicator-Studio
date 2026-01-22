@@ -13,6 +13,15 @@ interface Service {
   features: string[];
   sortOrder: number;
   isActive: number;
+  title_ar?: string;
+  description_ar?: string;
+  features_ar?: string[];
+}
+
+interface FormData extends Omit<Service, 'id'> {
+  title_ar?: string;
+  description_ar?: string;
+  features_ar?: string[];
 }
 
 const availableIcons = [
@@ -99,6 +108,7 @@ export function AdminServices() {
   const [loading, setLoading] = useState(true);
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [language, setLanguage] = useState<'en' | 'ar'>('en');
 
   const emptyService: Omit<Service, 'id'> = {
     title: '',
@@ -106,12 +116,16 @@ export function AdminServices() {
     image: '',
     icon: 'Briefcase',
     features: [],
+    title_ar: '',
+    description_ar: '',
+    features_ar: [],
     sortOrder: 0,
     isActive: 1,
   };
 
   const [formData, setFormData] = useState<Omit<Service, 'id'>>(emptyService);
   const [newFeature, setNewFeature] = useState('');
+  const [newFeatureAr, setNewFeatureAr] = useState('');
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
     title: string;
@@ -150,6 +164,9 @@ export function AdminServices() {
       features: service.features || [],
       sortOrder: service.sortOrder,
       isActive: service.isActive,
+      title_ar: service.title_ar || '',
+      description_ar: service.description_ar || '',
+      features_ar: service.features_ar || [],
     });
     setEditingService(service);
     setIsCreating(false);

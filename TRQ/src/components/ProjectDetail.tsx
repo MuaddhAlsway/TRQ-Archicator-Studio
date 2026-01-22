@@ -74,6 +74,17 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
     return [];
   };
 
+  // Helper to normalize image paths
+  const normalizeImagePath = (imagePath: string): string => {
+    if (!imagePath) return '';
+    // If path already starts with /, return as is
+    if (imagePath.startsWith('/')) return imagePath;
+    // If it's a full URL, return as is
+    if (imagePath.startsWith('http')) return imagePath;
+    // If it's a relative path, prepend /
+    return `/${imagePath}`;
+  };
+
   const projectData = {
     ...project,
     title: language === 'ar' ? (project.title_ar || project.title) : project.title,
@@ -93,7 +104,7 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
     team: parseArray(language === 'ar' ? (project.team_ar || project.team) : project.team),
     clientQuote: language === 'ar' ? (project.clientQuote_ar || project.clientQuote) : project.clientQuote,
     clientName: language === 'ar' ? (project.clientName_ar || project.clientName) : project.clientName,
-    gallery: parseArray(project.gallery) || [project.image],
+    gallery: parseArray(project.gallery).map(normalizeImagePath) || [normalizeImagePath(project.image)],
   };
 
   // Translate dynamic content from database
@@ -202,7 +213,7 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
       </div>
 
       <section className="relative h-[70vh] overflow-hidden">
-        <ImageWithFallback src={project.image} alt={project.title} className="w-full h-full object-cover" />
+        <ImageWithFallback src={normalizeImagePath(project.image)} alt={project.title} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         <div className={`absolute bottom-0 left-0 right-0 text-white p-8 ${isRTL ? 'text-right' : ''}`}>
           <div className="max-w-7xl mx-auto">

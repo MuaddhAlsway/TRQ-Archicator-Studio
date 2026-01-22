@@ -5,12 +5,12 @@ import { About } from './components/About';
 import { Services } from './components/Services';
 import { Workflow } from './components/Workflow';
 import { Contact } from './components/Contact';
-import { PricingRequest } from './components/PricingRequest';
 import { Portfolio } from './components/Portfolio';
 import { Blog } from './components/Blog';
 import { Admin } from './admin/Admin';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { useLanguage } from './context/LanguageContext';
+import * as api from './api';
 
 type Page = 'home' | 'about' | 'services' | 'workflow' | 'portfolio' | 'blog' | 'contact' | 'pricing' | 'admin';
 
@@ -38,8 +38,33 @@ const getPageFromHash = (): Page => {
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>(getPageFromHash);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [blogHidden, setBlogHidden] = useState(true);
+  const [settingsRefresh, setSettingsRefresh] = useState(0);
   // ts = static translation (i18next for UI), td = dynamic (API for database content)
   const { ts, isRTL } = useLanguage();
+
+  // Fetch settings to check if blog is hidden
+  useEffect(() => {
+    api.getSettings().then((data) => {
+      if (data.blogHidden === 'true') {
+        setBlogHidden(true);
+      } else {
+        setBlogHidden(false);
+      }
+    }).catch(() => {
+      // Default to hiding blog if settings fetch fails
+      setBlogHidden(true);
+    });
+  }, [settingsRefresh]);
+
+  // Listen for settings update events
+  useEffect(() => {
+    const handleSettingsUpdate = () => {
+      setSettingsRefresh(prev => prev + 1);
+    };
+    window.addEventListener('settingsUpdated', handleSettingsUpdate);
+    return () => window.removeEventListener('settingsUpdated', handleSettingsUpdate);
+  }, []);
 
   // Scroll to top whenever page changes
   useEffect(() => {
@@ -62,11 +87,15 @@ export default function App() {
     { key: 'nav.services', id: 'services' as Page },
     { key: 'nav.workflow', id: 'workflow' as Page },
     { key: 'nav.portfolio', id: 'portfolio' as Page },
-    { key: 'nav.blog', id: 'blog' as Page },
+    ...(blogHidden ? [] : [{ key: 'nav.blog', id: 'blog' as Page }]),
     { key: 'nav.contact', id: 'contact' as Page },
   ];
 
   const handleNavClick = (page: Page) => {
+    if (page === 'pricing') {
+      window.open('https://form.typeform.com/to/aTxRPmXX', '_blank');
+      return;
+    }
     window.location.hash = page === 'home' ? '' : `#${page}`;
     setCurrentPage(page);
     setMobileMenuOpen(false);
@@ -76,6 +105,9 @@ export default function App() {
   if (currentPage === 'admin') {
     return <Admin />;
   }
+
+  // Redirect to home if blog is hidden and user tries to access it
+  const pageToRender = blogHidden && currentPage === 'blog' ? 'home' : currentPage;
 
   return (
     <div className={`min-h-screen bg-white ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
@@ -154,14 +186,13 @@ export default function App() {
 
       {/* Main Content */}
       <main className="pt-16 sm:pt-20">
-        {currentPage === 'home' && <Home onNavigate={handleNavClick} />}
-        {currentPage === 'about' && <About />}
-        {currentPage === 'services' && <Services />}
-        {currentPage === 'workflow' && <Workflow />}
-        {currentPage === 'portfolio' && <Portfolio />}
-        {currentPage === 'blog' && <Blog />}
-        {currentPage === 'contact' && <Contact />}
-        {currentPage === 'pricing' && <PricingRequest />}
+        {pageToRender === 'home' && <Home onNavigate={handleNavClick} />}
+        {pageToRender === 'about' && <About />}
+        {pageToRender === 'services' && <Services />}
+        {pageToRender === 'workflow' && <Workflow />}
+        {pageToRender === 'portfolio' && <Portfolio />}
+        {pageToRender === 'blog' && !blogHidden && <Blog />}
+        {pageToRender === 'contact' && <Contact />}
       </main>
 
       {/* Footer */}

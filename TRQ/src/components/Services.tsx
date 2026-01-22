@@ -39,6 +39,7 @@ export function Services() {
     // Hero Section
     servicesHeroTitle: 'OUR SERVICES',
     servicesHeroParagraph: 'Comprehensive design solutions tailored to your unique vision',
+    servicesHeroImage: '/uploads/5.webp',
     
     // Introduction Section
     servicesTitle: 'Complete Design Solutions',
@@ -137,7 +138,7 @@ export function Services() {
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
-        <ImageWithFallback src="https://images.unsplash.com/photo-1669387448840-610c588f003d?w=1080" alt="Our Services" className="absolute inset-0 w-full h-full object-cover" />
+        <ImageWithFallback src={settings.servicesHeroImage || '/uploads/5.webp'} alt="Our Services" className="absolute inset-0 w-full h-full object-cover" />
         <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl tracking-wider mb-6">{settings.servicesHeroTitle}</h1>
           <p className="text-xl opacity-90">{settings.servicesHeroParagraph}</p>
@@ -220,7 +221,7 @@ export function Services() {
           <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{settings.servicesCtaTitle}</h2>
           <p className="text-lg text-black/60 mb-12">{settings.servicesCtaDescription}</p>
           <div className={`flex flex-col sm:flex-row gap-4 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-            <a href={`#${settings.servicesCtaButton1Page || 'pricing'}`} className="px-8 py-4 bg-black text-white hover:bg-black/80 transition-colors tracking-wider inline-block">{settings.servicesCtaButton1Text}</a>
+            <a href="https://form.typeform.com/to/aTxRPmXX" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-black text-white hover:bg-black/80 transition-colors tracking-wider inline-block">{settings.servicesCtaButton1Text}</a>
             <a href={`#${settings.servicesCtaButton2Page || 'contact'}`} className="px-8 py-4 border-2 border-black text-black hover:bg-black hover:text-white transition-colors tracking-wider inline-block">{settings.servicesCtaButton2Text}</a>
           </div>
         </div>

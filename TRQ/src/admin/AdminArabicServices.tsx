@@ -30,7 +30,7 @@ export function AdminArabicServices() {
     setError(null);
     try {
       const token = localStorage.getItem('trq_token');
-      const response = await fetch('http://localhost:3001/api/services', {
+      const response = await fetch('http://localhost:4242/api/services', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -42,18 +42,18 @@ export function AdminArabicServices() {
         const arabicServices: ArabicService[] = result.map((service: any) => ({
           id: service.id,
           englishTitle: service.title || '',
-          arabicTitle: service.title || '',
+          arabicTitle: service.title_ar || '',
           englishDescription: service.description || '',
-          arabicDescription: service.description || '',
+          arabicDescription: service.description_ar || '',
         }));
         setItems(arabicServices);
       } else if (result && result.data && Array.isArray(result.data)) {
         const arabicServices: ArabicService[] = result.data.map((service: any) => ({
           id: service.id,
           englishTitle: service.title || '',
-          arabicTitle: service.title || '',
+          arabicTitle: service.title_ar || '',
           englishDescription: service.description || '',
-          arabicDescription: service.description || '',
+          arabicDescription: service.description_ar || '',
         }));
         setItems(arabicServices);
       } else {

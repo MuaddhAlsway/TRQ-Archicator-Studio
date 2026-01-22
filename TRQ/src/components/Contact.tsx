@@ -17,6 +17,7 @@ export function Contact() {
   const [settings, setSettings] = useState({
     contactHeroTitle: 'GET IN TOUCH',
     contactHeroParagraph: 'Let\'s discuss your project and create something extraordinary together',
+    contactHeroImage: '/TRQ STUDIO _ PROJECTS/REC. HEAVEN/13.jpg',
     contactInfo1Show: 'true', contactInfo1Icon: 'MapPin', contactInfo1Title: 'Visit Us', contactInfo1Detail1: 'TRQ Design Studio', contactInfo1Detail2: 'King Fahd Road', contactInfo1Detail3: 'Riyadh, Saudi Arabia',
     contactInfo2Show: 'true', contactInfo2Icon: 'Phone', contactInfo2Title: 'Call Us', contactInfo2Detail1: '+966 XX XXX XXXX', contactInfo2Detail2: 'Mon-Fri: 9:00 AM - 6:00 PM', contactInfo2Detail3: '',
     contactInfo3Show: 'true', contactInfo3Icon: 'Mail', contactInfo3Title: 'Email Us', contactInfo3Detail1: 'info@trq.design', contactInfo3Detail2: 'projects@trq.design', contactInfo3Detail3: '',
@@ -32,7 +33,7 @@ export function Contact() {
     contactOfficeHoursDay3: 'Saturday', contactOfficeHoursTime3: '10:00 AM - 4:00 PM',
     contactOfficeHoursDay4: 'Sunday', contactOfficeHoursTime4: '9:00 AM - 6:00 PM',
     contactStudioShow: 'true', contactStudioTitle: 'Visit Our Studio', contactStudioDescription: 'Schedule an appointment to visit our design studio.', contactStudioButtonText: 'SCHEDULE A VISIT',
-    contactMapTitle: 'Find Us', contactMapAddress: 'TRQ Design Studio, King Fahd Road, Riyadh', contactMapImage: '', contactMapLink: 'https://maps.google.com/?q=Riyadh,Saudi+Arabia',
+    contactMapShow: 'true', contactMapTitle: 'Find Us', contactMapAddress: 'TRQ Design Studio, King Fahd Road, Riyadh', contactMapImage: '', contactMapLink: 'https://maps.google.com/?q=Riyadh,Saudi+Arabia',
   });
 
   useEffect(() => {
@@ -86,7 +87,7 @@ export function Contact() {
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
       <section className="relative h-[50vh] sm:h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
-        <ImageWithFallback src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1080" alt="Contact Us" className="absolute inset-0 w-full h-full object-cover" />
+        <ImageWithFallback src={settings.contactHeroImage || '/TRQ STUDIO _ PROJECTS/REC. HEAVEN/13.jpg'} alt="Contact Us" className="absolute inset-0 w-full h-full object-cover" />
         <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wider mb-4 sm:mb-6">{ts('contact.heroTitle')}</h1>
           <p className="text-base sm:text-lg md:text-xl opacity-90">{ts('contact.heroSubtitle')}</p>
@@ -204,25 +205,27 @@ export function Contact() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-16 md:py-24 bg-neutral-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl mb-6 sm:mb-8 text-center tracking-wide">{ts('contact.findUs')}</h2>
-          <a href={settings.contactMapLink} target="_blank" rel="noopener noreferrer" className="block h-64 sm:h-80 md:h-96 bg-neutral-200 overflow-hidden cursor-pointer group relative">
-            {settings.contactMapImage ? (
-              <>
-                <img src={settings.contactMapImage} alt={settings.contactMapAddress} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white px-4 sm:px-6 py-2 sm:py-3 flex items-center gap-2 text-sm sm:text-base"><Icons.ExternalLink size={18} /><span className="tracking-wider">{ts('contact.openInMaps')}</span></div>
+      {settings.contactMapShow === 'true' && (
+        <section className="py-12 sm:py-16 md:py-24 bg-neutral-50">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl mb-6 sm:mb-8 text-center tracking-wide">{ts('contact.findUs')}</h2>
+            <a href={settings.contactMapLink} target="_blank" rel="noopener noreferrer" className="block h-64 sm:h-80 md:h-96 bg-neutral-200 overflow-hidden cursor-pointer group relative">
+              {settings.contactMapImage ? (
+                <>
+                  <img src={settings.contactMapImage} alt={settings.contactMapAddress} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white px-4 sm:px-6 py-2 sm:py-3 flex items-center gap-2 text-sm sm:text-base"><Icons.ExternalLink size={18} /><span className="tracking-wider">{ts('contact.openInMaps')}</span></div>
+                  </div>
+                </>
+              ) : (
+                <div className="h-full flex items-center justify-center group-hover:bg-neutral-300 transition-colors">
+                  <div className="text-center text-black/40 px-4"><Icons.MapPin size={36} className="mx-auto mb-3 sm:mb-4" /><p className="text-base sm:text-lg">{ts('contact.openInMaps')}</p><p className="text-xs sm:text-sm">{td(settings.contactMapAddress)}</p></div>
                 </div>
-              </>
-            ) : (
-              <div className="h-full flex items-center justify-center group-hover:bg-neutral-300 transition-colors">
-                <div className="text-center text-black/40 px-4"><Icons.MapPin size={36} className="mx-auto mb-3 sm:mb-4" /><p className="text-base sm:text-lg">{ts('contact.openInMaps')}</p><p className="text-xs sm:text-sm">{td(settings.contactMapAddress)}</p></div>
-              </div>
-            )}
-          </a>
-        </div>
-      </section>
+              )}
+            </a>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
