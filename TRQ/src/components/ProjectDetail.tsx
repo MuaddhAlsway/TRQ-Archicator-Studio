@@ -426,28 +426,15 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
 
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div>
-              <h2 className="text-4xl mb-8 tracking-wide">{ts('projectDetail.materialsFinishes')}</h2>
-              <div className="space-y-4">
-                {projectData.materials.map((material, index) => (
-                  <div key={index} className={`flex items-center gap-4 p-4 bg-neutral-50 ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
-                    <div className="w-2 h-2 bg-black rounded-full" />
-                    <span className="text-lg">{td(material)}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h2 className="text-4xl mb-8 tracking-wide">{ts('projectDetail.projectTeam')}</h2>
-              <div className="space-y-4">
-                {projectData.team.map((member, index) => (
-                  <div key={index} className={`flex items-center gap-4 p-4 border-2 border-black/10 ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
-                    <Users size={24} className="text-black/40" />
-                    <span className="text-lg">{td(member)}</span>
-                  </div>
-                ))}
-              </div>
+          <div>
+            <h2 className="text-4xl mb-8 tracking-wide">{ts('projectDetail.materialsFinishes')}</h2>
+            <div className="space-y-4">
+              {projectData.materials.map((material, index) => (
+                <div key={index} className={`flex items-center gap-4 p-4 bg-neutral-50 ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
+                  <div className="w-2 h-2 bg-black rounded-full" />
+                  <span className="text-lg">{td(material)}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

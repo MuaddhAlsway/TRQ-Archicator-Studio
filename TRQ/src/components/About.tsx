@@ -83,7 +83,7 @@ export function About() {
       <section className="relative h-[50vh] sm:h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
         <ImageWithFallback
-          src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080"
+          src="/uploads/1.webp"
           alt="About TRQ"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -103,7 +103,7 @@ export function About() {
             <p className="text-base sm:text-lg text-black/70">{ts('about.whoWeAreText3')}</p>
           </div>
           <div className={`relative h-[300px] sm:h-[400px] lg:h-[600px] ${isRTL ? 'lg:order-1' : ''}`}>
-            <ImageWithFallback src={settings.aboutWhoWeAreImage} alt="TRQ Studio" className="w-full h-full object-cover" />
+            <ImageWithFallback src="/uploads/14c.webp" alt="TRQ Studio" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>

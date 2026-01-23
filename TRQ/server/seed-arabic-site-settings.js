@@ -7,9 +7,9 @@ const db = new Database(path.join(__dirname, 'trq.db'));
 
 const arabicSettings = {
   // Home Page - Introduction
-  homeIntroTitle_ar: 'إنشاء حلول تصميم خالدة',
-  homeIntroText1_ar: 'TRQ هي استوديو تصميم داخلي فاخر وإبداعي مقره الرياض، المملكة العربية السعودية. نتخصص في تقديم حلول عالية الجودة والإبداعية والمكررة للعملاء السكنيين والتجاريين.',
-  homeIntroText2_ar: 'يجمع نهجنا بين الرؤية الفنية والخبرة العملية لإنشاء مساحات لا تبدو استثنائية فحسب، بل تعزز أيضا الطريقة التي تعيش وتعمل بها.',
+  homeIntroTitle_ar: 'أناقة تصميمية متكاملة',
+  homeIntroText1_ar: 'TRQ STUDIO هو أستديو تصميم داخلي يبدع مساحات فاخرة تجسد الأناقة من خلال نهج شامل يوازن بين الجمال, الوظيفة والتجربة الحسية.',
+  homeIntroText2_ar: 'تقدم تصاميم متكاملة تراعي في السياق والهوية وتنفذ بأعلى المعايير سواء في المشاريع السكنية الراقية أو التجارية والمؤسسية الرفيعة.',
   homeIntroImage_ar: 'https://images.unsplash.com/photo-1669387448840-610c588f003d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
   homeIntroLinkText_ar: 'تعرف على المزيد عن TRQ',
   homeIntroLinkPage_ar: 'about',

@@ -1,9 +1,19 @@
 // Use environment variable or fallback based on environment
-const API_URL = import.meta.env.VITE_API_URL || (
-  import.meta.env.DEV 
-    ? 'http://localhost:8787/api'  // Wrangler dev server
-    : 'https://trq-api-prod.muaddhalsway.workers.dev/api'  // Production Cloudflare Workers
-);
+const API_URL = (() => {
+  // First check for explicit env variable
+  const viteEnv = (import.meta as any).env;
+  if (viteEnv?.VITE_API_URL) {
+    return viteEnv.VITE_API_URL;
+  }
+  
+  // Check if we're in development
+  if (viteEnv?.DEV) {
+    return 'http://localhost:4242/api';
+  }
+  
+  // Production - use Cloudflare Pages Function (same domain as frontend)
+  return '/api';
+})() as string;
 
 console.log('API URL:', API_URL);
 
@@ -209,8 +219,18 @@ export async function sendContactReply(id: number, data: { subject: string; mess
 
 // ============ PRICING ============
 export async function getPricingRequests() {
-  const res = await fetch(`${API_URL}/pricing`);
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/pricing`);
+    if (!res.ok) {
+      console.warn(`Pricing API returned ${res.status}`);
+      return [];
+    }
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('Error fetching pricing requests:', error);
+    return [];
+  }
 }
 
 export async function createPricingRequest(request: any) {
@@ -297,7 +317,7 @@ export async function updateSettings(settings: Record<string, string>) {
   return res.json();
 }
 
-// ============ HERO SLIDES ============
+// ============ hero-slider-container SLIDES ============
 export async function getSlides() {
   const res = await fetch(`${API_URL}/slides`);
   return res.json();

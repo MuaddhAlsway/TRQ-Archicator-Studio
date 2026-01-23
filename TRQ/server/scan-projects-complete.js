@@ -16,7 +16,7 @@ const getCategoryFromName = (folderName) => {
   if (name.includes('booth') || name.includes('rsg') || name.includes('exhibition')) return 'Exhibition Design';
   if (name.includes('apartment') || name.includes('rafal') || name.includes('bedroom') || name.includes('living')) return 'Residential Design';
   if (name.includes('aryash') || name.includes('diriyah') || name.includes('market')) return 'Commercial Design';
-  if (name.includes('parade') || name.includes('event') || name.includes('national day') || name.includes('quality')) return 'Event Design';
+  if (name.includes('parade') || name.includes('event') || name.includes('national day') || name.includes('quality')) return 'Concept Design';
   if (name.includes('paws') || name.includes('partners')) return 'Branding';
   if (name.includes('fusion') || name.includes('luxury') || name.includes('classic')) return 'Interior Design';
   if (name.includes('alulah')) return 'Branding';

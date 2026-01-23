@@ -29,9 +29,9 @@ export function AdminSettingsArabic() {
 
   const [settings, setSettings] = useState<Record<string, any>>({
     // Home page - Introduction section
-    homeIntroTitle_ar: 'إنشاء حلول تصميمية خالدة',
-    homeIntroText1_ar: 'TRQ هي استوديو تصميم داخلي فاخر وإبداعي يقع في الرياض، المملكة العربية السعودية. نتخصص في تقديم حلول عالية الجودة وإبداعية ومحررة للعملاء السكنيين والتجاريين.',
-    homeIntroText2_ar: 'يجمع نهجنا بين الرؤية الفنية والخبرة العملية لإنشاء مساحات لا تبدو استثنائية فحسب، بل تعزز أيضاً طريقة حياتك وعملك.',
+    homeIntroTitle_ar: 'أناقة تصميمية متكاملة',
+    homeIntroText1_ar: 'TRQ STUDIO هو أستديو تصميم داخلي يبدع مساحات فاخرة تجسد الأناقة من خلال نهج شامل يوازن بين الجمال, الوظيفة والتجربة الحسية.',
+    homeIntroText2_ar: 'تقدم تصاميم متكاملة تراعي في السياق والهوية وتنفذ بأعلى المعايير سواء في المشاريع السكنية الراقية أو التجارية والمؤسسية الرفيعة.',
     homeIntroImage_ar: 'https://images.unsplash.com/photo-1669387448840-610c588f003d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
     homeIntroLinkText_ar: 'تعرف على المزيد عن TRQ',
     homeIntroLinkPage_ar: 'about',

@@ -25,7 +25,8 @@ export function AdminArabicSettings() {
     setError(null);
     try {
       const token = localStorage.getItem('trq_token');
-      const response = await fetch(`http://localhost:4242/api/arabic/settings`, {
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api';
+      const response = await fetch(`${apiUrl}/arabic/settings`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -64,7 +65,7 @@ export function AdminArabicSettings() {
 
     try {
       const token = localStorage.getItem('trq_token');
-      const response = await fetch(`http://localhost:3001/api/settings`, {
+      const response = await fetch(` + import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api'/api/settings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

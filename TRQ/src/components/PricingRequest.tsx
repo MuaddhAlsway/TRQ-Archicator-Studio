@@ -151,7 +151,7 @@ export function PricingRequest() {
                     <option value="commercial-hotel">{ts('pricing.commercialHotel')}</option>
                     <option value="commercial-restaurant">{ts('pricing.commercialRestaurant')}</option>
                     <option value="exhibition-booth">{ts('pricing.exhibitionBooth')}</option>
-                    <option value="event-design">{ts('pricing.eventDesign')}</option>
+                    <option value="concept-design">{ts('pricing.conceptDesign')}</option>
                     <option value="furniture-design">{ts('pricing.furnitureDesign')}</option>
                     <option value="other">{ts('pricing.other')}</option>
                   </select>

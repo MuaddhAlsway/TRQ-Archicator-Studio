@@ -24,7 +24,7 @@ export function Contact() {
     contactInfo4Show: 'true', contactInfo4Icon: 'MessageCircle', contactInfo4Title: 'WhatsApp', contactInfo4Detail1: '+966 XX XXX XXXX', contactInfo4Detail2: 'Quick response guaranteed', contactInfo4Detail3: '',
     contactFormTitle: 'Send Us a Message',
     contactFormDescription: 'Fill out the form below and our team will get back to you within 24 hours.',
-    contactFormSubjects: 'residential|Residential Project|commercial|Commercial Project|booth|Exhibition Booth|event|Event Design|furniture|Furniture Design|general|General Inquiry',
+    contactFormSubjects: 'residential|Residential Project|commercial|Commercial Project|booth|Exhibition Booth|concept|Concept Design|furniture|Furniture Design|general|General Inquiry',
     contactQuickTitle: 'Quick Contact',
     contactQuick1Icon: 'MessageCircle', contactQuick1Title: 'WhatsApp', contactQuick1Description: 'Fastest way to reach us', contactQuick1ButtonText: 'CHAT ON WHATSAPP', contactQuick1Link: 'https://wa.me/966XXXXXXXXX', contactQuick1Color: 'green',
     contactQuick2Icon: 'Mail', contactQuick2Title: 'Email', contactQuick2Description: 'For detailed inquiries', contactQuick2ButtonText: 'SEND EMAIL', contactQuick2Link: 'mailto:info@trq.design?subject=Inquiry%20from%20TRQ%20Website&body=Hello%20TRQ%20Design%20Team%2C%0A%0AI%20am%20interested%20in%20your%20interior%20design%20services.%0A%0APlease%20contact%20me%20to%20discuss%20my%20project.%0A%0AThank%20you.', contactQuick2Color: 'black',
@@ -142,7 +142,7 @@ export function Contact() {
                       <option value="residential">{ts('contact.residentialProject')}</option>
                       <option value="commercial">{ts('contact.commercialProject')}</option>
                       <option value="booth">{ts('contact.exhibitionBooth')}</option>
-                      <option value="event">{ts('contact.eventDesign')}</option>
+                      <option value="concept">{ts('contact.conceptDesign')}</option>
                       <option value="furniture">{ts('contact.furnitureDesign')}</option>
                       <option value="general">{ts('contact.generalInquiry')}</option>
                     </select>

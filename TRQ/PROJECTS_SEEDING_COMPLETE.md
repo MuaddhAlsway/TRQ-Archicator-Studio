@@ -17,7 +17,7 @@ Successfully scanned the TRQ STUDIO _ PROJECTS folder and loaded all 15 projects
 2. **ARYASH AL-DRIIYAH** - Heritage-inspired commercial space
 
 ### Events (3)
-1. **DIRIYAH NATIONAL DAY EVENT** - Grand national day celebration event design
+1. **DIRIYAH NATIONAL DAY EVENT** - Grand national day celebration concept design
 2. **DIRIYAH PARADE** - Spectacular parade design celebrating heritage
 3. **QUALITY OF LIFE PROGRAM - NATIONAL DAY EVENT** - Large-scale community event
 

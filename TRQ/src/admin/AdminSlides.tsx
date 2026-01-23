@@ -163,7 +163,8 @@ export function AdminSlides() {
       uploadFormData.append('file', file);
 
       const token = localStorage.getItem('trq_token');
-      const response = await fetch('http://localhost:3001/api/upload', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api';
+      const response = await fetch(`${apiUrl}/upload`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

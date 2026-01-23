@@ -80,7 +80,7 @@ app.get('/api/services/active', (req, res) => {
 // ============ HERO SLIDES ============
 app.get('/api/slides', (req, res) => {
   try {
-    const slides = db.prepare('SELECT * FROM hero_slides ORDER BY sortOrder ASC').all();
+    const slides = db.prepare('SELECT * FROM hero_slides ORDER BY id DESC').all();
     res.json(slides);
   } catch (error) {
     console.error('Error:', error);
@@ -90,7 +90,7 @@ app.get('/api/slides', (req, res) => {
 
 app.get('/api/slides/active', (req, res) => {
   try {
-    const slides = db.prepare('SELECT * FROM hero_slides WHERE isActive = 1 ORDER BY sortOrder ASC').all();
+    const slides = db.prepare('SELECT * FROM hero_slides WHERE isActive = 1 ORDER BY id DESC').all();
     res.json(slides);
   } catch (error) {
     console.error('Error:', error);

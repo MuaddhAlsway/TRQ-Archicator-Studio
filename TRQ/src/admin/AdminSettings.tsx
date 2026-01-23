@@ -29,8 +29,8 @@ export function AdminSettings() {
     blogHidden: 'true',
     // Home page - Introduction section
     homeIntroTitle: 'Creating Timeless Design Solutions',
-    homeIntroText1: 'TRQ is a luxury and creative interior design studio based in Riyadh, Saudi Arabia. We specialize in delivering high-quality, creative, and refined solutions for both residential and commercial clients.',
-    homeIntroText2: 'Our approach combines artistic vision with practical expertise to create spaces that not only look exceptional but also enhance the way you live and work.',
+    homeIntroText1: 'TRQ STUDIO is an interior design studio that crafts luxurious spaces embodying elegance through a holistic approach that harmoniously balances aesthetics, functionality, and sensory experience.',
+    homeIntroText2: 'The studio delivers fully integrated design solutions that respect context and identity, executed to the highest standards across high-end residential, commercial, and distinguished institutional projects.',
     homeIntroImage: '/uploads/5.webp',
     homeIntroLinkText: 'LEARN MORE ABOUT TRQ',
     homeIntroLinkPage: 'about',
@@ -243,7 +243,7 @@ export function AdminSettings() {
     contactFormButtonText: 'SEND MESSAGE',
     contactFormButtonIcon: 'Send',
     // Contact page - Form Subjects (pipe-separated: value|label)
-    contactFormSubjects: 'residential|Residential Project|commercial|Commercial Project|booth|Exhibition Booth|event|Event Design|furniture|Furniture Design|general|General Inquiry',
+    contactFormSubjects: 'residential|Residential Project|commercial|Commercial Project|booth|Exhibition Booth|concept|Concept Design|furniture|Furniture Design|general|General Inquiry',
     // Contact page - Quick Contact (up to 4 customizable)
     contactQuickTitle: 'Quick Contact',
     contactQuick1Icon: 'MessageCircle',
@@ -310,7 +310,7 @@ export function AdminSettings() {
       { value: 'commercial-hotel', label: 'Commercial - Hotel' },
       { value: 'commercial-restaurant', label: 'Commercial - Restaurant' },
       { value: 'exhibition-booth', label: 'Exhibition Booth' },
-      { value: 'event-design', label: 'Event Design' },
+      { value: 'concept-design', label: 'Concept Design' },
       { value: 'furniture-design', label: 'Furniture Design' },
       { value: 'other', label: 'Other' },
     ]),

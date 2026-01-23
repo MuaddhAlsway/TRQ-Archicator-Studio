@@ -89,8 +89,8 @@ npm run dev  # Recreates with default data
 2. **RSG BOOTH** - Exhibition Design (4 images)
 3. **RAFAL APARTMENT** - Residential (3 images)
 4. **ARYASH AL-DIRIYAH** - Commercial (1 image)
-5. **DIRIYAH PARADE** - Event Design (0 images)
-6. **DIRIYAH NATIONAL DAY** - Event Design (2 images)
+5. **DIRIYAH PARADE** - Concept Design (0 images)
+6. **DIRIYAH NATIONAL DAY** - Concept Design (2 images)
 7. **DIRIYAH MARKET** - Retail Design (9 images)
 
 **Total Gallery Images: 25**

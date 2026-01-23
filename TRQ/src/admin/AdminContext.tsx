@@ -98,9 +98,10 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const loadProjects = async () => {
     try {
       const data = await api.getProjects();
-      setProjects(data);
+      setProjects(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error loading projects:', error);
+      setProjects([]);
     }
   };
 
@@ -172,9 +173,11 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const loadPricingRequests = async () => {
     try {
       const data = await api.getPricingRequests();
-      setPricingRequests(data);
+      // Ensure data is an array
+      setPricingRequests(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error loading pricing requests:', error);
+      setPricingRequests([]);
     }
   };
 

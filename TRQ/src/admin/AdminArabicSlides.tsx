@@ -30,9 +30,10 @@ export function AdminArabicSlides() {
     setError(null);
     try {
       const token = localStorage.getItem('trq_token');
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api';
       
       // Fetch slides
-      const slidesResponse = await fetch('http://localhost:3001/api/slides', {
+      const slidesResponse = await fetch(`${apiUrl}/slides`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -40,7 +41,7 @@ export function AdminArabicSlides() {
       const slidesResult = await slidesResponse.json();
       
       // Fetch settings for Arabic content
-      const settingsResponse = await fetch('http://localhost:3001/api/settings', {
+      const settingsResponse = await fetch(`${apiUrl}/api/settings`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -82,7 +83,7 @@ export function AdminArabicSlides() {
 
     try {
       const token = localStorage.getItem('trq_token');
-      const response = await fetch(`http://localhost:3001/api/settings`, {
+      const response = await fetch(` + import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api'/api/settings`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

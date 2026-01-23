@@ -84,8 +84,8 @@ const defaultServicesData: Omit<Service, 'id'>[] = [
     isActive: 1,
   },
   {
-    title: 'Event Design',
-    description: 'Create unforgettable experiences with bespoke event design and styling.',
+    title: 'Concept Design',
+    description: 'Create unforgettable experiences with bespoke concept design and styling.',
     image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
     icon: 'Calendar',
     features: ['Concept development and theming', 'Space planning and layout', 'Décor and styling', 'Lighting and audiovisual design', 'Coordination with vendors', 'On-site execution and management'],

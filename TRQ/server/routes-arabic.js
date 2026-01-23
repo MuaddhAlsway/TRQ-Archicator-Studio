@@ -17,7 +17,7 @@ export const authenticateToken = (req, res, next) => {
 export function setupArabicSlidesRoutes(app) {
   app.get('/api/arabic/heroSlides', authenticateToken, (req, res) => {
     try {
-      const slides = db.prepare('SELECT * FROM hero_slides ORDER BY sortOrder ASC').all();
+      const slides = db.prepare('SELECT * FROM hero_slides ORDER BY id DESC').all();
       
       const slidesWithArabic = slides.map(slide => ({
         id: slide.id,

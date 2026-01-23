@@ -1,0 +1,256 @@
+================================================================================
+                    CLOUDFLARE PAGES DEPLOYMENT CHECKLIST
+================================================================================
+
+PROJECT: TRQ Studio Portfolio
+DEPLOYMENT DATE: _______________
+DEPLOYED BY: _______________
+
+================================================================================
+PRE-DEPLOYMENT VERIFICATION
+================================================================================
+
+LOCAL BUILD & TEST
+  [ ] npm install - all dependencies installed
+  [ ] npm run build - build completes without errors
+  [ ] dist/ folder exists with files
+  [ ] npm run lint - no critical errors
+  [ ] npm run dev - frontend loads at http://localhost:5173
+
+CONFIGURATION FILES
+  [ ] functions/api/[[route]].js exists
+  [ ] vite.config.js has correct build settings
+  [ ] wrangler.toml configured
+  [ ] .env.production exists with VITE_API_URL=/api
+  [ ] .env.development exists with VITE_API_URL=http://localhost:4242/api
+
+GIT REPOSITORY
+  [ ] All changes committed
+  [ ] No uncommitted changes
+  [ ] Repository is public or Cloudflare has access
+  [ ] Main branch is up to date
+
+================================================================================
+CLOUDFLARE PAGES SETUP
+================================================================================
+
+PROJECT CREATION
+  [ ] Cloudflare account created
+  [ ] Pages project created
+  [ ] Git repository connected
+  [ ] Build command set to: npm run build
+  [ ] Build output directory set to: dist
+  [ ] Root directory set to: /
+
+ENVIRONMENT VARIABLES
+  [ ] TURSO_AUTH_TOKEN set in Cloudflare
+  [ ] TURSO_API_URL set in Cloudflare
+  [ ] Variables visible in Pages settings
+
+INITIAL DEPLOYMENT
+  [ ] First deployment triggered
+  [ ] Build completed successfully
+  [ ] Deployment shows green checkmark
+  [ ] No build errors in logs
+
+================================================================================
+POST-DEPLOYMENT VERIFICATION
+================================================================================
+
+FRONTEND ACCESS
+  [ ] Frontend loads at https://trq-studio.pages.dev
+  [ ] Page renders without errors
+  [ ] CSS styles applied correctly
+  [ ] Images load properly
+  [ ] No console errors
+
+API HEALTH CHECK
+  [ ] curl https://trq-studio.pages.dev/api/health returns 200
+  [ ] Response includes status: "ok"
+  [ ] Response includes timestamp
+
+API ENDPOINTS - PROJECTS
+  [ ] GET /api/projects returns 200
+  [ ] GET /api/projects/published returns 200
+  [ ] GET /api/projects/:id returns 200
+  [ ] Projects have correct fields
+  [ ] Images have absolute URLs
+
+API ENDPOINTS - SERVICES
+  [ ] GET /api/services returns 200
+  [ ] GET /api/services/active returns 200
+  [ ] Services have correct fields
+
+API ENDPOINTS - SLIDES
+  [ ] GET /api/slides returns 200
+  [ ] GET /api/slides/active returns 200
+  [ ] Slides ordered by sortOrder
+  [ ] Images have absolute URLs
+
+API ENDPOINTS - ARTICLES
+  [ ] GET /api/articles/published returns 200
+  [ ] GET /api/articles/slug/:slug returns 200
+  [ ] Articles have correct fields
+
+API ENDPOINTS - OTHER
+  [ ] GET /api/settings returns 200
+  [ ] POST /api/contacts returns 201
+  [ ] POST /api/newsletter/subscribe returns 201
+  [ ] GET /api/pricing returns 200
+
+CORS HEADERS
+  [ ] Access-Control-Allow-Origin: * present
+  [ ] Access-Control-Allow-Methods includes GET, POST, PUT, DELETE
+  [ ] Access-Control-Allow-Headers includes Content-Type, Authorization
+  [ ] Content-Type: application/json present
+
+ADMIN PANEL
+  [ ] Admin panel loads at /admin
+  [ ] Login form displays
+  [ ] Can login with admin / trq2026
+  [ ] Dashboard loads after login
+  [ ] All sections visible (Projects, Services, Slides, Articles, Settings)
+  [ ] Navigation works
+  [ ] Sidebar displays correctly
+
+ADMIN FUNCTIONALITY
+  [ ] Can view projects
+  [ ] Can view services
+  [ ] Can view slides
+  [ ] Can view articles
+  [ ] Can view settings
+  [ ] Can view contacts
+  [ ] Can view pricing requests
+
+FRONTEND FEATURES
+  [ ] Home page loads
+  [ ] Hero slides display
+  [ ] Projects page loads
+  [ ] Services page loads
+  [ ] Blog page loads
+  [ ] Contact form displays
+  [ ] Newsletter signup displays
+  [ ] Footer displays
+
+FORM SUBMISSIONS
+  [ ] Contact form can be submitted
+  [ ] Newsletter signup works
+  [ ] Pricing request can be submitted
+  [ ] Success messages display
+
+ERROR HANDLING
+  [ ] 404 errors return proper JSON
+  [ ] 500 errors return proper JSON
+  [ ] CORS headers present on errors
+  [ ] No unhandled exceptions
+
+PERFORMANCE
+  [ ] Page load time < 3 seconds
+  [ ] API responses < 1 second
+  [ ] Images load quickly
+  [ ] No failed requests
+  [ ] No 5xx errors
+
+BROWSER COMPATIBILITY
+  [ ] Chrome/Edge - works
+  [ ] Firefox - works
+  [ ] Safari - works
+  [ ] Mobile browsers - works
+
+MOBILE RESPONSIVENESS
+  [ ] Mobile layout displays correctly
+  [ ] Touch interactions work
+  [ ] Images scale properly
+  [ ] Navigation accessible on mobile
+
+================================================================================
+MONITORING & ALERTS
+================================================================================
+
+CLOUDFLARE DASHBOARD
+  [ ] Analytics enabled
+  [ ] Error tracking configured
+  [ ] Performance monitoring active
+  [ ] Alerts configured (optional)
+
+FUNCTION LOGS
+  [ ] Can access function logs
+  [ ] No errors in logs
+  [ ] Requests being logged
+
+================================================================================
+DOCUMENTATION
+================================================================================
+
+  [ ] Deployment guide updated
+  [ ] API documentation current
+  [ ] Admin panel guide available
+  [ ] Troubleshooting guide created
+  [ ] Team notified of deployment
+
+================================================================================
+CUSTOM DOMAIN (OPTIONAL)
+================================================================================
+
+  [ ] Custom domain added in Pages settings
+  [ ] DNS records configured
+  [ ] SSL/TLS certificate issued
+  [ ] Domain resolves correctly
+  [ ] HTTPS working
+
+================================================================================
+SIGN-OFF
+================================================================================
+
+All checks passed: _______________
+
+System ready for production: _______________
+
+Team notified: _______________
+
+Monitoring active: _______________
+
+Date: _______________
+
+Deployed by: _______________
+
+Notes:
+________________________________________________________________________________
+________________________________________________________________________________
+________________________________________________________________________________
+
+================================================================================
+ROLLBACK PROCEDURE (IF NEEDED)
+================================================================================
+
+If critical issues found:
+
+  1. [ ] Go to Cloudflare Pages project
+  2. [ ] Click "Deployments" tab
+  3. [ ] Find previous working deployment
+  4. [ ] Click "Rollback to this deployment"
+  5. [ ] Confirm rollback
+  6. [ ] Wait for rollback to complete
+  7. [ ] Verify system is working
+  8. [ ] Fix issue locally
+  9. [ ] Redeploy
+
+Rollback performed: _______________
+Reason: ________________________________________________________________________________
+
+================================================================================
+DEPLOYMENT COMPLETE
+================================================================================
+
+Status: ✅ READY FOR PRODUCTION
+
+All systems operational and verified.
+
+Next steps:
+  1. Monitor Cloudflare Analytics
+  2. Check function logs regularly
+  3. Set up alerts for errors
+  4. Document any issues
+  5. Plan maintenance windows
+
+================================================================================

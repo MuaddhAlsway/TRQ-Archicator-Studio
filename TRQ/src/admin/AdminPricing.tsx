@@ -44,7 +44,7 @@ export function AdminPricing() {
     'commercial-hotel': 'Commercial - Hotel',
     'commercial-restaurant': 'Commercial - Restaurant',
     'exhibition-booth': 'Exhibition Booth',
-    'event-design': 'Event Design',
+    'concept-design': 'Concept Design',
     'furniture-design': 'Furniture Design',
     'other': 'Other',
   };

@@ -58,8 +58,8 @@ All 7 projects are now in your database:
 | 2 | RSG BOOTH | Exhibition Design | 4 | ✅ Published |
 | 3 | RAFAL APARTMENT | Residential | 3 | ✅ Published |
 | 4 | ARYASH AL-DIRIYAH | Commercial | 1 | ✅ Published |
-| 5 | DIRIYAH PARADE | Event Design | 0 | ✅ Published |
-| 6 | DIRIYAH NATIONAL DAY | Event Design | 2 | ✅ Published |
+| 5 | DIRIYAH PARADE | Concept Design | 0 | ✅ Published |
+| 6 | DIRIYAH NATIONAL DAY | Concept Design | 2 | ✅ Published |
 | 7 | DIRIYAH MARKET | Retail Design | 9 | ✅ Published |
 
 **Total: 25 Gallery Images**
