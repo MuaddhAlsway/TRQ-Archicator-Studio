@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import * as api from '../api';
 import { HeroSlider } from './HeroSlider';
 import { useLanguage } from '../context/LanguageContext';
+import { ParallaxElement } from './ParallaxElement';
+import { ParallaxContainer } from './ParallaxContainer';
 
 interface Project {
   id: number;
@@ -130,13 +132,13 @@ export function Home({ onNavigate }: HomeProps) {
               <ArrowRight size={20} className={isRTL ? 'rotate-180' : ''} />
             </button>
           </div>
-          <div className={`relative h-[300px] sm:h-[400px] lg:h-[500px] ${isRTL ? 'lg:order-1' : ''}`}>
+          <ParallaxElement speed={0.3} className={`relative h-[300px] sm:h-[400px] lg:h-[500px] ${isRTL ? 'lg:order-1' : ''}`}>
             <ImageWithFallback
               src={'/uploads/5.webp'}
               alt="TRQ design work"
               className="w-full h-full object-cover"
             />
-          </div>
+          </ParallaxElement>
         </div>
       </section>
 
@@ -150,48 +152,51 @@ export function Home({ onNavigate }: HomeProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {services.map((service) => {
-              const Icon = getIconComponent(service.icon);
-              return (
-                <div
-                  key={service.id}
-                  className={`group relative overflow-hidden bg-white cursor-pointer ${isRTL ? 'text-right' : ''}`}
-                  onClick={() => onNavigate('services')}
-                >
-                  <div className="relative h-48 sm:h-64 md:h-80 overflow-hidden">
-                    <ImageWithFallback
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-                  </div>
-                  <div className="p-4 sm:p-6 md:p-8">
-                    <div className={`flex items-start gap-3 sm:gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black flex items-center justify-center flex-shrink-0">
-                        <Icon className="text-white" size={20} />
-                      </div>
-                      <div>
-                        {/* Dynamic content from database - use Arabic if available */}
-                        <h3 className="text-xl sm:text-2xl mb-2 sm:mb-3 tracking-wide">
-                          {isRTL && service.title_ar ? service.title_ar : td(service.title)}
-                        </h3>
-                        <p className="text-sm sm:text-base text-black/60 mb-3 sm:mb-4 line-clamp-2">
-                          {isRTL && service.description_ar ? service.description_ar : td(service.description)}
-                        </p>
-                        {/* Static UI text - use ts() */}
-                        <span className={`inline-flex items-center gap-2 text-xs sm:text-sm tracking-wider group-hover:gap-4 transition-all ${isRTL ? 'flex-row-reverse' : ''}`}>
-                          {ts('common.exploreService')}
-                          <ArrowRight size={14} className={isRTL ? 'rotate-180' : ''} />
-                        </span>
+          <ParallaxContainer speed={0.5}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+              {services.map((service) => {
+                const Icon = getIconComponent(service.icon);
+                return (
+                  <div
+                    key={service.id}
+                    className={`parallax group relative overflow-hidden bg-white cursor-pointer ${isRTL ? 'text-right' : ''}`}
+                    data-speed="0.4"
+                    onClick={() => onNavigate('services')}
+                  >
+                    <div className="relative h-48 sm:h-64 md:h-80 overflow-hidden">
+                      <ImageWithFallback
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                    </div>
+                    <div className="p-4 sm:p-6 md:p-8">
+                      <div className={`flex items-start gap-3 sm:gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black flex items-center justify-center flex-shrink-0">
+                          <Icon className="text-white" size={20} />
+                        </div>
+                        <div>
+                          {/* Dynamic content from database - use Arabic if available */}
+                          <h3 className="text-xl sm:text-2xl mb-2 sm:mb-3 tracking-wide">
+                            {isRTL && service.title_ar ? service.title_ar : td(service.title)}
+                          </h3>
+                          <p className="text-sm sm:text-base text-black/60 mb-3 sm:mb-4 line-clamp-2">
+                            {isRTL && service.description_ar ? service.description_ar : td(service.description)}
+                          </p>
+                          {/* Static UI text - use ts() */}
+                          <span className={`inline-flex items-center gap-2 text-xs sm:text-sm tracking-wider group-hover:gap-4 transition-all ${isRTL ? 'flex-row-reverse' : ''}`}>
+                            {ts('common.exploreService')}
+                            <ArrowRight size={14} className={isRTL ? 'rotate-180' : ''} />
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          </ParallaxContainer>
 
           <div className="text-center mt-8 sm:mt-12">
             <button
@@ -215,34 +220,37 @@ export function Home({ onNavigate }: HomeProps) {
           </div>
 
           {featuredProjects.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-              {featuredProjects.map((project) => (
-                <div
-                  key={project.id}
-                  className="group relative overflow-hidden cursor-pointer"
-                  onClick={() => handleProjectClick(project.id)}
-                >
-                  <div className="relative h-64 sm:h-80 md:h-96 overflow-hidden">
-                    <ImageWithFallback
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                    <div className={`absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white ${isRTL ? 'text-right' : ''}`}>
-                      {/* Dynamic content from database */}
-                      <p className="text-xs sm:text-sm tracking-widest opacity-80 mb-1 sm:mb-2">{td(project.category)}</p>
-                      <h3 className="text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-4 tracking-wide">{td(project.title)}</h3>
-                      {/* Static UI text */}
-                      <span className={`inline-flex items-center gap-2 text-xs sm:text-sm tracking-wider group-hover:gap-4 transition-all ${isRTL ? 'flex-row-reverse' : ''}`}>
-                        {ts('common.viewProject')}
-                        <ArrowRight size={14} className={isRTL ? 'rotate-180' : ''} />
-                      </span>
+            <ParallaxContainer speed={0.5}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                {featuredProjects.map((project) => (
+                  <div
+                    key={project.id}
+                    className="parallax group relative overflow-hidden cursor-pointer"
+                    data-speed="0.4"
+                    onClick={() => handleProjectClick(project.id)}
+                  >
+                    <div className="relative h-64 sm:h-80 md:h-96 overflow-hidden">
+                      <ImageWithFallback
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                      <div className={`absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white ${isRTL ? 'text-right' : ''}`}>
+                        {/* Dynamic content from database */}
+                        <p className="text-xs sm:text-sm tracking-widest opacity-80 mb-1 sm:mb-2">{td(project.category)}</p>
+                        <h3 className="text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-4 tracking-wide">{td(project.title)}</h3>
+                        {/* Static UI text */}
+                        <span className={`inline-flex items-center gap-2 text-xs sm:text-sm tracking-wider group-hover:gap-4 transition-all ${isRTL ? 'flex-row-reverse' : ''}`}>
+                          {ts('common.viewProject')}
+                          <ArrowRight size={14} className={isRTL ? 'rotate-180' : ''} />
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </ParallaxContainer>
           ) : (
             <p className="text-center text-black/60">{ts('common.loading')}</p>
           )}

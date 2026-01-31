@@ -18,7 +18,7 @@ export function About() {
     aboutWhoWeAreParagraph1: 'TRQ is a luxury and creative interior design studio based in Riyadh, Saudi Arabia. Founded on the principles of excellence, innovation, and client-centric service, we have established ourselves as a premier design partner for discerning clients who demand the best.',
     aboutWhoWeAreParagraph2: 'Our multidisciplinary team brings together expertise in interior design, architecture, furniture design, and project management to deliver comprehensive solutions that exceed expectations.',
     aboutWhoWeAreParagraph3: 'Whether creating intimate residential spaces or grand commercial environments, we approach each project with the same level of dedication, creativity, and attention to detail that has become our hallmark.',
-    aboutWhoWeAreImage: 'https://images.unsplash.com/photo-1669387448840-610c588f003d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
+    aboutWhoWeAreImage: '/uploads/14.webp',
     aboutVisionTitle: 'Our Vision',
     aboutVisionIcon: 'Eye',
     aboutVisionParagraph: 'To be recognized as the leading luxury design studio in Saudi Arabia and beyond, setting new standards for creative excellence and transforming spaces into timeless works of art that inspire and elevate the human experience.',
@@ -39,6 +39,20 @@ export function About() {
     aboutValue4Title: 'Passion',
     aboutValue4Icon: 'Heart',
     aboutValue4Description: 'Our love for design drives us to create spaces that inspire and delight.',
+    aboutExpertiseTitle: 'Our Expertise',
+    aboutExpertiseDescription: 'Comprehensive design solutions across all project types',
+    aboutExpertise1Title: 'Luxury Residential',
+    aboutExpertise1Category: 'HOMES & ESTATES',
+    aboutExpertise1Description: 'Private homes and estates designed with uncompromising attention to comfort, elegance, and personal expression.',
+    aboutExpertise2Title: 'Commercial Spaces',
+    aboutExpertise2Category: 'OFFICES & RETAIL',
+    aboutExpertise2Description: 'Professional environments that embody brand identity while creating inspiring spaces for work and collaboration.',
+    aboutExpertise3Title: 'Custom Furniture',
+    aboutExpertise3Category: 'FURNITURE & STYLING',
+    aboutExpertise3Description: 'Bespoke pieces designed and crafted to perfectly complement each space and reflect individual style preferences.',
+    aboutExpertise4Title: 'Concept Design',
+    aboutExpertise4Category: 'DESIGN & CONCEPTS',
+    aboutExpertise4Description: 'Innovative design concepts that transform spaces into stunning visual experiences, blending creativity with functionality.',
     aboutWhyTitle: 'Why Choose TRQ',
     aboutWhyDescription: 'What sets us apart in the world of luxury interior design',
     aboutWhy1Title: 'Luxury Focus',
@@ -83,7 +97,7 @@ export function About() {
       <section className="relative h-[50vh] sm:h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
         <ImageWithFallback
-          src="/uploads/1.webp"
+          src={settings.aboutWhoWeAreImage}
           alt="About TRQ"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -103,7 +117,7 @@ export function About() {
             <p className="text-base sm:text-lg text-black/70">{ts('about.whoWeAreText3')}</p>
           </div>
           <div className={`relative h-[300px] sm:h-[400px] lg:h-[600px] ${isRTL ? 'lg:order-1' : ''}`}>
-            <ImageWithFallback src="/uploads/14c.webp" alt="TRQ Studio" className="w-full h-full object-cover" />
+            <ImageWithFallback src={settings.aboutWhoWeAreImage} alt="TRQ Studio" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
@@ -155,6 +169,35 @@ export function About() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Expertise */}
+      <section className="py-12 sm:py-16 md:py-24 bg-neutral-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4 tracking-wide">{td(settings.aboutExpertiseTitle)}</h2>
+            <p className="text-base sm:text-lg text-black/60 max-w-2xl mx-auto">{td(settings.aboutExpertiseDescription)}</p>
+          </div>
+          <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 ${isRTL ? 'direction-rtl' : ''}`}>
+            {[
+              { image: '/uploads/1.webp', title: (settings as any).aboutExpertise1Title, category: (settings as any).aboutExpertise1Category, desc: (settings as any).aboutExpertise1Description },
+              { image: '/uploads/2.webp', title: (settings as any).aboutExpertise2Title, category: (settings as any).aboutExpertise2Category, desc: (settings as any).aboutExpertise2Description },
+              { image: '/uploads/14a.webp', title: (settings as any).aboutExpertise3Title, category: (settings as any).aboutExpertise3Category, desc: (settings as any).aboutExpertise3Description },
+              { image: '/uploads/11 cave.webp', title: (settings as any).aboutExpertise4Title, category: (settings as any).aboutExpertise4Category, desc: (settings as any).aboutExpertise4Description },
+            ].map((item, index) => (
+              <div key={index} className="flex flex-col border border-black/10 bg-white overflow-hidden">
+                <div className="relative h-[250px] sm:h-[300px] overflow-hidden">
+                  <ImageWithFallback src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                </div>
+                <div className="flex flex-col gap-3 sm:gap-4 p-6 sm:p-8">
+                  <h3 className="text-xl sm:text-2xl tracking-wide">{td(item.title)}</h3>
+                  <p className="text-sm sm:text-base text-black/70">{td(item.desc)}</p>
+                  <span className="text-xs sm:text-sm tracking-widest uppercase text-black/50">{td(item.category)}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

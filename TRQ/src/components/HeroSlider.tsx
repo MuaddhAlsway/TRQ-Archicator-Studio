@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import './HeroSlider.css';
 import * as api from '../api';
 import { useLanguage } from '../context/LanguageContext';
+import { SplitText } from './SplitText';
 
 interface Slide {
   id: number;
@@ -45,6 +46,7 @@ export function HeroSlider({ onNavigate }: HeroSliderProps) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(true);
+  const [typingKey, setTypingKey] = useState(0);
   const { td, translateBatch, language, isRTL } = useLanguage();
 
   const progressRef = useRef<number | null>(null);
@@ -109,6 +111,7 @@ export function HeroSlider({ onNavigate }: HeroSliderProps) {
           onComplete: () => {
             setLoading(false);
             setIsPaused(false);
+            setTypingKey(prev => prev + 1);
           }
         });
 
@@ -161,6 +164,7 @@ export function HeroSlider({ onNavigate }: HeroSliderProps) {
       if (newProgress >= 100) {
         setActiveSlide(prev => (prev + 1) % slides.length);
         setProgress(0);
+        setTypingKey(prev => prev + 1);
         startTimeRef.current = Date.now();
       }
 
@@ -212,9 +216,23 @@ export function HeroSlider({ onNavigate }: HeroSliderProps) {
             />
             <div className="hero-slide-overlay" />
             <div className={`hero-slide-content ${isRTL ? 'hero-slide-content-rtl' : ''}`}>
-              <span className="hero-slide-tag">{td(slide.tag)}</span>
-              <h1 className="hero-slide-title">{td(language === 'ar' ? (slide.title_ar || slide.title) : slide.title)}</h1>
-              <p className="hero-slide-description">{td(language === 'ar' ? (slide.description_ar || slide.description) : slide.description)}</p>
+              <span className="hero-slide-tag">
+                {td(slide.tag)}
+              </span>
+              <h1 className="hero-slide-title">
+                {td(language === 'ar' ? (slide.title_ar || slide.title) : slide.title)}
+              </h1>
+              <p className="hero-slide-description">
+                <SplitText
+                  key={`desc-${activeSlide}-${typingKey}`}
+                  duration={0.8}
+                  delay={0}
+                  stagger={0.05}
+                  trigger={activeSlide === index}
+                >
+                  {td(language === 'ar' ? (slide.description_ar || slide.description) : slide.description)}
+                </SplitText>
+              </p>
               <div className={`hero-slide-buttons ${isRTL ? 'hero-slide-buttons-rtl' : ''}`}>
                 <button
                   onClick={() => onNavigate(slide.buttonPrimaryLink as any)}
@@ -226,6 +244,8 @@ export function HeroSlider({ onNavigate }: HeroSliderProps) {
                   onClick={() => onNavigate(slide.buttonSecondaryLink as any)}
                   className="hero-btn-secondary"
                 >
+                  <span className="btn-side-left"></span>
+                  <span className="btn-side-right"></span>
                   {td(slide.buttonSecondaryText)}
                 </button>
               </div>

@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { ParallaxProvider } from 'react-scroll-parallax';
 import { Home } from './components/Home';
 import { About } from './components/About';
+import { AboutUs } from './components/AboutUs';
 import { Services } from './components/Services';
-import { Workflow } from './components/Workflow';
+import { WorkflowPage } from './components/WorkflowPage';
 import { Contact } from './components/Contact';
 import { Portfolio } from './components/Portfolio';
 import { Blog } from './components/Blog';
@@ -110,7 +112,8 @@ export default function App() {
   const pageToRender = blogHidden && currentPage === 'blog' ? 'home' : currentPage;
 
   return (
-    <div className={`min-h-screen bg-white ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+    <ParallaxProvider>
+      <div className={`min-h-screen bg-white ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -187,9 +190,9 @@ export default function App() {
       {/* Main Content */}
       <main className="pt-16 sm:pt-20">
         {pageToRender === 'home' && <Home onNavigate={handleNavClick} />}
-        {pageToRender === 'about' && <About />}
+        {pageToRender === 'about' && <AboutUs />}
         {pageToRender === 'services' && <Services />}
-        {pageToRender === 'workflow' && <Workflow />}
+        {pageToRender === 'workflow' && <WorkflowPage />}
         {pageToRender === 'portfolio' && <Portfolio />}
         {pageToRender === 'blog' && !blogHidden && <Blog />}
         {pageToRender === 'contact' && <Contact />}
@@ -244,5 +247,6 @@ export default function App() {
         </div>
       </footer>
     </div>
+    </ParallaxProvider>
   );
 }

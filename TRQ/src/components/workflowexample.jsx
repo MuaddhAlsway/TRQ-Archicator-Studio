@@ -8,16 +8,18 @@ import { useLanguage } from '../context/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const getIconComponent = (iconName: string) => {
-  const IconComponent = (Icons as any)[iconName];
+const getIconComponent = (iconName) => {
+  const IconComponent = (Icons)[iconName];
   return IconComponent || Icons.Search;
 };
 
 export function Workflow() {
   const { ts, td, translateBatch, isRTL, language } = useLanguage();
-  const heroRef = useRef<HTMLElement>(null);
-  const stepsContainerRef = useRef<HTMLElement>(null);
-  const whyRef = useRef<HTMLElement>(null);
+  const heroRef = useRef(null);
+  const introRef = useRef(null);
+  const stepsContainerRef = useRef(null);
+  const stepRefsArray = useRef([]);
+  const whyRef = useRef(null);
   const [settings, setSettings] = useState({
     workflowHeroTitle: 'HOW WE WORK',
     workflowHeroParagraph: 'A seamless process designed to bring your vision to life',
@@ -47,7 +49,7 @@ export function Workflow() {
     api.getSettings().then((data) => setSettings(prev => ({ ...prev, ...data }))).catch(() => {});
   }, []);
 
-  // GSAP Animations - Optimized for smooth page performance
+  // GSAP Animations
   useEffect(() => {
     // Hero section animation
     if (heroRef.current) {
@@ -63,85 +65,45 @@ export function Workflow() {
       );
     }
 
-    // Steps section with smooth parallax and entrance animations
+    // Intro section - NO ANIMATION (as requested)
+    // This section stays static
+
+    // Steps animation with scroll trigger
     if (stepsContainerRef.current) {
       const stepElements = stepsContainerRef.current.querySelectorAll('[data-step]');
-      
       stepElements.forEach((el, index) => {
-        const imageWrapper = el.querySelector('[data-step-image]') as HTMLElement;
-        const content = el.querySelector('[data-step-content]') as HTMLElement;
-        
-        // Parallax effect on image - smooth continuous scroll
-        if (imageWrapper) {
-          gsap.to(imageWrapper, {
-            y: 80,
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power2.out',
             scrollTrigger: {
               trigger: el,
-              start: 'top 70%',
-              end: 'bottom 10%',
-              scrub: 1.5,
+              start: 'top 80%',
+              end: 'top 50%',
+              scrub: false,
               markers: false,
             },
-            ease: 'none'
-          });
-        }
-
-        // Content entrance animation (staggered)
-        if (content) {
-          gsap.fromTo(
-            content,
-            { opacity: 0, x: index % 2 === 0 ? -40 : 40 },
-            {
-              opacity: 1,
-              x: 0,
-              duration: 0.8,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: el,
-                start: 'top 70%',
-                end: 'top 45%',
-                scrub: false,
-                markers: false,
-              },
-            }
-          );
-        }
-
-        // Image entrance animation
-        if (imageWrapper) {
-          gsap.fromTo(
-            imageWrapper,
-            { opacity: 0, scale: 0.95 },
-            {
-              opacity: 1,
-              scale: 1,
-              duration: 0.8,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: el,
-                start: 'top 70%',
-                end: 'top 45%',
-                scrub: false,
-                markers: false,
-              },
-            }
-          );
-        }
+          }
+        );
       });
     }
 
-    // Why section animation with stagger
+    // Why section animation
     if (whyRef.current) {
       const whyCards = whyRef.current.querySelectorAll('[data-why-card]');
       whyCards.forEach((card, index) => {
         gsap.fromTo(
           card,
-          { opacity: 0, y: 40 },
+          { opacity: 0, y: 30 },
           {
             opacity: 1,
             y: 0,
             duration: 0.6,
-            delay: index * 0.12,
+            delay: index * 0.15,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: card,
@@ -160,7 +122,7 @@ export function Workflow() {
     };
   }, []);
 
-  // Translate dynamic content from database
+  // Translate dynamic content from database (step titles, descriptions, features)
   useEffect(() => {
     if (language === 'ar') {
       const dynamicTexts = [
@@ -170,38 +132,37 @@ export function Workflow() {
         settings.workflowIntroParagraph,
       ];
       for (let i = 1; i <= 5; i++) {
-        dynamicTexts.push((settings as any)[`workflowStep${i}Title_ar`] || (settings as any)[`workflowStep${i}Title`]);
-        dynamicTexts.push((settings as any)[`workflowStep${i}Description_ar`] || (settings as any)[`workflowStep${i}Description`]);
-        const features = ((settings as any)[`workflowStep${i}Features_ar`] || (settings as any)[`workflowStep${i}Features`] || '').split('|');
+        dynamicTexts.push((settings)[`workflowStep${i}Title_ar`] || (settings)[`workflowStep${i}Title`]);
+        dynamicTexts.push((settings)[`workflowStep${i}Description_ar`] || (settings)[`workflowStep${i}Description`]);
+        const features = ((settings)[`workflowStep${i}Features_ar`] || (settings)[`workflowStep${i}Features`] || '').split('|');
         dynamicTexts.push(...features);
       }
       for (let i = 1; i <= 3; i++) {
-        dynamicTexts.push((settings as any)[`workflowWhy${i}Title_ar`] || (settings as any)[`workflowWhy${i}Title`]);
-        dynamicTexts.push((settings as any)[`workflowWhy${i}Description_ar`] || (settings as any)[`workflowWhy${i}Description`]);
+        dynamicTexts.push((settings)[`workflowWhy${i}Title_ar`] || (settings)[`workflowWhy${i}Title`]);
+        dynamicTexts.push((settings)[`workflowWhy${i}Description_ar`] || (settings)[`workflowWhy${i}Description`]);
       }
       translateBatch(dynamicTexts.filter(Boolean));
     }
-  }, [language, settings]);
+  }, [language, settings]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const steps = [1, 2, 3, 4, 5].map((num) => ({
     number: `0${num}`,
-    icon: getIconComponent((settings as any)[`workflowStep${num}Icon`]),
-    title: language === 'ar' ? ((settings as any)[`workflowStep${num}Title_ar`] || (settings as any)[`workflowStep${num}Title`]) : (settings as any)[`workflowStep${num}Title`],
-    description: language === 'ar' ? ((settings as any)[`workflowStep${num}Description_ar`] || (settings as any)[`workflowStep${num}Description`]) : (settings as any)[`workflowStep${num}Description`],
-    details: (language === 'ar' ? ((settings as any)[`workflowStep${num}Features_ar`] || (settings as any)[`workflowStep${num}Features`]) : (settings as any)[`workflowStep${num}Features`] || '').split('|').filter((f: string) => f.trim()),
+    icon: getIconComponent((settings)[`workflowStep${num}Icon`]),
+    title: language === 'ar' ? ((settings)[`workflowStep${num}Title_ar`] || (settings)[`workflowStep${num}Title`]) : (settings)[`workflowStep${num}Title`],
+    description: language === 'ar' ? ((settings)[`workflowStep${num}Description_ar`] || (settings)[`workflowStep${num}Description`]) : (settings)[`workflowStep${num}Description`],
+    details: (language === 'ar' ? ((settings)[`workflowStep${num}Features_ar`] || (settings)[`workflowStep${num}Features`]) : (settings)[`workflowStep${num}Features`] || '').split('|').filter((f) => f.trim()),
   }));
 
   const stepImages = [
-    '/uploads/3.webp',
-    '/uploads/1.webp',
-    '/uploads/Event Gate A.webp',
-    '/uploads/14c.webp',
-    '/uploads/5.webp',
+    '/uploads/3.webp',           // Step 1 - Discovery & Consultation
+    '/uploads/1.webp',           // Step 2 - Concept & Design Development
+    '/uploads/Event Gate A.webp', // Step 3 - Approval & Planning
+    '/uploads/14c.webp',         // Step 4 - Execution & Supervision
+    '/uploads/5.webp',           // Step 5 - Delivery & Final Handover
   ];
 
   return (
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* Hero Section */}
       <section ref={heroRef} className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
         <ImageWithFallback src="/uploads/3.webp" alt="Our Workflow" className="absolute inset-0 w-full h-full object-cover" />
@@ -211,36 +172,35 @@ export function Workflow() {
         </div>
       </section>
 
-      {/* Intro Section - No Animation */}
-      <section className="py-24 px-4 max-w-4xl mx-auto text-center">
+      <section ref={introRef} className="py-24 px-4 max-w-4xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{td(settings.workflowIntroTitle)}</h2>
         <p className="text-lg text-black/70">{td(settings.workflowIntroParagraph)}</p>
       </section>
 
-      {/* Workflow Steps with Parallax */}
-      <section ref={stepsContainerRef} className="pb-24">
+      <section ref={stepsContainerRe
         <div className="max-w-7xl mx-auto px-4">
           {steps.map((step, index) => {
             const Icon = step.icon;
             const isEven = index % 2 === 0;
+            // For RTL: reverse the order logic
             const imageFirst = isRTL ? !isEven : isEven;
             return (
-              <div key={index} data-step className={`mb-32 last:mb-0 ${index % 2 === 1 ? 'bg-neutral-50 -mx-4 px-4 py-16 md:-mx-8 md:px-8' : ''}`}>
+              <div key={index} className={`mb-32 last:mb-0 ${index % 2 === 1 ? 'bg-neutral-50 -mx-4 px-4 py-16 md:-mx-8 md:px-8' : ''}`}>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-                  <div data-step-image className={`relative h-[500px] overflow-hidden rounded-lg ${!imageFirst ? 'lg:order-2' : ''}`}>
+                  <div className={`relative h-[500px] ${!imageFirst ? 'lg:order-2' : ''}`}>
                     <ImageWithFallback src={stepImages[index]} alt={step.title} className="w-full h-full object-cover" />
-                    <div className={`absolute top-8 ${isRTL ? 'right-8' : 'left-8'} bg-black text-white px-6 py-3 z-10`}>
+                    <div className={`absolute top-8 ${isRTL ? 'right-8' : 'left-8'} bg-black text-white px-6 py-3`}>
                       <span className="text-4xl font-light tracking-wider" style={{ direction: 'ltr' }}>{step.number}</span>
                     </div>
                   </div>
-                  <div data-step-content className={`${!imageFirst ? 'lg:order-1' : ''} ${isRTL ? 'text-right' : 'text-left'}`}>
+                  <div className={`${!imageFirst ? 'lg:order-1' : ''} ${isRTL ? 'text-right' : 'text-left'}`}>
                     <div className={`w-16 h-16 bg-black flex items-center justify-center mb-6 ${isRTL ? 'mr-0 ml-auto lg:ml-0 lg:mr-0' : ''}`}>
                       <Icon className="text-white" size={32} />
                     </div>
                     <h3 className="text-3xl md:text-4xl mb-3 tracking-wide">{td(step.title)}</h3>
                     <p className="text-xl text-black/60 mb-8">{td(step.description)}</p>
                     <div className="space-y-4">
-                      {step.details.map((detail: string, idx: number) => (
+                      {step.details.map((detail, idx) => (
                         <div key={idx} className={`flex items-start gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
                           <div className="w-2 h-2 bg-black rounded-full mt-2.5 flex-shrink-0" />
                           <p className="text-black/70">{td(detail)}</p>
@@ -255,8 +215,7 @@ export function Workflow() {
         </div>
       </section>
 
-      {/* Why Section */}
-      <section ref={whyRef} className="py-24 bg-black text-white">
+      <section className="py-24 bg-black text-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl mb-4 tracking-wide">{ts('workflow.whyTitle')}</h2>
@@ -264,7 +223,7 @@ export function Workflow() {
           </div>
           <div className={`grid grid-cols-1 md:grid-cols-3 gap-12 ${isRTL ? 'direction-rtl' : ''}`}>
             {[1, 2, 3].map((num) => (
-              <div key={num} data-why-card className="text-center">
+              <div key={num} className="text-center">
                 <h3 className="text-2xl mb-4 tracking-wide">{td((settings as any)[`workflowWhy${num}Title`])}</h3>
                 <p className="text-white/60">{td((settings as any)[`workflowWhy${num}Description`])}</p>
               </div>
@@ -273,7 +232,6 @@ export function Workflow() {
         </div>
       </section>
 
-      {/* Timeline Section */}
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{ts('workflow.timelineTitle')}</h2>
@@ -282,7 +240,6 @@ export function Workflow() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-24 bg-neutral-50">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{ts('workflow.ctaTitle')}</h2>
