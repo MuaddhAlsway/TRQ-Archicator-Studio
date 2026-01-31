@@ -61,16 +61,12 @@ export function HeroSlider({ onNavigate }: HeroSliderProps) {
         const slidesData = await api.getActiveSlides();
         
         // Fetch settings for Arabic content
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api';
-        const settingsResponse = await fetch(`${apiUrl}/settings`);
+        const settingsResponse = await fetch('http://localhost:4242/api/settings');
         const settingsData = await settingsResponse.json();
         
         if (slidesData && slidesData.length > 0) {
-          // Sort by ID ascending to ensure correct order
-          const sortedSlides = [...slidesData].sort((a, b) => a.id - b.id);
-          
           // Merge Arabic content from settings
-          const slidesWithArabic = sortedSlides.map((slide: any) => ({
+          const slidesWithArabic = slidesData.map((slide: any) => ({
             ...slide,
             title_ar: settingsData[`slide_${slide.id}_title_ar`] || slide.title,
             description_ar: settingsData[`slide_${slide.id}_desc_ar`] || slide.description,
