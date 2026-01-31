@@ -1,0 +1,276 @@
+/* Workflow Parallax Styles */
+
+.smooth-wrapper {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.smooth-content {
+  width: 100%;
+  will-change: transform;
+}
+
+/* Slides */
+.slide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .slide {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 2rem 1rem;
+  }
+}
+
+/* Columns */
+.col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.col--1 {
+  z-index: 2;
+}
+
+.col--2 {
+  position: relative;
+  height: 100%;
+  min-height: 400px;
+}
+
+@media (max-width: 768px) {
+  .col--2 {
+    min-height: 300px;
+  }
+}
+
+/* Content */
+.col__content {
+  padding: 2rem;
+}
+
+.col__content-title {
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .col__content-title {
+    font-size: 2rem;
+  }
+}
+
+.line__inner {
+  display: block;
+  overflow: hidden;
+}
+
+.col__content-txt {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: rgba(0, 0, 0, 0.7);
+  max-width: 500px;
+}
+
+.col__content-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Image Wrapper */
+.col__image-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  will-change: transform;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Slide Links */
+.slide-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  color: #000;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: fit-content;
+  transition: all 0.3s ease;
+}
+
+.slide-link:hover {
+  gap: 1.5rem;
+}
+
+.slide-link__circ {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #000;
+  transition: all 0.3s ease;
+}
+
+.slide-link__line {
+  width: 40px;
+  height: 2px;
+  background: #000;
+  transition: all 0.3s ease;
+  transform-origin: right center;
+}
+
+/* Scroll Link */
+.slide__scroll-link {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.slide__scroll-link:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.slide__scroll-line {
+  width: 2px;
+  height: 40px;
+  background: #000;
+  transform-origin: bottom left;
+  will-change: transform;
+}
+
+/* Slide Variants */
+.slide--0 {
+  background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+}
+
+.slide--1 {
+  background: #ffffff;
+}
+
+.slide--2 {
+  background: #f9f9f9;
+}
+
+.slide--3 {
+  background: #ffffff;
+}
+
+.slide--4 {
+  background: #f9f9f9;
+}
+
+.slide--5 {
+  background: #ffffff;
+}
+
+.slide--6 {
+  background: #f9f9f9;
+}
+
+/* Content Variants */
+.col__content--1,
+.col__content--2,
+.col__content--3,
+.col__content--4,
+.col__content--5,
+.col__content--6 {
+  animation: none;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .col__content-title {
+    font-size: 2.5rem;
+  }
+
+  .col__content-txt {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .slide {
+    padding: 1.5rem 1rem;
+    gap: 1rem;
+  }
+
+  .col__content {
+    padding: 1rem;
+  }
+
+  .col__content-title {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .col__content-txt {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .col--2 {
+    min-height: 250px;
+  }
+
+  .slide__scroll-link {
+    bottom: 1rem;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .smooth-wrapper,
+  .smooth-content,
+  .slide,
+  .col__image-wrap,
+  .slide-link,
+  .slide__scroll-link {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Performance Optimization */
+.col__image-wrap,
+.slide-link__line,
+.slide__scroll-line {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
