@@ -63,51 +63,54 @@ export function AdminSettingsArabic() {
     homeCtaButton2Page_ar: 'contact',
     // About page - Hero
     aboutHeroTitle_ar: 'حول TRQ',
-    aboutHeroParagraph_ar: 'صياغة مساحات استثنائية من خلال الرؤية والخبرة والتفاني',
-    // About page - Who We Are
-    aboutWhoWeAreTitle_ar: 'من نحن',
-    aboutWhoWeAreParagraph1_ar: 'TRQ هي استوديو تصميم داخلي فاخر وإبداعي يقع في الرياض، المملكة العربية السعودية. تأسست على مبادئ التميز والابتكار والخدمة الموجهة للعميل، وقد أثبتنا أنفسنا كشريك تصميم رائد للعملاء الذين يطالبون بالأفضل.',
-    aboutWhoWeAreParagraph2_ar: 'يجمع فريقنا متعدد التخصصات بين الخبرة في التصميم الداخلي والعمارة وتصميم الأثاث وإدارة المشاريع لتقديم حلول شاملة تتجاوز التوقعات.',
-    aboutWhoWeAreParagraph3_ar: 'سواء كنا ننشئ مساحات سكنية حميمية أو بيئات تجارية كبرى، فإننا نتعامل مع كل مشروع بنفس مستوى التفاني والإبداع والاهتمام بالتفاصيل الذي أصبح علامتنا المميزة.',
-    aboutWhoWeAreImage_ar: 'https://images.unsplash.com/photo-1669387448840-610c588f003d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
+    aboutHeroDescription_ar: 'نحن استوديو تصميم داخلي فاخر مكرس لإنشاء مساحات خالدة وراقية تعكس ذوق عملائنا الرفيع وأسلوب حياتهم المرتفع.',
+    aboutHeroImage_ar: '/uploads/14.webp',
     // About page - Vision
     aboutVisionTitle_ar: 'رؤيتنا',
-    aboutVisionIcon_ar: 'Eye',
-    aboutVisionParagraph_ar: 'أن نكون معترفاً بنا كاستوديو التصميم الفاخر الرائد في المملكة العربية السعودية وما وراءها، وتحديد معايير جديدة للتميز الإبداعي وتحويل المساحات إلى أعمال فنية خالدة تلهم وترفع من تجربة الإنسان.',
+    aboutVisionDescription_ar: 'إعادة تعريف الحياة الفاخرة من خلال التصميم المدروس الذي يتجاوز الاتجاهات ويخلق جمالاً دائماً. نؤمن بمساحات تحكي القصص وتثير المشاعر وتصمد أمام اختبار الزمن.',
     // About page - Mission
     aboutMissionTitle_ar: 'مهمتنا',
-    aboutMissionIcon_ar: 'Target',
-    aboutMissionParagraph_ar: 'تقديم حلول تصميمية استثنائية ومخصصة تعكس رؤية عملائنا الفريدة مع تجاوز توقعاتهم. نحن ملتزمون بدمج الابتكار الفني مع الخبرة العملية، وإنشاء مساحات جميلة وعملية في نفس الوقت.',
-    // About page - Values
-    aboutValuesTitle_ar: 'قيمنا',
-    aboutValuesDescription_ar: 'المبادئ التي توجه عملنا وتحدد نهجنا في التصميم',
-    aboutValue1Title_ar: 'التميز',
-    aboutValue1Icon_ar: 'Award',
-    aboutValue1Description_ar: 'نسعى إلى أعلى المعايير في كل مشروع، مما يضمن جودة استثنائية والاهتمام بالتفاصيل.',
-    aboutValue2Title_ar: 'الابتكار',
-    aboutValue2Icon_ar: 'Lightbulb',
-    aboutValue2Description_ar: 'نحتضن الإبداع ونتجاوز الحدود لتقديم حلول تصميمية فريدة وتطلعية.',
-    aboutValue3Title_ar: 'التعاون',
-    aboutValue3Icon_ar: 'Users',
-    aboutValue3Description_ar: 'نعمل بشكل وثيق مع عملائنا، ونقدر مساهماتهم وننشئ شراكات دائمة.',
-    aboutValue4Title_ar: 'الشغف',
-    aboutValue4Icon_ar: 'Heart',
-    aboutValue4Description_ar: 'حبنا للتصميم يدفعنا لإنشاء مساحات تلهم وتسعد.',
-    // About page - Why Choose TRQ
-    aboutWhyTitle_ar: 'لماذا اختر TRQ',
-    aboutWhyDescription_ar: 'ما يميزنا في عالم التصميم الداخلي الفاخر',
-    aboutWhy1Title_ar: 'التركيز على الفخامة',
-    aboutWhy1Description_ar: 'متخصصون في المشاريع السكنية والتجارية عالية المستوى التي تتطلب أفضل الحرفية.',
-    aboutWhy2Title_ar: 'النهج الشامل',
-    aboutWhy2Description_ar: 'من المفهوم إلى الإنجاز، نتولى كل جوانب مشروعك برعاية دقيقة.',
-    aboutWhy3Title_ar: 'الحساسية الثقافية',
-    aboutWhy3Description_ar: 'فهم عميق للثقافة السعودية مدمج مع وجهات نظر تصميمية عالمية.',
-    aboutWhy4Title_ar: 'السجل الحافل',
-    aboutWhy4Description_ar: 'تسليم ناجح لمشاريع فاخرة عبر القطاعات السكنية والتجارية والمعارض.',
-    // About page - Impact Statement
-    aboutImpactTitle_ar: 'تأثيرنا على العملاء',
-    aboutImpactParagraph1_ar: 'لا نقتصر على تصميم المساحات فقط - نحن نحول طريقة حياة عملائنا وعملهم وتجربتهم لبيئاتهم. من خلال التصميم المدروس والتنفيذ الدقيق والالتزام الثابت بالجودة، ننشئ مساحات تلهم وتريح وترفع من جودة الحياة اليومية.',
-    aboutImpactParagraph2_ar: 'كل مشروع هو فرصة لإحداث تأثير إيجابي دائم، ونأخذ هذه المسؤولية على محمل الجد. يُقاس نجاحنا ليس فقط بالمشاريع المنجزة، بل برضا وسعادة عملائنا.',
+    aboutMissionDescription_ar: 'نخدم العملاء المميزين بتحويل مساحاتهم إلى ملاذات شخصية من الأناقة والوظيفة. من خلال الاهتمام الدقيق بالتفاصيل والشراكة التعاونية، نقدم ديكورات داخلية تتجاوز التوقعات.',
+    // About page - Approach
+    aboutApproachTitle_ar: 'نهجنا',
+    aboutApproachDescription_ar: 'كيف نحقق رؤيتك',
+    aboutApproach1Title_ar: 'التوجيه المدروس',
+    aboutApproach1Description_ar: 'كل قرار تصميمي له غرض، موجه بفهم عميق لأسلوب حياة عملائنا وتفضيلاتهم الجمالية.',
+    aboutApproach1Icon_ar: 'Compass',
+    aboutApproach2Title_ar: 'التميز المتعدد الطبقات',
+    aboutApproach2Description_ar: 'نبني التعقيد من خلال الطبقات الحذرة للنسيج والمواد والعناصر التي تخلق العمق والاهتمام البصري.',
+    aboutApproach2Icon_ar: 'Layers',
+    aboutApproach3Title_ar: 'الجودة الخالدة',
+    aboutApproach3Description_ar: 'نعطي الأولوية للجمال الدائم على الاتجاهات العابرة، واختيار المواد والتشطيبات التي تتقدم بأناقة.',
+    aboutApproach3Icon_ar: 'Star',
+    aboutApproach4Title_ar: 'الشراكة التعاونية',
+    aboutApproach4Description_ar: 'نعمل بشكل وثيق مع العملاء كشركاء إبداعيين، مما يضمن أن كل مساحة تعكس بصدق رؤيتهم واحتياجاتهم.',
+    aboutApproach4Icon_ar: 'Users',
+    // About page - Expertise
+    aboutExpertiseTitle_ar: 'خبرتنا',
+    aboutExpertiseDescription_ar: 'ما نتخصص فيه',
+    aboutExpertise1Title_ar: 'السكنية الفاخرة',
+    aboutExpertise1Description_ar: 'المنازل الخاصة والعقارات المصممة بعناية لا تتزعزع للراحة والأناقة والتعبير الشخصي.',
+    aboutExpertise1Image_ar: '/uploads/1.webp',
+    aboutExpertise2Title_ar: 'المساحات التجارية',
+    aboutExpertise2Description_ar: 'البيئات المهنية التي تجسد هوية العلامة التجارية مع إنشاء مساحات ملهمة للعمل والتعاون.',
+    aboutExpertise2Image_ar: '/uploads/2.webp',
+    aboutExpertise3Title_ar: 'الأثاث المخصص',
+    aboutExpertise3Description_ar: 'القطع المصممة والمصنوعة بشكل مخصص لتكمل كل مساحة بشكل مثالي وتعكس تفضيلات النمط الفردية.',
+    aboutExpertise3Image_ar: '/uploads/14.webp',
+    aboutExpertise4Title_ar: 'تصميم المفهوم',
+    aboutExpertise4Description_ar: 'مفاهيم التصميم المبتكرة التي تحول المساحات إلى تجارب بصرية مذهلة، تمزج الإبداع مع الوظيفة.',
+    aboutExpertise4Image_ar: '/uploads/11 cave.webp',
+    // About page - Story
+    aboutStoryTitle_ar: 'قصتنا',
+    aboutStoryText1_ar: 'تأسست بشغف لإنشاء مساحات استثنائية، ظهرت TRQ من الاعتقاد بأن التصميم الرائع له القوة على تحويل ليس فقط الغرف، بل الحياة.',
+    aboutStoryText2_ar: 'بدأت رحلتنا بفلسفة بسيطة: الفخامة ليست عن الإفراط، بل عن التحسين. كل مشروع نتولاه هو فرصة لدفع الحدود الإبداعية مع احترام مبادئ التصميم الخالد.',
+    aboutStoryText3_ar: 'اليوم، نستمر في التطور، ونسعى دائماً إلى طرق جديدة لإنشاء مساحات تلهم وتستمر.',
+    aboutStoryImage_ar: '/uploads/1 copy.webp',
+    // About page - CTA
+    aboutCtaTitle_ar: 'هل أنت مستعد لتحويل مساحتك؟',
+    aboutCtaDescription_ar: 'دعنا نتعاون لإنشاء مساحة تعكس رؤيتك وتتجاوز توقعاتك.',
+    aboutCtaButton_ar: 'ابدأ مشروعك',
     // Services page - Hero
     servicesHeroTitle_ar: 'خدماتنا',
     servicesHeroParagraph_ar: 'حلول تصميمية شاملة مصممة خصيصاً لاحتياجاتك',
@@ -157,6 +160,12 @@ export function AdminSettingsArabic() {
     workflowStep5Icon_ar: 'Home',
     workflowStep5Description_ar: 'إكمال مساحتك المثالية',
     workflowStep5Features_ar: 'التثبيت النهائي للأثاث والديكور|التصميم والتفاصيل النهائية|جولة شاملة والفحص|توثيق المشروع المكتمل|الدعم بعد الانتهاء وإرشادات الصيانة',
+    // Workflow page - Step Feature Labels
+    workflowStep1Label_ar: 'الأنشطة الرئيسية',
+    workflowStep2Label_ar: 'المسلمات الرئيسية',
+    workflowStep3Label_ar: 'نقاط العملية البارزة',
+    workflowStep4Label_ar: 'التزامنا',
+    workflowStep5Label_ar: 'اللمسات النهائية',
     // Workflow page - Why Our Process Works
     workflowWhyTitle_ar: 'لماذا تعمل عمليتنا',
     workflowWhyDescription_ar: 'مبنية على سنوات من الخبرة وتحسينها من خلال عدد لا يحصى من المشاريع الناجحة',
@@ -766,6 +775,7 @@ export function AdminSettingsArabic() {
                   <h2 className="text-xl font-medium">قسم البطل</h2>
                   <p className="text-sm text-black/60 mt-1">الشعار في أعلى صفحة حول</p>
                 </div>
+
                 <div className="space-y-4">
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">عنوان البطل</label>
@@ -778,77 +788,27 @@ export function AdminSettingsArabic() {
                     />
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm tracking-wider">فقرة البطل</label>
+                    <label className="block mb-2 text-sm tracking-wider">وصف البطل</label>
                     <textarea
-                      value={settings.aboutHeroParagraph_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutHeroParagraph_ar: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={2}
-                      placeholder="صياغة مساحات استثنائية من خلال الرؤية والخبرة والتفاني"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Who We Are Section */}
-              <div className="border-t pt-8">
-                <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">قسم من نحن</h2>
-                  <p className="text-sm text-black/60 mt-1">قسم المقدمة الرئيسي على صفحة حول</p>
-                </div>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block mb-2 text-sm tracking-wider">عنوان القسم</label>
-                    <input
-                      type="text"
-                      value={settings.aboutWhoWeAreTitle_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutWhoWeAreTitle_ar: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="من نحن"
-                    />
-                  </div>
-                  <div>
-                    <label className="block mb-2 text-sm tracking-wider">الفقرة 1</label>
-                    <textarea
-                      value={settings.aboutWhoWeAreParagraph1_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutWhoWeAreParagraph1_ar: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={4}
-                      placeholder="TRQ هي استوديو تصميم داخلي فاخر..."
-                    />
-                  </div>
-                  <div>
-                    <label className="block mb-2 text-sm tracking-wider">الفقرة 2</label>
-                    <textarea
-                      value={settings.aboutWhoWeAreParagraph2_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutWhoWeAreParagraph2_ar: e.target.value })}
+                      value={settings.aboutHeroDescription_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutHeroDescription_ar: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
                       rows={3}
-                      placeholder="يجمع فريقنا متعدد التخصصات..."
+                      placeholder="نحن استوديو تصميم داخلي فاخر..."
                     />
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm tracking-wider">الفقرة 3</label>
-                    <textarea
-                      value={settings.aboutWhoWeAreParagraph3_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutWhoWeAreParagraph3_ar: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={3}
-                      placeholder="سواء كنا ننشئ مساحات سكنية..."
-                    />
-                  </div>
-                  <div>
-                    <label className="block mb-2 text-sm tracking-wider">عنوان URL للصورة</label>
+                    <label className="block mb-2 text-sm tracking-wider">عنوان URL لصورة البطل</label>
                     <input
                       type="url"
-                      value={settings.aboutWhoWeAreImage_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutWhoWeAreImage_ar: e.target.value })}
+                      value={settings.aboutHeroImage_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutHeroImage_ar: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
                       placeholder="https://..."
                     />
-                    {settings.aboutWhoWeAreImage_ar && (
+                    {settings.aboutHeroImage_ar && (
                       <div className="mt-3 w-48 h-32 bg-neutral-100 overflow-hidden rounded">
-                        <img src={settings.aboutWhoWeAreImage_ar} alt="معاينة" className="w-full h-full object-cover" />
+                        <img src={settings.aboutHeroImage_ar} alt="معاينة" className="w-full h-full object-cover" />
                       </div>
                     )}
                   </div>
@@ -858,9 +818,10 @@ export function AdminSettingsArabic() {
               {/* Vision & Mission Section */}
               <div className="border-t pt-8">
                 <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">الرؤية والمهمة</h2>
-                  <p className="text-sm text-black/60 mt-1">قم بتكوين بطاقات الرؤية والمهمة</p>
+                  <h2 className="text-xl font-medium">قسم الرؤية والمهمة</h2>
+                  <p className="text-sm text-black/60 mt-1">قم بتكوين عناوين ووصف الرؤية والمهمة</p>
                 </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Vision */}
                   <div className="bg-neutral-50 p-6 rounded space-y-4">
@@ -876,36 +837,13 @@ export function AdminSettingsArabic() {
                       />
                     </div>
                     <div>
-                      <label className="block mb-2 text-sm tracking-wider">الأيقونة</label>
-                      <div className="grid grid-cols-6 gap-2 p-3 border bg-white max-h-32 overflow-y-auto rounded">
-                        {availableIcons.map((iconName) => {
-                          const Icon = getIconComponent(iconName);
-                          return (
-                            <button
-                              key={iconName}
-                              type="button"
-                              onClick={() => setSettings({ ...settings, aboutVisionIcon_ar: iconName })}
-                              className={`p-2 flex items-center justify-center rounded transition-colors ${
-                                settings.aboutVisionIcon_ar === iconName
-                                  ? 'bg-black text-white'
-                                  : 'hover:bg-black/10'
-                              }`}
-                              title={iconName}
-                            >
-                              <Icon size={20} />
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block mb-2 text-sm tracking-wider">الفقرة</label>
+                      <label className="block mb-2 text-sm tracking-wider">الوصف</label>
                       <textarea
-                        value={settings.aboutVisionParagraph_ar}
-                        onChange={(e) => setSettings({ ...settings, aboutVisionParagraph_ar: e.target.value })}
+                        value={settings.aboutVisionDescription_ar}
+                        onChange={(e) => setSettings({ ...settings, aboutVisionDescription_ar: e.target.value })}
                         className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none"
                         rows={4}
-                        placeholder="أن نكون معترفاً بنا كاستوديو التصميم الفاخر الرائد..."
+                        placeholder="إعادة تعريف الحياة الفاخرة..."
                       />
                     </div>
                   </div>
@@ -924,89 +862,80 @@ export function AdminSettingsArabic() {
                       />
                     </div>
                     <div>
-                      <label className="block mb-2 text-sm tracking-wider">الأيقونة</label>
-                      <div className="grid grid-cols-6 gap-2 p-3 border bg-white max-h-32 overflow-y-auto rounded">
-                        {availableIcons.map((iconName) => {
-                          const Icon = getIconComponent(iconName);
-                          return (
-                            <button
-                              key={iconName}
-                              type="button"
-                              onClick={() => setSettings({ ...settings, aboutMissionIcon_ar: iconName })}
-                              className={`p-2 flex items-center justify-center rounded transition-colors ${
-                                settings.aboutMissionIcon_ar === iconName
-                                  ? 'bg-black text-white'
-                                  : 'hover:bg-black/10'
-                              }`}
-                              title={iconName}
-                            >
-                              <Icon size={20} />
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block mb-2 text-sm tracking-wider">الفقرة</label>
+                      <label className="block mb-2 text-sm tracking-wider">الوصف</label>
                       <textarea
-                        value={settings.aboutMissionParagraph_ar}
-                        onChange={(e) => setSettings({ ...settings, aboutMissionParagraph_ar: e.target.value })}
+                        value={settings.aboutMissionDescription_ar}
+                        onChange={(e) => setSettings({ ...settings, aboutMissionDescription_ar: e.target.value })}
                         className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none"
                         rows={4}
-                        placeholder="تقديم حلول تصميمية استثنائية..."
+                        placeholder="نحن نخدم العملاء المميزين..."
                       />
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Values Section */}
+
+
+              {/* Approach Section */}
               <div className="border-t pt-8">
                 <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">قسم قيمنا</h2>
-                  <p className="text-sm text-black/60 mt-1">قم بتكوين بطاقات القيم الأربع على صفحة حول</p>
+                  <h2 className="text-xl font-medium">قسم النهج</h2>
+                  <p className="text-sm text-black/60 mt-1">4 بطاقات نهج قابلة للتخصيص مع الأيقونات</p>
                 </div>
-                <div className="space-y-4 mb-6">
+
+                <div className="space-y-4 mb-8">
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">عنوان القسم</label>
                     <input
                       type="text"
-                      value={settings.aboutValuesTitle_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutValuesTitle_ar: e.target.value })}
+                      value={settings.aboutApproachTitle_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutApproachTitle_ar: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="قيمنا"
+                      placeholder="نهجنا"
                     />
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">وصف القسم</label>
-                    <input
-                      type="text"
-                      value={settings.aboutValuesDescription_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutValuesDescription_ar: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="المبادئ التي توجه عملنا..."
+                    <textarea
+                      value={settings.aboutApproachDescription_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutApproachDescription_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={2}
+                      placeholder="كيف نحقق رؤيتك"
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {[1, 2, 3, 4].map((num) => {
-                    const IconPreview = getIconComponent((settings as any)[`aboutValue${num}Icon_ar`]);
+                    const IconPreview = getIconComponent((settings as any)[`aboutApproach${num}Icon_ar`]);
                     return (
-                      <div key={num} className="bg-neutral-50 p-4 rounded space-y-3">
+                      <div key={num} className="bg-neutral-50 p-6 rounded space-y-4">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-black flex items-center justify-center rounded">
                             <IconPreview className="text-white" size={20} />
                           </div>
-                          <span className="font-medium">القيمة {num}</span>
+                          <span className="font-medium">النهج {num}</span>
                         </div>
                         <div>
-                          <label className="block mb-1 text-xs text-black/60">العنوان</label>
+                          <label className="block mb-2 text-xs text-black/60">العنوان</label>
                           <input
                             type="text"
-                            value={(settings as any)[`aboutValue${num}Title_ar`]}
-                            onChange={(e) => setSettings({ ...settings, [`aboutValue${num}Title_ar`]: e.target.value })}
-                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
-                            placeholder="عنوان القيمة"
+                            value={(settings as any)[`aboutApproach${num}Title_ar`]}
+                            onChange={(e) => setSettings({ ...settings, [`aboutApproach${num}Title_ar`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none text-sm"
+                            placeholder="عنوان النهج"
+                          />
+                        </div>
+                        <div>
+                          <label className="block mb-2 text-xs text-black/60">الوصف</label>
+                          <textarea
+                            value={(settings as any)[`aboutApproach${num}Description_ar`]}
+                            onChange={(e) => setSettings({ ...settings, [`aboutApproach${num}Description_ar`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none text-sm"
+                            rows={3}
+                            placeholder="وصف النهج"
                           />
                         </div>
                         <div>
@@ -1018,11 +947,11 @@ export function AdminSettingsArabic() {
                                 <button
                                   key={iconName}
                                   type="button"
-                                  onClick={() => setSettings({ ...settings, [`aboutValue${num}Icon_ar`]: iconName })}
-                                  className={`p-1.5 flex items-center justify-center rounded transition-colors ${
-                                    (settings as any)[`aboutValue${num}Icon_ar`] === iconName
+                                  onClick={() => setSettings({ ...settings, [`aboutApproach${num}Icon_ar`]: iconName })}
+                                  className={`p-2 rounded transition-colors ${
+                                    (settings as any)[`aboutApproach${num}Icon_ar`] === iconName
                                       ? 'bg-black text-white'
-                                      : 'hover:bg-black/10'
+                                      : 'bg-neutral-100 hover:bg-neutral-200'
                                   }`}
                                   title={iconName}
                                 >
@@ -1032,119 +961,188 @@ export function AdminSettingsArabic() {
                             })}
                           </div>
                         </div>
-                        <div>
-                          <label className="block mb-1 text-xs text-black/60">الوصف</label>
-                          <textarea
-                            value={(settings as any)[`aboutValue${num}Description_ar`]}
-                            onChange={(e) => setSettings({ ...settings, [`aboutValue${num}Description_ar`]: e.target.value })}
-                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none text-sm"
-                            rows={3}
-                            placeholder="وصف القيمة..."
-                          />
-                        </div>
                       </div>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Why Choose TRQ Section */}
+              {/* Expertise Section */}
               <div className="border-t pt-8">
                 <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">قسم لماذا اختر TRQ</h2>
-                  <p className="text-sm text-black/60 mt-1">قم بتكوين عناصر التمييز الأربعة على صفحة حول</p>
+                  <h2 className="text-xl font-medium">قسم الخبرة</h2>
+                  <p className="text-sm text-black/60 mt-1">4 بطاقات خبرة قابلة للتخصيص مع الصور</p>
                 </div>
-                <div className="space-y-4 mb-6">
+
+                <div className="space-y-4 mb-8">
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">عنوان القسم</label>
                     <input
                       type="text"
-                      value={settings.aboutWhyTitle_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutWhyTitle_ar: e.target.value })}
+                      value={settings.aboutExpertiseTitle_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutExpertiseTitle_ar: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="لماذا اختر TRQ"
+                      placeholder="خبرتنا"
                     />
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">وصف القسم</label>
-                    <input
-                      type="text"
-                      value={settings.aboutWhyDescription_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutWhyDescription_ar: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="ما يميزنا في عالم التصميم الداخلي الفاخر"
+                    <textarea
+                      value={settings.aboutExpertiseDescription_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutExpertiseDescription_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={2}
+                      placeholder="ما نتخصص فيه"
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {[1, 2, 3, 4].map((num) => (
-                    <div key={num} className="bg-neutral-50 p-4 rounded space-y-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-black/10 flex items-center justify-center rounded text-sm font-medium">
-                          {num}
-                        </div>
-                        <span className="font-medium">المميز {num}</span>
-                      </div>
+                    <div key={num} className="bg-neutral-50 p-6 rounded space-y-4">
+                      <span className="font-medium">الخبرة {num}</span>
                       <div>
-                        <label className="block mb-1 text-xs text-black/60">العنوان</label>
+                        <label className="block mb-2 text-xs text-black/60">العنوان</label>
                         <input
                           type="text"
-                          value={(settings as any)[`aboutWhy${num}Title_ar`]}
-                          onChange={(e) => setSettings({ ...settings, [`aboutWhy${num}Title_ar`]: e.target.value })}
-                          className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
-                          placeholder="عنوان المميز"
+                          value={(settings as any)[`aboutExpertise${num}Title_ar`]}
+                          onChange={(e) => setSettings({ ...settings, [`aboutExpertise${num}Title_ar`]: e.target.value })}
+                          className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none text-sm"
+                          placeholder="عنوان الخبرة"
                         />
                       </div>
                       <div>
-                        <label className="block mb-1 text-xs text-black/60">الوصف</label>
+                        <label className="block mb-2 text-xs text-black/60">الوصف</label>
                         <textarea
-                          value={(settings as any)[`aboutWhy${num}Description_ar`]}
-                          onChange={(e) => setSettings({ ...settings, [`aboutWhy${num}Description_ar`]: e.target.value })}
+                          value={(settings as any)[`aboutExpertise${num}Description_ar`]}
+                          onChange={(e) => setSettings({ ...settings, [`aboutExpertise${num}Description_ar`]: e.target.value })}
                           className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none text-sm"
                           rows={3}
-                          placeholder="وصف المميز..."
+                          placeholder="وصف الخبرة"
                         />
+                      </div>
+                      <div>
+                        <label className="block mb-2 text-xs text-black/60">عنوان URL للصورة</label>
+                        <input
+                          type="url"
+                          value={(settings as any)[`aboutExpertise${num}Image_ar`]}
+                          onChange={(e) => setSettings({ ...settings, [`aboutExpertise${num}Image_ar`]: e.target.value })}
+                          className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none text-sm"
+                          placeholder="https://..."
+                        />
+                        {(settings as any)[`aboutExpertise${num}Image_ar`] && (
+                          <div className="mt-2 w-32 h-24 bg-neutral-100 overflow-hidden rounded">
+                            <img src={(settings as any)[`aboutExpertise${num}Image_ar`]} alt="معاينة" className="w-full h-full object-cover" />
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Impact Statement Section */}
+              {/* Story Section */}
               <div className="border-t pt-8">
                 <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">قسم بيان التأثير</h2>
-                  <p className="text-sm text-black/60 mt-1">قم بتكوين بيان التأثير في أسفل صفحة حول</p>
+                  <h2 className="text-xl font-medium">قسم القصة</h2>
+                  <p className="text-sm text-black/60 mt-1">محتوى قصتنا</p>
                 </div>
+
                 <div className="space-y-4">
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">عنوان القسم</label>
                     <input
                       type="text"
-                      value={settings.aboutImpactTitle_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutImpactTitle_ar: e.target.value })}
+                      value={settings.aboutStoryTitle_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutStoryTitle_ar: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="تأثيرنا على العملاء"
+                      placeholder="قصتنا"
                     />
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">الفقرة 1</label>
                     <textarea
-                      value={settings.aboutImpactParagraph1_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutImpactParagraph1_ar: e.target.value })}
+                      value={settings.aboutStoryText1_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutStoryText1_ar: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={4}
-                      placeholder="لا نقتصر على تصميم المساحات فقط..."
+                      rows={3}
+                      placeholder="تأسست بشغف..."
                     />
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">الفقرة 2</label>
                     <textarea
-                      value={settings.aboutImpactParagraph2_ar}
-                      onChange={(e) => setSettings({ ...settings, aboutImpactParagraph2_ar: e.target.value })}
+                      value={settings.aboutStoryText2_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutStoryText2_ar: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={4}
-                      placeholder="كل مشروع هو فرصة لإحداث تأثير إيجابي دائم..."
+                      rows={3}
+                      placeholder="بدأت رحلتنا..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">الفقرة 3</label>
+                    <textarea
+                      value={settings.aboutStoryText3_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutStoryText3_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={3}
+                      placeholder="اليوم، نستمر في التطور..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">عنوان URL لصورة القصة</label>
+                    <input
+                      type="url"
+                      value={settings.aboutStoryImage_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutStoryImage_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="https://..."
+                    />
+                    {settings.aboutStoryImage_ar && (
+                      <div className="mt-3 w-48 h-32 bg-neutral-100 overflow-hidden rounded">
+                        <img src={settings.aboutStoryImage_ar} alt="معاينة" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* CTA Section */}
+              <div className="border-t pt-8">
+                <div className="border-b pb-4 mb-6">
+                  <h2 className="text-xl font-medium">قسم الدعوة للعمل</h2>
+                  <p className="text-sm text-black/60 mt-1">محتوى الدعوة للعمل</p>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">عنوان الدعوة للعمل</label>
+                    <input
+                      type="text"
+                      value={settings.aboutCtaTitle_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutCtaTitle_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="هل أنت مستعد لتحويل مساحتك؟"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">وصف الدعوة للعمل</label>
+                    <textarea
+                      value={settings.aboutCtaDescription_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutCtaDescription_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={2}
+                      placeholder="دعنا نتعاون..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">نص زر الدعوة للعمل</label>
+                    <input
+                      type="text"
+                      value={settings.aboutCtaButton_ar}
+                      onChange={(e) => setSettings({ ...settings, aboutCtaButton_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="ابدأ مشروعك"
                     />
                   </div>
                 </div>
@@ -1355,6 +1353,264 @@ export function AdminSettingsArabic() {
                         ))}
                       </select>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Workflow Page Settings */}
+          {activeTab === 'workflow' && (
+            <div className="space-y-8">
+              {/* Hero Section */}
+              <div>
+                <div className="border-b pb-4 mb-6">
+                  <h2 className="text-xl font-medium">قسم البطل</h2>
+                  <p className="text-sm text-black/60 mt-1">الشعار في أعلى صفحة سير العمل</p>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">عنوان البطل</label>
+                    <input
+                      type="text"
+                      value={settings.workflowHeroTitle_ar}
+                      onChange={(e) => setSettings({ ...settings, workflowHeroTitle_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="سير عملنا"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">فقرة البطل</label>
+                    <textarea
+                      value={settings.workflowHeroParagraph_ar}
+                      onChange={(e) => setSettings({ ...settings, workflowHeroParagraph_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={2}
+                      placeholder="من الرؤية إلى الواقع: نهج منظم للتصميم الاستثنائي"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">رابط صورة البطل</label>
+                    <input
+                      type="text"
+                      value={settings.workflowHeroImage_ar}
+                      onChange={(e) => setSettings({ ...settings, workflowHeroImage_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="https://..."
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Process Steps */}
+              <div className="border-t pt-8">
+                <div className="border-b pb-4 mb-6">
+                  <h2 className="text-xl font-medium">خطوات العملية (5 خطوات)</h2>
+                  <p className="text-sm text-black/60 mt-1">قم بتكوين خطوات سير العمل الخمس مع العنوان والوصف والميزات</p>
+                </div>
+
+                <div className="space-y-6">
+                  {[1, 2, 3, 4, 5].map((num) => {
+                    const featuresArray = ((settings as any)[`workflowStep${num}Features_ar`] || '').split('|').filter((f: string) => f.trim());
+                    return (
+                      <div key={num} className="bg-neutral-50 p-6 rounded space-y-4">
+                        <div className="flex items-center gap-3">
+                          <span className="text-lg font-medium">الخطوة {num}</span>
+                        </div>
+                        <div>
+                          <label className="block mb-1 text-xs text-black/60">العنوان</label>
+                          <input
+                            type="text"
+                            value={(settings as any)[`workflowStep${num}Title_ar`]}
+                            onChange={(e) => setSettings({ ...settings, [`workflowStep${num}Title_ar`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
+                            placeholder="عنوان الخطوة"
+                          />
+                        </div>
+                        <div>
+                          <label className="block mb-1 text-xs text-black/60">الوصف</label>
+                          <textarea
+                            value={(settings as any)[`workflowStep${num}Description_ar`]}
+                            onChange={(e) => setSettings({ ...settings, [`workflowStep${num}Description_ar`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none text-sm"
+                            rows={3}
+                            placeholder="وصف الخطوة"
+                          />
+                        </div>
+                        <div>
+                          <label className="block mb-1 text-xs text-black/60">تسمية الميزات</label>
+                          <input
+                            type="text"
+                            value={(settings as any)[`workflowStep${num}Label_ar`]}
+                            onChange={(e) => setSettings({ ...settings, [`workflowStep${num}Label_ar`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none text-sm"
+                            placeholder={`تسمية الخطوة ${num}`}
+                          />
+                        </div>
+                        <div>
+                          <label className="block mb-2 text-xs text-black/60">الميزات</label>
+                          <div className="space-y-2">
+                            {featuresArray.map((feature: string, idx: number) => (
+                              <div key={idx} className="flex items-center gap-2">
+                                <input
+                                  type="text"
+                                  value={feature}
+                                  onChange={(e) => {
+                                    const newArray = [...featuresArray];
+                                    newArray[idx] = e.target.value;
+                                    setSettings({ ...settings, [`workflowStep${num}Features_ar`]: newArray.join('|') });
+                                  }}
+                                  className="flex-1 px-3 py-2 border border-black/20 focus:border-black focus:outline-none text-sm"
+                                  placeholder={`الميزة ${idx + 1}`}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const newArray = featuresArray.filter((_: string, i: number) => i !== idx);
+                                    setSettings({ ...settings, [`workflowStep${num}Features_ar`]: newArray.join('|') });
+                                  }}
+                                  className="px-3 py-2 bg-red-500 text-white hover:bg-red-600 transition-colors rounded text-sm"
+                                >
+                                  حذف
+                                </button>
+                              </div>
+                            ))}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newArray = [...featuresArray, ''];
+                                setSettings({ ...settings, [`workflowStep${num}Features_ar`]: newArray.join('|') });
+                              }}
+                              className="w-full px-3 py-2 border-2 border-dashed border-black/30 text-black hover:bg-black/5 transition-colors rounded text-sm font-medium"
+                            >
+                              + إضافة ميزة
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Why Our Process Works Section */}
+              <div className="border-t pt-8">
+                <div className="border-b pb-4 mb-6">
+                  <h2 className="text-xl font-medium">قسم لماذا تعمل عمليتنا</h2>
+                  <p className="text-sm text-black/60 mt-1">الفوائد الثلاث للعملية المعروضة على خلفية سوداء</p>
+                </div>
+
+                <div className="space-y-4 mb-6">
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">عنوان القسم</label>
+                    <input
+                      type="text"
+                      value={settings.workflowWhyTitle_ar}
+                      onChange={(e) => setSettings({ ...settings, workflowWhyTitle_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="لماذا تعمل عمليتنا"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">وصف القسم</label>
+                    <textarea
+                      value={settings.workflowWhyDescription_ar}
+                      onChange={(e) => setSettings({ ...settings, workflowWhyDescription_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={3}
+                      placeholder="مبني على سنوات من الخبرة والمشاريع الناجحة..."
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[1, 2, 3].map((num) => {
+                    const IconPreview = getIconComponent((settings as any)[`workflowWhy${num}Icon_ar`]);
+                    return (
+                      <div key={num} className="bg-neutral-50 p-4 rounded space-y-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 bg-black flex items-center justify-center rounded text-sm font-medium">
+                            <IconPreview className="text-white" size={16} />
+                          </div>
+                          <span className="font-medium">الفائدة {num}</span>
+                        </div>
+                        <div>
+                          <label className="block mb-1 text-xs text-black/60">العنوان</label>
+                          <input
+                            type="text"
+                            value={(settings as any)[`workflowWhy${num}Title_ar`]}
+                            onChange={(e) => setSettings({ ...settings, [`workflowWhy${num}Title_ar`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
+                            placeholder="عنوان الفائدة"
+                          />
+                        </div>
+                        <div>
+                          <label className="block mb-1 text-xs text-black/60">الرمز</label>
+                          <div className="grid grid-cols-8 gap-1 p-2 border bg-white max-h-24 overflow-y-auto rounded">
+                            {availableIcons.map((iconName) => {
+                              const Icon = getIconComponent(iconName);
+                              return (
+                                <button
+                                  key={iconName}
+                                  type="button"
+                                  onClick={() => setSettings({ ...settings, [`workflowWhy${num}Icon_ar`]: iconName })}
+                                  className={`p-1.5 flex items-center justify-center rounded transition-colors ${
+                                    (settings as any)[`workflowWhy${num}Icon_ar`] === iconName
+                                      ? 'bg-black text-white'
+                                      : 'hover:bg-black/10'
+                                  }`}
+                                  title={iconName}
+                                >
+                                  <Icon size={16} />
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block mb-1 text-xs text-black/60">الوصف</label>
+                          <textarea
+                            value={(settings as any)[`workflowWhy${num}Description_ar`]}
+                            onChange={(e) => setSettings({ ...settings, [`workflowWhy${num}Description_ar`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none text-sm"
+                            rows={3}
+                            placeholder="وصف الفائدة..."
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* CTA Section */}
+              <div className="border-t pt-8">
+                <div className="border-b pb-4 mb-6">
+                  <h2 className="text-xl font-medium">قسم الدعوة للعمل</h2>
+                  <p className="text-sm text-black/60 mt-1">الدعوة للعمل في أسفل صفحة سير العمل</p>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">عنوان القسم</label>
+                    <input
+                      type="text"
+                      value={settings.workflowCtaTitle_ar}
+                      onChange={(e) => setSettings({ ...settings, workflowCtaTitle_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="التزامنا"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">الوصف</label>
+                    <textarea
+                      value={settings.workflowCtaDescription_ar}
+                      onChange={(e) => setSettings({ ...settings, workflowCtaDescription_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={3}
+                      placeholder="مبني على سنوات من الخبرة والمشاريع الناجحة..."
+                    />
                   </div>
                 </div>
               </div>

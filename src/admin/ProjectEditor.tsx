@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Plus, X, Image as ImageIcon, Upload, Loader } from 'lucide-react';
 import { useAdmin } from './AdminContext';
 import { Project } from './types';
+import { ImageUpload } from './ImageUpload';
 import * as api from '../api';
 
 interface ProjectEditorProps {
@@ -46,13 +47,52 @@ export function ProjectEditor({ project, onSave, onCancel }: ProjectEditorProps)
   const parseProjectData = (proj: Project | null) => {
     if (!proj) return emptyProject;
     
+    const parseArray = (field: any): string[] => {
+      let result: string[] = [];
+      
+      // If already an array, use it
+      if (Array.isArray(field)) {
+        result = field.filter(item => item && typeof item === 'string');
+      }
+      // If it's a string, try to parse it
+      else if (typeof field === 'string' && field.trim()) {
+        try {
+          let parsed = field;
+          
+          // Handle multiple levels of JSON encoding (up to 3 levels)
+          for (let i = 0; i < 3; i++) {
+            if (typeof parsed === 'string') {
+              try {
+                parsed = JSON.parse(parsed);
+              } catch (e) {
+                // Stop trying to parse if it fails
+                break;
+              }
+            } else {
+              break;
+            }
+          }
+          
+          if (Array.isArray(parsed)) {
+            result = parsed.filter(item => item && typeof item === 'string');
+          }
+        } catch (e) {
+          // If JSON parsing fails, treat as empty
+          console.warn('Failed to parse field:', field, e);
+        }
+      }
+      
+      // Always return at least one empty string for adding new items
+      return result.length > 0 ? result : [''];
+    };
+    
     return {
       ...proj,
-      features: typeof proj.features === 'string' ? JSON.parse(proj.features || '[]') : (proj.features || []),
-      materials: typeof proj.materials === 'string' ? JSON.parse(proj.materials || '[]') : (proj.materials || []),
-      awards: typeof proj.awards === 'string' ? JSON.parse(proj.awards || '[]') : (proj.awards || []),
-      team: typeof proj.team === 'string' ? JSON.parse(proj.team || '[]') : (proj.team || []),
-      gallery: typeof proj.gallery === 'string' ? JSON.parse(proj.gallery || '[]') : (proj.gallery || []),
+      features: parseArray(proj.features),
+      materials: parseArray(proj.materials),
+      awards: parseArray(proj.awards),
+      team: parseArray(proj.team),
+      gallery: parseArray(proj.gallery),
     };
   };
   
@@ -272,22 +312,12 @@ export function ProjectEditor({ project, onSave, onCancel }: ProjectEditorProps)
                 />
               </div>
 
-              <div>
-                <label className="block mb-2 text-sm tracking-wider">MAIN IMAGE URL *</label>
-                <div className="flex gap-4">
-                  <input
-                    type="url"
-                    value={formData.image}
-                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                    className="flex-1 px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                    placeholder="https://..."
-                    required
-                  />
-                  {formData.image && (
-                    <img src={formData.image} alt="Preview" className="w-20 h-14 object-cover rounded" />
-                  )}
-                </div>
-              </div>
+              <ImageUpload
+                value={formData.image}
+                onChange={(url) => setFormData({ ...formData, image: url })}
+                label="MAIN IMAGE *"
+                placeholder="https://... or /uploads/filename.jpg"
+              />
             </div>
           )}
 
@@ -467,30 +497,58 @@ export function ProjectEditor({ project, onSave, onCancel }: ProjectEditorProps)
           {/* Gallery Tab */}
           {activeTab === 'gallery' && (
             <div className="space-y-6">
-              <p className="text-black/60">Add image URLs for the project gallery.</p>
+              <div className="bg-blue-50 border border-blue-200 p-4 rounded mb-4">
+                <p className="text-sm text-blue-900">
+                  <strong>Tip:</strong> You can paste multiple image URLs separated by newlines in a single input field, and they will be automatically split into separate gallery items.
+                </p>
+              </div>
               
-              {formData.gallery.map((url, index) => (
-                <div key={index} className="flex gap-4 items-start">
-                  <div className="flex-1">
-                    <div className="flex gap-2">
-                      <input
-                        type="url"
-                        value={url}
-                        onChange={(e) => handleArrayChange('gallery', index, e.target.value)}
-                        className="flex-1 px-4 py-2 border border-black/20 focus:border-black focus:outline-none"
-                        placeholder="https://..."
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleArrayRemove('gallery', index)}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded"
-                      >
-                        <X size={20} />
-                      </button>
-                    </div>
+              <p className="text-black/60">Add images to the project gallery. You can upload files or paste URLs.</p>
+              
+              {Array.isArray(formData.gallery) && formData.gallery.map((url, index) => (
+                <div key={index} className="space-y-2 p-4 border border-black/10 rounded">
+                  <div className="flex gap-2 items-center justify-between mb-2">
+                    <span className="text-sm text-black/60">Image {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleArrayRemove('gallery', index)}
+                      className="p-1 text-red-500 hover:bg-red-50 rounded"
+                    >
+                      <X size={18} />
+                    </button>
+                  </div>
+                  <div className="flex gap-2">
+                    <textarea
+                      value={url}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        // Check if user pasted multiple lines
+                        if (value.includes('\n')) {
+                          // Split by newlines and add each as separate gallery item
+                          const lines = value.split('\n').filter(line => line.trim());
+                          if (lines.length > 1) {
+                            // Replace current item with first line
+                            handleArrayChange('gallery', index, lines[0].trim());
+                            // Add remaining lines as new items
+                            lines.slice(1).forEach(line => {
+                              handleArrayAdd('gallery');
+                              const newIndex = formData.gallery.length;
+                              handleArrayChange('gallery', newIndex, line.trim());
+                            });
+                          } else {
+                            handleArrayChange('gallery', index, lines[0]?.trim() || '');
+                          }
+                        } else {
+                          handleArrayChange('gallery', index, value);
+                        }
+                      }}
+                      className="flex-1 px-4 py-2 border border-black/20 focus:border-black focus:outline-none text-sm resize-none"
+                      rows={3}
+                      placeholder="https://... or /uploads/filename.jpg&#10;(paste multiple URLs separated by newlines)"
+                    />
                   </div>
                   {url && (
-                    <img src={url} alt={`Gallery ${index + 1}`} className="w-24 h-16 object-cover rounded" />
+                    <img src={url} alt={`Gallery ${index + 1}`} className="w-full h-32 object-cover rounded" />
                   )}
                 </div>
               ))}
@@ -500,7 +558,7 @@ export function ProjectEditor({ project, onSave, onCancel }: ProjectEditorProps)
                 onClick={() => handleArrayAdd('gallery')}
                 className="flex items-center gap-2 px-4 py-2 border border-dashed border-black/20 hover:border-black text-black/60 hover:text-black w-full justify-center"
               >
-                <ImageIcon size={20} /> Add Gallery Image
+                <Plus size={20} /> Add Gallery Image
               </button>
             </div>
           )}

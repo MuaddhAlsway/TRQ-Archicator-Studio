@@ -1,18 +1,20 @@
 import { ArrowRight } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import * as api from '../api';
 import { HeroSlider } from './HeroSlider';
 import { useLanguage } from '../context/LanguageContext';
-import { ParallaxElement } from './ParallaxElement';
 import { ParallaxContainer } from './ParallaxContainer';
+import { gsap } from 'gsap';
 
 interface Project {
   id: number;
   title: string;
   category: string;
   image: string;
+  title_ar?: string;
+  category_ar?: string;
 }
 
 interface Service {
@@ -37,6 +39,12 @@ const getIconComponent = (iconName: string) => {
 export function Home({ onNavigate }: HomeProps) {
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
   const [services, setServices] = useState<Service[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const curtainLeftRef = useRef<HTMLDivElement>(null);
+  const curtainRightRef = useRef<HTMLDivElement>(null);
+  const loadingContentRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
   // ts = static translation (i18next), td = dynamic translation (API), toArabicNum = convert numbers
   const { ts, td, toArabicNum, translateBatch, language, isRTL } = useLanguage();
   const [settings, setSettings] = useState({
@@ -59,6 +67,57 @@ export function Home({ onNavigate }: HomeProps) {
     ];
     translateBatch(dynamicTexts.filter(Boolean));
   }, [language, services, featuredProjects, translateBatch]);
+
+  useEffect(() => {
+    // Loading animation - 3 seconds with curtain effect
+    const duration = 3000;
+    const startTime = Date.now();
+
+    const animateLoading = () => {
+      const elapsed = Date.now() - startTime;
+      const newProgress = Math.min((elapsed / duration) * 100, 100);
+      setLoadingProgress(newProgress);
+
+      if (newProgress < 100) {
+        requestAnimationFrame(animateLoading);
+      } else {
+        const tl = gsap.timeline({
+          onComplete: () => {
+            setIsLoading(false);
+          }
+        });
+
+        // Fade out loading content
+        tl.to(loadingContentRef.current, {
+          opacity: 0,
+          scale: 0.8,
+          duration: 0.5
+        });
+
+        // Left curtain slides UP (off screen)
+        tl.to(curtainLeftRef.current, {
+          yPercent: -100,
+          duration: 1.2,
+          ease: 'power4.inOut'
+        }, '-=0.2');
+
+        // Right curtain slides DOWN (off screen)
+        tl.to(curtainRightRef.current, {
+          yPercent: 100,
+          duration: 1.2,
+          ease: 'power4.inOut'
+        }, '<');
+
+        // Fade out overlay
+        tl.to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.3
+        }, '-=0.3');
+      }
+    };
+
+    requestAnimationFrame(animateLoading);
+  }, []);
 
   useEffect(() => {
     // First get settings to know which projects to feature
@@ -107,9 +166,30 @@ export function Home({ onNavigate }: HomeProps) {
   };
 
   return (
-    <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* Hero Slider Section */}
-      <HeroSlider onNavigate={onNavigate} />
+    <div className={`w-full ${isRTL ? 'rtl' : 'ltr'} relative`}>
+      {/* Full-Screen Loading Overlay - Always rendered, just hidden after animation */}
+      <div className="hero-loading-overlay-fullscreen" ref={overlayRef} style={{ display: isLoading ? 'block' : 'none' }}></div>
+      <div className="hero-curtain left" ref={curtainLeftRef} style={{ display: isLoading ? 'block' : 'none' }}></div>
+      <div className="hero-curtain right" ref={curtainRightRef} style={{ display: isLoading ? 'block' : 'none' }}></div>
+      <div className="hero-loading-content-fullscreen" ref={loadingContentRef} style={{ display: isLoading ? 'block' : 'none' }}>
+        <div className="hero-loading-logo">
+          {'TRQ'.split('').map((letter, index) => (
+            <span key={index} className="hero-loading-letter">{letter}</span>
+          ))}
+        </div>
+        <div className="hero-loading-bar-wrapper">
+          <div
+            className="hero-loading-bar"
+            style={{ width: `${loadingProgress}%` }}
+          />
+        </div>
+        <div className="hero-loading-text">Loading</div>
+      </div>
+
+      {/* Content wrapper */}
+      <div className="relative z-10">
+        {/* Hero Slider Section */}
+        <HeroSlider onNavigate={onNavigate} />
 
       {/* Introduction - Static text from i18next */}
       <section className="py-12 sm:py-16 md:py-24 px-4 max-w-7xl mx-auto">
@@ -132,13 +212,13 @@ export function Home({ onNavigate }: HomeProps) {
               <ArrowRight size={20} className={isRTL ? 'rotate-180' : ''} />
             </button>
           </div>
-          <ParallaxElement speed={0.3} className={`relative h-[300px] sm:h-[400px] lg:h-[500px] ${isRTL ? 'lg:order-1' : ''}`}>
+          <div className={`relative h-[300px] sm:h-[400px] lg:h-[500px] ${isRTL ? 'lg:order-1' : ''}`}>
             <ImageWithFallback
               src={settings.homeIntroImage}
               alt="TRQ design work"
               className="w-full h-full object-cover"
             />
-          </ParallaxElement>
+          </div>
         </div>
       </section>
 
@@ -220,37 +300,38 @@ export function Home({ onNavigate }: HomeProps) {
           </div>
 
           {featuredProjects.length > 0 ? (
-            <ParallaxContainer speed={0.5}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                {featuredProjects.map((project) => (
-                  <div
-                    key={project.id}
-                    className="parallax group relative overflow-hidden cursor-pointer"
-                    data-speed="0.4"
-                    onClick={() => handleProjectClick(project.id)}
-                  >
-                    <div className="relative h-64 sm:h-80 md:h-96 overflow-hidden">
-                      <ImageWithFallback
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                      <div className={`absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white ${isRTL ? 'text-right' : ''}`}>
-                        {/* Dynamic content from database */}
-                        <p className="text-xs sm:text-sm tracking-widest opacity-80 mb-1 sm:mb-2">{td(project.category)}</p>
-                        <h3 className="text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-4 tracking-wide">{td(project.title)}</h3>
-                        {/* Static UI text */}
-                        <span className={`inline-flex items-center gap-2 text-xs sm:text-sm tracking-wider group-hover:gap-4 transition-all ${isRTL ? 'flex-row-reverse' : ''}`}>
-                          {ts('common.viewProject')}
-                          <ArrowRight size={14} className={isRTL ? 'rotate-180' : ''} />
-                        </span>
-                      </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+              {featuredProjects.map((project) => (
+                <div
+                  key={project.id}
+                  className="group relative overflow-hidden cursor-pointer"
+                  onClick={() => handleProjectClick(project.id)}
+                >
+                  <div className="relative h-64 sm:h-80 md:h-96 overflow-hidden">
+                    <ImageWithFallback
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                    <div className={`absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white ${isRTL ? 'text-right' : ''}`}>
+                      {/* Dynamic content from database - use Arabic if available */}
+                      <p className="text-xs sm:text-sm tracking-widest opacity-80 mb-1 sm:mb-2">
+                        {isRTL && project.category_ar ? project.category_ar : project.category}
+                      </p>
+                      <h3 className="text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-4 tracking-wide">
+                        {isRTL && project.title_ar ? project.title_ar : project.title}
+                      </h3>
+                      {/* Static UI text */}
+                      <span className={`inline-flex items-center gap-2 text-xs sm:text-sm tracking-wider group-hover:gap-4 transition-all ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        {ts('common.viewProject')}
+                        <ArrowRight size={14} className={isRTL ? 'rotate-180' : ''} />
+                      </span>
                     </div>
                   </div>
-                ))}
-              </div>
-            </ParallaxContainer>
+                </div>
+              ))}
+            </div>
           ) : (
             <p className="text-center text-black/60">{ts('common.loading')}</p>
           )}
@@ -322,6 +403,7 @@ export function Home({ onNavigate }: HomeProps) {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 }

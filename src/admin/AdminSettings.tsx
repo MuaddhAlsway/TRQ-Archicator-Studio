@@ -61,47 +61,80 @@ export function AdminSettings() {
     homeCtaButton2Text: 'CONTACT US',
     homeCtaButton2Page: 'contact',
     // About page - Hero
-    aboutHeroTitle: 'ABOUT TRQ',
-    aboutHeroParagraph: 'Crafting exceptional spaces through vision, expertise, and dedication',
-    // About page - Who We Are
-    aboutWhoWeAreTitle: 'Who We Are',
-    aboutWhoWeAreParagraph1: 'TRQ is a luxury and creative interior design studio based in Riyadh, Saudi Arabia. Founded on the principles of excellence, innovation, and client-centric service, we have established ourselves as a premier design partner for discerning clients who demand the best.',
-    aboutWhoWeAreParagraph2: 'Our multidisciplinary team brings together expertise in interior design, architecture, furniture design, and project management to deliver comprehensive solutions that exceed expectations.',
-    aboutWhoWeAreParagraph3: 'Whether creating intimate residential spaces or grand commercial environments, we approach each project with the same level of dedication, creativity, and attention to detail that has become our hallmark.',
-    aboutWhoWeAreImage: 'https://images.unsplash.com/photo-1669387448840-610c588f003d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
+    aboutHeroTitle: 'About TRQ Studio',
+    aboutHeroDescription: 'We are a luxury interior design studio dedicated to creating timeless, sophisticated spaces that reflect our clients\' refined taste and elevated lifestyle.',
+    aboutHeroImage: '/uploads/14.webp',
     // About page - Vision
     aboutVisionTitle: 'Our Vision',
-    aboutVisionIcon: 'Eye',
-    aboutVisionParagraph: 'To be recognized as the leading luxury design studio in Saudi Arabia and beyond, setting new standards for creative excellence and transforming spaces into timeless works of art that inspire and elevate the human experience.',
+    aboutVisionDescription: 'To redefine luxury living through thoughtful design that transcends trends and creates lasting beauty. We believe in spaces that tell stories, evoke emotions, and stand the test of time.',
     // About page - Mission
     aboutMissionTitle: 'Our Mission',
-    aboutMissionIcon: 'Target',
-    aboutMissionParagraph: 'To deliver exceptional, bespoke design solutions that reflect our clients\' unique vision while exceeding their expectations. We are committed to combining artistic innovation with practical expertise, creating spaces that are both beautiful and functional.',
-    // About page - Values
+    aboutMissionDescription: 'We serve discerning clients by transforming their spaces into personal sanctuaries of elegance and functionality. Through meticulous attention to detail and collaborative partnership, we deliver interiors that exceed expectations.',
+    // About page - Approach
+    aboutApproachTitle: 'Our Approach',
+    aboutApproachDescription: 'How we bring your vision to life',
+    aboutApproach1Title: 'Thoughtful Direction',
+    aboutApproach1Description: 'Every design decision is purposeful, guided by deep understanding of our clients\' lifestyle and aesthetic preferences.',
+    aboutApproach1Icon: 'Compass',
+    aboutApproach2Title: 'Layered Excellence',
+    aboutApproach2Description: 'We build complexity through careful layering of textures, materials, and elements that create depth and visual interest.',
+    aboutApproach2Icon: 'Layers',
+    aboutApproach3Title: 'Timeless Quality',
+    aboutApproach3Description: 'We prioritize enduring beauty over fleeting trends, selecting materials and finishes that age gracefully.',
+    aboutApproach3Icon: 'Star',
+    aboutApproach4Title: 'Collaborative Partnership',
+    aboutApproach4Description: 'We work closely with clients as creative partners, ensuring every space authentically reflects their vision and needs.',
+    aboutApproach4Icon: 'Users',
+    // About page - Expertise
+    aboutExpertiseTitle: 'Our Expertise',
+    aboutExpertiseDescription: 'What we specialize in',
+    aboutExpertise1Title: 'Luxury Residential',
+    aboutExpertise1Description: 'Private homes and estates designed with uncompromising attention to comfort, elegance, and personal expression.',
+    aboutExpertise1Image: '/uploads/1.webp',
+    aboutExpertise2Title: 'Commercial Spaces',
+    aboutExpertise2Description: 'Professional environments that embody brand identity while creating inspiring spaces for work and collaboration.',
+    aboutExpertise2Image: '/uploads/2.webp',
+    aboutExpertise3Title: 'Custom Furniture',
+    aboutExpertise3Description: 'Bespoke pieces designed and crafted to perfectly complement each space and reflect individual style preferences.',
+    aboutExpertise3Image: '/uploads/14.webp',
+    aboutExpertise4Title: 'Concept Design',
+    aboutExpertise4Description: 'Innovative design concepts that transform spaces into stunning visual experiences, blending creativity with functionality.',
+    aboutExpertise4Image: '/uploads/11 cave.webp',
+    // About page - Story
+    aboutStoryTitle: 'Our Story',
+    aboutStoryText1: 'Founded with a passion for creating extraordinary spaces, TRQ Studio emerged from the belief that great design has the power to transform not just rooms, but lives.',
+    aboutStoryText2: 'Our journey began with a simple philosophy: luxury isn\'t about excess, it\'s about refinement. Every project we undertake is an opportunity to push creative boundaries while honoring the principles of timeless design.',
+    aboutStoryText3: 'Today, we continue to evolve, always seeking new ways to create spaces that inspire and endure.',
+    aboutStoryImage: '/uploads/1 copy.webp',
+    // About page - CTA
+    aboutCtaTitle: 'Ready to Transform Your Space?',
+    aboutCtaDescription: 'Let\'s collaborate to create a space that reflects your vision and exceeds your expectations.',
+    aboutCtaButton: 'Start Your Project',
+    // About page - Values Section (4 customizable cards)
     aboutValuesTitle: 'Our Values',
-    aboutValuesDescription: 'The principles that guide our work and define our approach to design',
-    aboutValue1Title: 'Excellence',
-    aboutValue1Icon: 'Award',
-    aboutValue1Description: 'We pursue the highest standards in every project, ensuring exceptional quality and attention to detail.',
-    aboutValue2Title: 'Innovation',
-    aboutValue2Icon: 'Lightbulb',
-    aboutValue2Description: 'We embrace creativity and push boundaries to deliver unique, forward-thinking design solutions.',
-    aboutValue3Title: 'Collaboration',
-    aboutValue3Icon: 'Users',
-    aboutValue3Description: 'We work closely with our clients, valuing their input and building lasting partnerships.',
-    aboutValue4Title: 'Passion',
-    aboutValue4Icon: 'Heart',
-    aboutValue4Description: 'Our love for design drives us to create spaces that inspire and delight.',
-    // About page - Why Choose TRQ
+    aboutValuesDescription: 'The principles that guide our design philosophy',
+    aboutValue1Title: 'Attention to Detail',
+    aboutValue1Description: 'Meticulous craftsmanship in every element, from concept to completion.',
+    aboutValue1Icon: 'Eye',
+    aboutValue2Title: 'Project Management',
+    aboutValue2Description: 'From concept to completion, we manage every aspect of your project with meticulous care.',
+    aboutValue2Icon: 'Layers',
+    aboutValue3Title: 'Cultural Sensitivity',
+    aboutValue3Description: 'Deep understanding of Saudi Arabian culture combined with global design perspectives.',
+    aboutValue3Icon: 'Compass',
+    aboutValue4Title: 'Proven Track Record',
+    aboutValue4Description: 'Successfully delivered premium projects across residential, commercial, and exhibition sectors.',
+    aboutValue4Icon: 'Award',
+    // About page - Why Choose Section (4 customizable highlights)
     aboutWhyTitle: 'Why Choose TRQ',
-    aboutWhyDescription: 'What sets us apart in the world of luxury interior design',
-    aboutWhy1Title: 'Luxury Focus',
-    aboutWhy1Description: 'Specializing in high-end residential and commercial projects that demand the finest craftsmanship.',
-    aboutWhy2Title: 'Holistic Approach',
+    aboutWhyDescription: 'What sets us apart in the design industry',
+    aboutWhy1Title: 'Innovative Design',
+    aboutWhy1Description: 'Cutting-edge design concepts that push creative boundaries.',
+    aboutWhy2Title: 'Expert Team',
     aboutWhy2Description: 'From concept to completion, we manage every aspect of your project with meticulous care.',
-    aboutWhy3Title: 'Cultural Sensitivity',
+    aboutWhy3Title: 'Cultural Expertise',
     aboutWhy3Description: 'Deep understanding of Saudi Arabian culture combined with global design perspectives.',
-    aboutWhy4Title: 'Proven Track Record',
+    aboutWhy4Title: 'Proven Success',
     aboutWhy4Description: 'Successfully delivered premium projects across residential, commercial, and exhibition sectors.',
     // About page - Impact Statement
     aboutImpactTitle: 'Our Impact on Clients',
@@ -131,52 +164,46 @@ export function AdminSettings() {
     servicesCtaButton2Text: 'CONTACT US',
     servicesCtaButton2Page: 'contact',
     // Workflow page - Hero
-    workflowHeroTitle: 'HOW WE WORK',
-    workflowHeroParagraph: 'A seamless process designed to bring your vision to life',
-    // Workflow page - Introduction
-    workflowIntroTitle: 'Our Proven Process',
-    workflowIntroParagraph: 'At TRQ, we believe that exceptional design requires a structured yet flexible approach. Our five-step workflow ensures that every project receives the attention, expertise, and care it deserves, from initial concept to final completion.',
+    workflowHeroTitle: 'Our Workflow',
+    workflowHeroParagraph: 'From Vision to Reality: A Structured Approach to Exceptional Design',
+    workflowHeroImage: 'https://static.paraflowcontent.com/public/resource/image/eedd6672-a725-43e8-9320-8ea80b92c7f1.jpeg',
     // Workflow page - Steps
     workflowStep1Title: 'Discovery & Consultation',
-    workflowStep1Icon: 'Search',
-    workflowStep1Description: 'Understanding your vision and requirements',
-    workflowStep1Features: 'Initial consultation to understand your needs, preferences, and budget|Site visit and assessment of the existing space|Discussion of project goals, timeline, and constraints|Review of inspiration and reference materials|Preliminary scope definition and feasibility analysis',
+    workflowStep1Description: 'The foundation of exceptional design begins with understanding. We invest time in learning about your lifestyle, preferences, and aspirations to create a design that truly reflects who you are.',
+    workflowStep1Features: 'In-depth consultation to understand your vision, lifestyle, and functional requirements|Comprehensive site assessment and spatial analysis|Project scope definition and timeline establishment|Budget framework and investment planning',
     workflowStep2Title: 'Concept & Design Development',
-    workflowStep2Icon: 'Lightbulb',
-    workflowStep2Description: 'Bringing your vision to life through creative design',
-    workflowStep2Features: 'Development of initial design concepts and mood boards|Space planning and layout options|Selection of color palettes, materials, and finishes|3D visualizations and renderings|Presentation of design proposals for your review',
+    workflowStep2Description: 'Where creativity meets functionality. We transform your vision into tangible design concepts, exploring innovative solutions while respecting your aesthetic preferences and practical needs.',
+    workflowStep2Features: 'Creative design concepts and mood boards|Detailed space planning and layout optimization|Photorealistic 3D visualizations and renderings|Comprehensive design proposals with material palettes',
     workflowStep3Title: 'Approval & Planning',
-    workflowStep3Icon: 'CheckCircle',
-    workflowStep3Description: 'Refinement and detailed planning',
-    workflowStep3Features: 'Incorporating your feedback and refining the design|Preparation of detailed technical drawings and specifications|Finalization of material selections and furniture choices|Budget confirmation and project timeline establishment|Coordination with contractors and suppliers',
+    workflowStep3Description: 'Refinement through collaboration. We incorporate your feedback and finalize every detail, ensuring technical precision while maintaining design integrity. This stage transforms concepts into actionable plans.',
+    workflowStep3Features: 'Incorporating your feedback and design refinements|Technical drawings and construction documentation|Final material selections and sourcing specifications|Contractor coordination and project scheduling',
     workflowStep4Title: 'Execution & Supervision',
-    workflowStep4Icon: 'Hammer',
-    workflowStep4Description: 'Bringing the design to reality',
-    workflowStep4Features: 'Procurement of materials, furniture, and fixtures|Coordination and supervision of construction work|Quality control and regular site inspections|Problem-solving and on-site design adjustments|Regular progress updates and communication',
+    workflowStep4Description: 'Where design becomes reality. We oversee every aspect of construction and installation, ensuring the highest standards of craftsmanship while maintaining clear communication throughout the transformation process.',
+    workflowStep4Features: 'Premium material procurement and quality verification|Expert construction coordination and site management|Rigorous quality control and craftsmanship standards|Regular progress updates and milestone communications',
     workflowStep5Title: 'Delivery & Final Handover',
-    workflowStep5Icon: 'Home',
-    workflowStep5Description: 'Completing your perfect space',
-    workflowStep5Features: 'Final installation of furniture and décor|Styling and finishing touches|Comprehensive walk-through and inspection|Documentation of completed project|Post-completion support and maintenance guidance',
+    workflowStep5Description: 'The culmination of our collaborative journey. We complete the final installations and styling touches, conduct a comprehensive walkthrough, and ensure you\'re completely satisfied with your transformed space.',
+    workflowStep5Features: 'Final installation of furniture and custom elements|Professional styling and accessory placement|Comprehensive walkthrough and quality inspection|Ongoing post-completion support and maintenance guidance',
+    // Workflow page - Step Feature Labels
+    workflowStep1Label: 'Key Activities',
+    workflowStep2Label: 'Key Deliverables',
+    workflowStep3Label: 'Process Highlights',
+    workflowStep4Label: 'Our Commitment',
+    workflowStep5Label: 'Final Touches',
     // Workflow page - Why Our Process Works
     workflowWhyTitle: 'Why Our Process Works',
-    workflowWhyDescription: 'Built on years of experience and refined through countless successful projects',
+    workflowWhyDescription: 'Built on years of experience and refined through countless successful projects, our methodology ensures exceptional results through a systematic approach to luxury interior design.',
     workflowWhy1Title: 'Collaborative',
-    workflowWhy1Description: 'We work closely with you at every stage, ensuring your vision guides the entire process and the final result exceeds your expectations.',
+    workflowWhy1Description: 'We work closely with you at every stage, ensuring your vision guides every design decision from concept to completion.',
+    workflowWhy1Icon: 'Users',
     workflowWhy2Title: 'Transparent',
-    workflowWhy2Description: 'Clear communication, regular updates, and complete transparency in timelines, budgets, and decision-making throughout the project.',
+    workflowWhy2Description: 'Clear communication and regular updates keep you informed throughout the entire process, with no surprises.',
+    workflowWhy2Icon: 'Eye',
     workflowWhy3Title: 'Efficient',
-    workflowWhy3Description: 'Streamlined workflows, experienced project management, and attention to detail ensure projects are completed on time and to the highest standards.',
-    // Workflow page - Project Timeline
-    workflowTimelineTitle: 'Project Timeline',
-    workflowTimelineParagraph1: 'While every project is unique, most projects follow a similar timeline. Residential projects typically take 3-6 months from concept to completion, while larger commercial projects may require 6-12 months or more. Exhibition booth designs often have faster turnarounds of 2-6 weeks depending on complexity.',
-    workflowTimelineParagraph2: 'During our initial consultation, we\'ll provide you with a detailed timeline specific to your project\'s scope and requirements.',
+    workflowWhy3Description: 'Streamlined workflows and expert coordination ensure projects are delivered on time without compromising quality.',
+    workflowWhy3Icon: 'Zap',
     // Workflow page - CTA
-    workflowCtaTitle: 'Ready to Begin Your Journey?',
-    workflowCtaDescription: 'Let\'s start with a consultation to discuss your project and explore how we can bring your vision to life.',
-    workflowCtaButton1Text: 'REQUEST PRICING',
-    workflowCtaButton1Page: 'pricing',
-    workflowCtaButton2Text: 'SCHEDULE CONSULTATION',
-    workflowCtaButton2Page: 'contact',
+    workflowCtaTitle: 'Our Commitment',
+    workflowCtaDescription: 'Built on years of experience and refined through countless successful projects, TRQ STUDIO delivers exceptional design that combines creativity with meticulous execution.',
     // Portfolio page - Hero
     portfolioHeroTitle: 'OUR PORTFOLIO',
     portfolioHeroParagraph: 'Explore our collection of exceptional design projects',
@@ -895,86 +922,31 @@ export function AdminSettings() {
                       value={settings.aboutHeroTitle}
                       onChange={(e) => setSettings({ ...settings, aboutHeroTitle: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="ABOUT TRQ"
+                      placeholder="About TRQ Studio"
                     />
                   </div>
                   <div>
-                    <label className="block mb-2 text-sm tracking-wider">HERO PARAGRAPH</label>
+                    <label className="block mb-2 text-sm tracking-wider">HERO DESCRIPTION</label>
                     <textarea
-                      value={settings.aboutHeroParagraph}
-                      onChange={(e) => setSettings({ ...settings, aboutHeroParagraph: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={2}
-                      placeholder="Crafting exceptional spaces through vision, expertise, and dedication"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Who We Are Section */}
-              <div className="border-t pt-8">
-                <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">Who We Are Section</h2>
-                  <p className="text-sm text-black/60 mt-1">Main introduction section on the About page</p>
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block mb-2 text-sm tracking-wider">SECTION TITLE</label>
-                    <input
-                      type="text"
-                      value={settings.aboutWhoWeAreTitle}
-                      onChange={(e) => setSettings({ ...settings, aboutWhoWeAreTitle: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="Who We Are"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block mb-2 text-sm tracking-wider">PARAGRAPH 1</label>
-                    <textarea
-                      value={settings.aboutWhoWeAreParagraph1}
-                      onChange={(e) => setSettings({ ...settings, aboutWhoWeAreParagraph1: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={4}
-                      placeholder="TRQ is a luxury and creative interior design studio..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block mb-2 text-sm tracking-wider">PARAGRAPH 2</label>
-                    <textarea
-                      value={settings.aboutWhoWeAreParagraph2}
-                      onChange={(e) => setSettings({ ...settings, aboutWhoWeAreParagraph2: e.target.value })}
+                      value={settings.aboutHeroDescription}
+                      onChange={(e) => setSettings({ ...settings, aboutHeroDescription: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
                       rows={3}
-                      placeholder="Our multidisciplinary team brings together expertise..."
+                      placeholder="We are a luxury interior design studio..."
                     />
                   </div>
-
                   <div>
-                    <label className="block mb-2 text-sm tracking-wider">PARAGRAPH 3</label>
-                    <textarea
-                      value={settings.aboutWhoWeAreParagraph3}
-                      onChange={(e) => setSettings({ ...settings, aboutWhoWeAreParagraph3: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={3}
-                      placeholder="Whether creating intimate residential spaces..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block mb-2 text-sm tracking-wider">IMAGE URL</label>
+                    <label className="block mb-2 text-sm tracking-wider">HERO IMAGE URL</label>
                     <input
                       type="url"
-                      value={settings.aboutWhoWeAreImage}
-                      onChange={(e) => setSettings({ ...settings, aboutWhoWeAreImage: e.target.value })}
+                      value={settings.aboutHeroImage}
+                      onChange={(e) => setSettings({ ...settings, aboutHeroImage: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
                       placeholder="https://..."
                     />
-                    {settings.aboutWhoWeAreImage && (
+                    {settings.aboutHeroImage && (
                       <div className="mt-3 w-48 h-32 bg-neutral-100 overflow-hidden rounded">
-                        <img src={settings.aboutWhoWeAreImage} alt="Preview" className="w-full h-full object-cover" />
+                        <img src={settings.aboutHeroImage} alt="Preview" className="w-full h-full object-cover" />
                       </div>
                     )}
                   </div>
@@ -984,8 +956,8 @@ export function AdminSettings() {
               {/* Vision & Mission Section */}
               <div className="border-t pt-8">
                 <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">Vision & Mission</h2>
-                  <p className="text-sm text-black/60 mt-1">Configure the Vision and Mission cards</p>
+                  <h2 className="text-xl font-medium">Vision & Mission Section</h2>
+                  <p className="text-sm text-black/60 mt-1">Configure Vision and Mission titles and descriptions</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1003,36 +975,13 @@ export function AdminSettings() {
                       />
                     </div>
                     <div>
-                      <label className="block mb-2 text-sm tracking-wider">ICON</label>
-                      <div className="grid grid-cols-6 gap-2 p-3 border bg-white max-h-32 overflow-y-auto rounded">
-                        {availableIcons.map((iconName) => {
-                          const Icon = getIconComponent(iconName);
-                          return (
-                            <button
-                              key={iconName}
-                              type="button"
-                              onClick={() => setSettings({ ...settings, aboutVisionIcon: iconName })}
-                              className={`p-2 flex items-center justify-center rounded transition-colors ${
-                                settings.aboutVisionIcon === iconName
-                                  ? 'bg-black text-white'
-                                  : 'hover:bg-black/10'
-                              }`}
-                              title={iconName}
-                            >
-                              <Icon size={20} />
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block mb-2 text-sm tracking-wider">PARAGRAPH</label>
+                      <label className="block mb-2 text-sm tracking-wider">DESCRIPTION</label>
                       <textarea
-                        value={settings.aboutVisionParagraph}
-                        onChange={(e) => setSettings({ ...settings, aboutVisionParagraph: e.target.value })}
+                        value={settings.aboutVisionDescription}
+                        onChange={(e) => setSettings({ ...settings, aboutVisionDescription: e.target.value })}
                         className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none"
                         rows={4}
-                        placeholder="To be recognized as the leading luxury design studio..."
+                        placeholder="To redefine luxury living..."
                       />
                     </div>
                   </div>
@@ -1051,91 +1000,78 @@ export function AdminSettings() {
                       />
                     </div>
                     <div>
-                      <label className="block mb-2 text-sm tracking-wider">ICON</label>
-                      <div className="grid grid-cols-6 gap-2 p-3 border bg-white max-h-32 overflow-y-auto rounded">
-                        {availableIcons.map((iconName) => {
-                          const Icon = getIconComponent(iconName);
-                          return (
-                            <button
-                              key={iconName}
-                              type="button"
-                              onClick={() => setSettings({ ...settings, aboutMissionIcon: iconName })}
-                              className={`p-2 flex items-center justify-center rounded transition-colors ${
-                                settings.aboutMissionIcon === iconName
-                                  ? 'bg-black text-white'
-                                  : 'hover:bg-black/10'
-                              }`}
-                              title={iconName}
-                            >
-                              <Icon size={20} />
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block mb-2 text-sm tracking-wider">PARAGRAPH</label>
+                      <label className="block mb-2 text-sm tracking-wider">DESCRIPTION</label>
                       <textarea
-                        value={settings.aboutMissionParagraph}
-                        onChange={(e) => setSettings({ ...settings, aboutMissionParagraph: e.target.value })}
+                        value={settings.aboutMissionDescription}
+                        onChange={(e) => setSettings({ ...settings, aboutMissionDescription: e.target.value })}
                         className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none"
                         rows={4}
-                        placeholder="To deliver exceptional, bespoke design solutions..."
+                        placeholder="We serve discerning clients..."
                       />
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Values Section */}
+              {/* Approach Section */}
               <div className="border-t pt-8">
                 <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">Our Values Section</h2>
-                  <p className="text-sm text-black/60 mt-1">Configure the 4 value cards on the About page</p>
+                  <h2 className="text-xl font-medium">Approach Section</h2>
+                  <p className="text-sm text-black/60 mt-1">4 customizable approach cards with icons</p>
                 </div>
 
-                <div className="space-y-4 mb-6">
+                <div className="space-y-4 mb-8">
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">SECTION TITLE</label>
                     <input
                       type="text"
-                      value={settings.aboutValuesTitle}
-                      onChange={(e) => setSettings({ ...settings, aboutValuesTitle: e.target.value })}
+                      value={settings.aboutApproachTitle}
+                      onChange={(e) => setSettings({ ...settings, aboutApproachTitle: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="Our Values"
+                      placeholder="Our Approach"
                     />
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">SECTION DESCRIPTION</label>
-                    <input
-                      type="text"
-                      value={settings.aboutValuesDescription}
-                      onChange={(e) => setSettings({ ...settings, aboutValuesDescription: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="The principles that guide our work..."
+                    <textarea
+                      value={settings.aboutApproachDescription}
+                      onChange={(e) => setSettings({ ...settings, aboutApproachDescription: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={2}
+                      placeholder="How we bring your vision to life"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {[1, 2, 3, 4].map((num) => {
-                    const IconPreview = getIconComponent((settings as any)[`aboutValue${num}Icon`]);
+                    const IconPreview = getIconComponent((settings as any)[`aboutApproach${num}Icon`]);
                     return (
-                      <div key={num} className="bg-neutral-50 p-4 rounded space-y-3">
+                      <div key={num} className="bg-neutral-50 p-6 rounded space-y-4">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-black flex items-center justify-center rounded">
                             <IconPreview className="text-white" size={20} />
                           </div>
-                          <span className="font-medium">Value {num}</span>
+                          <span className="font-medium">Approach {num}</span>
                         </div>
                         <div>
-                          <label className="block mb-1 text-xs text-black/60">Title</label>
+                          <label className="block mb-2 text-xs text-black/60">Title</label>
                           <input
                             type="text"
-                            value={(settings as any)[`aboutValue${num}Title`]}
-                            onChange={(e) => setSettings({ ...settings, [`aboutValue${num}Title`]: e.target.value })}
-                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
-                            placeholder="Value title"
+                            value={(settings as any)[`aboutApproach${num}Title`]}
+                            onChange={(e) => setSettings({ ...settings, [`aboutApproach${num}Title`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none text-sm"
+                            placeholder="Approach title"
+                          />
+                        </div>
+                        <div>
+                          <label className="block mb-2 text-xs text-black/60">Description</label>
+                          <textarea
+                            value={(settings as any)[`aboutApproach${num}Description`]}
+                            onChange={(e) => setSettings({ ...settings, [`aboutApproach${num}Description`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none text-sm"
+                            rows={3}
+                            placeholder="Approach description"
                           />
                         </div>
                         <div>
@@ -1147,11 +1083,11 @@ export function AdminSettings() {
                                 <button
                                   key={iconName}
                                   type="button"
-                                  onClick={() => setSettings({ ...settings, [`aboutValue${num}Icon`]: iconName })}
-                                  className={`p-1.5 flex items-center justify-center rounded transition-colors ${
-                                    (settings as any)[`aboutValue${num}Icon`] === iconName
+                                  onClick={() => setSettings({ ...settings, [`aboutApproach${num}Icon`]: iconName })}
+                                  className={`p-2 rounded transition-colors ${
+                                    (settings as any)[`aboutApproach${num}Icon`] === iconName
                                       ? 'bg-black text-white'
-                                      : 'hover:bg-black/10'
+                                      : 'bg-neutral-100 hover:bg-neutral-200'
                                   }`}
                                   title={iconName}
                                 >
@@ -1161,91 +1097,91 @@ export function AdminSettings() {
                             })}
                           </div>
                         </div>
-                        <div>
-                          <label className="block mb-1 text-xs text-black/60">Description</label>
-                          <textarea
-                            value={(settings as any)[`aboutValue${num}Description`]}
-                            onChange={(e) => setSettings({ ...settings, [`aboutValue${num}Description`]: e.target.value })}
-                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none text-sm"
-                            rows={3}
-                            placeholder="Value description..."
-                          />
-                        </div>
                       </div>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Why Choose TRQ Section */}
+              {/* Expertise Section */}
               <div className="border-t pt-8">
                 <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">Why Choose TRQ Section</h2>
-                  <p className="text-sm text-black/60 mt-1">Configure the 4 differentiator items on the About page</p>
+                  <h2 className="text-xl font-medium">Expertise Section</h2>
+                  <p className="text-sm text-black/60 mt-1">4 customizable expertise cards with images</p>
                 </div>
 
-                <div className="space-y-4 mb-6">
+                <div className="space-y-4 mb-8">
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">SECTION TITLE</label>
                     <input
                       type="text"
-                      value={settings.aboutWhyTitle}
-                      onChange={(e) => setSettings({ ...settings, aboutWhyTitle: e.target.value })}
+                      value={settings.aboutExpertiseTitle}
+                      onChange={(e) => setSettings({ ...settings, aboutExpertiseTitle: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="Why Choose TRQ"
+                      placeholder="Our Expertise"
                     />
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">SECTION DESCRIPTION</label>
-                    <input
-                      type="text"
-                      value={settings.aboutWhyDescription}
-                      onChange={(e) => setSettings({ ...settings, aboutWhyDescription: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="What sets us apart in the world of luxury interior design"
+                    <textarea
+                      value={settings.aboutExpertiseDescription}
+                      onChange={(e) => setSettings({ ...settings, aboutExpertiseDescription: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={2}
+                      placeholder="What we specialize in"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {[1, 2, 3, 4].map((num) => (
-                    <div key={num} className="bg-neutral-50 p-4 rounded space-y-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-black/10 flex items-center justify-center rounded text-sm font-medium">
-                          {num}
-                        </div>
-                        <span className="font-medium">Differentiator {num}</span>
-                      </div>
+                    <div key={num} className="bg-neutral-50 p-6 rounded space-y-4">
+                      <span className="font-medium">Expertise {num}</span>
                       <div>
-                        <label className="block mb-1 text-xs text-black/60">Title</label>
+                        <label className="block mb-2 text-xs text-black/60">Title</label>
                         <input
                           type="text"
-                          value={(settings as any)[`aboutWhy${num}Title`]}
-                          onChange={(e) => setSettings({ ...settings, [`aboutWhy${num}Title`]: e.target.value })}
-                          className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
-                          placeholder="Differentiator title"
+                          value={(settings as any)[`aboutExpertise${num}Title`]}
+                          onChange={(e) => setSettings({ ...settings, [`aboutExpertise${num}Title`]: e.target.value })}
+                          className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none text-sm"
+                          placeholder="Expertise title"
                         />
                       </div>
                       <div>
-                        <label className="block mb-1 text-xs text-black/60">Description</label>
+                        <label className="block mb-2 text-xs text-black/60">Description</label>
                         <textarea
-                          value={(settings as any)[`aboutWhy${num}Description`]}
-                          onChange={(e) => setSettings({ ...settings, [`aboutWhy${num}Description`]: e.target.value })}
+                          value={(settings as any)[`aboutExpertise${num}Description`]}
+                          onChange={(e) => setSettings({ ...settings, [`aboutExpertise${num}Description`]: e.target.value })}
                           className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none text-sm"
                           rows={3}
-                          placeholder="Differentiator description..."
+                          placeholder="Expertise description"
                         />
+                      </div>
+                      <div>
+                        <label className="block mb-2 text-xs text-black/60">Image URL</label>
+                        <input
+                          type="url"
+                          value={(settings as any)[`aboutExpertise${num}Image`]}
+                          onChange={(e) => setSettings({ ...settings, [`aboutExpertise${num}Image`]: e.target.value })}
+                          className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none text-sm"
+                          placeholder="https://..."
+                        />
+                        {(settings as any)[`aboutExpertise${num}Image`] && (
+                          <div className="mt-2 w-32 h-24 bg-neutral-100 overflow-hidden rounded">
+                            <img src={(settings as any)[`aboutExpertise${num}Image`]} alt="Preview" className="w-full h-full object-cover" />
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Impact Statement Section */}
+              {/* Story Section */}
               <div className="border-t pt-8">
                 <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">Impact Statement Section</h2>
-                  <p className="text-sm text-black/60 mt-1">Configure the impact statement at the bottom of the About page</p>
+                  <h2 className="text-xl font-medium">Story Section</h2>
+                  <p className="text-sm text-black/60 mt-1">Our Story content</p>
                 </div>
 
                 <div className="space-y-4">
@@ -1253,30 +1189,96 @@ export function AdminSettings() {
                     <label className="block mb-2 text-sm tracking-wider">SECTION TITLE</label>
                     <input
                       type="text"
-                      value={settings.aboutImpactTitle}
-                      onChange={(e) => setSettings({ ...settings, aboutImpactTitle: e.target.value })}
+                      value={settings.aboutStoryTitle}
+                      onChange={(e) => setSettings({ ...settings, aboutStoryTitle: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="Our Impact on Clients"
+                      placeholder="Our Story"
                     />
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">PARAGRAPH 1</label>
                     <textarea
-                      value={settings.aboutImpactParagraph1}
-                      onChange={(e) => setSettings({ ...settings, aboutImpactParagraph1: e.target.value })}
+                      value={settings.aboutStoryText1}
+                      onChange={(e) => setSettings({ ...settings, aboutStoryText1: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={4}
-                      placeholder="We don't just design spaces—we transform the way our clients live..."
+                      rows={3}
+                      placeholder="Founded with a passion..."
                     />
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">PARAGRAPH 2</label>
                     <textarea
-                      value={settings.aboutImpactParagraph2}
-                      onChange={(e) => setSettings({ ...settings, aboutImpactParagraph2: e.target.value })}
+                      value={settings.aboutStoryText2}
+                      onChange={(e) => setSettings({ ...settings, aboutStoryText2: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={4}
-                      placeholder="Every project is an opportunity to make a lasting positive impact..."
+                      rows={3}
+                      placeholder="Our journey began..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">PARAGRAPH 3</label>
+                    <textarea
+                      value={settings.aboutStoryText3}
+                      onChange={(e) => setSettings({ ...settings, aboutStoryText3: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={3}
+                      placeholder="Today, we continue to evolve..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">STORY IMAGE URL</label>
+                    <input
+                      type="url"
+                      value={settings.aboutStoryImage}
+                      onChange={(e) => setSettings({ ...settings, aboutStoryImage: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="https://..."
+                    />
+                    {settings.aboutStoryImage && (
+                      <div className="mt-3 w-48 h-32 bg-neutral-100 overflow-hidden rounded">
+                        <img src={settings.aboutStoryImage} alt="Preview" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* CTA Section */}
+              <div className="border-t pt-8">
+                <div className="border-b pb-4 mb-6">
+                  <h2 className="text-xl font-medium">CTA Section</h2>
+                  <p className="text-sm text-black/60 mt-1">Call-to-action content</p>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">CTA TITLE</label>
+                    <input
+                      type="text"
+                      value={settings.aboutCtaTitle}
+                      onChange={(e) => setSettings({ ...settings, aboutCtaTitle: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="Ready to Transform Your Space?"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">CTA DESCRIPTION</label>
+                    <textarea
+                      value={settings.aboutCtaDescription}
+                      onChange={(e) => setSettings({ ...settings, aboutCtaDescription: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={2}
+                      placeholder="Let's collaborate..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">CTA BUTTON TEXT</label>
+                    <input
+                      type="text"
+                      value={settings.aboutCtaButton}
+                      onChange={(e) => setSettings({ ...settings, aboutCtaButton: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="Start Your Project"
                     />
                   </div>
                 </div>
@@ -1518,7 +1520,7 @@ export function AdminSettings() {
                       value={settings.workflowHeroTitle}
                       onChange={(e) => setSettings({ ...settings, workflowHeroTitle: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="HOW WE WORK"
+                      placeholder="Our Workflow"
                     />
                   </div>
                   <div>
@@ -1528,38 +1530,17 @@ export function AdminSettings() {
                       onChange={(e) => setSettings({ ...settings, workflowHeroParagraph: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
                       rows={2}
-                      placeholder="A seamless process designed to bring your vision to life"
+                      placeholder="From Vision to Reality: A Structured Approach to Exceptional Design"
                     />
                   </div>
-                </div>
-              </div>
-
-              {/* Introduction Section */}
-              <div className="border-t pt-8">
-                <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">Introduction Section</h2>
-                  <p className="text-sm text-black/60 mt-1">Content displayed below the hero</p>
-                </div>
-
-                <div className="space-y-4">
                   <div>
-                    <label className="block mb-2 text-sm tracking-wider">SECTION TITLE</label>
+                    <label className="block mb-2 text-sm tracking-wider">HERO IMAGE URL</label>
                     <input
                       type="text"
-                      value={settings.workflowIntroTitle}
-                      onChange={(e) => setSettings({ ...settings, workflowIntroTitle: e.target.value })}
+                      value={settings.workflowHeroImage}
+                      onChange={(e) => setSettings({ ...settings, workflowHeroImage: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="Our Proven Process"
-                    />
-                  </div>
-                  <div>
-                    <label className="block mb-2 text-sm tracking-wider">PARAGRAPH</label>
-                    <textarea
-                      value={settings.workflowIntroParagraph}
-                      onChange={(e) => setSettings({ ...settings, workflowIntroParagraph: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={4}
-                      placeholder="At TRQ, we believe that exceptional design requires..."
+                      placeholder="https://..."
                     />
                   </div>
                 </div>
@@ -1568,75 +1549,87 @@ export function AdminSettings() {
               {/* Process Steps */}
               <div className="border-t pt-8">
                 <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">Process Steps</h2>
-                  <p className="text-sm text-black/60 mt-1">Configure the 5 workflow steps (separate features with | character)</p>
+                  <h2 className="text-xl font-medium">Process Steps (5 Steps)</h2>
+                  <p className="text-sm text-black/60 mt-1">Configure the 5 workflow steps with title, description, and features</p>
                 </div>
 
                 <div className="space-y-6">
                   {[1, 2, 3, 4, 5].map((num) => {
-                    const IconPreview = getIconComponent((settings as any)[`workflowStep${num}Icon`]);
+                    const featuresArray = ((settings as any)[`workflowStep${num}Features`] || '').split('|').filter((f: string) => f.trim());
                     return (
                       <div key={num} className="bg-neutral-50 p-6 rounded space-y-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-black flex items-center justify-center rounded">
-                            <IconPreview className="text-white" size={24} />
-                          </div>
                           <span className="text-lg font-medium">Step {num}</span>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label className="block mb-1 text-xs text-black/60">Title</label>
-                            <input
-                              type="text"
-                              value={(settings as any)[`workflowStep${num}Title`]}
-                              onChange={(e) => setSettings({ ...settings, [`workflowStep${num}Title`]: e.target.value })}
-                              className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
-                              placeholder="Step title"
-                            />
-                          </div>
-                          <div>
-                            <label className="block mb-1 text-xs text-black/60">Icon</label>
-                            <div className="grid grid-cols-8 gap-1 p-2 border bg-white max-h-24 overflow-y-auto rounded">
-                              {availableIcons.map((iconName) => {
-                                const Icon = getIconComponent(iconName);
-                                return (
-                                  <button
-                                    key={iconName}
-                                    type="button"
-                                    onClick={() => setSettings({ ...settings, [`workflowStep${num}Icon`]: iconName })}
-                                    className={`p-1.5 flex items-center justify-center rounded transition-colors ${
-                                      (settings as any)[`workflowStep${num}Icon`] === iconName
-                                        ? 'bg-black text-white'
-                                        : 'hover:bg-black/10'
-                                    }`}
-                                    title={iconName}
-                                  >
-                                    <Icon size={16} />
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        </div>
                         <div>
-                          <label className="block mb-1 text-xs text-black/60">Description</label>
+                          <label className="block mb-1 text-xs text-black/60">TITLE</label>
                           <input
                             type="text"
+                            value={(settings as any)[`workflowStep${num}Title`]}
+                            onChange={(e) => setSettings({ ...settings, [`workflowStep${num}Title`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
+                            placeholder="Step title"
+                          />
+                        </div>
+                        <div>
+                          <label className="block mb-1 text-xs text-black/60">DESCRIPTION</label>
+                          <textarea
                             value={(settings as any)[`workflowStep${num}Description`]}
                             onChange={(e) => setSettings({ ...settings, [`workflowStep${num}Description`]: e.target.value })}
-                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none text-sm"
+                            rows={3}
                             placeholder="Step description"
                           />
                         </div>
                         <div>
-                          <label className="block mb-1 text-xs text-black/60">Features (separate with | character)</label>
-                          <textarea
-                            value={(settings as any)[`workflowStep${num}Features`]}
-                            onChange={(e) => setSettings({ ...settings, [`workflowStep${num}Features`]: e.target.value })}
-                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none text-sm"
-                            rows={4}
-                            placeholder="Feature 1|Feature 2|Feature 3..."
+                          <label className="block mb-1 text-xs text-black/60">FEATURES LABEL</label>
+                          <input
+                            type="text"
+                            value={(settings as any)[`workflowStep${num}Label`]}
+                            onChange={(e) => setSettings({ ...settings, [`workflowStep${num}Label`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none text-sm"
+                            placeholder={`Step ${num} features label`}
                           />
+                        </div>
+                        <div>
+                          <label className="block mb-2 text-xs text-black/60">FEATURES</label>
+                          <div className="space-y-2">
+                            {featuresArray.map((feature: string, idx: number) => (
+                              <div key={idx} className="flex items-center gap-2">
+                                <input
+                                  type="text"
+                                  value={feature}
+                                  onChange={(e) => {
+                                    const newArray = [...featuresArray];
+                                    newArray[idx] = e.target.value;
+                                    setSettings({ ...settings, [`workflowStep${num}Features`]: newArray.join('|') });
+                                  }}
+                                  className="flex-1 px-3 py-2 border border-black/20 focus:border-black focus:outline-none text-sm"
+                                  placeholder={`Feature ${idx + 1}`}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const newArray = featuresArray.filter((_: string, i: number) => i !== idx);
+                                    setSettings({ ...settings, [`workflowStep${num}Features`]: newArray.join('|') });
+                                  }}
+                                  className="px-3 py-2 bg-red-500 text-white hover:bg-red-600 transition-colors rounded text-sm"
+                                >
+                                  Remove
+                                </button>
+                              </div>
+                            ))}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newArray = [...featuresArray, ''];
+                                setSettings({ ...settings, [`workflowStep${num}Features`]: newArray.join('|') });
+                              }}
+                              className="w-full px-3 py-2 border-2 border-dashed border-black/30 text-black hover:bg-black/5 transition-colors rounded text-sm font-medium"
+                            >
+                              + Add Feature
+                            </button>
+                          </div>
                         </div>
                       </div>
                     );
@@ -1648,7 +1641,7 @@ export function AdminSettings() {
               <div className="border-t pt-8">
                 <div className="border-b pb-4 mb-6">
                   <h2 className="text-xl font-medium">Why Our Process Works Section</h2>
-                  <p className="text-sm text-black/60 mt-1">The 3 process benefits displayed on the Workflow page</p>
+                  <p className="text-sm text-black/60 mt-1">The 3 process benefits displayed on black background</p>
                 </div>
 
                 <div className="space-y-4 mb-6">
@@ -1664,88 +1657,73 @@ export function AdminSettings() {
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">SECTION DESCRIPTION</label>
-                    <input
-                      type="text"
+                    <textarea
                       value={settings.workflowWhyDescription}
                       onChange={(e) => setSettings({ ...settings, workflowWhyDescription: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="Built on years of experience..."
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={3}
+                      placeholder="Built on years of experience and refined through countless successful projects..."
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {[1, 2, 3].map((num) => (
-                    <div key={num} className="bg-neutral-50 p-4 rounded space-y-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-black/10 flex items-center justify-center rounded text-sm font-medium">
-                          {num}
+                  {[1, 2, 3].map((num) => {
+                    const IconPreview = getIconComponent((settings as any)[`workflowWhy${num}Icon`]);
+                    return (
+                      <div key={num} className="bg-neutral-50 p-4 rounded space-y-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 bg-black flex items-center justify-center rounded text-sm font-medium">
+                            <IconPreview className="text-white" size={16} />
+                          </div>
+                          <span className="font-medium">Benefit {num}</span>
                         </div>
-                        <span className="font-medium">Benefit {num}</span>
+                        <div>
+                          <label className="block mb-1 text-xs text-black/60">TITLE</label>
+                          <input
+                            type="text"
+                            value={(settings as any)[`workflowWhy${num}Title`]}
+                            onChange={(e) => setSettings({ ...settings, [`workflowWhy${num}Title`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
+                            placeholder="Benefit title"
+                          />
+                        </div>
+                        <div>
+                          <label className="block mb-1 text-xs text-black/60">ICON</label>
+                          <div className="grid grid-cols-8 gap-1 p-2 border bg-white max-h-24 overflow-y-auto rounded">
+                            {availableIcons.map((iconName) => {
+                              const Icon = getIconComponent(iconName);
+                              return (
+                                <button
+                                  key={iconName}
+                                  type="button"
+                                  onClick={() => setSettings({ ...settings, [`workflowWhy${num}Icon`]: iconName })}
+                                  className={`p-1.5 flex items-center justify-center rounded transition-colors ${
+                                    (settings as any)[`workflowWhy${num}Icon`] === iconName
+                                      ? 'bg-black text-white'
+                                      : 'hover:bg-black/10'
+                                  }`}
+                                  title={iconName}
+                                >
+                                  <Icon size={16} />
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block mb-1 text-xs text-black/60">DESCRIPTION</label>
+                          <textarea
+                            value={(settings as any)[`workflowWhy${num}Description`]}
+                            onChange={(e) => setSettings({ ...settings, [`workflowWhy${num}Description`]: e.target.value })}
+                            className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none text-sm"
+                            rows={3}
+                            placeholder="Benefit description..."
+                          />
+                        </div>
                       </div>
-                      <div>
-                        <label className="block mb-1 text-xs text-black/60">Title</label>
-                        <input
-                          type="text"
-                          value={(settings as any)[`workflowWhy${num}Title`]}
-                          onChange={(e) => setSettings({ ...settings, [`workflowWhy${num}Title`]: e.target.value })}
-                          className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
-                          placeholder="Benefit title"
-                        />
-                      </div>
-                      <div>
-                        <label className="block mb-1 text-xs text-black/60">Description</label>
-                        <textarea
-                          value={(settings as any)[`workflowWhy${num}Description`]}
-                          onChange={(e) => setSettings({ ...settings, [`workflowWhy${num}Description`]: e.target.value })}
-                          className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none resize-none text-sm"
-                          rows={3}
-                          placeholder="Benefit description..."
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Project Timeline Section */}
-              <div className="border-t pt-8">
-                <div className="border-b pb-4 mb-6">
-                  <h2 className="text-xl font-medium">Project Timeline Section</h2>
-                  <p className="text-sm text-black/60 mt-1">Information about project timelines</p>
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block mb-2 text-sm tracking-wider">SECTION TITLE</label>
-                    <input
-                      type="text"
-                      value={settings.workflowTimelineTitle}
-                      onChange={(e) => setSettings({ ...settings, workflowTimelineTitle: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="Project Timeline"
-                    />
-                  </div>
-                  <div>
-                    <label className="block mb-2 text-sm tracking-wider">PARAGRAPH 1</label>
-                    <textarea
-                      value={settings.workflowTimelineParagraph1}
-                      onChange={(e) => setSettings({ ...settings, workflowTimelineParagraph1: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={4}
-                      placeholder="While every project is unique..."
-                    />
-                  </div>
-                  <div>
-                    <label className="block mb-2 text-sm tracking-wider">PARAGRAPH 2</label>
-                    <textarea
-                      value={settings.workflowTimelineParagraph2}
-                      onChange={(e) => setSettings({ ...settings, workflowTimelineParagraph2: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={3}
-                      placeholder="During our initial consultation..."
-                    />
-                  </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -1756,7 +1734,7 @@ export function AdminSettings() {
                   <p className="text-sm text-black/60 mt-1">The CTA at the bottom of the Workflow page</p>
                 </div>
 
-                <div className="space-y-4 mb-6">
+                <div className="space-y-4">
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">SECTION TITLE</label>
                     <input
@@ -1764,7 +1742,7 @@ export function AdminSettings() {
                       value={settings.workflowCtaTitle}
                       onChange={(e) => setSettings({ ...settings, workflowCtaTitle: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="Ready to Begin Your Journey?"
+                      placeholder="Our Commitment"
                     />
                   </div>
                   <div>
@@ -1773,62 +1751,9 @@ export function AdminSettings() {
                       value={settings.workflowCtaDescription}
                       onChange={(e) => setSettings({ ...settings, workflowCtaDescription: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
-                      rows={2}
-                      placeholder="Let's start with a consultation..."
+                      rows={3}
+                      placeholder="Built on years of experience and refined through countless successful projects..."
                     />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-neutral-50 p-4 rounded space-y-3">
-                    <p className="text-sm font-medium">Primary Button</p>
-                    <div>
-                      <label className="block mb-1 text-xs text-black/60">Button Text</label>
-                      <input
-                        type="text"
-                        value={settings.workflowCtaButton1Text}
-                        onChange={(e) => setSettings({ ...settings, workflowCtaButton1Text: e.target.value })}
-                        className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
-                        placeholder="REQUEST PRICING"
-                      />
-                    </div>
-                    <div>
-                      <label className="block mb-1 text-xs text-black/60">Link To</label>
-                      <select
-                        value={settings.workflowCtaButton1Page}
-                        onChange={(e) => setSettings({ ...settings, workflowCtaButton1Page: e.target.value })}
-                        className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none bg-white"
-                      >
-                        {linkOptions.map((opt) => (
-                          <option key={opt.value} value={opt.value}>{opt.label}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="bg-neutral-50 p-4 rounded space-y-3">
-                    <p className="text-sm font-medium">Secondary Button</p>
-                    <div>
-                      <label className="block mb-1 text-xs text-black/60">Button Text</label>
-                      <input
-                        type="text"
-                        value={settings.workflowCtaButton2Text}
-                        onChange={(e) => setSettings({ ...settings, workflowCtaButton2Text: e.target.value })}
-                        className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none"
-                        placeholder="SCHEDULE CONSULTATION"
-                      />
-                    </div>
-                    <div>
-                      <label className="block mb-1 text-xs text-black/60">Link To</label>
-                      <select
-                        value={settings.workflowCtaButton2Page}
-                        onChange={(e) => setSettings({ ...settings, workflowCtaButton2Page: e.target.value })}
-                        className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none bg-white"
-                      >
-                        {linkOptions.map((opt) => (
-                          <option key={opt.value} value={opt.value}>{opt.label}</option>
-                        ))}
-                      </select>
-                    </div>
                   </div>
                 </div>
               </div>

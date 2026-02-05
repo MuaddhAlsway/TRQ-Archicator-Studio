@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 import { useState, useEffect, useRef } from 'react';
-import { Compass, Layers, Star, Users, Instagram, Linkedin } from 'lucide-react';
+import * as Icons from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ImageWithFallback } from './figma/ImageWithFallback';
@@ -10,8 +9,13 @@ import { useLanguage } from '../context/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const getIconComponent = (iconName: string) => {
+  const IconComponent = (Icons as any)[iconName];
+  return IconComponent || Icons.Star;
+};
+
 export function AboutUs() {
-  const { ts, td, isRTL } = useLanguage();
+  const { td, isRTL } = useLanguage();
   const [isLoading, setIsLoading] = useState(true);
   const heroRef = useRef<HTMLDivElement>(null);
   const visionMissionRef = useRef<HTMLDivElement>(null);
@@ -19,16 +23,6 @@ export function AboutUs() {
   const expertiseRef = useRef<HTMLDivElement>(null);
   const storyRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-=======
-import { useState, useEffect } from 'react';
-import { Compass, Layers, Star, Users, Instagram, Linkedin } from 'lucide-react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
-import * as api from '../api';
-import { useLanguage } from '../context/LanguageContext';
-
-export function AboutUs() {
-  const { ts, td, isRTL } = useLanguage();
->>>>>>> 94e121dc1ed60c1d36cb523419900754ec19ddb4
   const [settings, setSettings] = useState({
     aboutHeroTitle: 'About TRQ Studio',
     aboutHeroDescription: 'We are a luxury interior design studio dedicated to creating timeless, sophisticated spaces that reflect our clients\' refined taste and elevated lifestyle.',
@@ -38,7 +32,33 @@ export function AboutUs() {
     aboutMissionTitle: 'Our Mission',
     aboutMissionDescription: 'We serve discerning clients by transforming their spaces into personal sanctuaries of elegance and functionality. Through meticulous attention to detail and collaborative partnership, we deliver interiors that exceed expectations.',
     aboutApproachTitle: 'Our Approach',
+    aboutApproachDescription: 'How we bring your vision to life',
+    aboutApproach1Title: 'Thoughtful Direction',
+    aboutApproach1Description: 'Every design decision is purposeful, guided by deep understanding of our clients\' lifestyle and aesthetic preferences.',
+    aboutApproach1Icon: 'Compass',
+    aboutApproach2Title: 'Layered Excellence',
+    aboutApproach2Description: 'We build complexity through careful layering of textures, materials, and elements that create depth and visual interest.',
+    aboutApproach2Icon: 'Layers',
+    aboutApproach3Title: 'Timeless Quality',
+    aboutApproach3Description: 'We prioritize enduring beauty over fleeting trends, selecting materials and finishes that age gracefully.',
+    aboutApproach3Icon: 'Star',
+    aboutApproach4Title: 'Collaborative Partnership',
+    aboutApproach4Description: 'We work closely with clients as creative partners, ensuring every space authentically reflects their vision and needs.',
+    aboutApproach4Icon: 'Users',
     aboutExpertiseTitle: 'Our Expertise',
+    aboutExpertiseDescription: 'What we specialize in',
+    aboutExpertise1Title: 'Luxury Residential',
+    aboutExpertise1Description: 'Private homes and estates designed with uncompromising attention to comfort, elegance, and personal expression.',
+    aboutExpertise1Image: '/uploads/1.webp',
+    aboutExpertise2Title: 'Commercial Spaces',
+    aboutExpertise2Description: 'Professional environments that embody brand identity while creating inspiring spaces for work and collaboration.',
+    aboutExpertise2Image: '/uploads/2.webp',
+    aboutExpertise3Title: 'Custom Furniture',
+    aboutExpertise3Description: 'Bespoke pieces designed and crafted to perfectly complement each space and reflect individual style preferences.',
+    aboutExpertise3Image: '/uploads/14.webp',
+    aboutExpertise4Title: 'Concept Design',
+    aboutExpertise4Description: 'Innovative design concepts that transform spaces into stunning visual experiences, blending creativity with functionality.',
+    aboutExpertise4Image: '/uploads/11 cave.webp',
     aboutStoryTitle: 'Our Story',
     aboutStoryText1: 'Founded with a passion for creating extraordinary spaces, TRQ Studio emerged from the belief that great design has the power to transform not just rooms, but lives.',
     aboutStoryText2: 'Our journey began with a simple philosophy: luxury isn\'t about excess, it\'s about refinement. Every project we undertake is an opportunity to push creative boundaries while honoring the principles of timeless design.',
@@ -49,11 +69,47 @@ export function AboutUs() {
     aboutCtaButton: 'Start Your Project',
   });
 
+  const [allSettings, setAllSettings] = useState<any>(null);
+
   useEffect(() => {
-    api.getSettings().then((data) => setSettings(prev => ({ ...prev, ...data }))).catch(() => {});
+    // Fetch all settings once on component mount
+    api.getSettings().then((data) => {
+      setAllSettings(data);
+    }).catch((err) => {
+      console.error('Failed to fetch settings:', err);
+    });
+    
+    // Keep loading screen visible for at least 4 seconds (3s animation + 1s buffer)
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
+
+    return () => clearTimeout(timer);
   }, []);
 
-<<<<<<< HEAD
+  // Update settings when language changes
+  useEffect(() => {
+    if (!allSettings) return;
+    
+    const newSettings = { ...settings };
+    
+    // For each about* key in default settings
+    Object.keys(newSettings).forEach(key => {
+      if (key.startsWith('about')) {
+        if (isRTL) {
+          // Arabic mode: use _ar suffixed key if it exists, otherwise use English
+          const arabicKey = `${key}_ar`;
+          newSettings[key] = allSettings[arabicKey] || allSettings[key] || newSettings[key];
+        } else {
+          // English mode: use regular key
+          newSettings[key] = allSettings[key] || newSettings[key];
+        }
+      }
+    });
+    
+    setSettings(newSettings);
+  }, [isRTL, allSettings]);
+
   // Scroll animations
   useEffect(() => {
     const sections = [heroRef, visionMissionRef, approachRef, expertiseRef, storyRef, ctaRef];
@@ -91,68 +147,11 @@ export function AboutUs() {
     };
   }, []);
 
-=======
->>>>>>> 94e121dc1ed60c1d36cb523419900754ec19ddb4
-  const approaches = [
-    {
-      icon: Compass,
-      title: 'Thoughtful Direction',
-      description: 'Every design decision is purposeful, guided by deep understanding of our clients\' lifestyle and aesthetic preferences.',
-    },
-    {
-      icon: Layers,
-      title: 'Layered Excellence',
-      description: 'We build complexity through careful layering of textures, materials, and elements that create depth and visual interest.',
-    },
-    {
-      icon: Star,
-      title: 'Timeless Quality',
-      description: 'We prioritize enduring beauty over fleeting trends, selecting materials and finishes that age gracefully.',
-    },
-    {
-      icon: Users,
-      title: 'Collaborative Partnership',
-      description: 'We work closely with clients as creative partners, ensuring every space authentically reflects their vision and needs.',
-    },
-  ];
-
-  const expertise = [
-    {
-      image: '/uploads/1.webp',
-      title: 'Luxury Residential',
-      description: 'Private homes and estates designed with uncompromising attention to comfort, elegance, and personal expression.',
-      category: 'HOMES & ESTATES',
-    },
-    {
-      image: '/uploads/2.webp',
-      title: 'Commercial Spaces',
-      description: 'Professional environments that embody brand identity while creating inspiring spaces for work and collaboration.',
-      category: 'OFFICES & RETAIL',
-    },
-    {
-      image: '/uploads/14.webp',
-      title: 'Custom Furniture',
-      description: 'Bespoke pieces designed and crafted to perfectly complement each space and reflect individual style preferences.',
-      category: 'FURNITURE & STYLING',
-    },
-    {
-      image: '/uploads/11 cave.webp',
-      title: 'Concept Design',
-      description: 'Innovative design concepts that transform spaces into stunning visual experiences, blending creativity with functionality.',
-      category: 'DESIGN & CONCEPTS',
-    },
-  ];
-
   return (
-    <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
-<<<<<<< HEAD
+    <div className={`w-full ${isRTL ? 'rtl' : 'ltr'} relative`}>
       <LoadingScreen isLoading={isLoading} onLoadingComplete={() => setIsLoading(false)} />
       {/* Hero Section */}
       <section ref={heroRef} className="pt-24 pb-24 px-4 md:px-12">
-=======
-      {/* Hero Section */}
-      <section className="pt-24 pb-24 px-4 md:px-12">
->>>>>>> 94e121dc1ed60c1d36cb523419900754ec19ddb4
         <div className="flex flex-col gap-16 max-w-7xl mx-auto">
           <div className="max-w-5xl">
             <h1 className="text-5xl md:text-6xl tracking-tight mb-8 font-light" style={{ fontFamily: 'Georgia, serif' }}>
@@ -173,11 +172,7 @@ export function AboutUs() {
       </section>
 
       {/* Vision & Mission Section */}
-<<<<<<< HEAD
       <section ref={visionMissionRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
-=======
-      <section className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
->>>>>>> 94e121dc1ed60c1d36cb523419900754ec19ddb4
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
             <div className="flex flex-col gap-8">
@@ -201,29 +196,30 @@ export function AboutUs() {
       </section>
 
       {/* Approach Section */}
-<<<<<<< HEAD
       <section ref={approachRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
-=======
-      <section className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
->>>>>>> 94e121dc1ed60c1d36cb523419900754ec19ddb4
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col gap-16">
-            <h2 className="text-3xl tracking-tight font-light" style={{ fontFamily: 'Georgia, serif' }}>
-              {td(settings.aboutApproachTitle)}
-            </h2>
+            <div className="flex flex-col gap-4">
+              <h2 className="text-3xl tracking-tight font-light" style={{ fontFamily: 'Georgia, serif' }}>
+                {td(settings.aboutApproachTitle)}
+              </h2>
+              <p className="text-base text-black/60">
+                {td(settings.aboutApproachDescription)}
+              </p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {approaches.map((approach, index) => {
-                const Icon = approach.icon;
+              {[1, 2, 3, 4].map((num) => {
+                const Icon = getIconComponent((settings as any)[`aboutApproach${num}Icon`]);
                 return (
-                  <div key={index} className="flex flex-col gap-6 p-12 bg-slate-50">
-                    <div className="w-8 h-8 flex items-center justify-center">
-                      <Icon className="text-2xl text-black" />
+                  <div key={num} className="flex flex-col gap-6 p-12 bg-slate-50 rounded">
+                    <div className="w-10 h-10 flex items-center justify-center bg-black rounded">
+                      <Icon className="text-white" size={20} />
                     </div>
                     <h3 className="text-xl font-medium" style={{ fontFamily: 'Georgia, serif' }}>
-                      {approach.title}
+                      {td((settings as any)[`aboutApproach${num}Title`])}
                     </h3>
                     <p className="text-base text-black/70 leading-relaxed">
-                      {approach.description}
+                      {td((settings as any)[`aboutApproach${num}Description`])}
                     </p>
                   </div>
                 );
@@ -234,34 +230,32 @@ export function AboutUs() {
       </section>
 
       {/* Expertise Section */}
-<<<<<<< HEAD
       <section ref={expertiseRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
-=======
-      <section className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
->>>>>>> 94e121dc1ed60c1d36cb523419900754ec19ddb4
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col gap-16">
-            <h2 className="text-3xl tracking-tight font-light" style={{ fontFamily: 'Georgia, serif' }}>
-              {td(settings.aboutExpertiseTitle)}
-            </h2>
+            <div className="flex flex-col gap-4">
+              <h2 className="text-3xl tracking-tight font-light" style={{ fontFamily: 'Georgia, serif' }}>
+                {td(settings.aboutExpertiseTitle)}
+              </h2>
+              <p className="text-base text-black/60">
+                {td(settings.aboutExpertiseDescription)}
+              </p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {expertise.map((item, index) => (
-                <div key={index} className="flex flex-col border border-black/15">
+              {[1, 2, 3, 4].map((num) => (
+                <div key={num} className="flex flex-col border border-black/15 rounded overflow-hidden">
                   <ImageWithFallback
-                    src={item.image}
-                    alt={item.title}
+                    src={(settings as any)[`aboutExpertise${num}Image`]}
+                    alt={(settings as any)[`aboutExpertise${num}Title`]}
                     className="w-full h-[300px] object-cover"
                   />
                   <div className="flex flex-col gap-4 p-8">
                     <h3 className="text-2xl tracking-tight" style={{ fontFamily: 'Georgia, serif' }}>
-                      {item.title}
+                      {td((settings as any)[`aboutExpertise${num}Title`])}
                     </h3>
                     <p className="text-base text-black/70 leading-relaxed">
-                      {item.description}
+                      {td((settings as any)[`aboutExpertise${num}Description`])}
                     </p>
-                    <span className="text-sm tracking-wide uppercase text-black/50">
-                      {item.category}
-                    </span>
                   </div>
                 </div>
               ))}
@@ -271,11 +265,7 @@ export function AboutUs() {
       </section>
 
       {/* Story Section */}
-<<<<<<< HEAD
       <section ref={storyRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
-=======
-      <section className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
->>>>>>> 94e121dc1ed60c1d36cb523419900754ec19ddb4
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
             <div className="flex flex-col gap-8">
@@ -306,11 +296,7 @@ export function AboutUs() {
       </section>
 
       {/* CTA Section */}
-<<<<<<< HEAD
       <section ref={ctaRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
-=======
-      <section className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
->>>>>>> 94e121dc1ed60c1d36cb523419900754ec19ddb4
         <div className="max-w-7xl mx-auto text-center flex flex-col items-center gap-12">
           <h2 className="text-4xl tracking-tight font-light" style={{ fontFamily: 'Georgia, serif' }}>
             {td(settings.aboutCtaTitle)}
@@ -323,9 +309,6 @@ export function AboutUs() {
           </button>
         </div>
       </section>
-
-      {/* Footer */}
-   
     </div>
   );
 }

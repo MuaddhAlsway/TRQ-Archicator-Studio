@@ -332,7 +332,7 @@ export function AdminServices() {
               {/* Basic Info */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">
-                  <label className="block text-sm font-medium mb-1">Title</label>
+                  <label className="block text-sm font-medium mb-1">Title (English)</label>
                   <input
                     type="text"
                     value={formData.title}
@@ -341,15 +341,37 @@ export function AdminServices() {
                     placeholder="e.g., Residential Interior Design"
                   />
                 </div>
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium mb-1">Title (Arabic)</label>
+                  <input
+                    type="text"
+                    value={formData.title_ar || ''}
+                    onChange={(e) => setFormData({ ...formData, title_ar: e.target.value })}
+                    className="w-full border p-2"
+                    placeholder="e.g., تصميم داخلي سكني"
+                    dir="rtl"
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Description</label>
+                <label className="block text-sm font-medium mb-1">Description (English)</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   className="w-full border p-2 h-24 resize-none"
                   placeholder="Service description..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Description (Arabic)</label>
+                <textarea
+                  value={formData.description_ar || ''}
+                  onChange={(e) => setFormData({ ...formData, description_ar: e.target.value })}
+                  className="w-full border p-2 h-24 resize-none"
+                  placeholder="وصف الخدمة..."
+                  dir="rtl"
                 />
               </div>
 
@@ -398,7 +420,7 @@ export function AdminServices() {
 
               {/* Features */}
               <div>
-                <label className="block text-sm font-medium mb-2">Features</label>
+                <label className="block text-sm font-medium mb-2">Features (English)</label>
                 <div className="space-y-2 mb-3">
                   {formData.features.map((feature, index) => (
                     <div key={index} className="flex items-center gap-2 bg-neutral-50 p-2">
@@ -430,6 +452,65 @@ export function AdminServices() {
                   >
                     Add
                   </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Features (Arabic)</label>
+                <div className="space-y-2 mb-3">
+                  {(formData.features_ar || []).map((feature, index) => (
+                    <div key={index} className="flex items-center gap-2 bg-neutral-50 p-2" dir="rtl">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = (formData.features_ar || []).filter((_, i) => i !== index);
+                          setFormData({ ...formData, features_ar: updated });
+                        }}
+                        className="p-1 hover:bg-red-50 text-red-600 rounded"
+                      >
+                        <X size={16} />
+                      </button>
+                      <span className="flex-1 text-sm">{feature}</span>
+                      <div className="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0" />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (newFeatureAr.trim()) {
+                        setFormData({ 
+                          ...formData, 
+                          features_ar: [...(formData.features_ar || []), newFeatureAr.trim()] 
+                        });
+                        setNewFeatureAr('');
+                      }
+                    }}
+                    className="px-4 py-2 bg-black text-white hover:bg-black/80"
+                  >
+                    Add
+                  </button>
+                  <input
+                    type="text"
+                    value={newFeatureAr}
+                    onChange={(e) => setNewFeatureAr(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (newFeatureAr.trim()) {
+                          setFormData({ 
+                            ...formData, 
+                            features_ar: [...(formData.features_ar || []), newFeatureAr.trim()] 
+                          });
+                          setNewFeatureAr('');
+                        }
+                      }
+                    }}
+                    className="flex-1 border p-2"
+                    placeholder="أضف ميزة..."
+                    dir="rtl"
+                  />
                 </div>
               </div>
 

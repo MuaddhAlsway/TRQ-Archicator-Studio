@@ -1,41 +1,32 @@
 /* Loading Screen */
-.loading-overlay {
+.loading-overlay-top,
+.loading-overlay-bottom {
   position: fixed;
-  top: 0;
   left: 0;
-  width: 100%;
-  height: 100vh;
-  height: 100dvh;
-  z-index: 9999;
-  pointer-events: none;
+  width: 100vw;
+  height: 50vh;
+  z-index: 9998;
+  background: #000;
 }
 
-.loading-curtain {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 50%;
-  background-color: #000;
-  z-index: 10;
-}
-
-.loading-curtain.left {
+.loading-overlay-top {
   top: 0;
 }
 
-.loading-curtain.right {
+.loading-overlay-bottom {
   bottom: 0;
 }
 
 .loading-content {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
   width: 200px;
-  z-index: 20;
+  z-index: 9999;
   color: #fff;
+  pointer-events: none;
 }
 
 .loading-logo {
@@ -120,4 +111,35 @@
     font-size: 0.75rem;
     letter-spacing: 3px;
   }
+}
+
+
+/* ============ BLACK CURTAIN SPLIT EFFECT ============ */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 9997;
+  pointer-events: none;
+}
+
+.hero-curtain {
+  position: fixed;
+  top: 0;
+  width: 50%;
+  height: 100vh;
+  background-color: #000;
+  z-index: 9998;
+  pointer-events: none;
+}
+
+.hero-curtain.left {
+  left: 0;
+}
+
+.hero-curtain.right {
+  right: 0;
 }

@@ -68,7 +68,7 @@ const authenticateToken = (req, res, next) => {
 // ============ PROJECTS ============
 app.get('/api/projects', (req, res) => {
   try {
-    res.set('Cache-Control', 'public, max-age=300');
+    res.set('Cache-Control', 'public, max-age=30');
     const projects = db.prepare('SELECT * FROM projects ORDER BY id DESC').all();
     res.json(projects);
   } catch (error) {
@@ -79,7 +79,7 @@ app.get('/api/projects', (req, res) => {
 
 app.get('/api/projects/published', (req, res) => {
   try {
-    res.set('Cache-Control', 'public, max-age=300');
+    res.set('Cache-Control', 'public, max-age=60');
     let projects = db.prepare("SELECT * FROM projects WHERE status = 'published' ORDER BY id DESC").all();
     if (projects.length === 0) {
       projects = db.prepare("SELECT * FROM projects ORDER BY id DESC").all();
@@ -93,6 +93,9 @@ app.get('/api/projects/published', (req, res) => {
 
 app.get('/api/projects/:id', (req, res) => {
   try {
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
     const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(req.params.id);
     if (project) {
       res.json(project);

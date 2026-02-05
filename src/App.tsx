@@ -2,10 +2,6 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { ParallaxProvider } from 'react-scroll-parallax';
 import { Home } from './components/Home';
-<<<<<<< HEAD
-=======
-import { About } from './components/About';
->>>>>>> 94e121dc1ed60c1d36cb523419900754ec19ddb4
 import { AboutUs } from './components/AboutUs';
 import { Services } from './components/Services';
 import { WorkflowPage } from './components/WorkflowPage';
@@ -113,7 +109,7 @@ export default function App() {
 
   return (
     <ParallaxProvider>
-      <div className={`min-h-screen bg-white ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

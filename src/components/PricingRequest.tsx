@@ -1,10 +1,15 @@
+import { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { LoadingScreen } from './LoadingScreen';
 
 export function PricingRequest() {
   const { ts, isRTL } = useLanguage();
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <div className={`w-full flex flex-col min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
+      <LoadingScreen isLoading={isLoading} onLoadingComplete={() => setIsLoading(false)} />
+      
       {/* Iframe Container */}
       <div className="flex-1 w-full bg-white">
         <iframe
@@ -13,6 +18,7 @@ export function PricingRequest() {
           height="100%"
           frameBorder="0"
           title="Request Pricing Form"
+          onLoad={() => setIsLoading(false)}
           style={{ 
             border: 'none',
             display: 'block',

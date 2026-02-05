@@ -3,7 +3,6 @@ import * as Icons from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { LoadingScreen } from './LoadingScreen';
 import * as api from '../api';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -44,9 +43,51 @@ export function Workflow() {
     workflowCtaButton2Text: 'SCHEDULE CONSULTATION', workflowCtaButton2Page: 'contact',
   });
 
+  const [allSettings, setAllSettings] = useState<any>(null);
+
   useEffect(() => {
-    api.getSettings().then((data) => setSettings(prev => ({ ...prev, ...data }))).catch(() => {});
+    // Fetch all settings once on component mount
+    api.getSettings().then((data) => {
+      setAllSettings(data);
+      
+      // Initialize settings immediately when data is loaded
+      const newSettings = { ...settings };
+      Object.keys(newSettings).forEach(key => {
+        if (key.startsWith('workflow')) {
+          if (isRTL) {
+            const arabicKey = `${key}_ar`;
+            newSettings[key] = data[arabicKey] || data[key] || newSettings[key];
+          } else {
+            newSettings[key] = data[key] || newSettings[key];
+          }
+        }
+      });
+      setSettings(newSettings);
+    }).catch(() => {});
   }, []);
+
+  // Update settings when language changes (after initial load)
+  useEffect(() => {
+    if (!allSettings) return;
+    
+    const newSettings = { ...settings };
+    
+    // For each workflow* key in default settings
+    Object.keys(newSettings).forEach(key => {
+      if (key.startsWith('workflow')) {
+        if (isRTL) {
+          // Arabic mode: use _ar suffixed key if it exists, otherwise use English
+          const arabicKey = `${key}_ar`;
+          newSettings[key] = allSettings[arabicKey] || allSettings[key] || newSettings[key];
+        } else {
+          // English mode: use regular key
+          newSettings[key] = allSettings[key] || newSettings[key];
+        }
+      }
+    });
+    
+    setSettings(newSettings);
+  }, [isRTL, allSettings]);
 
   // GSAP Animations - Optimized for smooth page performance
   useEffect(() => {
@@ -187,9 +228,9 @@ export function Workflow() {
   const steps = [1, 2, 3, 4, 5].map((num) => ({
     number: `0${num}`,
     icon: getIconComponent((settings as any)[`workflowStep${num}Icon`]),
-    title: language === 'ar' ? ((settings as any)[`workflowStep${num}Title_ar`] || (settings as any)[`workflowStep${num}Title`]) : (settings as any)[`workflowStep${num}Title`],
-    description: language === 'ar' ? ((settings as any)[`workflowStep${num}Description_ar`] || (settings as any)[`workflowStep${num}Description`]) : (settings as any)[`workflowStep${num}Description`],
-    details: (language === 'ar' ? ((settings as any)[`workflowStep${num}Features_ar`] || (settings as any)[`workflowStep${num}Features`]) : (settings as any)[`workflowStep${num}Features`] || '').split('|').filter((f: string) => f.trim()),
+    title: isRTL ? ((settings as any)[`workflowStep${num}Title_ar`] || (settings as any)[`workflowStep${num}Title`]) : (settings as any)[`workflowStep${num}Title`],
+    description: isRTL ? ((settings as any)[`workflowStep${num}Description_ar`] || (settings as any)[`workflowStep${num}Description`]) : (settings as any)[`workflowStep${num}Description`],
+    details: (isRTL ? ((settings as any)[`workflowStep${num}Features_ar`] || (settings as any)[`workflowStep${num}Features`]) : (settings as any)[`workflowStep${num}Features`] || '').split('|').filter((f: string) => f.trim()),
   }));
 
   const stepImages = [

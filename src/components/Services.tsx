@@ -34,7 +34,7 @@ const parseFeatures = (features: any): string[] => {
 };
 
 export function Services() {
-  const { td, translateBatch, isRTL, language } = useLanguage();
+  const { td, translateBatch, isRTL } = useLanguage();
   const [isLoading, setIsLoading] = useState(true);
   const [services, setServices] = useState<Service[]>([]);
   const [settings, setSettings] = useState({
@@ -66,6 +66,8 @@ export function Services() {
     servicesCtaButton2Page: 'contact',
   });
 
+  const [allSettings, setAllSettings] = useState<any>(null);
+
   useEffect(() => {
     api.getActiveServices().then((data) => {
       if (data && Array.isArray(data) && data.length > 0) {
@@ -77,71 +79,65 @@ export function Services() {
   }, []);
 
   useEffect(() => {
+    // Fetch all settings once on component mount
     api.getSettings().then((data) => {
-      if (!data) return;
+      setAllSettings(data);
       
-      // Use Arabic settings if language is Arabic, otherwise use English
-      const settingsToUse = language === 'ar' 
-        ? {
-            servicesHeroTitle: data.servicesHeroTitle_ar || data.servicesHeroTitle || 'خدماتنا',
-            servicesHeroParagraph: data.servicesHeroParagraph_ar || data.servicesHeroParagraph || 'حلول تصميم شاملة مخصصة لرؤيتك الفريدة',
-            servicesTitle: data.servicesTitle_ar || data.servicesTitle || 'حلول تصميم كاملة',
-            servicesDescription: data.servicesDescription_ar || data.servicesDescription || 'من المساحات السكنية الحميمة إلى المشاريع التجارية الكبرى',
-            servicesHighlightsTitle: data.servicesHighlightsTitle_ar || data.servicesHighlightsTitle || 'مميزات الخدمة',
-            servicesHighlightsDescription: data.servicesHighlightsDescription_ar || data.servicesHighlightsDescription || 'ما يمكنك توقعه عند العمل مع TRQ',
-            servicesHighlight1Title: data.servicesHighlight1Title_ar || data.servicesHighlight1Title || 'حلول مخصصة',
-            servicesHighlight1Description: data.servicesHighlight1Description_ar || data.servicesHighlight1Description || 'كل مشروع فريد من نوعه',
-            servicesHighlight2Title: data.servicesHighlight2Title_ar || data.servicesHighlight2Title || 'خدمة شاملة',
-            servicesHighlight2Description: data.servicesHighlight2Description_ar || data.servicesHighlight2Description || 'من الاستشارة الأولية إلى التثبيت النهائي',
-            servicesHighlight3Title: data.servicesHighlight3Title_ar || data.servicesHighlight3Title || 'جودة عالية',
-            servicesHighlight3Description: data.servicesHighlight3Description_ar || data.servicesHighlight3Description || 'نستخدم أفضل المواد والحرفيين',
-            servicesCtaTitle: data.servicesCtaTitle_ar || data.servicesCtaTitle || 'هل أنت مستعد للبدء؟',
-            servicesCtaDescription: data.servicesCtaDescription_ar || data.servicesCtaDescription || 'دعنا نناقش مشروعك',
-            servicesCtaButton1Text: data.servicesCtaButton1Text_ar || data.servicesCtaButton1Text || 'طلب التسعير',
-            servicesCtaButton1Page: data.servicesCtaButton1Page_ar || data.servicesCtaButton1Page || 'pricing',
-            servicesCtaButton2Text: data.servicesCtaButton2Text_ar || data.servicesCtaButton2Text || 'اتصل بنا',
-            servicesCtaButton2Page: data.servicesCtaButton2Page_ar || data.servicesCtaButton2Page || 'contact',
+      // Initialize settings immediately when data is loaded
+      const newSettings = { ...settings };
+      Object.keys(newSettings).forEach(key => {
+        if (key.startsWith('services')) {
+          if (isRTL) {
+            const arabicKey = `${key}_ar`;
+            newSettings[key] = data[arabicKey] || data[key] || newSettings[key];
+          } else {
+            newSettings[key] = data[key] || newSettings[key];
           }
-        : {
-            servicesHeroTitle: data.servicesHeroTitle || 'OUR SERVICES',
-            servicesHeroParagraph: data.servicesHeroParagraph || 'Comprehensive design solutions tailored to your unique vision',
-            servicesTitle: data.servicesTitle || 'Complete Design Solutions',
-            servicesDescription: data.servicesDescription || 'From intimate residential spaces to grand commercial projects',
-            servicesHighlightsTitle: data.servicesHighlightsTitle || 'Service Highlights',
-            servicesHighlightsDescription: data.servicesHighlightsDescription || 'What you can expect when working with TRQ',
-            servicesHighlight1Title: data.servicesHighlight1Title || 'Tailored Solutions',
-            servicesHighlight1Description: data.servicesHighlight1Description || 'Every project is unique',
-            servicesHighlight2Title: data.servicesHighlight2Title || 'End-to-End Service',
-            servicesHighlight2Description: data.servicesHighlight2Description || 'From initial consultation to final installation',
-            servicesHighlight3Title: data.servicesHighlight3Title || 'Premium Quality',
-            servicesHighlight3Description: data.servicesHighlight3Description || 'We source the finest materials',
-            servicesCtaTitle: data.servicesCtaTitle || 'Ready to Get Started?',
-            servicesCtaDescription: data.servicesCtaDescription || 'Let us discuss your project',
-            servicesCtaButton1Text: data.servicesCtaButton1Text || 'REQUEST PRICING',
-            servicesCtaButton1Page: data.servicesCtaButton1Page || 'pricing',
-            servicesCtaButton2Text: data.servicesCtaButton2Text || 'CONTACT US',
-            servicesCtaButton2Page: data.servicesCtaButton2Page || 'contact',
-          };
-      setSettings(prev => ({ ...prev, ...settingsToUse }));
+        }
+      });
+      setSettings(newSettings);
     }).catch((error) => {
       console.error('Error loading settings:', error);
     });
-  }, [language]);
+  }, []);
+
+  // Update settings when language changes (after initial load)
+  useEffect(() => {
+    if (!allSettings) return;
+    
+    const newSettings = { ...settings };
+    
+    // For each services* key in default settings
+    Object.keys(newSettings).forEach(key => {
+      if (key.startsWith('services')) {
+        if (isRTL) {
+          // Arabic mode: use _ar suffixed key if it exists, otherwise use English
+          const arabicKey = `${key}_ar`;
+          newSettings[key] = allSettings[arabicKey] || allSettings[key] || newSettings[key];
+        } else {
+          // English mode: use regular key
+          newSettings[key] = allSettings[key] || newSettings[key];
+        }
+      }
+    });
+    
+    setSettings(newSettings);
+  }, [isRTL, allSettings]);
 
   // Translate dynamic content from database (services)
   useEffect(() => {
-    if (language === 'ar' && services.length > 0) {
+    if (isRTL && services.length > 0) {
       const serviceTexts = services.flatMap(s => [s.title, s.description, ...(s.features || [])]);
       translateBatch(serviceTexts.filter(Boolean));
     }
-  }, [language, services]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isRTL, services]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Handle loading screen timing - wait for data to load
   useEffect(() => {
-    if (services.length > 0) {
+    if (services.length > 0 && allSettings) {
       setIsLoading(false);
     }
-  }, [services]);
+  }, [services, allSettings]);
 
   return (
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
@@ -165,8 +161,17 @@ export function Services() {
               const Icon = getIconComponent(service?.icon || 'Briefcase');
               const isEven = index % 2 === 0;
               const imageFirst = isRTL ? !isEven : isEven;
-              const serviceTitle = service?.title || 'Service';
-              const serviceDescription = service?.description || '';
+              
+              // Use Arabic content if available and in RTL mode, otherwise use English
+              const serviceTitle = isRTL && (service as any)?.title_ar 
+                ? (service as any).title_ar 
+                : service?.title || 'Service';
+              const serviceDescription = isRTL && (service as any)?.description_ar 
+                ? (service as any).description_ar 
+                : service?.description || '';
+              const serviceFeatures = isRTL && (service as any)?.features_ar 
+                ? (service as any).features_ar 
+                : service?.features || [];
               const serviceImage = service?.image || 'https://images.unsplash.com/photo-1669387448840-610c588f003d?w=1080';
               
               return (
@@ -179,16 +184,16 @@ export function Services() {
                       <div className={`w-16 h-16 bg-black flex items-center justify-center mb-6 ${isRTL ? 'mr-0 ml-auto lg:ml-0 lg:mr-0' : ''}`}>
                         <Icon className="text-white" size={32} />
                       </div>
-                      <h3 className="text-3xl md:text-4xl mb-4 tracking-wide" dir={isRTL ? 'rtl' : 'ltr'}>{td(serviceTitle)}</h3>
-                      <p className="text-lg text-black/70 mb-8" dir={isRTL ? 'rtl' : 'ltr'}>{td(serviceDescription)}</p>
+                      <h3 className="text-3xl md:text-4xl mb-4 tracking-wide" dir={isRTL ? 'rtl' : 'ltr'}>{serviceTitle}</h3>
+                      <p className="text-lg text-black/70 mb-8" dir={isRTL ? 'rtl' : 'ltr'}>{serviceDescription}</p>
                       {(() => {
-                        const features = parseFeatures(service?.features);
+                        const features = parseFeatures(serviceFeatures);
                         return features && features.length > 0 && (
                           <div className="space-y-3">
                             {features.map((feature, idx) => (
                               <div key={idx} className={`flex items-start gap-3 ${isRTL ? 'flex-row-reverse' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
                                 <div className="w-1.5 h-1.5 bg-black rounded-full mt-2.5 flex-shrink-0" />
-                                <p className="text-black/70" style={{ textAlign: isRTL ? 'right' : 'left' }}>{td(feature)}</p>
+                                <p className="text-black/70" style={{ textAlign: isRTL ? 'right' : 'left' }}>{feature}</p>
                               </div>
                             ))}
                           </div>

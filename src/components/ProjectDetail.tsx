@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Calendar, MapPin, Users, Ruler, Award, CheckCircle, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, Users, Ruler, Award, CheckCircle, X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useLanguage } from '../context/LanguageContext';
 import gsap from 'gsap';
@@ -58,6 +58,7 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
   const animationRef = useRef<gsap.core.Tween | null>(null);
   const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
   const [touchStart, setTouchStart] = useState(0);
+  const [showClientQuote, setShowClientQuote] = useState(false);
 
   // Helper to parse array fields (they may be JSON strings from database)
   const parseArray = (value: any): string[] => {
@@ -65,7 +66,22 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
     if (Array.isArray(value)) return value;
     if (typeof value === 'string') {
       try {
-        const parsed = JSON.parse(value);
+        let parsed = value;
+        
+        // Handle multiple levels of JSON encoding (up to 3 levels)
+        for (let i = 0; i < 3; i++) {
+          if (typeof parsed === 'string') {
+            try {
+              parsed = JSON.parse(parsed);
+            } catch (e) {
+              // Stop trying to parse if it fails
+              break;
+            }
+          } else {
+            break;
+          }
+        }
+        
         return Array.isArray(parsed) ? parsed : [];
       } catch {
         return [];
@@ -248,31 +264,10 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
       <section className="py-24 px-4 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className={isRTL ? 'text-right' : 'text-left'} dir={isRTL ? 'rtl' : 'ltr'}>
-            <h2 className="text-4xl mb-6 tracking-wide">{ts('projectDetail.projectOverview')}</h2>
-            <p className={`text-lg text-black/70 mb-8 ${isRTL ? 'text-right' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>{td(projectData.detailedDescription)}</p>
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-2xl mb-3 tracking-wide">{ts('projectDetail.theChallenge')}</h3>
-                <p className={`text-black/70 ${isRTL ? 'text-right' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>{td(projectData.challenge)}</p>
-              </div>
-              <div>
-                <h3 className="text-2xl mb-3 tracking-wide">{ts('projectDetail.ourSolution')}</h3>
-                <p className={`text-black/70 ${isRTL ? 'text-right' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>{td(projectData.solution)}</p>
-              </div>
-            </div>
+            <h2 className="text-4xl mb-8 tracking-wide">{ts('projectDetail.projectOverview')}</h2>
+            <p className="text-lg text-black/70">{td(projectData.detailedDescription)}</p>
           </div>
           <div className="space-y-8">
-            <div className="bg-neutral-50 p-8">
-              <h3 className="text-2xl mb-6 tracking-wide">{ts('projectDetail.keyFeatures')}</h3>
-              <div className="space-y-3">
-                {projectData.features.map((feature, index) => (
-                  <div key={index} className={`flex items-start gap-3 ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
-                    <CheckCircle size={20} className="text-black mt-0.5 flex-shrink-0" />
-                    <p className="text-black/70">{td(feature)}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
             <div className="border-2 border-black/10 p-8">
               <h3 className="text-2xl mb-6 tracking-wide">{ts('projectDetail.projectDetails')}</h3>
               <div className="space-y-4">
@@ -280,6 +275,7 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
                   { label: ts('projectDetail.duration'), value: projectData.duration },
                   { label: ts('projectDetail.category'), value: td(projectData.subcategory) },
                   { label: ts('projectDetail.projectType'), value: td(project.category) },
+                  { label: 'Designer', value: 'TRQ STUDIO' },
                 ].map((item, idx) => (
                   <div key={idx} className={`flex justify-between border-b border-black/10 pb-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     <span className="text-black/60">{item.label}</span>
@@ -424,22 +420,6 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
         </div>
       )}
 
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-4">
-          <div>
-            <h2 className="text-4xl mb-8 tracking-wide">{ts('projectDetail.materialsFinishes')}</h2>
-            <div className="space-y-4">
-              {projectData.materials.map((material, index) => (
-                <div key={index} className={`flex items-center gap-4 p-4 bg-neutral-50 ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
-                  <div className="w-2 h-2 bg-black rounded-full" />
-                  <span className="text-lg">{td(material)}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {projectData.awards.length > 0 && (
         <section className="py-24 bg-black text-white">
           <div className="max-w-7xl mx-auto px-4 text-center">
@@ -456,13 +436,15 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
         </section>
       )}
 
-      <section className="py-24">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="text-6xl text-black/10 mb-4">"</div>
-          <p className="text-2xl text-black/70 mb-8 italic">{td(project.clientQuote || ts('projectDetail.defaultQuote'))}</p>
-          <div className="text-sm tracking-widest text-black/60">— {td(project.clientName || ts('projectDetail.projectClient'))}</div>
-        </div>
-      </section>
+      {showClientQuote && (
+        <section className="py-24">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <div className="text-6xl text-black/10 mb-4">"</div>
+            <p className="text-2xl text-black/70 mb-8 italic">{td(project.clientQuote || ts('projectDetail.defaultQuote'))}</p>
+            <div className="text-sm tracking-widest text-black/60">— {td(project.clientName || ts('projectDetail.projectClient'))}</div>
+          </div>
+        </section>
+      )}
 
       <section className="py-24 bg-neutral-50">
         <div className="max-w-4xl mx-auto px-4 text-center">

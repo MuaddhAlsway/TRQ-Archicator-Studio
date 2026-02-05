@@ -56,7 +56,7 @@ const getProjectIdFromHash = (): number | null => {
 };
 
 export function Portfolio() {
-  const { ts, td, toArabicNum, translateBatch, isRTL, language } = useLanguage();
+  const { ts, td, toArabicNum, translateBatch, isRTL } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -66,9 +66,12 @@ export function Portfolio() {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const [settings, setSettings] = useState({
     portfolioHeroTitle: 'OUR PORTFOLIO',
+    portfolioheroTitle_ar: 'محفظتنا',
     portfolioHeroParagraph: 'Explore our collection of exceptional design projects',
+    portfolioHeroParagraph_ar: 'استكشف مجموعتنا من مشاريع التصميم الاستثنائية',
     portfolioHeroImage: '/TRQ STUDIO _ PROJECTS/A Fusion of Art and Elegance  Living room/14.webp',
     portfolioIntroParagraph: 'Each project represents our commitment to excellence, creativity, and attention to detail.',
+    portfolioIntroParagraph_ar: 'يمثل كل مشروع التزامنا بالتميز والإبداع والاهتمام بالتفاصيل',
     portfolioCategories: JSON.stringify([
       { id: 'all', label: 'All Projects' },
       { id: 'residential', label: 'Residential' },
@@ -77,16 +80,30 @@ export function Portfolio() {
       { id: 'events', label: 'Events' },
       { id: 'furniture', label: 'Furniture' },
     ]),
+    portfolioCategories_ar: JSON.stringify([
+      { id: 'all', label: 'جميع المشاريع' },
+      { id: 'residential', label: 'سكني' },
+      { id: 'commercial', label: 'تجاري' },
+      { id: 'booths', label: 'الأكشاك والمعارض' },
+      { id: 'events', label: 'الأحداث' },
+      { id: 'furniture', label: 'الأثاث' },
+    ]),
     portfolioStat1Value: '150+',
     portfolioStat1Label: 'PROJECTS COMPLETED',
+    portfolioStat1Label_ar: 'مشاريع مكتملة',
     portfolioStat2Value: '100+',
     portfolioStat2Label: 'HAPPY CLIENTS',
+    portfolioStat2Label_ar: 'عملاء سعداء',
     portfolioStat3Value: '15+',
     portfolioStat3Label: 'AWARDS WON',
+    portfolioStat3Label_ar: 'جوائز فازت',
     portfolioStat4Value: '8+',
     portfolioStat4Label: 'YEARS EXPERIENCE',
+    portfolioStat4Label_ar: 'سنوات الخبرة',
     portfolioCtaTitle: 'Let\'s Create Your Project',
+    portfolioCtaTitle_ar: 'دعنا ننشئ مشروعك',
     portfolioCtaDescription: 'Ready to start your own design journey? Get in touch with our team.',
+    portfolioCtaDescription_ar: 'هل أنت مستعد لبدء رحلة التصميم الخاصة بك؟ تواصل مع فريقنا.',
     portfolioCtaButton1Text: 'REQUEST PRICING',
     portfolioCtaButton1Page: 'pricing',
     portfolioCtaButton2Text: 'CONTACT US',
@@ -102,7 +119,7 @@ export function Portfolio() {
   };
 
   const getProjectData = (project: Project): Project => {
-    if (language === 'ar') {
+    if (isRTL) {
       return {
         ...project,
         title: project.title_ar || project.title,
@@ -156,15 +173,15 @@ export function Portfolio() {
     api.getSettings().then((data) => {
       setSettings(prev => ({ ...prev, ...data }));
     }).catch(() => {});
-  }, [language]);
+  }, []);
 
   // Translate dynamic content from database
   useEffect(() => {
-    if (language === 'ar' && projects.length > 0) {
+    if (isRTL && projects.length > 0) {
       const projectTexts = projects.flatMap(p => [p.title, p.category, p.subcategory, p.description]);
       translateBatch(projectTexts.filter(Boolean));
     }
-  }, [language, projects]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isRTL, projects]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -178,7 +195,17 @@ export function Portfolio() {
     };
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [projects, language]);
+  }, [projects, isRTL]);
+
+  // Update selected project when language changes
+  useEffect(() => {
+    if (selectedProject) {
+      const updatedProject = projects.find(p => p.id === selectedProject.id);
+      if (updatedProject) {
+        setSelectedProject(getProjectData(updatedProject));
+      }
+    }
+  }, [isRTL]);
 
   const handleSelectProject = (project: Project) => {
     window.location.hash = `portfolio/${project.id}`;

@@ -32,13 +32,28 @@ const cache = {
   projectsExpiry: 0,
 };
 
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL = 30 * 1000; // 30 seconds
 
 // Sync to Turso in background (non-blocking)
 async function syncToTurso(sql, params) {
   if (!turso) return;
   try {
-    await turso.execute({ sql, args: params });
+    // Convert params to ensure Turso compatibility
+    const convertedParams = params.map(param => {
+      // Convert undefined to null
+      if (param === undefined) return null;
+      // Keep strings, numbers, booleans, and null as-is
+      if (typeof param === 'string' || typeof param === 'number' || typeof param === 'boolean' || param === null) {
+        return param;
+      }
+      // Convert objects/arrays to JSON strings
+      if (typeof param === 'object') {
+        return JSON.stringify(param);
+      }
+      return param;
+    });
+    
+    await turso.execute({ sql, args: convertedParams });
   } catch (e) {
     console.warn('[TURSO SYNC] Error:', e.message);
   }
@@ -275,6 +290,27 @@ const dbWrapper = {
         subscribedAt DATETIME DEFAULT CURRENT_TIMESTAMP
       );
     `);
+    
+    // Add migration for missing columns in services table
+    try {
+      const tableInfo = db.prepare("PRAGMA table_info(services)").all();
+      const columnNames = tableInfo.map(col => col.name);
+      
+      if (!columnNames.includes('title_ar')) {
+        console.log('Adding title_ar column to services table...');
+        db.exec('ALTER TABLE services ADD COLUMN title_ar TEXT');
+      }
+      if (!columnNames.includes('description_ar')) {
+        console.log('Adding description_ar column to services table...');
+        db.exec('ALTER TABLE services ADD COLUMN description_ar TEXT');
+      }
+      if (!columnNames.includes('features_ar')) {
+        console.log('Adding features_ar column to services table...');
+        db.exec('ALTER TABLE services ADD COLUMN features_ar TEXT');
+      }
+    } catch (e) {
+      console.warn('Migration check error:', e.message);
+    }
     
     console.log('✓ Database tables ready');
     console.log('✓ Database initialization complete');

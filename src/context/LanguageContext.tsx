@@ -39,7 +39,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   // Static translation - uses i18next to get translations from JSON files
   const ts = useCallback((key: string): string => {
     return i18n.t(key);
-  }, []);
+  }, [language]);
 
   // Dynamic translation - NO API, just returns text as-is
   const td = useCallback((text: string): string => {

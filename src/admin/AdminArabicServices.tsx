@@ -83,8 +83,9 @@ export function AdminArabicServices() {
 
     try {
       const token = localStorage.getItem('trq_token');
-      const response = await fetch(` + import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api'/api/settings`, {
-        method: 'POST',
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api';
+      const response = await fetch(`${apiUrl}/settings`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
