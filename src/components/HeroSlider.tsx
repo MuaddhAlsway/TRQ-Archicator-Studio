@@ -251,7 +251,7 @@ export function HeroSlider({ onNavigate }: HeroSliderProps) {
         {slides.map((slide, index) => {
           const isActive = activeSlide === index;
           const slideVideos = getSlideVideos(slide);
-          const shouldShowVideo = slideVideos.length > 0 && index < 3;
+          const shouldShowVideo = slideVideos.length > 0;
           
           return (
             <div

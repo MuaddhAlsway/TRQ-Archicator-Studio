@@ -163,12 +163,13 @@ export function AdminArabicProjects() {
                       <div className="flex items-center gap-4">
                         <img
                           src={getImageUrl(project.image)}
-                          alt={project.title_ar || project.title}
+                          alt={project.title}
                           className="w-16 h-12 object-cover rounded"
                         />
                         <div>
-                          <p className="font-medium">{project.title_ar || project.title}</p>
-                          <p className="text-sm text-black/60">{project.subcategory_ar || project.subcategory}</p>
+                          <p className="font-medium text-left">{project.title}</p>
+                          <p className="text-sm text-black/60 text-right">{project.title_ar || 'بدون عنوان عربي'}</p>
+                          <p className="text-xs text-black/40 text-right">{project.subcategory_ar || project.subcategory}</p>
                         </div>
                       </div>
                     </td>
@@ -231,12 +232,13 @@ export function AdminArabicProjects() {
                 <div className="flex gap-3">
                   <img
                     src={getImageUrl(project.image)}
-                    alt={project.title_ar || project.title}
+                    alt={project.title}
                     className="w-20 h-16 object-cover rounded flex-shrink-0"
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">{project.title_ar || project.title}</p>
-                    <p className="text-sm text-black/60">{project.subcategory_ar || project.subcategory}</p>
+                    <p className="font-medium truncate text-left">{project.title}</p>
+                    <p className="text-xs text-black/60 truncate text-right">{project.title_ar || 'بدون عنوان عربي'}</p>
+                    <p className="text-sm text-black/60 text-right">{project.subcategory_ar || project.subcategory}</p>
                     <div className="flex items-center gap-2 mt-1">
                       <span className="text-xs text-black/50 capitalize">{project.category_ar || project.category}</span>
                       <span className="text-xs text-black/30">•</span>

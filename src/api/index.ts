@@ -626,6 +626,8 @@ export function getImageUrl(imagePath: string): string {
 
   // Already an absolute URL — use as-is (could be external CDN or local server)
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    // For API URLs, try to use them directly first
+    // If they fail, the ImageWithFallback component will show error
     return imagePath;
   }
 

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import * as Icons from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { LoadingScreen } from './LoadingScreen';
 import * as api from '../api';
 import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
@@ -17,7 +16,6 @@ export function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isPageLoading, setIsPageLoading] = useState(true);
   const [settings, setSettings] = useState({
     contactHeroTitle: 'GET IN TOUCH',
     contactHeroParagraph: 'Discuss your project, create together',
@@ -57,9 +55,6 @@ export function Contact() {
       });
       setSettings(newSettings);
     }).catch(() => {});
-    
-    // Initialize page loading
-    setTimeout(() => setIsPageLoading(false), 2500);
   }, []);
 
   useEffect(() => {
@@ -121,7 +116,6 @@ export function Contact() {
 
   return (
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
-      <LoadingScreen isLoading={isPageLoading} onLoadingComplete={() => setIsPageLoading(false)} />
       <section className="relative h-[50vh] sm:h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
         <ImageWithFallback src={getImageUrl(getContentFromSettings(language, settings, 'contactHeroImage') || 'REC. HEAVEN/13.jpg')} alt="Contact Us" className="absolute inset-0 w-full h-full object-cover" />

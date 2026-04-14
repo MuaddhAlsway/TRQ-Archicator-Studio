@@ -23,6 +23,9 @@ export function LoadingScreen({ isLoading, onLoadingComplete }: LoadingScreenPro
     const pauseDuration = 1500; // 1.5 seconds pause after bar completes
     const startTime = Date.now();
 
+    // Start progress immediately
+    setLoadingProgress(0);
+
     const animateLoading = () => {
       const elapsed = Date.now() - startTime;
       const newProgress = Math.min((elapsed / barDuration) * 100, 100);
@@ -65,7 +68,8 @@ export function LoadingScreen({ isLoading, onLoadingComplete }: LoadingScreenPro
       }
     };
 
-    requestAnimationFrame(animateLoading);
+    // Start animation immediately
+    animateLoading();
   }, [isLoading, onLoadingComplete, language]);
 
   if (!isLoading) return null;
