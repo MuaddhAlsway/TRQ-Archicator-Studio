@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import * as Icons from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { LoadingScreen } from './LoadingScreen';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
 import { getContentFromSettings } from '../utils/contentHelper';
 
@@ -14,9 +14,8 @@ const getIconComponent = (iconName: string) => {
 export function Workflow() {
   const { ts, td, translateBatch, isRTL, language } = useLanguage();
   const heroRef = useRef<HTMLElement>(null);
-  const stepsContainerRef = useRef<HTMLElement>(null);
   const whyRef = useRef<HTMLElement>(null);
-  const [isPageLoading, setIsPageLoading] = useState(true);
+  const stepsContainerRef = useRef<HTMLElement>(null);
   const [settings, setSettings] = useState({
     workflowHeroTitle: 'HOW WE WORK',
     workflowHeroParagraph: 'A seamless process designed to bring your vision to life',
@@ -66,9 +65,6 @@ export function Workflow() {
       });
       setSettings(newSettings);
     }).catch(() => {});
-    
-    // Initialize page loading
-    setTimeout(() => setIsPageLoading(false), 2500);
   }, []);
 
   // Update settings when language changes — always derive from raw DB data + original defaults
@@ -133,11 +129,10 @@ export function Workflow() {
 
   return (
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
-      <LoadingScreen isLoading={isPageLoading} onLoadingComplete={() => setIsPageLoading(false)} />
       {/* Hero Section */}
       <section ref={heroRef} className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
-        <ImageWithFallback src="/uploads/3.webp" alt="Our Workflow" className="absolute inset-0 w-full h-full object-cover" />
+        <ImageWithFallback src={getImageUrl('/uploads/3.webp')} alt="Our Workflow" className="absolute inset-0 w-full h-full object-cover" />
         <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl tracking-wider mb-6">{getContentFromSettings(language, settings, 'workflowHeroTitle')}</h1>
           <p className="text-xl opacity-90">{getContentFromSettings(language, settings, 'workflowHeroParagraph')}</p>
@@ -179,19 +174,20 @@ export function Workflow() {
         <div className="max-w-7xl mx-auto px-4">
           {steps.map((step, index) => {
             const Icon = step.icon;
-            const isEven = index % 2 === 0;
-            const imageFirst = isRTL ? !isEven : isEven;
             return (
               <div key={index} data-step className={`mb-32 last:mb-0`}>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-                  <div data-step-image className={`relative h-[500px] overflow-hidden rounded-lg ${isRTL ? 'lg:order-2' : ''}`}>
-                    <ImageWithFallback src={stepImages[index]} alt={step.title} className="w-full h-full object-cover" />
+                <div className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto ${isRTL ? 'lg:grid-flow-dense' : ''}`}>
+                  {/* Image - Always on left in LTR, right in RTL */}
+                  <div data-step-image className={`relative h-[400px] sm:h-[500px] overflow-hidden rounded-lg ${isRTL ? 'lg:order-2' : ''}`}>
+                    <ImageWithFallback src={getImageUrl(stepImages[index])} alt={step.title} className="w-full h-full object-cover" />
                     <div className={`absolute top-8 ${isRTL ? 'right-8' : 'left-8'} bg-black text-white px-6 py-3 z-10`}>
                       <span className="text-4xl font-light tracking-wider" style={{ direction: 'ltr' }}>{step.number}</span>
                     </div>
                   </div>
-                  <div data-step-content className={`${isRTL ? 'lg:order-1' : ''} ${isRTL ? 'text-right' : 'text-left'}`}>
-                    <div className={`w-16 h-16 bg-black flex items-center justify-center mb-6 ${isRTL ? 'mr-0 ml-auto lg:ml-0 lg:mr-0' : ''}`}>
+                  
+                  {/* Text Content - Always on right in LTR, left in RTL */}
+                  <div data-step-content className={`${isRTL ? 'lg:order-1 text-right' : 'text-left'}`}>
+                    <div className={`w-16 h-16 bg-black flex items-center justify-center mb-6 ${isRTL ? 'ml-auto' : ''}`}>
                       <Icon className="text-white" size={32} />
                     </div>
                     <h3 className="text-3xl md:text-4xl mb-3 tracking-wide">{step.title}</h3>

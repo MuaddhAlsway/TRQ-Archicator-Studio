@@ -36,8 +36,8 @@ export function ImageWithFallback(props: ImageWithFallbackProps) {
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
     // Smooth transitions
-    transition: isLoaded ? 'opacity 0.3s ease-in-out' : 'none',
-    opacity: isLoaded ? 1 : 0.95,
+    transition: 'opacity 0.3s ease-in-out',
+    opacity: 1,
     // Prevent blur on scaling
     backfaceVisibility: 'hidden',
     perspective: 1000,
@@ -50,7 +50,7 @@ export function ImageWithFallback(props: ImageWithFallbackProps) {
     low: 'contrast(1) brightness(1) saturate(1)',
   }
 
-  const enhancedClassName = `${className ?? ''} ${isLoaded ? 'opacity-100' : 'opacity-95'}`
+  const enhancedClassName = `${className ?? ''} ${isLoaded ? 'opacity-100' : 'opacity-100'}`
 
   return didError ? (
     <div
@@ -70,9 +70,9 @@ export function ImageWithFallback(props: ImageWithFallbackProps) {
         ...enhancedStyle,
         filter: filterStyles[quality],
       }}
-      loading={lazy ? 'lazy' : 'eager'}
+      loading="eager"
       decoding="async"
-      fetchPriority={lazy ? 'low' : 'high'}
+      fetchPriority="high"
       onError={handleError}
       onLoad={handleLoad}
       {...rest} 

@@ -4,7 +4,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { AboutVideoHero } from './AboutVideoHero';
-import { LoadingScreen } from './LoadingScreen';
 import * as api from '../api';
 import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
@@ -19,7 +18,6 @@ const getIconComponent = (iconName: string) => {
 
 export function AboutUs() {
   const { td, isRTL, language } = useLanguage();
-  const [isLoading, setIsLoading] = useState(true);
   const heroRef = useRef<HTMLDivElement>(null);
   const visionMissionRef = useRef<HTMLDivElement>(null);
   const videosRef = useRef<HTMLDivElement>(null);
@@ -91,13 +89,6 @@ export function AboutUs() {
     }).catch((err) => {
       console.error('Failed to fetch about videos:', err);
     });
-    
-    // Keep loading screen visible for at least 4 seconds (3s animation + 1s buffer)
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 4000);
-
-    return () => clearTimeout(timer);
   }, []);
 
   // Update settings when language changes — always derive from raw DB data + original defaults
@@ -160,7 +151,6 @@ export function AboutUs() {
 
   return (
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'} relative`}>
-      <LoadingScreen isLoading={isLoading} onLoadingComplete={() => setIsLoading(false)} />
       
       {/* Video Hero Section */}
       <AboutVideoHero />
@@ -168,8 +158,8 @@ export function AboutUs() {
       {/* Vision & Mission Section */}
       <section ref={visionMissionRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
-            <div className="flex flex-col gap-8">
+          <div className={`grid grid-cols-1 md:grid-cols-2 gap-24 ${isRTL ? 'md:grid-flow-dense' : ''}`}>
+            <div className={`flex flex-col gap-8 ${isRTL ? 'md:order-2 text-right' : ''}`}>
               <h2 className="text-3xl tracking-tight font-light">
                 {getContentFromSettings(language, settings, 'aboutVisionTitle')}
               </h2>
@@ -177,7 +167,7 @@ export function AboutUs() {
                 {getContentFromSettings(language, settings, 'aboutVisionDescription')}
               </p>
             </div>
-            <div className="flex flex-col gap-8">
+            <div className={`flex flex-col gap-8 ${isRTL ? 'md:order-1 text-right' : ''}`}>
               <h2 className="text-3xl tracking-tight font-light">
                 {getContentFromSettings(language, settings, 'aboutMissionTitle')}
               </h2>
@@ -244,13 +234,13 @@ export function AboutUs() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[1, 2, 3, 4].map((num) => (
-                <div key={num} className="flex flex-col border border-black/15 rounded overflow-hidden">
+                <div key={num} className={`flex flex-col border border-black/15 rounded overflow-hidden ${isRTL ? 'md:grid-flow-dense' : ''}`}>
                   <ImageWithFallback
                     src={getImageUrl((settings as any)[`aboutExpertise${num}Image`])}
                     alt={(settings as any)[`aboutExpertise${num}Title`]}
                     className="w-full h-[300px] object-cover"
                   />
-                  <div className="flex flex-col gap-4 p-8">
+                  <div className={`flex flex-col gap-4 p-8 ${isRTL ? 'text-right' : ''}`}>
                     <h3 className="text-2xl tracking-tight">
                       {getContentFromSettings(language, settings, `aboutExpertise${num}Title`)}
                     </h3>

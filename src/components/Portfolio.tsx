@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { ProjectDetail } from './ProjectDetail';
-import { LoadingScreen } from './LoadingScreen';
 import * as api from '../api';
 import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
@@ -329,7 +328,6 @@ export function Portfolio() {
 
   return (
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
-      <LoadingScreen isLoading={loading} onLoadingComplete={() => setLoading(false)} />
       <section className="relative h-[50vh] sm:h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
         <ImageWithFallback src={getImageUrl(getContentFromSettings(language, settings, 'portfolioHeroImage') || 'TRQ STUDIO _ PROJECTS/A Fusion of Art and Elegance  Living room/14.webp')} alt="Our Portfolio" className="absolute inset-0 w-full h-full object-cover" />

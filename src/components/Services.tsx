@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import * as Icons from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { LoadingScreen } from './LoadingScreen';
 import * as api from '../api';
 import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
@@ -37,8 +36,8 @@ const parseFeatures = (features: any): string[] => {
 
 export function Services() {
   const { td, translateBatch, isRTL, language } = useLanguage();
-  const [isLoading, setIsLoading] = useState(true);
   const [services, setServices] = useState<Service[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [settings, setSettings] = useState({
     // Hero Section
     servicesHeroTitle: 'OUR SERVICES',
@@ -76,9 +75,11 @@ export function Services() {
     api.getActiveServices().then((data) => {
       if (data && Array.isArray(data) && data.length > 0) {
         setServices(data);
+        setIsLoading(false);
       }
     }).catch((error) => {
       console.error('Error loading services:', error);
+      setIsLoading(false);
     });
   }, []);
 
@@ -138,13 +139,12 @@ export function Services() {
   // Handle loading screen timing - wait for data to load
   useEffect(() => {
     if (services.length > 0 && allSettings) {
-      setIsLoading(false);
+      // Data loaded, loading screen will auto-hide after 4s
     }
   }, [services, allSettings]);
 
   return (
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
-      <LoadingScreen isLoading={isLoading} onLoadingComplete={() => setIsLoading(false)} />
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
         <ImageWithFallback src={getImageUrl(getContentFromSettings(language, settings, 'servicesHeroImage') || '/uploads/5.webp')} alt="Our Services" className="absolute inset-0 w-full h-full object-cover" />
@@ -162,8 +162,6 @@ export function Services() {
           {services && services.length > 0 ? (
             services.map((service, index) => {
               const Icon = getIconComponent(service?.icon || 'Briefcase');
-              const isEven = index % 2 === 0;
-              const imageFirst = isRTL ? !isEven : isEven;
               
               // Use Arabic content if available and in RTL mode, otherwise use English
               const serviceTitle = isRTL && (service as any)?.title_ar 
@@ -177,29 +175,36 @@ export function Services() {
                 : service?.features || [];
               const serviceImage = getImageUrl(service?.image || '');
               
-              // Don't add background for Booth & Exhibition Design (index 1) and Furniture Design (index 3)
-              const hasBackground = index % 2 === 1 && index !== 1 && index !== 3;
+              // Alternate layout: image left, text right (always)
+              const imageOnLeft = true;
               
               return (
-                <div key={service?.id || index} className={`mb-6 last:mb-0 ${hasBackground ? 'bg-neutral-50' : ''}`}>
-                  <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-12 lg:py-16 px-6 lg:px-12 ${index % 2 === 1 ? 'max-w-7xl mx-auto' : ''}`}>
-                    <div className={`relative h-[500px] overflow-hidden ${isRTL ? 'lg:order-2' : ''}`}>
-                      <ImageWithFallback src={serviceImage} alt={serviceTitle} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+                <div key={service?.id || index} className={`mb-12 last:mb-0 py-12 lg:py-16`}>
+                  <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-7xl mx-auto px-4 lg:px-0 ${isRTL ? 'lg:grid-flow-dense' : ''}`}>
+                    {/* Image - Always on left in LTR, right in RTL */}
+                    <div className={`relative h-[400px] sm:h-[500px] overflow-hidden rounded-lg ${isRTL ? 'lg:order-2' : ''}`}>
+                      <ImageWithFallback 
+                        src={serviceImage} 
+                        alt={serviceTitle} 
+                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
+                      />
                     </div>
-                    <div className={`${isRTL ? 'lg:order-1' : ''} ${isRTL ? 'text-right' : 'text-left'}`}>
-                      <div className={`w-16 h-16 bg-black flex items-center justify-center mb-6 ${isRTL ? 'mr-0 ml-auto lg:ml-0 lg:mr-0' : ''}`}>
+                    
+                    {/* Text Content - Always on right in LTR, left in RTL */}
+                    <div className={`${isRTL ? 'lg:order-1 text-right' : 'text-left'}`}>
+                      <div className={`w-16 h-16 bg-black flex items-center justify-center mb-6 ${isRTL ? 'ml-auto' : ''}`}>
                         <Icon className="text-white" size={32} />
                       </div>
-                      <h3 className="text-3xl md:text-4xl mb-4 tracking-wide" dir={isRTL ? 'rtl' : 'ltr'}>{serviceTitle}</h3>
-                      <p className="text-lg text-black/70 mb-8" dir={isRTL ? 'rtl' : 'ltr'}>{serviceDescription}</p>
+                      <h3 className="text-3xl md:text-4xl mb-4 tracking-wide">{serviceTitle}</h3>
+                      <p className="text-lg text-black/70 mb-8">{serviceDescription}</p>
                       {(() => {
                         const features = parseFeatures(serviceFeatures);
                         return features && features.length > 0 && (
                           <div className="space-y-3">
                             {features.map((feature, idx) => (
-                              <div key={idx} className={`flex items-start gap-3 ${isRTL ? 'flex-row-reverse' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
+                              <div key={idx} className={`flex items-start gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                                 <div className="w-1.5 h-1.5 bg-black rounded-full mt-2.5 flex-shrink-0" />
-                                <p className="text-black/70" style={{ textAlign: isRTL ? 'right' : 'left' }}>{feature}</p>
+                                <p className="text-black/70">{feature}</p>
                               </div>
                             ))}
                           </div>

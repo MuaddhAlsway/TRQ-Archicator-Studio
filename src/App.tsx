@@ -13,6 +13,7 @@ import { CompanyProfile } from './components/CompanyProfile';
 import { Admin } from './admin/Admin';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { ScrollToTop } from './components/ScrollToTop';
+import { LoadingScreen } from './components/LoadingScreen';
 import { useLanguage } from './context/LanguageContext';
 import * as api from './api';
 
@@ -44,6 +45,7 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [blogHidden, setBlogHidden] = useState(true);
   const [settingsRefresh, setSettingsRefresh] = useState(0);
+  const [isPageLoading, setIsPageLoading] = useState(true);
   // ts = static translation (i18next for UI), td = dynamic (API for database content)
   const { ts, isRTL } = useLanguage();
 
@@ -73,6 +75,13 @@ export default function App() {
   // Scroll to top whenever page changes
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    // Show loading screen on page change
+    setIsPageLoading(true);
+    // Hide loading screen after 4 seconds (matching LoadingScreen timing)
+    const timer = setTimeout(() => {
+      setIsPageLoading(false);
+    }, 4000);
+    return () => clearTimeout(timer);
   }, [currentPage]);
 
   // Handle hash changes (browser back/forward, manual URL change)
@@ -112,6 +121,8 @@ export default function App() {
   return (
     <ParallaxProvider>
       <ScrollToTop />
+      {/* GLOBAL LOADING SCREEN - APPLIES TO ALL PAGES */}
+      <LoadingScreen isLoading={isPageLoading} onLoadingComplete={() => setIsPageLoading(false)} />
       <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">

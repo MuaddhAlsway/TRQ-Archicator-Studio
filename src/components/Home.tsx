@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from 'react';
 import * as api from '../api';
 import { getImageUrl } from '../api';
 import { HeroSlider } from './HeroSlider';
-import { LoadingScreen } from './LoadingScreen';
 import { useLanguage } from '../context/LanguageContext';
 import { ParallaxContainer } from './ParallaxContainer';
 import { getContentFromSettings } from '../utils/contentHelper';
@@ -42,9 +41,8 @@ const getIconComponent = (iconName: string) => {
 export function Home({ onNavigate }: HomeProps) {
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
   const [services, setServices] = useState<Service[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   // ts = static translation (i18next), td = dynamic translation (API), toArabicNum = convert numbers
-  const { ts, td, toArabicNum, translateBatch, language, isRTL } = useLanguage();
+  const { ts, td, toArabicNum, language, isRTL } = useLanguage();
   const [settings, setSettings] = useState({
     homeIntroImage:'/uploads/5.webp',
     homeIntroLinkPage: 'about',
@@ -83,19 +81,6 @@ export function Home({ onNavigate }: HomeProps) {
     });
     setSettings(newSettings);
   }, [language, allSettings]);
-
-  useEffect(() => {
-    // Add loading class to body
-    if (isLoading) {
-      document.body.classList.add('loading-active');
-    } else {
-      document.body.classList.remove('loading-active');
-    }
-    
-    return () => {
-      document.body.classList.remove('loading-active');
-    };
-  }, [isLoading]);
 
   useEffect(() => {
     // First get settings to know which projects to feature
@@ -175,10 +160,7 @@ export function Home({ onNavigate }: HomeProps) {
 
   return (
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'} relative`}>
-      {/* Loading Screen with Curtain Animation and Bar Logo */}
-      <LoadingScreen isLoading={isLoading} onLoadingComplete={() => setIsLoading(false)} useCurtainEffect={true} />
-      
-      {/* Hero Slider Section - includes its own loading screen */}
+      {/* Hero Slider Section - NO loading screen here, use global one */}
       <HeroSlider onNavigate={onNavigate} />
 
       {/* Introduction - Static text from i18next */}
