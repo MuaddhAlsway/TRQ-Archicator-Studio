@@ -37,15 +37,20 @@ export function AdminArabicHeroSlides() {
   const loadSlides = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('trq_token');
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api';
-      const response = await fetch(`${apiUrl}/api/arabic/heroSlides`, {
-        headers: { 'Authorization': `Bearer ${token}` },
-      });
-      const result = await response.json();
-      if (result.success) {
-        setSlides(result.data || []);
-      }
+      const data = await api.getSlides();
+      setSlides(data.map((slide: any) => ({
+        id: slide.id,
+        englishTag: slide.tag,
+        arabicTag: slide.tag_ar || '',
+        englishTitle: slide.title,
+        arabicTitle: slide.title_ar || '',
+        englishDescription: slide.description,
+        arabicDescription: slide.description_ar || '',
+        englishButtonPrimaryText: slide.buttonPrimaryText,
+        arabicButtonPrimaryText: slide.buttonPrimaryText_ar || '',
+        englishButtonSecondaryText: slide.buttonSecondaryText,
+        arabicButtonSecondaryText: slide.buttonSecondaryText_ar || '',
+      })));
     } catch (error) {
       console.error('Error loading slides:', error);
     }
@@ -61,30 +66,22 @@ export function AdminArabicHeroSlides() {
     if (!editingSlide) return;
 
     try {
-      const token = localStorage.getItem('trq_token');
-      const response = await fetch(` + import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api'/api/arabic/heroSlides/${editingSlide.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          arabicTag: formData.arabicTag,
-          arabicTitle: formData.arabicTitle,
-          arabicDescription: formData.arabicDescription,
-          arabicButtonPrimaryText: formData.arabicButtonPrimaryText,
-          arabicButtonSecondaryText: formData.arabicButtonSecondaryText,
-        }),
+      const response = await api.updateSlide(editingSlide.id, {
+        tag_ar: formData.arabicTag,
+        title_ar: formData.arabicTitle,
+        description_ar: formData.arabicDescription,
+        buttonPrimaryText_ar: formData.arabicButtonPrimaryText,
+        buttonSecondaryText_ar: formData.arabicButtonSecondaryText,
       });
 
-      const result = await response.json();
-      if (result.success) {
+      if (response) {
         loadSlides();
         setEditingSlide(null);
         setFormData({});
       }
     } catch (error) {
       console.error('Error saving slide:', error);
+      alert('Error saving content: ' + (error instanceof Error ? error.message : 'Server error'));
     }
   };
 

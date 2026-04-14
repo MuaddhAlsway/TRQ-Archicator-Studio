@@ -72,8 +72,10 @@ export function PricingRequest() {
           {/* Bottom Bar */}
           <div className={`border-t border-white/10 mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm text-white/40 gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
             <p>{ts('footer.copyright')}</p>
-            <div className={`flex ${isRTL ? 'space-x-reverse space-x-4 sm:space-x-6' : 'space-x-4 sm:space-x-6'}`}>
-              <button className="hover:text-white transition-colors">{ts('footer.quickLinks')}</button>
+            <div className={`flex gap-4 sm:gap-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <a href="https://www.behance.net/TRQSTUDIO" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Behance</a>
+              <a href="https://www.linkedin.com/company/trqstudio/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
+              <a href="https://www.instagram.com/trqstudio_/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
             </div>
           </div>
         </div>

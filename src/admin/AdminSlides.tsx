@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { Plus, Edit2, Trash2, GripVertical, Eye, EyeOff, Image, Save, X, Upload } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Plus, Edit2, Trash2, Eye, EyeOff, Image, Save, X } from 'lucide-react';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 import { ConfirmModal } from './ConfirmModal';
+import { FileUploadField } from './FileUploadField';
 
 interface Slide {
   id: number;
@@ -9,12 +11,42 @@ interface Slide {
   title: string;
   description: string;
   image: string;
+  image_2?: string;
+  image_3?: string;
+  video?: string;
+  video_2?: string;
+  video_3?: string;
+  video_text?: string;
+  video_2_text?: string;
+  video_3_text?: string;
   buttonPrimaryText: string;
   buttonPrimaryLink: string;
   buttonSecondaryText: string;
   buttonSecondaryLink: string;
   sortOrder: number;
   isActive: number;
+  tag_ar?: string;
+  title_ar?: string;
+  description_ar?: string;
+  video_ar?: string;
+  video_2_ar?: string;
+  video_3_ar?: string;
+  video_text_ar?: string;
+  video_2_text_ar?: string;
+  video_3_text_ar?: string;
+  buttonPrimaryText_ar?: string;
+  buttonSecondaryText_ar?: string;
+}
+
+interface SlideVideo {
+  id: string;
+  url: string;
+  title: string;
+  description: string;
+  tag: string;
+  title_ar?: string;
+  description_ar?: string;
+  tag_ar?: string;
 }
 
 const linkOptions = [
@@ -32,20 +64,26 @@ export function AdminSlides() {
   const [loading, setLoading] = useState(true);
   const [editingSlide, setEditingSlide] = useState<Slide | null>(null);
   const [isCreating, setIsCreating] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const emptySlide: Omit<Slide, 'id'> = {
     tag: '',
     title: '',
     description: '',
     image: '',
+    image_2: '',
+    image_3: '',
     buttonPrimaryText: 'VIEW PORTFOLIO',
     buttonPrimaryLink: 'portfolio',
     buttonSecondaryText: 'GET IN TOUCH',
     buttonSecondaryLink: 'contact',
     sortOrder: 0,
     isActive: 1,
+    video: '',
+    video_2: '',
+    video_3: '',
+    video_text: '',
+    video_2_text: '',
+    video_3_text: '',
   };
 
   const [formData, setFormData] = useState<Omit<Slide, 'id'>>(emptySlide);
@@ -64,9 +102,16 @@ export function AdminSlides() {
     setLoading(true);
     try {
       const data = await api.getSlides();
-      setSlides(data);
+      console.log('Loaded slides:', data);
+      if (Array.isArray(data)) {
+        setSlides(data);
+      } else {
+        console.error('Slides data is not an array:', data);
+        setSlides([]);
+      }
     } catch (error) {
       console.error('Error loading slides:', error);
+      setSlides([]);
     }
     setLoading(false);
   };
@@ -83,12 +128,31 @@ export function AdminSlides() {
       title: slide.title,
       description: slide.description,
       image: slide.image,
+      image_2: slide.image_2 || '',
+      image_3: slide.image_3 || '',
+      video: slide.video || '',
+      video_2: slide.video_2 || '',
+      video_3: slide.video_3 || '',
+      video_text: slide.video_text || '',
+      video_2_text: slide.video_2_text || '',
+      video_3_text: slide.video_3_text || '',
       buttonPrimaryText: slide.buttonPrimaryText,
       buttonPrimaryLink: slide.buttonPrimaryLink,
       buttonSecondaryText: slide.buttonSecondaryText,
       buttonSecondaryLink: slide.buttonSecondaryLink,
       sortOrder: slide.sortOrder,
       isActive: slide.isActive,
+      tag_ar: slide.tag_ar || '',
+      title_ar: slide.title_ar || '',
+      description_ar: slide.description_ar || '',
+      video_ar: slide.video_ar || '',
+      video_2_ar: slide.video_2_ar || '',
+      video_3_ar: slide.video_3_ar || '',
+      video_text_ar: slide.video_text_ar || '',
+      video_2_text_ar: slide.video_2_text_ar || '',
+      video_3_text_ar: slide.video_3_text_ar || '',
+      buttonPrimaryText_ar: slide.buttonPrimaryText_ar || '',
+      buttonSecondaryText_ar: slide.buttonSecondaryText_ar || '',
     });
     setEditingSlide(slide);
     setIsCreating(false);
@@ -102,16 +166,24 @@ export function AdminSlides() {
 
   const handleSave = async () => {
     try {
+      console.log('Saving slide with data:', formData);
+      
       if (isCreating) {
+        console.log('Creating new slide...');
         await api.createSlide(formData);
       } else if (editingSlide) {
+        console.log('Updating slide:', editingSlide.id);
         await api.updateSlide(editingSlide.id, formData);
       }
+      
+      console.log('Save successful, reloading slides...');
       await loadSlides();
       handleCancel();
+      alert('Slide saved successfully!');
     } catch (error) {
       console.error('Error saving slide:', error);
-      alert('Error saving slide: ' + (error instanceof Error ? error.message : 'Unknown error'));
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      alert('Error saving slide: ' + errorMessage + '\n\nPlease check:\n1. Backend is running\n2. You are logged in\n3. All required fields are filled');
     }
   };
 
@@ -138,54 +210,6 @@ export function AdminSlides() {
       await loadSlides();
     } catch (error) {
       console.error('Error toggling slide:', error);
-    }
-  };
-
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
-      return;
-    }
-
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('File size must be less than 5MB');
-      return;
-    }
-
-    setUploading(true);
-    try {
-      const uploadFormData = new FormData();
-      uploadFormData.append('file', file);
-
-      const token = localStorage.getItem('trq_token');
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api';
-      const response = await fetch(`${apiUrl}/upload`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-        body: uploadFormData,
-      });
-
-      const result = await response.json();
-      if (result.success && result.url) {
-        setFormData({ ...formData, image: result.url });
-      } else {
-        alert('Upload failed: ' + (result.message || 'Unknown error'));
-      }
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      alert('Error uploading file');
-    } finally {
-      setUploading(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
     }
   };
 
@@ -239,7 +263,7 @@ export function AdminSlides() {
               <div className="aspect-video bg-neutral-100 relative overflow-hidden">
                 {formData.image ? (
                   <img
-                    src={formData.image}
+                    src={getImageUrl(formData.image)}
                     alt="Slide preview"
                     className="w-full h-full object-cover"
                   />
@@ -309,35 +333,69 @@ export function AdminSlides() {
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-1">Image URL</label>
-                <div className="space-y-3">
-                  <input
-                    type="text"
-                    value={formData.image}
-                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                    className="w-full border p-2"
-                    placeholder="https://..."
-                  />
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      disabled={uploading}
-                      className="flex items-center gap-2 flex-1 bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      <Upload size={18} />
-                      {uploading ? 'Uploading...' : 'Upload Image'}
-                    </button>
-                  </div>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-                  <p className="text-xs text-black/50">Max file size: 5MB. Supported formats: JPG, PNG, WebP, GIF</p>
+              <FileUploadField
+                label="Image URL"
+                value={formData.image}
+                onChange={(url) => setFormData({ ...formData, image: url })}
+                accept="image"
+                placeholder="https://... or upload from computer"
+              />
+
+              {/* Videos Section - 2 Videos */}
+              <div className="border-t pt-6">
+                <h3 className="font-medium mb-4">📹 Videos (2 Videos) — Upload from your computer or paste URL</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {[1, 2].map((videoNum) => {
+                    const videoKey = videoNum === 1 ? 'video' : `video_${videoNum}`;
+                    const videoTextKey = videoNum === 1 ? 'video_text' : `video_${videoNum}_text`;
+                    const videoValue = (formData as any)[videoKey] || '';
+                    const videoTextValue = (formData as any)[videoTextKey] || '';
+                    return (
+                      <div key={videoNum} className="p-4 bg-blue-50 border border-blue-200 rounded space-y-3">
+                        <h4 className="text-sm font-medium text-blue-900">Video {videoNum}</h4>
+                        <FileUploadField
+                          label="Video File"
+                          value={videoValue}
+                          onChange={(url) => setFormData({ ...formData, [videoKey]: url })}
+                          accept="video"
+                          placeholder="/uploads/video.mp4 or https://..."
+                        />
+                        <div>
+                          <label className="block text-xs font-medium mb-1 text-blue-900">Video Label</label>
+                          <input
+                            type="text"
+                            value={videoTextValue}
+                            onChange={(e) => setFormData({ ...formData, [videoTextKey]: e.target.value })}
+                            className="w-full border border-blue-300 p-2 text-sm rounded focus:outline-none"
+                            placeholder="e.g., POV Perspective 1"
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Images Section - 3 Images */}
+              <div className="border-t pt-6">
+                <h3 className="font-medium mb-4">🖼️ Images (3 Images)</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[1, 2, 3].map((imgNum) => {
+                    const imgKey = imgNum === 1 ? 'image' : `image_${imgNum}`;
+                    const imgValue = (formData as any)[imgKey] || '';
+                    return (
+                      <div key={imgNum} className="p-4 bg-amber-50 border border-amber-200 rounded">
+                        <h4 className="text-sm font-medium text-amber-900 mb-3">Image {imgNum}</h4>
+                        <FileUploadField
+                          label=""
+                          value={imgValue}
+                          onChange={(url) => setFormData({ ...formData, [imgKey]: url })}
+                          accept="image"
+                          placeholder="https://..."
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -444,7 +502,7 @@ export function AdminSlides() {
               <div className="w-48 h-32 flex-shrink-0 bg-neutral-100">
                 {slide.image && (
                   <img
-                    src={slide.image}
+                    src={getImageUrl(slide.image)}
                     alt={slide.title}
                     className="w-full h-full object-cover"
                   />
@@ -452,10 +510,27 @@ export function AdminSlides() {
               </div>
               <div className="flex-1 p-4">
                 <div className="flex items-start justify-between">
-                  <div>
+                  <div className="flex-1">
                     <span className="text-xs text-black/50 tracking-wider">{slide.tag}</span>
                     <h3 className="font-medium">{slide.title}</h3>
                     <p className="text-sm text-black/60 mt-1 line-clamp-2">{slide.description}</p>
+                    
+                    {/* Videos and Images Status */}
+                    <div className="flex gap-4 mt-3 text-xs">
+                      <div className="flex items-center gap-1">
+                        <span className="text-blue-600">📹</span>
+                        <span className="text-black/60">
+                          {[slide.video, slide.video_2, slide.video_3].filter(Boolean).length}/2 Videos
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="text-amber-600">🖼️</span>
+                        <span className="text-black/60">
+                          {[slide.image, slide.image_2, slide.image_3].filter(Boolean).length}/3 Images
+                        </span>
+                      </div>
+                    </div>
+                    
                     <div className="flex gap-2 mt-2">
                       <span className="text-xs bg-black text-white px-2 py-1">{slide.buttonPrimaryText}</span>
                       <span className="text-xs border px-2 py-1">{slide.buttonSecondaryText}</span>

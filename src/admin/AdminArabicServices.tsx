@@ -29,8 +29,8 @@ export function AdminArabicServices() {
     setLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem('trq_token');
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api';
+      const token = localStorage.getItem('trq_access_token');
+      const apiUrl = import.meta.env.VITE_API_URL;
       const response = await fetch(`${apiUrl}/services`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -82,8 +82,8 @@ export function AdminArabicServices() {
     setSuccessMessage(null);
 
     try {
-      const token = localStorage.getItem('trq_token');
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api';
+      const token = localStorage.getItem('trq_access_token');
+      const apiUrl = import.meta.env.VITE_API_URL;
       const response = await fetch(`${apiUrl}/settings`, {
         method: 'PUT',
         headers: {

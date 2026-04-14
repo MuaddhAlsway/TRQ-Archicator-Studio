@@ -3,6 +3,7 @@ import { ArrowLeft, Plus, X, Image as ImageIcon } from 'lucide-react';
 import { useAdmin } from './AdminContext';
 import { Project } from './types';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 
 interface ProjectEditorProps {
   project: Project | null;
@@ -322,7 +323,7 @@ export function ProjectEditorArabic({ project, onSave, onCancel }: ProjectEditor
                     required
                   />
                   {formData.image && (
-                    <img src={formData.image} alt="معاينة" className="w-20 h-14 object-cover rounded" />
+                    <img src={getImageUrl(formData.image)} alt="معاينة" className="w-20 h-14 object-cover rounded"  loading="lazy" />
                   )}
                 </div>
               </div>
@@ -528,7 +529,7 @@ export function ProjectEditorArabic({ project, onSave, onCancel }: ProjectEditor
                     </div>
                   </div>
                   {url && (
-                    <img src={url} alt={`معرض ${index + 1}`} className="w-24 h-16 object-cover rounded" />
+                    <img src={url} alt={`معرض ${index + 1}`} className="w-24 h-16 object-cover rounded"  loading="lazy" />
                   )}
                 </div>
               ))}

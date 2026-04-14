@@ -3,6 +3,7 @@ import { ArrowLeft, Calendar, Clock, User, Share2, Facebook, Twitter, Linkedin, 
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useLanguage } from '../context/LanguageContext';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 
 interface Article {
   id: number;
@@ -95,7 +96,7 @@ export function BlogArticle({ article, onBack }: BlogArticleProps) {
 
       {/* Hero Image */}
       <section className="relative h-[70vh] overflow-hidden">
-        <ImageWithFallback src={article.image} alt={article.title} className="w-full h-full object-cover" />
+        <ImageWithFallback src={article.image ? getImageUrl(article.image) : ''} alt={article.title} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
         <div className={`absolute bottom-0 left-0 right-0 text-white p-8 ${isRTL ? 'text-right' : ''}`}>
           <div className="max-w-4xl mx-auto">
@@ -177,7 +178,7 @@ export function BlogArticle({ article, onBack }: BlogArticleProps) {
                 >
                   <div className="relative h-48 overflow-hidden">
                     <ImageWithFallback
-                      src={relatedArticle.image}
+                      src={getImageUrl(relatedArticle.image)}
                       alt={relatedArticle.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />

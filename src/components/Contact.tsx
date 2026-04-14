@@ -1,8 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import * as Icons from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { LoadingScreen } from './LoadingScreen';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
+import { getContentFromSettings } from '../utils/contentHelper';
 
 const getIconComponent = (iconName: string) => {
   const IconComponent = (Icons as any)[iconName];
@@ -14,17 +17,18 @@ export function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const [settings, setSettings] = useState({
     contactHeroTitle: 'GET IN TOUCH',
-    contactHeroParagraph: 'Let\'s discuss your project and create something extraordinary together',
+    contactHeroParagraph: 'Discuss your project, create together',
     contactHeroImage: '/TRQ STUDIO _ PROJECTS/REC. HEAVEN/13.jpg',
-    contactInfo1Show: 'true', contactInfo1Icon: 'MapPin', contactInfo1Title: 'Visit Us', contactInfo1Detail1: 'TRQ Design Studio', contactInfo1Detail2: 'King Fahd Road', contactInfo1Detail3: 'Riyadh, Saudi Arabia',
+    contactInfo1Show: 'false', contactInfo1Icon: 'MapPin', contactInfo1Title: 'Visit Us', contactInfo1Detail1: 'TRQ Design Studio', contactInfo1Detail2: 'King Fahd Road', contactInfo1Detail3: 'Riyadh & Jeddah, Saudi Arabia',
     contactInfo2Show: 'true', contactInfo2Icon: 'Phone', contactInfo2Title: 'Call Us', contactInfo2Detail1: '+966 XX XXX XXXX', contactInfo2Detail2: 'Mon-Fri: 9:00 AM - 6:00 PM', contactInfo2Detail3: '',
     contactInfo3Show: 'true', contactInfo3Icon: 'Mail', contactInfo3Title: 'Email Us', contactInfo3Detail1: 'info@trq.design', contactInfo3Detail2: 'projects@trq.design', contactInfo3Detail3: '',
     contactInfo4Show: 'true', contactInfo4Icon: 'MessageCircle', contactInfo4Title: 'WhatsApp', contactInfo4Detail1: '+966 XX XXX XXXX', contactInfo4Detail2: 'Quick response guaranteed', contactInfo4Detail3: '',
     contactFormTitle: 'Send Us a Message',
     contactFormDescription: 'Fill out the form below and our team will get back to you within 24 hours.',
-    contactFormSubjects: 'residential|Residential Project|commercial|Commercial Project|booth|Exhibition Booth|concept|Concept Design|furniture|Furniture Design|general|General Inquiry',
+    contactFormSubjects: 'residential|Residential Project|commercial|Commercial Project|booth|Exhibition Booth|concept|Concept Design|furniture|Custom Design|general|General Inquiry',
     contactQuickTitle: 'Quick Contact',
     contactQuick1Icon: 'MessageCircle', contactQuick1Title: 'WhatsApp', contactQuick1Description: 'Fastest way to reach us', contactQuick1ButtonText: 'CHAT ON WHATSAPP', contactQuick1Link: 'https://wa.me/966XXXXXXXXX', contactQuick1Color: 'green',
     contactQuick2Icon: 'Mail', contactQuick2Title: 'Email', contactQuick2Description: 'For detailed inquiries', contactQuick2ButtonText: 'SEND EMAIL', contactQuick2Link: 'mailto:info@trq.design?subject=Inquiry%20from%20TRQ%20Website&body=Hello%20TRQ%20Design%20Team%2C%0A%0AI%20am%20interested%20in%20your%20interior%20design%20services.%0A%0APlease%20contact%20me%20to%20discuss%20my%20project.%0A%0AThank%20you.', contactQuick2Color: 'black',
@@ -33,12 +37,44 @@ export function Contact() {
     contactOfficeHoursDay3: 'Saturday', contactOfficeHoursTime3: '10:00 AM - 4:00 PM',
     contactOfficeHoursDay4: 'Sunday', contactOfficeHoursTime4: '9:00 AM - 6:00 PM',
     contactStudioShow: 'false', contactStudioTitle: 'Visit Our Studio', contactStudioDescription: 'Schedule an appointment to visit our design studio.', contactStudioButtonText: 'SCHEDULE A VISIT',
-    contactMapShow: 'false', contactMapTitle: 'Find Us', contactMapAddress: 'TRQ Design Studio, King Fahd Road, Riyadh', contactMapImage: '', contactMapLink: 'https://maps.google.com/?q=Riyadh,Saudi+Arabia',
+    contactMapShow: 'false', contactMapTitle: 'Find Us', contactMapAddress: 'TRQ Design Studio, King Fahd Road, Riyadh & Jeddah', contactMapImage: '', contactMapLink: 'https://maps.google.com/?q=Riyadh+Jeddah,Saudi+Arabia',
   });
 
+  const [allSettings, setAllSettings] = useState<any>(null);
+  const defaultSettingsRef = useRef(settings);
+
   useEffect(() => {
-    api.getSettings().then((data) => setSettings(prev => ({ ...prev, ...data }))).catch(() => {});
+    api.getSettings().then((data) => {
+      setAllSettings(data);
+      const defaults = defaultSettingsRef.current;
+      const newSettings = { ...defaults };
+      Object.keys(newSettings).forEach(key => {
+        if (language === 'ar') {
+          newSettings[key] = data[`${key}_ar`] || data[key] || defaults[key];
+        } else {
+          newSettings[key] = data[key] || defaults[key];
+        }
+      });
+      setSettings(newSettings);
+    }).catch(() => {});
+    
+    // Initialize page loading
+    setTimeout(() => setIsPageLoading(false), 2500);
   }, []);
+
+  useEffect(() => {
+    if (!allSettings) return;
+    const defaults = defaultSettingsRef.current;
+    const newSettings = { ...defaults };
+    Object.keys(newSettings).forEach(key => {
+      if (language === 'ar') {
+        newSettings[key] = allSettings[`${key}_ar`] || allSettings[key] || defaults[key];
+      } else {
+        newSettings[key] = allSettings[key] || defaults[key];
+      }
+    });
+    setSettings(newSettings);
+  }, [language, allSettings]);
 
   // Translate dynamic content from database (contact info details, office hours)
   useEffect(() => {
@@ -73,7 +109,7 @@ export function Contact() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const contactInfo = [1, 2, 3, 4]
+  const contactInfo = [2, 3, 4]
     .filter((num) => (settings as any)[`contactInfo${num}Show`] !== 'false')
     .map((num) => ({
       icon: getIconComponent((settings as any)[`contactInfo${num}Icon`]),
@@ -85,12 +121,13 @@ export function Contact() {
 
   return (
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
+      <LoadingScreen isLoading={isPageLoading} onLoadingComplete={() => setIsPageLoading(false)} />
       <section className="relative h-[50vh] sm:h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
-        <ImageWithFallback src={settings.contactHeroImage || '/TRQ STUDIO _ PROJECTS/REC. HEAVEN/13.jpg'} alt="Contact Us" className="absolute inset-0 w-full h-full object-cover" />
+        <ImageWithFallback src={getImageUrl(getContentFromSettings(language, settings, 'contactHeroImage') || 'REC. HEAVEN/13.jpg')} alt="Contact Us" className="absolute inset-0 w-full h-full object-cover" />
         <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wider mb-4 sm:mb-6">{ts('contact.heroTitle')}</h1>
-          <p className="text-base sm:text-lg md:text-xl opacity-90">{ts('contact.heroSubtitle')}</p>
+          <p className="text-base sm:text-lg md:text-xl opacity-90">{getContentFromSettings(language, settings, 'contactHeroParagraph') || ts('contact.heroSubtitle')}</p>
         </div>
       </section>
 
@@ -193,7 +230,7 @@ export function Contact() {
                 {officeHours.map((item, index) => (<div key={index} className={`flex justify-between text-sm sm:text-base ${isRTL ? 'flex-row-reverse' : ''}`}><span className="text-white/60">{td(item.day)}</span><span>{item.time}</span></div>))}
               </div>
             </div>
-            {settings.contactStudioShow === 'true' && (
+            {getContentFromSettings(language, settings, 'contactStudioShow') === 'true' && (
               <div>
                 <h3 className={`text-xl sm:text-2xl mb-3 sm:mb-4 tracking-wide ${isRTL ? 'text-right' : ''}`}>{ts('contact.visitStudio')}</h3>
                 <p className={`text-sm sm:text-base text-black/70 mb-3 sm:mb-4 ${isRTL ? 'text-right' : ''}`}>{ts('contact.visitStudioText')}</p>
@@ -205,21 +242,21 @@ export function Contact() {
         </div>
       </section>
 
-      {settings.contactMapShow === 'true' && (
+      {getContentFromSettings(language, settings, 'contactMapShow') === 'true' && (
         <section className="py-12 sm:py-16 md:py-24 bg-neutral-50">
           <div className="max-w-7xl mx-auto px-4">
             <h2 className="text-2xl sm:text-3xl md:text-4xl mb-6 sm:mb-8 text-center tracking-wide">{ts('contact.findUs')}</h2>
-            <a href={settings.contactMapLink} target="_blank" rel="noopener noreferrer" className="block h-64 sm:h-80 md:h-96 bg-neutral-200 overflow-hidden cursor-pointer group relative">
-              {settings.contactMapImage ? (
+            <a href={getContentFromSettings(language, settings, 'contactMapLink')} target="_blank" rel="noopener noreferrer" className="block h-64 sm:h-80 md:h-96 bg-neutral-200 overflow-hidden cursor-pointer group relative">
+              {getContentFromSettings(language, settings, 'contactMapImage') ? (
                 <>
-                  <img src={settings.contactMapImage} alt={settings.contactMapAddress} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                  <img src={getImageUrl(getContentFromSettings(language, settings, 'contactMapImage'))} alt={getContentFromSettings(language, settings, 'contactMapAddress')} loading="lazy" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white px-4 sm:px-6 py-2 sm:py-3 flex items-center gap-2 text-sm sm:text-base"><Icons.ExternalLink size={18} /><span className="tracking-wider">{ts('contact.openInMaps')}</span></div>
                   </div>
                 </>
               ) : (
                 <div className="h-full flex items-center justify-center group-hover:bg-neutral-300 transition-colors">
-                  <div className="text-center text-black/40 px-4"><Icons.MapPin size={36} className="mx-auto mb-3 sm:mb-4" /><p className="text-base sm:text-lg">{ts('contact.openInMaps')}</p><p className="text-xs sm:text-sm">{td(settings.contactMapAddress)}</p></div>
+                  <div className="text-center text-black/40 px-4"><Icons.MapPin size={36} className="mx-auto mb-3 sm:mb-4" /><p className="text-base sm:text-lg">{ts('contact.openInMaps')}</p><p className="text-xs sm:text-sm">{td(getContentFromSettings(language, settings, 'contactMapAddress'))}</p></div>
                 </div>
               )}
             </a>

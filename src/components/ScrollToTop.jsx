@@ -1,17 +1,19 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 
 export function ScrollToTop() {
-  const { pathname, hash } = useLocation();
-
   useEffect(() => {
-    // Scroll to top on route change
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'instant'
-    });
-  }, [pathname, hash]);
+    // Scroll to top on hash change
+    const handleHashChange = () => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   return null;
 }

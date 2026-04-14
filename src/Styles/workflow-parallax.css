@@ -62,7 +62,7 @@
 
 .col__content-title {
   font-size: 3rem;
-  font-weight: 300;
+  font-weight: 700;
   line-height: 1.2;
   margin-bottom: 2rem;
   letter-spacing: 0.05em;
@@ -82,6 +82,7 @@
 
 .col__content-txt {
   font-size: 1rem;
+  font-weight: 400;
   line-height: 1.6;
   margin-bottom: 1.5rem;
   color: rgba(0, 0, 0, 0.7);
@@ -217,10 +218,12 @@
 @media (max-width: 1024px) {
   .col__content-title {
     font-size: 2.5rem;
+    font-weight: 700;
   }
 
   .col__content-txt {
     font-size: 0.95rem;
+    font-weight: 400;
   }
 }
 
@@ -236,11 +239,13 @@
 
   .col__content-title {
     font-size: 1.75rem;
+    font-weight: 700;
     margin-bottom: 1rem;
   }
 
   .col__content-txt {
     font-size: 0.9rem;
+    font-weight: 400;
     margin-bottom: 1rem;
   }
 

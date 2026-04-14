@@ -3,6 +3,7 @@ import { ArrowLeft, Plus, X, Image as ImageIcon, Upload, Loader } from 'lucide-r
 import { useAdmin } from './AdminContext';
 import { Project } from './types';
 import { ImageUpload } from './ImageUpload';
+import { FileUploadField } from './FileUploadField';
 import * as api from '../api';
 
 interface ProjectEditorProps {
@@ -18,7 +19,7 @@ interface Category {
 
 const emptyProject: Omit<Project, 'id'> = {
   title: '',
-  category: 'residential',
+  category: 'interior-design',
   subcategory: '',
   description: '',
   image: '',
@@ -38,6 +39,7 @@ const emptyProject: Omit<Project, 'id'> = {
   clientQuote: '',
   clientName: '',
   status: 'draft',
+  sortOrder: 0,
 };
 
 export function ProjectEditor({ project, onSave, onCancel }: ProjectEditorProps) {
@@ -99,16 +101,19 @@ export function ProjectEditor({ project, onSave, onCancel }: ProjectEditorProps)
   const [formData, setFormData] = useState<Omit<Project, 'id'>>(parseProjectData(project));
   const [activeTab, setActiveTab] = useState<'basic' | 'details' | 'content' | 'gallery' | 'team'>('basic');
   const [categories, setCategories] = useState<Category[]>([
-    { id: 'residential', label: 'Residential' },
-    { id: 'commercial', label: 'Commercial' },
+    { id: 'interior-design', label: 'Interior Design' },
+    { id: 'event-design', label: 'Event Design' },
     { id: 'booths', label: 'Booths & Exhibitions' },
     { id: 'events', label: 'Events' },
-    { id: 'furniture', label: 'Furniture' },
+    { id: 'custom-design', label: 'Custom Design' },
   ]);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   // Update formData when project changes
   useEffect(() => {
     setFormData(parseProjectData(project));
+    setSaveError(null);
   }, [project]);
 
   // Fetch categories from settings
@@ -129,52 +134,65 @@ export function ProjectEditor({ project, onSave, onCancel }: ProjectEditorProps)
     }).catch(console.error);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSaving(true);
+    setSaveError(null);
     
-    // Clean up empty array items
-    const cleanedData = {
-      ...formData,
-      features: formData.features.filter(f => f.trim()),
-      materials: formData.materials.filter(m => m.trim()),
-      awards: formData.awards.filter(a => a.trim()),
-      team: formData.team.filter(t => t.trim()),
-      gallery: formData.gallery.filter(g => g.trim()),
-    };
+    try {
+      // Clean up empty array items
+      const cleanedData = {
+        ...formData,
+        features: formData.features.filter(f => f.trim()),
+        materials: formData.materials.filter(m => m.trim()),
+        awards: formData.awards.filter(a => a.trim()),
+        team: formData.team.filter(t => t.trim()),
+        gallery: formData.gallery.filter(g => g.trim()),
+      };
 
-    // Convert arrays to JSON strings for storage
-    const dataToSend = {
-      title: cleanedData.title,
-      category: cleanedData.category,
-      subcategory: cleanedData.subcategory,
-      description: cleanedData.description,
-      image: cleanedData.image,
-      year: cleanedData.year,
-      location: cleanedData.location,
-      client: cleanedData.client,
-      size: cleanedData.size,
-      duration: cleanedData.duration,
-      detailedDescription: cleanedData.detailedDescription,
-      challenge: cleanedData.challenge,
-      solution: cleanedData.solution,
-      features: JSON.stringify(cleanedData.features),
-      materials: JSON.stringify(cleanedData.materials),
-      awards: JSON.stringify(cleanedData.awards),
-      team: JSON.stringify(cleanedData.team),
-      gallery: JSON.stringify(cleanedData.gallery),
-      clientQuote: cleanedData.clientQuote,
-      clientName: cleanedData.clientName,
-      status: cleanedData.status,
-    };
+      // Convert arrays to JSON strings for storage
+      const dataToSend = {
+        title: cleanedData.title,
+        category: cleanedData.category,
+        subcategory: cleanedData.subcategory,
+        description: cleanedData.description,
+        image: cleanedData.image,
+        year: cleanedData.year,
+        location: cleanedData.location,
+        client: cleanedData.client,
+        size: cleanedData.size,
+        duration: cleanedData.duration,
+        detailedDescription: cleanedData.detailedDescription,
+        challenge: cleanedData.challenge,
+        solution: cleanedData.solution,
+        features: JSON.stringify(cleanedData.features),
+        materials: JSON.stringify(cleanedData.materials),
+        awards: JSON.stringify(cleanedData.awards),
+        team: JSON.stringify(cleanedData.team),
+        gallery: JSON.stringify(cleanedData.gallery),
+        clientQuote: cleanedData.clientQuote,
+        clientName: cleanedData.clientName,
+        status: cleanedData.status,
+      };
 
-    if (project) {
-      console.log('Updating existing project:', project.id);
-      updateProject(project.id, dataToSend);
-    } else {
-      console.log('Creating new project');
-      addProject(dataToSend);
+      if (project) {
+        console.log('ProjectEditor: Updating existing project:', project.id);
+        await updateProject(project.id, dataToSend);
+        console.log('ProjectEditor: Update successful');
+      } else {
+        console.log('ProjectEditor: Creating new project');
+        await addProject(dataToSend);
+        console.log('ProjectEditor: Create successful');
+      }
+      
+      onSave();
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to save project';
+      console.error('ProjectEditor: Save error:', errorMessage);
+      setSaveError(errorMessage);
+    } finally {
+      setIsSaving(false);
     }
-    onSave();
   };
 
   const handleArrayChange = (field: 'features' | 'materials' | 'awards' | 'team' | 'gallery', index: number, value: string) => {
@@ -517,39 +535,13 @@ export function ProjectEditor({ project, onSave, onCancel }: ProjectEditorProps)
                       <X size={18} />
                     </button>
                   </div>
-                  <div className="flex gap-2">
-                    <textarea
-                      value={url}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        // Check if user pasted multiple lines
-                        if (value.includes('\n')) {
-                          // Split by newlines and add each as separate gallery item
-                          const lines = value.split('\n').filter(line => line.trim());
-                          if (lines.length > 1) {
-                            // Replace current item with first line
-                            handleArrayChange('gallery', index, lines[0].trim());
-                            // Add remaining lines as new items
-                            lines.slice(1).forEach(line => {
-                              handleArrayAdd('gallery');
-                              const newIndex = formData.gallery.length;
-                              handleArrayChange('gallery', newIndex, line.trim());
-                            });
-                          } else {
-                            handleArrayChange('gallery', index, lines[0]?.trim() || '');
-                          }
-                        } else {
-                          handleArrayChange('gallery', index, value);
-                        }
-                      }}
-                      className="flex-1 px-4 py-2 border border-black/20 focus:border-black focus:outline-none text-sm resize-none"
-                      rows={3}
-                      placeholder="https://... or /uploads/filename.jpg&#10;(paste multiple URLs separated by newlines)"
-                    />
-                  </div>
-                  {url && (
-                    <img src={url} alt={`Gallery ${index + 1}`} className="w-full h-32 object-cover rounded" />
-                  )}
+                  <FileUploadField
+                    label=""
+                    value={url}
+                    onChange={(newUrl) => handleArrayChange('gallery', index, newUrl)}
+                    accept="image"
+                    placeholder="https://... or /uploads/filename.jpg"
+                  />
                 </div>
               ))}
               
@@ -628,18 +620,32 @@ export function ProjectEditor({ project, onSave, onCancel }: ProjectEditorProps)
             </div>
           )}
 
+          {/* Error Message */}
+          {saveError && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded">
+              <p className="text-red-700 text-sm">{saveError}</p>
+            </div>
+          )}
+
           {/* Submit Buttons */}
           <div className="flex gap-4 mt-8 pt-6 border-t border-black/10">
             <button
               type="submit"
-              className="px-8 py-3 bg-black text-white hover:bg-black/80 transition-colors"
+              disabled={isSaving}
+              className={`px-8 py-3 bg-black text-white transition-colors flex items-center gap-2 ${
+                isSaving ? 'opacity-60 cursor-not-allowed' : 'hover:bg-black/80'
+              }`}
             >
-              {project ? 'Update Project' : 'Create Project'}
+              {isSaving && <Loader size={16} className="animate-spin" />}
+              {isSaving ? 'Saving...' : (project ? 'Update Project' : 'Create Project')}
             </button>
             <button
               type="button"
               onClick={onCancel}
-              className="px-8 py-3 border border-black/20 hover:border-black transition-colors"
+              disabled={isSaving}
+              className={`px-8 py-3 border border-black/20 transition-colors ${
+                isSaving ? 'opacity-60 cursor-not-allowed' : 'hover:border-black'
+              }`}
             >
               Cancel
             </button>

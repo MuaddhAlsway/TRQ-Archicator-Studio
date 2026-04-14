@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Pencil, Trash2, Save, X, Eye, EyeOff, Image as ImageIcon, RefreshCw } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 import { ConfirmModal } from './ConfirmModal';
 
 interface Service {
@@ -34,6 +35,20 @@ const availableIcons = [
 const getIconComponent = (iconName: string) => {
   const IconComponent = (Icons as any)[iconName];
   return IconComponent || Icons.Briefcase;
+};
+
+// Helper to safely parse features array from JSON string
+const parseFeatures = (features: any): string[] => {
+  if (Array.isArray(features)) return features;
+  if (typeof features === 'string') {
+    try {
+      const parsed = JSON.parse(features);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
 };
 
 // Default services data (same as frontend)
@@ -93,7 +108,7 @@ const defaultServicesData: Omit<Service, 'id'>[] = [
     isActive: 1,
   },
   {
-    title: 'Furniture Design',
+    title: 'Custom Design',
     description: 'Bespoke furniture pieces that combine functionality with artistic expression.',
     image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
     icon: 'Armchair',
@@ -108,7 +123,6 @@ export function AdminServices() {
   const [loading, setLoading] = useState(true);
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [isCreating, setIsCreating] = useState(false);
-  const [language, setLanguage] = useState<'en' | 'ar'>('en');
 
   const emptyService: Omit<Service, 'id'> = {
     title: '',
@@ -142,11 +156,19 @@ export function AdminServices() {
     setLoading(true);
     try {
       const data = await api.getServices();
-      setServices(data);
+      if (Array.isArray(data)) {
+        setServices(data);
+      } else {
+        console.error('Invalid services data:', data);
+        setServices([]);
+      }
     } catch (error) {
       console.error('Failed to load services:', error);
+      // Show error message to user
+      alert('Failed to load services. Please try again.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleCreate = () => {
@@ -161,12 +183,12 @@ export function AdminServices() {
       description: service.description,
       image: service.image,
       icon: service.icon,
-      features: service.features || [],
+      features: parseFeatures(service.features),
       sortOrder: service.sortOrder,
       isActive: service.isActive,
       title_ar: service.title_ar || '',
       description_ar: service.description_ar || '',
-      features_ar: service.features_ar || [],
+      features_ar: parseFeatures(service.features_ar),
     });
     setEditingService(service);
     setIsCreating(false);
@@ -413,7 +435,7 @@ export function AdminServices() {
                 />
                 {formData.image && (
                   <div className="mt-2 w-48 h-32 bg-neutral-100 overflow-hidden">
-                    <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={getImageUrl(formData.image)} alt="Preview" loading="lazy" className="w-full h-full object-cover" />
                   </div>
                 )}
               </div>
@@ -441,7 +463,7 @@ export function AdminServices() {
                     type="text"
                     value={newFeature}
                     onChange={(e) => setNewFeature(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
+                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
                     className="flex-1 border p-2"
                     placeholder="Add a feature..."
                   />
@@ -495,7 +517,7 @@ export function AdminServices() {
                     type="text"
                     value={newFeatureAr}
                     onChange={(e) => setNewFeatureAr(e.target.value)}
-                    onKeyPress={(e) => {
+                    onKeyDown={(e) => {
                       if (e.key === 'Enter') {
                         e.preventDefault();
                         if (newFeatureAr.trim()) {
@@ -576,8 +598,9 @@ export function AdminServices() {
                 <div className="w-48 h-32 flex-shrink-0 bg-neutral-100">
                   {service.image && (
                     <img
-                      src={service.image}
+                      src={getImageUrl(service.image)}
                       alt={service.title}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                   )}

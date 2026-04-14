@@ -3,6 +3,8 @@ import { ArrowLeft, Save, X, Plus } from 'lucide-react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import * as api from '../api';
+import { getImageUrl } from '../api';
+import { FileUploadField } from './FileUploadField';
 
 interface Article {
   id: number;
@@ -252,21 +254,13 @@ export function ArticleEditor({ article, onSave, onCancel }: ArticleEditorProps)
 
             {/* Featured Image */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <label className="block text-sm font-medium mb-2">Featured Image URL</label>
-              <input
-                type="url"
+              <FileUploadField
+                label="Featured Image"
                 value={formData.image}
-                onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
-                className="w-full px-4 py-3 border border-black/20 rounded focus:border-black focus:outline-none"
-                placeholder="https://..."
+                onChange={(url) => setFormData(prev => ({ ...prev, image: url }))}
+                accept="image"
+                placeholder="https://... or upload from computer"
               />
-              {formData.image && (
-                <img
-                  src={formData.image}
-                  alt="Preview"
-                  className="w-full h-40 object-cover rounded mt-4"
-                />
-              )}
             </div>
 
             {/* Category */}

@@ -5,6 +5,7 @@ import { Project } from './types';``
 import { ProjectEditorArabic } from './ProjectEditorArabic';
 import { ConfirmModal } from './ConfirmModal';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 
 interface Category {
   id: string;
@@ -161,7 +162,7 @@ export function AdminArabicProjects() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         <img
-                          src={project.image}
+                          src={getImageUrl(project.image)}
                           alt={project.title_ar || project.title}
                           className="w-16 h-12 object-cover rounded"
                         />
@@ -229,7 +230,7 @@ export function AdminArabicProjects() {
               <div key={project.id} className="p-4">
                 <div className="flex gap-3">
                   <img
-                    src={project.image}
+                    src={getImageUrl(project.image)}
                     alt={project.title_ar || project.title}
                     className="w-20 h-16 object-cover rounded flex-shrink-0"
                   />

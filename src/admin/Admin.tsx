@@ -9,6 +9,8 @@ import { AdminPricing } from './AdminPricing';
 import { AdminServices } from './AdminServices';
 import { AdminSettings } from './AdminSettings';
 import { AdminSlides } from './AdminSlides';
+import { AdminAboutVideos } from './AdminAboutVideos';
+import { AdminArabicAboutVideos } from './AdminArabicAboutVideos';
 import { AdminBlog } from './AdminBlog';
 import { AdminAccount } from './AdminAccount';
 import { AdminNewsletter } from './AdminNewsletter';
@@ -16,11 +18,10 @@ import { AdminArabicSlides } from './AdminArabicSlides';
 import { AdminArabicProjects } from './AdminArabicProjects';
 import { AdminArabicServices } from './AdminArabicServices';
 import { AdminArabicBlog } from './AdminArabicBlog';
-import { AdminArabicSettings } from './AdminArabicSettings';
 import { AdminSettingsArabic } from './AdminSettingsArabic';
 import { AdminArabicPanel } from './AdminArabicPanel';
 
-type AdminPage = 'dashboard' | 'projects' | 'contacts' | 'pricing' | 'services' | 'settings' | 'slides' | 'blog' | 'account' | 'newsletter' | 'slides-ar' | 'projects-ar' | 'services-ar' | 'blog-ar' | 'settings-ar' | 'arabic-panel';
+type AdminPage = 'dashboard' | 'projects' | 'contacts' | 'pricing' | 'services' | 'settings' | 'slides' | 'blog' | 'account' | 'newsletter' | 'slides-ar' | 'projects-ar' | 'services-ar' | 'blog-ar' | 'settings-ar' | 'arabic-panel' | 'about-videos' | 'about-videos-ar';
 
 function AdminContent() {
   const { user, loading } = useAdmin();
@@ -60,6 +61,8 @@ function AdminContent() {
         return <AdminServices />;
       case 'slides':
         return <AdminSlides />;
+      case 'about-videos':
+        return <AdminAboutVideos />;
       case 'blog':
         return <AdminBlog />;
       case 'newsletter':
@@ -79,6 +82,8 @@ function AdminContent() {
         return <AdminArabicBlog />;
       case 'settings-ar':
         return <AdminSettingsArabic />;
+      case 'about-videos-ar':
+        return <AdminArabicAboutVideos />;
       default:
         return <AdminDashboard />;
     }

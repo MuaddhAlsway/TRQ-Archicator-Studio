@@ -3,6 +3,7 @@ import { ArrowLeft, Save, X, Plus } from 'lucide-react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 
 interface Article {
   id: number;
@@ -255,7 +256,7 @@ export function ArticleEditorArabic({ article, onSave, onCancel }: ArticleEditor
               />
               {formData.image && (
                 <img
-                  src={formData.image}
+                  src={getImageUrl(formData.image)}
                   alt="معاينة"
                   className="w-full h-40 object-cover rounded mt-4"
                 />

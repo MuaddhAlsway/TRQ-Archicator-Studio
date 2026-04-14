@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============ LOADING SCREEN OVERFLOW FIX ============ */
+body.loading-active {
+  overflow: hidden;
+}
+
 /* ============ FONT FACES ============ */
 
 /* Graphik Font Family - Main UI Font */
@@ -100,6 +105,142 @@
   font-style: normal;
 }
 
+/* GretaText Arabic Font Family - Arabic Content */
+@font-face {
+  font-family: 'GretaTextArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaTextArabicAR+LT-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaTextArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaTextArabicAR+LT-LightMinus.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaTextArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaTextArabicAR+LT-LightPlus.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaTextArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaTextArabicAR+LT-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaTextArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaTextArabicAR+LT-RegularMinus.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaTextArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaTextArabicAR+LT-RegularPlus.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaTextArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaTextArabicAR+LT-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaTextArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaTextArabicAR+LT-MediumMinus.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaTextArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaTextArabicAR+LT-MediumPlus.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaTextArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaTextArabicAR+LT-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaTextArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaTextArabicAR+LT-BoldMinus.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaTextArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaTextArabicAR+LT-BoldPlus.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* GretaArabic Display Font Family - Arabic Headings */
+@font-face {
+  font-family: 'GretaArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaArabicAR+LT-Hairline.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaArabicAR+LT-Thin.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaArabicAR+LT-ExtraLight.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaArabicAR+LT-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaArabicAR+LT-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaArabicAR+LT-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaArabicAR+LT-SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaArabicAR+LT-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaArabicAR+LT-Heavy.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GretaArabic';
+  src: url('/GretaTextArabicAR+LT_complete_OTF/GretaArabicAR+LT-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
 /* ============ CSS VARIABLES ============ */
 
 @layer base {
@@ -130,6 +271,8 @@
     --font-heading: 'ModernMT', Georgia, serif;
     --font-body: 'Larsseit', 'Graphik', sans-serif;
     --font-blog: 'ModernMT', Georgia, serif;
+    --font-arabic: 'GretaTextArabic', 'GretaArabic', sans-serif;
+    --font-arabic-heading: 'GretaArabic', 'GretaTextArabic', sans-serif;
   }
 
   .dark {
@@ -181,16 +324,27 @@
     font-family: var(--font-body);
   }
   
+  /* Paragraph - light weight */
+  p {
+    font-weight: 200;
+  }
+  
   span, input, textarea, select, label, li {
     font-family: var(--font-primary);
+  }
+  
+  /* Span - light weight */
+  span {
+    font-weight: 200;
+  }
+  
+  /* Link - light weight */
+  a {
+    font-weight: 200;
   }
 }
 
 /* RTL Support for Arabic */
-html[dir="rtl"] {
-  font-family: 'Segoe UI', Tahoma, 'Noto Sans Arabic', Arial, sans-serif;
-}
-
 html[dir="rtl"] body {
   text-align: right;
 }
@@ -532,4 +686,192 @@ html[dir="rtl"] .blog-rich-content ol,
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;  /* Chrome, Safari and Opera */
+}
+
+
+/* ============ IMAGE QUALITY ENHANCEMENTS ============ */
+
+/* Global image optimization */
+img {
+  /* High-quality rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  
+  /* Prevent blur on scaling */
+  backface-visibility: hidden;
+  perspective: 1000;
+  
+  /* Smooth transitions */
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* High-quality images for hero sections */
+.hero-image,
+.hero-slider img,
+[class*="hero"] img {
+  filter: contrast(1.1) brightness(1.05) saturate(1.15) drop-shadow(0 0 0.5px rgba(0,0,0,0.1));
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Portfolio and project images */
+.portfolio-image,
+.project-image,
+[class*="portfolio"] img,
+[class*="project"] img {
+  filter: contrast(1.08) brightness(1.03) saturate(1.12);
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Gallery images */
+.gallery-image,
+[class*="gallery"] img {
+  filter: contrast(1.1) brightness(1.05) saturate(1.15);
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Thumbnail images */
+.thumbnail,
+[class*="thumbnail"] img {
+  filter: contrast(1.05) brightness(1.02) saturate(1.08);
+}
+
+/* Background images */
+[style*="background-image"] {
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Lazy-loaded images fade-in effect */
+img[loading="lazy"] {
+  opacity: 0.95;
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* High DPI display support */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  img {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+/* Print quality images */
+@media print {
+  img {
+    filter: none;
+    image-rendering: auto;
+  }
+}
+
+/* Prevent image distortion */
+img[style*="object-cover"],
+img[style*="object-contain"],
+img[style*="object-fill"] {
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Smooth image transitions on hover */
+img:hover {
+  filter: brightness(1.08) contrast(1.12);
+  transition: filter 0.3s ease-in-out;
+}
+
+/* Dark mode image adjustments */
+@media (prefers-color-scheme: dark) {
+  img {
+    filter: brightness(0.95) contrast(1.1);
+  }
+  
+  .hero-image,
+  .hero-slider img,
+  [class*="hero"] img {
+    filter: brightness(0.92) contrast(1.15) saturate(1.1);
+  }
+}
+
+/* Accessibility: Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  img {
+    transition: none;
+  }
+}
+
+
+/* ============ ZOOM IN/OUT ANIMATIONS ============ */
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes zoomInScale {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomOutScale {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.9);
+  }
+}
+
+/* Zoom in animation for featured projects */
+.animate-zoom-in {
+  animation: zoomIn 0.6s ease-out forwards;
+}
+
+/* Stagger animation for multiple items */
+.animate-zoom-in:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.animate-zoom-in:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.animate-zoom-in:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.animate-zoom-in:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+/* Hover zoom effect */
+.group:hover .animate-zoom-in {
+  animation: zoomInScale 0.4s ease-out forwards;
+}
+
+/* Smooth zoom on scroll */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-zoom-in {
+    will-change: transform, opacity;
+  }
 }

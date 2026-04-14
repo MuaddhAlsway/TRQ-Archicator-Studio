@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import * as Icons from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { LoadingScreen } from './LoadingScreen';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
+import { getContentFromSettings } from '../utils/contentHelper';
 
 interface Service {
   id: number;
@@ -34,7 +36,7 @@ const parseFeatures = (features: any): string[] => {
 };
 
 export function Services() {
-  const { td, translateBatch, isRTL } = useLanguage();
+  const { td, translateBatch, isRTL, language } = useLanguage();
   const [isLoading, setIsLoading] = useState(true);
   const [services, setServices] = useState<Service[]>([]);
   const [settings, setSettings] = useState({
@@ -67,6 +69,8 @@ export function Services() {
   });
 
   const [allSettings, setAllSettings] = useState<any>(null);
+  // Keep original defaults so language switching always has a clean English baseline
+  const defaultSettingsRef = useRef(settings);
 
   useEffect(() => {
     api.getActiveServices().then((data) => {
@@ -83,15 +87,16 @@ export function Services() {
     api.getSettings().then((data) => {
       setAllSettings(data);
       
-      // Initialize settings immediately when data is loaded
-      const newSettings = { ...settings };
+      // Initialize settings immediately when data is loaded — use defaults as base
+      const defaults = defaultSettingsRef.current;
+      const newSettings = { ...defaults };
       Object.keys(newSettings).forEach(key => {
         if (key.startsWith('services')) {
-          if (isRTL) {
+          if (language === 'ar') {
             const arabicKey = `${key}_ar`;
-            newSettings[key] = data[arabicKey] || data[key] || newSettings[key];
+            newSettings[key] = data[arabicKey] || data[key] || defaults[key];
           } else {
-            newSettings[key] = data[key] || newSettings[key];
+            newSettings[key] = data[key] || defaults[key];
           }
         }
       });
@@ -101,28 +106,26 @@ export function Services() {
     });
   }, []);
 
-  // Update settings when language changes (after initial load)
+  // Update settings when language changes — always derive from raw DB data + original defaults
   useEffect(() => {
     if (!allSettings) return;
     
-    const newSettings = { ...settings };
+    const defaults = defaultSettingsRef.current;
+    const newSettings = { ...defaults };
     
-    // For each services* key in default settings
     Object.keys(newSettings).forEach(key => {
       if (key.startsWith('services')) {
-        if (isRTL) {
-          // Arabic mode: use _ar suffixed key if it exists, otherwise use English
+        if (language === 'ar') {
           const arabicKey = `${key}_ar`;
-          newSettings[key] = allSettings[arabicKey] || allSettings[key] || newSettings[key];
+          newSettings[key] = allSettings[arabicKey] || allSettings[key] || defaults[key];
         } else {
-          // English mode: use regular key
-          newSettings[key] = allSettings[key] || newSettings[key];
+          newSettings[key] = allSettings[key] || defaults[key];
         }
       }
     });
     
     setSettings(newSettings);
-  }, [isRTL, allSettings]);
+  }, [language, allSettings]);
 
   // Translate dynamic content from database (services)
   useEffect(() => {
@@ -144,15 +147,15 @@ export function Services() {
       <LoadingScreen isLoading={isLoading} onLoadingComplete={() => setIsLoading(false)} />
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
-        <ImageWithFallback src={settings.servicesHeroImage || '/uploads/5.webp'} alt="Our Services" className="absolute inset-0 w-full h-full object-cover" />
+        <ImageWithFallback src={getImageUrl(getContentFromSettings(language, settings, 'servicesHeroImage') || '/uploads/5.webp')} alt="Our Services" className="absolute inset-0 w-full h-full object-cover" />
         <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-6xl tracking-wider mb-6">{settings.servicesHeroTitle}</h1>
-          <p className="text-xl opacity-90">{settings.servicesHeroParagraph}</p>
+          <h1 className="text-5xl md:text-6xl tracking-wider mb-6">{getContentFromSettings(language, settings, 'servicesHeroTitle')}</h1>
+          <p className="text-xl opacity-90">{getContentFromSettings(language, settings, 'servicesHeroParagraph')}</p>
         </div>
       </section>
       <section className="py-24 px-4 max-w-4xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{settings.servicesTitle}</h2>
-        <p className="text-lg text-black/70">{settings.servicesDescription}</p>
+        <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{getContentFromSettings(language, settings, 'servicesTitle')}</h2>
+        <p className="text-lg text-black/70">{getContentFromSettings(language, settings, 'servicesDescription')}</p>
       </section>
       <section className="pb-24">
         <div className="max-w-7xl mx-auto px-4">
@@ -172,15 +175,18 @@ export function Services() {
               const serviceFeatures = isRTL && (service as any)?.features_ar 
                 ? (service as any).features_ar 
                 : service?.features || [];
-              const serviceImage = service?.image || 'https://images.unsplash.com/photo-1669387448840-610c588f003d?w=1080';
+              const serviceImage = getImageUrl(service?.image || '');
+              
+              // Don't add background for Booth & Exhibition Design (index 1) and Furniture Design (index 3)
+              const hasBackground = index % 2 === 1 && index !== 1 && index !== 3;
               
               return (
-                <div key={service?.id || index} className={`mb-24 last:mb-0 ${index % 2 === 1 ? 'bg-neutral-50' : ''}`}>
-                  <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-12 ${index % 2 === 1 ? 'max-w-7xl mx-auto px-4' : ''}`}>
-                    <div className={`relative h-[500px] ${!imageFirst ? 'lg:order-2' : ''}`}>
-                      <ImageWithFallback src={serviceImage} alt={serviceTitle} className="w-full h-full object-cover" />
+                <div key={service?.id || index} className={`mb-6 last:mb-0 ${hasBackground ? 'bg-neutral-50' : ''}`}>
+                  <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-12 lg:py-16 px-6 lg:px-12 ${index % 2 === 1 ? 'max-w-7xl mx-auto' : ''}`}>
+                    <div className={`relative h-[500px] overflow-hidden ${isRTL ? 'lg:order-2' : ''}`}>
+                      <ImageWithFallback src={serviceImage} alt={serviceTitle} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
                     </div>
-                    <div className={`${!imageFirst ? 'lg:order-1' : ''} ${isRTL ? 'text-right' : 'text-left'}`}>
+                    <div className={`${isRTL ? 'lg:order-1' : ''} ${isRTL ? 'text-right' : 'text-left'}`}>
                       <div className={`w-16 h-16 bg-black flex items-center justify-center mb-6 ${isRTL ? 'mr-0 ml-auto lg:ml-0 lg:mr-0' : ''}`}>
                         <Icon className="text-white" size={32} />
                       </div>
@@ -214,14 +220,14 @@ export function Services() {
       <section className="py-24 bg-black text-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl mb-4 tracking-wide">{settings.servicesHighlightsTitle}</h2>
-            <p className="text-lg text-white/60 max-w-2xl mx-auto">{settings.servicesHighlightsDescription}</p>
+            <h2 className="text-4xl md:text-5xl mb-4 tracking-wide">{getContentFromSettings(language, settings, 'servicesHighlightsTitle')}</h2>
+            <p className="text-lg text-white/60 max-w-2xl mx-auto">{getContentFromSettings(language, settings, 'servicesHighlightsDescription')}</p>
           </div>
           <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 ${isRTL ? 'direction-rtl' : ''}`}>
             {[
-              { title: settings.servicesHighlight1Title, desc: settings.servicesHighlight1Description },
-              { title: settings.servicesHighlight2Title, desc: settings.servicesHighlight2Description },
-              { title: settings.servicesHighlight3Title, desc: settings.servicesHighlight3Description },
+              { title: getContentFromSettings(language, settings, 'servicesHighlight1Title'), desc: getContentFromSettings(language, settings, 'servicesHighlight1Description') },
+              { title: getContentFromSettings(language, settings, 'servicesHighlight2Title'), desc: getContentFromSettings(language, settings, 'servicesHighlight2Description') },
+              { title: getContentFromSettings(language, settings, 'servicesHighlight3Title'), desc: getContentFromSettings(language, settings, 'servicesHighlight3Description') },
             ].map((item, idx) => (
               <div key={idx} className="text-center p-8">
                 <h3 className="text-2xl mb-4 tracking-wide">{item.title}</h3>
@@ -233,11 +239,11 @@ export function Services() {
       </section>
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{settings.servicesCtaTitle}</h2>
-          <p className="text-lg text-black/60 mb-12">{settings.servicesCtaDescription}</p>
+          <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{getContentFromSettings(language, settings, 'servicesCtaTitle')}</h2>
+          <p className="text-lg text-black/60 mb-12">{getContentFromSettings(language, settings, 'servicesCtaDescription')}</p>
           <div className={`flex flex-col sm:flex-row gap-4 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-            <a href="#pricing" className="px-8 py-4 bg-black text-white hover:bg-black/80 transition-colors tracking-wider inline-block">{settings.servicesCtaButton1Text}</a>
-            <a href={`#${settings.servicesCtaButton2Page || 'contact'}`} className="px-8 py-4 border-2 border-black text-black hover:bg-black hover:text-white transition-colors tracking-wider inline-block">{settings.servicesCtaButton2Text}</a>
+            <a href="#pricing" className="px-8 py-4 bg-[rgb(174,3,1)] text-white hover:bg-[rgb(174,3,1)]/80 transition-colors tracking-wider inline-block">{getContentFromSettings(language, settings, 'servicesCtaButton1Text')}</a>
+            <a href={`#${getContentFromSettings(language, settings, 'servicesCtaButton2Page') || 'contact'}`} className="px-8 py-4 border-2 border-black text-black hover:bg-black hover:text-white transition-colors tracking-wider inline-block">{getContentFromSettings(language, settings, 'servicesCtaButton2Text')}</a>
           </div>
         </div>
       </section>

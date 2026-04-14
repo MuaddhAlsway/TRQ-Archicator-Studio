@@ -4,17 +4,19 @@ import { ParallaxProvider } from 'react-scroll-parallax';
 import { Home } from './components/Home';
 import { AboutUs } from './components/AboutUs';
 import { Services } from './components/Services';
-import { WorkflowPage } from './components/WorkflowPage';
+import { Workflow } from './components/Workflow';
 import { Contact } from './components/Contact';
 import { Portfolio } from './components/Portfolio';
 import { Blog } from './components/Blog';
 import { PricingRequest } from './components/PricingRequest';
+import { CompanyProfile } from './components/CompanyProfile';
 import { Admin } from './admin/Admin';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
+import { ScrollToTop } from './components/ScrollToTop';
 import { useLanguage } from './context/LanguageContext';
 import * as api from './api';
 
-type Page = 'home' | 'about' | 'services' | 'workflow' | 'portfolio' | 'blog' | 'contact' | 'pricing' | 'admin';
+type Page = 'home' | 'about' | 'services' | 'workflow' | 'portfolio' | 'blog' | 'contact' | 'pricing' | 'profile' | 'admin';
 
 // Get page from URL hash
 const getPageFromHash = (): Page => {
@@ -30,7 +32,7 @@ const getPageFromHash = (): Page => {
     return 'blog';
   }
   
-  const validPages: Page[] = ['home', 'about', 'services', 'workflow', 'portfolio', 'blog', 'contact', 'pricing', 'admin'];
+  const validPages: Page[] = ['home', 'about', 'services', 'workflow', 'portfolio', 'blog', 'contact', 'pricing', 'profile', 'admin'];
   if (validPages.includes(hash as Page)) {
     return hash as Page;
   }
@@ -89,8 +91,8 @@ export default function App() {
     { key: 'nav.services', id: 'services' as Page },
     { key: 'nav.workflow', id: 'workflow' as Page },
     { key: 'nav.portfolio', id: 'portfolio' as Page },
-    ...(blogHidden ? [] : [{ key: 'nav.blog', id: 'blog' as Page }]),
     { key: 'nav.contact', id: 'contact' as Page },
+    { key: 'nav.companyProfile', id: 'profile' as Page },
   ];
 
   const handleNavClick = (page: Page) => {
@@ -109,6 +111,7 @@ export default function App() {
 
   return (
     <ParallaxProvider>
+      <ScrollToTop />
       <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">
@@ -137,7 +140,7 @@ export default function App() {
               ))}
               <button
                 onClick={() => handleNavClick('pricing')}
-                className="px-4 xl:px-6 py-2 bg-black text-white text-sm tracking-wider hover:bg-black/80 transition-colors"
+                className="px-4 xl:px-6 py-2 bg-[rgb(174,3,1)] text-white text-sm tracking-wider hover:bg-[rgb(174,3,1)]/80 transition-colors"
               >
                 {ts('nav.pricing')}
               </button>
@@ -174,7 +177,7 @@ export default function App() {
               ))}
               <button
                 onClick={() => handleNavClick('pricing')}
-                className="w-full px-6 py-3 bg-black text-white text-sm tracking-wider mt-4"
+                className="w-full px-6 py-3 bg-[rgb(174,3,1)] text-white text-sm tracking-wider mt-4"
               >
                 {ts('nav.pricing')}
               </button>
@@ -188,15 +191,16 @@ export default function App() {
         {pageToRender === 'home' && <Home onNavigate={handleNavClick} />}
         {pageToRender === 'about' && <AboutUs />}
         {pageToRender === 'services' && <Services />}
-        {pageToRender === 'workflow' && <WorkflowPage />}
+        {pageToRender === 'workflow' && <Workflow />}
         {pageToRender === 'portfolio' && <Portfolio />}
         {pageToRender === 'blog' && !blogHidden && <Blog />}
         {pageToRender === 'contact' && <Contact />}
         {pageToRender === 'pricing' && <PricingRequest />}
+        {pageToRender === 'profile' && <CompanyProfile />}
       </main>
 
-      {/* Footer - Hide on pricing page */}
-      {pageToRender !== 'pricing' && (
+      {/* Footer - Hide on pricing and profile pages */}
+      {pageToRender !== 'pricing' && pageToRender !== 'profile' && (
       <footer className="bg-black text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-16">
           <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 md:gap-12 ${isRTL ? 'text-right' : ''}`}>
@@ -228,7 +232,7 @@ export default function App() {
             <div>
               <h4 className="text-xs sm:text-sm tracking-wider mb-3 sm:mb-4 opacity-60">{ts('footer.contactInfo')}</h4>
               <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-white/60">
-                <p>Riyadh, Saudi Arabia</p>
+                <p>Riyadh & Jeddah, Saudi Arabia</p>
                 <p>info@trq.design</p>
                 <p>+966 XX XXX XXXX</p>
               </div>
@@ -237,9 +241,11 @@ export default function App() {
 
           {/* Bottom Bar */}
           <div className={`border-t border-white/10 mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm text-white/40 gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-            <p>{ts('footer.copyright')}</p>
-            <div className={`flex ${isRTL ? 'space-x-reverse space-x-4 sm:space-x-6' : 'space-x-4 sm:space-x-6'}`}>
-              <button className="hover:text-white transition-colors">{ts('footer.quickLinks')}</button>
+            <p>© 2026 TRQ Design Studio. All rights reserved</p>
+            <div className={`flex gap-4 sm:gap-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <a href="https://www.behance.net/TRQSTUDIO" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Behance</a>
+              <a href="https://www.linkedin.com/company/trqstudio/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
+              <a href="https://www.instagram.com/trqstudio_/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
             </div>
           </div>
         </div>

@@ -28,9 +28,9 @@ const storage = multer.diskStorage({
   }
 });
 
-// File filter - only allow images
+// File filter - allow images and videos
 const fileFilter = (req, file, cb) => {
-  const allowedMimes = [
+  const allowedImageMimes = [
     'image/jpeg',
     'image/png',
     'image/webp',
@@ -38,15 +38,27 @@ const fileFilter = (req, file, cb) => {
     'image/svg+xml'
   ];
 
-  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg'];
+  const allowedVideoMimes = [
+    'video/mp4',
+    'video/webm',
+    'video/ogg',
+    'video/quicktime'
+  ];
+
+  const allowedImageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg'];
+  const allowedVideoExtensions = ['.mp4', '.webm', '.ogv', '.mov'];
 
   const ext = path.extname(file.originalname).toLowerCase();
   const mime = file.mimetype;
 
-  if (allowedMimes.includes(mime) && allowedExtensions.includes(ext)) {
+  const isImage = allowedImageMimes.includes(mime) && allowedImageExtensions.includes(ext);
+  const isVideo = allowedVideoMimes.includes(mime) && allowedVideoExtensions.includes(ext);
+
+  if (isImage || isVideo) {
     cb(null, true);
   } else {
-    cb(new Error(`Invalid file type. Allowed types: ${allowedExtensions.join(', ')}`), false);
+    const allowedTypes = [...allowedImageExtensions, ...allowedVideoExtensions].join(', ');
+    cb(new Error(`Invalid file type. Allowed types: ${allowedTypes}`), false);
   }
 };
 
@@ -55,7 +67,7 @@ const upload = multer({
   storage,
   fileFilter,
   limits: {
-    fileSize: 10 * 1024 * 1024 // 10MB max file size
+    fileSize: 100 * 1024 * 1024 // 100MB max file size for videos
   }
 });
 
@@ -65,7 +77,7 @@ export const handleUploadError = (err, req, res, next) => {
     if (err.code === 'LIMIT_FILE_SIZE') {
       return res.status(400).json({ 
         success: false, 
-        message: 'File too large. Maximum size is 10MB.' 
+        message: 'File too large. Maximum size is 100MB.' 
       });
     }
     if (err.code === 'LIMIT_UNEXPECTED_FILE') {

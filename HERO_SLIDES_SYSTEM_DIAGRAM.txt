@@ -1,0 +1,297 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                    TRQ DESIGN STUDIO - HERO SLIDES SYSTEM                      ║
+║                         COMPLETE ARCHITECTURE DIAGRAM                          ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              FRONTEND (React + TypeScript)                      │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌──────────────────────────────────────────────────────────────────────────┐  │
+│  │                         ADMIN PANEL (src/admin/)                         │  │
+│  ├──────────────────────────────────────────────────────────────────────────┤  │
+│  │                                                                          │  │
+│  │  ┌─────────────────────────┐  ┌──────────────────────────────────────┐  │  │
+│  │  │  AdminSlides.tsx        │  │  AdminArabicSlides.tsx              │  │  │
+│  │  │  (English Editor)       │  │  (Arabic Editor)                    │  │  │
+│  │  ├─────────────────────────┤  ├──────────────────────────────────────┤  │  │
+│  │  │ • Create slides         │  │ • Edit Arabic content               │  │  │
+│  │  │ • Edit slides           │  │ • Add Arabic videos                 │  │  │
+│  │  │ • Add 3 videos          │  │ • Configure Arabic buttons          │  │  │
+│  │  │ • Upload images         │  │ • RTL text input                    │  │  │
+│  │  │ • Configure buttons     │  │ • Save Arabic translations          │  │  │
+│  │  │ • Set sort order        │  │                                      │  │  │
+│  │  │ • Toggle active status  │  │                                      │  │  │
+│  │  └─────────────────────────┘  └──────────────────────────────────────┘  │  │
+│  │                                                                          │  │
+│  │  ┌──────────────────────────────────────────────────────────────────┐  │  │
+│  │  │              AdminContext.tsx (State Management)                 │  │  │
+│  │  ├──────────────────────────────────────────────────────────────────┤  │  │
+│  │  │ • User authentication                                            │  │  │
+│  │  │ • Load slides from API                                           │  │  │
+│  │  │ • Update slides                                                  │  │  │
+│  │  │ • Manage contacts & pricing requests                             │  │  │
+│  │  └──────────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                          │  │
+│  └──────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  ┌──────────────────────────────────────────────────────────────────────────┐  │
+│  │                    API CLIENT (src/api/index.ts)                         │  │
+│  ├──────────────────────────────────────────────────────────────────────────┤  │
+│  │                                                                          │  │
+│  │  GET  /api/slides              → Fetch all slides                       │  │
+│  │  GET  /api/slides/active       → Fetch active slides                    │  │
+│  │  POST /api/slides              → Create new slide                       │  │
+│  │  PUT  /api/slides/:id          → Update slide                           │  │
+│  │  DELETE /api/slides/:id        → Delete slide                           │  │
+│  │                                                                          │  │
+│  │  POST /api/auth/login          → Login                                  │  │
+│  │  POST /api/auth/refresh        → Refresh token                          │  │
+│  │  GET  /api/auth/verify         → Verify token                           │  │
+│  │                                                                          │  │
+│  └──────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        ↓
+                                   HTTPS/REST
+                                        ↓
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                         BACKEND (Express.js + Node.js)                          │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌──────────────────────────────────────────────────────────────────────────┐  │
+│  │                    API ENDPOINTS (server/index.js)                       │  │
+│  ├──────────────────────────────────────────────────────────────────────────┤  │
+│  │                                                                          │  │
+│  │  ┌─────────────────────────────────────────────────────────────────┐   │  │
+│  │  │ PUBLIC ENDPOINTS (No Authentication Required)                  │   │  │
+│  │  ├─────────────────────────────────────────────────────────────────┤   │  │
+│  │  │ GET /api/slides              → Returns all slides              │   │  │
+│  │  │ GET /api/slides/active       → Returns active slides only      │   │  │
+│  │  └─────────────────────────────────────────────────────────────────┘   │  │
+│  │                                                                          │  │
+│  │  ┌─────────────────────────────────────────────────────────────────┐   │  │
+│  │  │ ADMIN ENDPOINTS (Requires JWT Authentication)                  │   │  │
+│  │  ├─────────────────────────────────────────────────────────────────┤   │  │
+│  │  │ POST /api/slides             → Create new slide                │   │  │
+│  │  │ PUT /api/slides/:id          → Update slide                    │   │  │
+│  │  │ DELETE /api/slides/:id       → Delete slide                    │   │  │
+│  │  └─────────────────────────────────────────────────────────────────┘   │  │
+│  │                                                                          │  │
+│  │  ┌─────────────────────────────────────────────────────────────────┐   │  │
+│  │  │ AUTH ENDPOINTS                                                  │   │  │
+│  │  ├─────────────────────────────────────────────────────────────────┤   │  │
+│  │  │ POST /api/auth/login         → Login (returns JWT token)       │   │  │
+│  │  │ POST /api/auth/refresh       → Refresh token                   │   │  │
+│  │  │ GET /api/auth/verify         → Verify token                    │   │  │
+│  │  └─────────────────────────────────────────────────────────────────┘   │  │
+│  │                                                                          │  │
+│  └──────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  ┌──────────────────────────────────────────────────────────────────────────┐  │
+│  │                    MIDDLEWARE & SERVICES                                 │  │
+│  ├──────────────────────────────────────────────────────────────────────────┤  │
+│  │ • JWT Authentication                                                     │  │
+│  │ • CORS Configuration                                                     │  │
+│  │ • Error Handling                                                         │  │
+│  │ • File Upload Handler                                                    │  │
+│  │ • Email Service                                                          │  │
+│  └──────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        ↓
+                                    SQL Queries
+                                        ↓
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                         DATABASE (SQLite + Turso)                               │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌──────────────────────────────────────────────────────────────────────────┐  │
+│  │                      HERO_SLIDES TABLE (32 Fields)                       │  │
+│  ├──────────────────────────────────────────────────────────────────────────┤  │
+│  │                                                                          │  │
+│  │  ENGLISH FIELDS (16):                                                   │  │
+│  │  ├─ id (PRIMARY KEY)                                                    │  │
+│  │  ├─ tag, title, description                                             │  │
+│  │  ├─ image                                                               │  │
+│  │  ├─ video, video_2, video_3                                             │  │
+│  │  ├─ video_text, video_2_text, video_3_text                              │  │
+│  │  ├─ buttonPrimaryText, buttonPrimaryLink                                │  │
+│  │  ├─ buttonSecondaryText, buttonSecondaryLink                             │  │
+│  │  ├─ sortOrder, isActive                                                 │  │
+│  │  └─ createdAt                                                           │  │
+│  │                                                                          │  │
+│  │  ARABIC FIELDS (16):                                                    │  │
+│  │  ├─ tag_ar, title_ar, description_ar                                    │  │
+│  │  ├─ video_ar, video_2_ar, video_3_ar                                    │  │
+│  │  ├─ video_text_ar, video_2_text_ar, video_3_text_ar                     │  │
+│  │  ├─ buttonPrimaryText_ar, buttonSecondaryText_ar                         │  │
+│  │  └─ (Plus metadata fields)                                              │  │
+│  │                                                                          │  │
+│  └──────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  CURRENT DATA:                                                                 │
+│  ├─ 5 Slides                                                                   │
+│  ├─ All with images ✅                                                         │
+│  ├─ All with English content ✅                                                │
+│  ├─ Videos: Need to add ❓                                                     │
+│  └─ Arabic content: Need to add ❓                                              │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                            DATA FLOW DIAGRAM                                   ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+ADMIN PANEL (Frontend)
+        ↓
+    User Input
+        ↓
+AdminSlides.tsx / AdminArabicSlides.tsx
+        ↓
+    API Call (HTTP)
+        ↓
+Backend API (Express.js)
+        ↓
+    JWT Verification
+        ↓
+    Database Query (SQL)
+        ↓
+SQLite Database
+        ↓
+    Query Result
+        ↓
+Backend Response (JSON)
+        ↓
+    API Response (HTTP)
+        ↓
+Frontend State Update
+        ↓
+    UI Re-render
+        ↓
+Admin Panel Updated
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                         DEPLOYMENT ARCHITECTURE                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                 │
+│  CLOUDFLARE PAGES (Frontend)                                                   │
+│  ├─ URL: https://trq-studio.pages.dev                                          │
+│  ├─ React App (Vite)                                                           │
+│  ├─ Admin Panel: /#/admin                                                      │
+│  └─ Static Assets                                                              │
+│                                                                                 │
+│  CLOUDFLARE WORKERS (Backend API)                                              │
+│  ├─ URL: https://trq-api-prod.muaddhalsway.workers.dev/api                     │
+│  ├─ Express.js Server                                                          │
+│  ├─ JWT Authentication                                                         │
+│  └─ Database Connection                                                        │
+│                                                                                 │
+│  TURSO DATABASE (SQLite)                                                       │
+│  ├─ Cloud SQLite Database                                                      │
+│  ├─ hero_slides Table                                                          │
+│  ├─ Automatic Backups                                                          │
+│  └─ Global Replication                                                         │
+│                                                                                 │
+│  CLOUDFLARE R2 (File Storage)                                                  │
+│  ├─ Image Storage                                                              │
+│  ├─ Video Hosting (Optional)                                                   │
+│  └─ CDN Distribution                                                           │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                         CONFIGURATION WORKFLOW                                 ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+STEP 1: ADD VIDEOS (English Slides)
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ 1. Login to Admin Panel                                                         │
+│    URL: https://trq-studio.pages.dev/#/admin                                    │
+│    Username: admin                                                              │
+│    Password: trq2026                                                            │
+│                                                                                 │
+│ 2. Click "Hero Slides (EN)"                                                     │
+│                                                                                 │
+│ 3. For each slide:                                                              │
+│    a. Click "Edit"                                                              │
+│    b. Scroll to "Video Management (Up to 3 videos)"                             │
+│    c. Add 3 video URLs                                                          │
+│    d. Click "Save Slide"                                                        │
+│                                                                                 │
+│ 4. Repeat for all 5 slides                                                      │
+│                                                                                 │
+│ Time: ~20 minutes                                                               │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+STEP 2: ADD ARABIC CONTENT
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ 1. Click "Hero Slides (AR)"                                                     │
+│                                                                                 │
+│ 2. For each slide:                                                              │
+│    a. Click "Edit"                                                              │
+│    b. Fill in Arabic fields:                                                    │
+│       - Arabic Tag                                                              │
+│       - Arabic Title                                                            │
+│       - Arabic Description                                                      │
+│       - Arabic Videos (Optional)                                                │
+│       - Arabic Buttons                                                          │
+│    c. Click "Save Changes"                                                      │
+│                                                                                 │
+│ 3. Repeat for all 5 slides                                                      │
+│                                                                                 │
+│ Time: ~25 minutes                                                               │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+STEP 3: TEST ON FRONTEND
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ 1. Visit: https://trq-studio.pages.dev                                          │
+│                                                                                 │
+│ 2. Verify:                                                                      │
+│    ✓ Hero slider displays                                                       │
+│    ✓ Slides rotate automatically                                                │
+│    ✓ Images show correctly                                                      │
+│    ✓ Videos play (if added)                                                     │
+│    ✓ Text displays properly                                                     │
+│    ✓ Buttons work                                                               │
+│                                                                                 │
+│ 3. Switch to Arabic:                                                            │
+│    a. Click language switcher (top right)                                       │
+│    b. Select "Arabic"                                                           │
+│    c. Verify Arabic content displays                                            │
+│    d. Verify RTL layout works                                                   │
+│                                                                                 │
+│ Time: ~10 minutes                                                               │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+TOTAL TIME: ~70 minutes
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                              CURRENT STATUS                                    ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+✅ WORKING:
+  ├─ Backend API
+  ├─ Frontend Components
+  ├─ Database Schema
+  ├─ Authentication
+  ├─ 5 Slides with Images
+  ├─ English Content
+  └─ Admin Panels
+
+❓ NEEDS CONFIGURATION:
+  ├─ Videos (3 per slide)
+  └─ Arabic Content
+
+🎯 NEXT STEPS:
+  1. Add videos to English slides
+  2. Add Arabic content
+  3. Test on frontend
+  4. Deploy to production
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                         SYSTEM READY FOR CONFIGURATION                         ║
+║                              LET'S GET STARTED! 🚀                              ║
+╚════════════════════════════════════════════════════════════════════════════════╝

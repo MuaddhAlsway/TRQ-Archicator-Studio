@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { useGSAPParallax, useImageParallax, useSlideAnimation } from '../hooks/useGSAPParallax';
 import '../styles/workflow-parallax.css';
+import { getImageUrl } from '../api';
 
 interface WorkflowStep {
   id: number;
@@ -74,8 +75,9 @@ export function WorkflowParallax({ steps, children }: WorkflowParallaxProps) {
                 <div className="col__image-wrap">
                   <img
                     className="img img--1"
-                    src={step.image}
+                    src={step.image ? getImageUrl(step.image) : ''}
                     alt={step.title}
+                    loading="lazy"
                   />
                 </div>
               </div>

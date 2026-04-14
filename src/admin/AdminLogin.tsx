@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Lock, User, AlertCircle, Mail, ArrowLeft, CheckCircle } from 'lucide-react';
 import { useAdmin } from './AdminContext';
 import { forgotPassword, resetPassword } from '../api';
@@ -18,17 +18,17 @@ export function AdminLogin() {
   const [loading, setLoading] = useState(false);
 
   // Check for reset token in URL
-  useState(() => {
+  useEffect(() => {
     const hash = window.location.hash;
     if (hash.includes('reset-password')) {
       const params = new URLSearchParams(hash.split('?')[1]);
       const token = params.get('token');
-      if (token) {
+      if (token && token.length > 0) {
         setView('reset');
         sessionStorage.setItem('reset_token', token);
       }
     }
-  });
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

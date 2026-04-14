@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { Save, RefreshCw, Plus, X, GripVertical } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 import { useAdmin } from './AdminContext';
+import { FileUploadField } from './FileUploadField';
 
 const availableIcons = [
   'Eye', 'Target', 'Heart', 'Award', 'Users', 'Lightbulb', 'Star', 'Crown',
@@ -19,7 +21,7 @@ const getIconComponent = (iconName: string) => {
 
 export function AdminSettings() {
   const { projects } = useAdmin();
-  const [activeTab, setActiveTab] = useState<'home-intro' | 'home-featured' | 'home-workflow' | 'home-cta' | 'about' | 'services' | 'workflow' | 'portfolio' | 'contact' | 'pricing' | 'blog'>('home-intro');
+  const [activeTab, setActiveTab] = useState<'home-intro' | 'home-featured' | 'home-workflow' | 'home-cta' | 'about' | 'services' | 'workflow' | 'portfolio' | 'contact' | 'pricing' | 'blog' | 'company-profile'>('home-intro');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -37,7 +39,8 @@ export function AdminSettings() {
     // Home page - Featured Projects section
     homeFeaturedTitle: 'Featured Projects',
     homeFeaturedDescription: 'A glimpse into our recent work and design excellence',
-    homeFeaturedProjects: '', // comma-separated project IDs
+    homeFeaturedProjects: '', // comma-separated project IDs (English)
+    homeFeaturedProjects_ar: '', // comma-separated project IDs (Arabic)
     // Home page - How We Work section
     homeWorkflowTitle: 'How We Work',
     homeWorkflowDescription: 'A seamless process designed to bring your vision to life',
@@ -91,7 +94,7 @@ export function AdminSettings() {
     aboutExpertise1Title: 'Luxury Residential',
     aboutExpertise1Description: 'Private homes and estates designed with uncompromising attention to comfort, elegance, and personal expression.',
     aboutExpertise1Image: '/uploads/1.webp',
-    aboutExpertise2Title: 'Commercial Spaces',
+    aboutExpertise2Title: 'Premium Commercial Space',
     aboutExpertise2Description: 'Professional environments that embody brand identity while creating inspiring spaces for work and collaboration.',
     aboutExpertise2Image: '/uploads/2.webp',
     aboutExpertise3Title: 'Custom Furniture',
@@ -164,46 +167,56 @@ export function AdminSettings() {
     servicesCtaButton2Text: 'CONTACT US',
     servicesCtaButton2Page: 'contact',
     // Workflow page - Hero
-    workflowHeroTitle: 'Our Workflow',
-    workflowHeroParagraph: 'From Vision to Reality: A Structured Approach to Exceptional Design',
+    workflowHeroTitle: 'HOW WE WORK',
+    workflowHeroParagraph: 'A seamless process designed to bring your vision to life',
     workflowHeroImage: 'https://static.paraflowcontent.com/public/resource/image/eedd6672-a725-43e8-9320-8ea80b92c7f1.jpeg',
+    // Workflow page - Introduction
+    workflowIntroTitle: 'Our Proven Process',
+    workflowIntroParagraph: 'At TRQ, we believe that exceptional design requires a structured yet flexible approach. Our five-step workflow ensures that every project receives the attention, expertise, and care it deserves, from initial concept to final completion.',
     // Workflow page - Steps
     workflowStep1Title: 'Discovery & Consultation',
-    workflowStep1Description: 'The foundation of exceptional design begins with understanding. We invest time in learning about your lifestyle, preferences, and aspirations to create a design that truly reflects who you are.',
-    workflowStep1Features: 'In-depth consultation to understand your vision, lifestyle, and functional requirements|Comprehensive site assessment and spatial analysis|Project scope definition and timeline establishment|Budget framework and investment planning',
+    workflowStep1Icon: 'Search',
+    workflowStep1Description: 'Understanding your vision and requirements',
+    workflowStep1Features: 'Initial consultation to understand your needs, preferences, and budget|Site visit and assessment of the existing space|Discussion of project goals, timeline, and constraints|Review of inspiration and reference materials|Preliminary scope definition and feasibility analysis',
     workflowStep2Title: 'Concept & Design Development',
-    workflowStep2Description: 'Where creativity meets functionality. We transform your vision into tangible design concepts, exploring innovative solutions while respecting your aesthetic preferences and practical needs.',
-    workflowStep2Features: 'Creative design concepts and mood boards|Detailed space planning and layout optimization|Photorealistic 3D visualizations and renderings|Comprehensive design proposals with material palettes',
+    workflowStep2Icon: 'Lightbulb',
+    workflowStep2Description: 'Bringing your vision to life through creative design',
+    workflowStep2Features: 'Development of initial design concepts and mood boards|Space planning and layout options|Selection of color palettes, materials, and finishes|3D visualizations and renderings|Presentation of design proposals for your review',
     workflowStep3Title: 'Approval & Planning',
-    workflowStep3Description: 'Refinement through collaboration. We incorporate your feedback and finalize every detail, ensuring technical precision while maintaining design integrity. This stage transforms concepts into actionable plans.',
-    workflowStep3Features: 'Incorporating your feedback and design refinements|Technical drawings and construction documentation|Final material selections and sourcing specifications|Contractor coordination and project scheduling',
+    workflowStep3Icon: 'CheckCircle',
+    workflowStep3Description: 'Refinement and detailed planning',
+    workflowStep3Features: 'Incorporating your feedback and refining the design|Preparation of detailed technical drawings and specifications|Finalization of material selections and furniture choices|Budget confirmation and project timeline establishment|Coordination with contractors and suppliers',
     workflowStep4Title: 'Execution & Supervision',
-    workflowStep4Description: 'Where design becomes reality. We oversee every aspect of construction and installation, ensuring the highest standards of craftsmanship while maintaining clear communication throughout the transformation process.',
-    workflowStep4Features: 'Premium material procurement and quality verification|Expert construction coordination and site management|Rigorous quality control and craftsmanship standards|Regular progress updates and milestone communications',
+    workflowStep4Icon: 'Hammer',
+    workflowStep4Description: 'Bringing the design to reality',
+    workflowStep4Features: 'Procurement of materials, furniture, and fixtures|Coordination and supervision of construction work|Quality control and regular site inspections|Problem-solving and on-site design adjustments|Regular progress updates and communication',
     workflowStep5Title: 'Delivery & Final Handover',
-    workflowStep5Description: 'The culmination of our collaborative journey. We complete the final installations and styling touches, conduct a comprehensive walkthrough, and ensure you\'re completely satisfied with your transformed space.',
-    workflowStep5Features: 'Final installation of furniture and custom elements|Professional styling and accessory placement|Comprehensive walkthrough and quality inspection|Ongoing post-completion support and maintenance guidance',
-    // Workflow page - Step Feature Labels
-    workflowStep1Label: 'Key Activities',
-    workflowStep2Label: 'Key Deliverables',
-    workflowStep3Label: 'Process Highlights',
-    workflowStep4Label: 'Our Commitment',
-    workflowStep5Label: 'Final Touches',
+    workflowStep5Icon: 'Home',
+    workflowStep5Description: 'Completing your perfect space',
+    workflowStep5Features: 'Final installation of furniture and décor|Styling and finishing touches|Comprehensive walk-through and inspection|Documentation of completed project|Post-completion support and maintenance guidance',
     // Workflow page - Why Our Process Works
     workflowWhyTitle: 'Why Our Process Works',
-    workflowWhyDescription: 'Built on years of experience and refined through countless successful projects, our methodology ensures exceptional results through a systematic approach to luxury interior design.',
+    workflowWhyDescription: 'Built on years of experience and refined through countless successful projects',
     workflowWhy1Title: 'Collaborative',
-    workflowWhy1Description: 'We work closely with you at every stage, ensuring your vision guides every design decision from concept to completion.',
+    workflowWhy1Description: 'Your vision guides every decision. We partner closely throughout the design journey.',
     workflowWhy1Icon: 'Users',
     workflowWhy2Title: 'Transparent',
-    workflowWhy2Description: 'Clear communication and regular updates keep you informed throughout the entire process, with no surprises.',
+    workflowWhy2Description: 'Clear communication and honest timelines. No surprises, just results.',
     workflowWhy2Icon: 'Eye',
     workflowWhy3Title: 'Efficient',
-    workflowWhy3Description: 'Streamlined workflows and expert coordination ensure projects are delivered on time without compromising quality.',
+    workflowWhy3Description: 'Expert coordination and meticulous execution. On-time delivery, always.',
     workflowWhy3Icon: 'Zap',
+    // Workflow page - Project Timeline
+    workflowTimelineTitle: 'Project Timeline',
+    workflowTimelineParagraph1: 'While every project is unique, most projects follow a similar timeline. Residential projects typically take 3-6 months from concept to completion, while larger commercial projects may require 6-12 months or more. Exhibition booth designs often have faster turnarounds of 2-6 weeks depending on complexity.',
+    workflowTimelineParagraph2: 'During our initial consultation, we\'ll provide you with a detailed timeline specific to your project\'s scope and requirements.',
     // Workflow page - CTA
-    workflowCtaTitle: 'Our Commitment',
-    workflowCtaDescription: 'Built on years of experience and refined through countless successful projects, TRQ STUDIO delivers exceptional design that combines creativity with meticulous execution.',
+    workflowCtaTitle: 'Ready to Begin Your Journey?',
+    workflowCtaDescription: 'Let\'s start with a consultation to discuss your project and explore how we can bring your vision to life.',
+    workflowCtaButton1Text: 'REQUEST PRICING',
+    workflowCtaButton1Page: 'pricing',
+    workflowCtaButton2Text: 'SCHEDULE CONSULTATION',
+    workflowCtaButton2Page: 'contact',
     // Portfolio page - Hero
     portfolioHeroTitle: 'OUR PORTFOLIO',
     portfolioHeroParagraph: 'Explore our collection of exceptional design projects',
@@ -213,11 +226,10 @@ export function AdminSettings() {
     // Portfolio page - Categories (JSON array - all editable)
     portfolioCategories: JSON.stringify([
       { id: 'all', label: 'All Projects' },
-      { id: 'residential', label: 'Residential' },
-      { id: 'commercial', label: 'Commercial' },
+      { id: 'interior-design', label: 'Interior Design' },
+      { id: 'event-design', label: 'Event Design' },
       { id: 'booths', label: 'Booths & Exhibitions' },
-      { id: 'events', label: 'Events' },
-      { id: 'furniture', label: 'Furniture' },
+      { id: 'custom-design', label: 'Custom Design' },
     ]),
     // Portfolio page - Stats
     portfolioStat1Value: '150+',
@@ -237,7 +249,7 @@ export function AdminSettings() {
     portfolioCtaButton2Page: 'contact',
     // Contact page - Hero
     contactHeroTitle: 'GET IN TOUCH',
-    contactHeroParagraph: 'Let\'s discuss your project and create something extraordinary together',
+    contactHeroParagraph: 'Discuss your project, create together',
     contactHeroImage: '/TRQ STUDIO _ PROJECTS/REC. HEAVEN/13.jpg',
     // Contact page - Contact Info
     contactInfo1Show: 'true',
@@ -432,17 +444,39 @@ export function AdminSettings() {
     blogArticleRelatedTitle: 'Related Articles',
     blogArticleAuthorRole: 'Senior Design Writer',
     blogArticleAuthorBio: 'A passionate writer exploring the intersection of design, architecture, and lifestyle. With over 10 years of experience in the interior design industry, bringing insights and inspiration to design enthusiasts worldwide.',
+    // Company Profile
+    companyProfileTitle: 'Company Profile',
+    companyProfileTitle_ar: 'ملف الشركة',
+    companyProfileDescription: 'Explore our comprehensive company profile and capabilities',
+    companyProfileDescription_ar: 'استكشف ملف شركتنا الشامل وقدراتنا',
+    companyProfileButtonText: 'Open Company Profile',
+    companyProfileButtonText_ar: 'فتح ملف الشركة',
+    companyProfileUrl_en: 'https://publuu.com/flip-book/829640/2262213',
+    companyProfileUrl_ar: '',
   });
 
   const [selectedProjectIds, setSelectedProjectIds] = useState<number[]>([]);
+  const [selectedProjectIds_ar, setSelectedProjectIds_ar] = useState<number[]>([]);
 
   useEffect(() => {
     api.getSettings().then((data) => {
-      setSettings(prev => ({ ...prev, ...data }));
-      // Parse featured projects
+      // Only load EN keys (non _ar) to avoid Arabic DB values overwriting EN defaults
+      const enData: any = {};
+      Object.keys(data).forEach(key => {
+        if (!key.endsWith('_ar') || key === 'homeFeaturedProjects_ar' || key === 'companyProfileUrl_ar' || key === 'companyProfileTitle_ar' || key === 'companyProfileDescription_ar' || key === 'companyProfileButtonText_ar') {
+          enData[key] = data[key];
+        }
+      });
+      setSettings(prev => ({ ...prev, ...enData }));
+      // Parse featured projects (English)
       if (data.homeFeaturedProjects) {
         const ids = data.homeFeaturedProjects.split(',').map((id: string) => parseInt(id.trim())).filter((id: number) => !isNaN(id));
         setSelectedProjectIds(ids);
+      }
+      // Parse featured projects (Arabic)
+      if (data.homeFeaturedProjects_ar) {
+        const ids = data.homeFeaturedProjects_ar.split(',').map((id: string) => parseInt(id.trim())).filter((id: number) => !isNaN(id));
+        setSelectedProjectIds_ar(ids);
       }
       setLoading(false);
     }).catch(() => setLoading(false));
@@ -451,13 +485,44 @@ export function AdminSettings() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const settingsToSave = {
-        ...settings,
+      // Build settings object — strip _ar keys except the ones EN tab legitimately owns
+      const allowedArKeys = new Set([
+        'homeFeaturedProjects_ar',
+        'companyProfileUrl_ar',
+        'companyProfileTitle_ar',
+        'companyProfileDescription_ar',
+        'companyProfileButtonText_ar',
+      ]);
+      const settingsToSave: Record<string, string> = {
         homeFeaturedProjects: selectedProjectIds.join(','),
+        homeFeaturedProjects_ar: selectedProjectIds_ar.join(','),
       };
+      Object.entries(settings).forEach(([key, value]) => {
+        if (!key.endsWith('_ar') || allowedArKeys.has(key)) {
+          settingsToSave[key] = String(value ?? '');
+        }
+      });
+
+      // Save company profile settings separately to the dedicated endpoint
+      if (activeTab === 'company-profile') {
+        if (settings.companyProfileUrl_en) {
+          await api.updateCompanyProfileSettings('en', {
+            url: settings.companyProfileUrl_en,
+            title: settings.companyProfileTitle,
+            description: settings.companyProfileDescription,
+          });
+        }
+        if (settings.companyProfileUrl_ar) {
+          await api.updateCompanyProfileSettings('ar', {
+            url: settings.companyProfileUrl_ar,
+            title: settings.companyProfileTitle_ar,
+            description: settings.companyProfileDescription_ar,
+          });
+        }
+      }
+
       await api.updateSettings(settingsToSave);
       setSaved(true);
-      // Dispatch event to notify App.tsx to refresh settings
       window.dispatchEvent(new Event('settingsUpdated'));
       setTimeout(() => setSaved(false), 2000);
     } catch (error) {
@@ -477,9 +542,22 @@ export function AdminSettings() {
     setSelectedProjectIds(selectedProjectIds.filter(id => id !== projectId));
   };
 
+  const addFeaturedProject_ar = (projectId: number) => {
+    if (!selectedProjectIds_ar.includes(projectId)) {
+      setSelectedProjectIds_ar([...selectedProjectIds_ar, projectId]);
+    }
+  };
+
+  const removeFeaturedProject_ar = (projectId: number) => {
+    setSelectedProjectIds_ar(selectedProjectIds_ar.filter(id => id !== projectId));
+  };
+
   const publishedProjects = projects.filter(p => p.status === 'published');
   const availableProjects = publishedProjects.filter(p => !selectedProjectIds.includes(p.id));
   const selectedProjects = selectedProjectIds.map(id => projects.find(p => p.id === id)).filter(Boolean);
+  
+  const availableProjects_ar = publishedProjects.filter(p => !selectedProjectIds_ar.includes(p.id));
+  const selectedProjects_ar = selectedProjectIds_ar.map(id => projects.find(p => p.id === id)).filter(Boolean);
 
   const linkOptions = [
     { value: 'home', label: 'Home' },
@@ -503,6 +581,7 @@ export function AdminSettings() {
     { id: 'contact', label: 'Contact Page' },
     { id: 'pricing', label: 'Pricing Page' },
     { id: 'blog', label: 'Blog Page' },
+    { id: 'company-profile', label: 'Company Profile' },
   ];
 
   if (loading) {
@@ -629,18 +708,13 @@ export function AdminSettings() {
 
               <div>
                 <label className="block mb-2 text-sm tracking-wider">IMAGE URL</label>
-                <input
-                  type="url"
+                <FileUploadField
+                  label=""
                   value={settings.homeIntroImage}
-                  onChange={(e) => setSettings({ ...settings, homeIntroImage: e.target.value })}
-                  className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                  placeholder="https://..."
+                  onChange={(url) => setSettings({ ...settings, homeIntroImage: url })}
+                  accept="image"
+                  placeholder="/uploads/image.webp or https://..."
                 />
-                {settings.homeIntroImage && (
-                  <div className="mt-3 w-64 h-40 bg-neutral-100 overflow-hidden rounded">
-                    <img src={settings.homeIntroImage} alt="Preview" className="w-full h-full object-cover" />
-                  </div>
-                )}
               </div>
             </div>
           )}
@@ -650,7 +724,7 @@ export function AdminSettings() {
             <div className="space-y-6">
               <div className="border-b pb-4 mb-6">
                 <h2 className="text-xl font-medium">Featured Projects Section</h2>
-                <p className="text-sm text-black/60 mt-1">Select which projects to showcase on the home page</p>
+                <p className="text-sm text-black/60 mt-1">Select which projects to showcase on the home page (separate for English and Arabic)</p>
               </div>
 
               <div>
@@ -675,19 +749,20 @@ export function AdminSettings() {
                 />
               </div>
 
-              {/* Selected Projects */}
-              <div>
-                <label className="block mb-2 text-sm tracking-wider">SELECTED PROJECTS ({selectedProjectIds.length})</label>
+              {/* English Featured Projects */}
+              <div className="border-t pt-6">
+                <h3 className="text-lg font-medium mb-4">🇬🇧 ENGLISH - SELECTED PROJECTS ({selectedProjectIds.length})</h3>
+                
                 {selectedProjects.length === 0 ? (
-                  <div className="border-2 border-dashed border-black/20 rounded p-8 text-center text-black/40">
+                  <div className="border-2 border-dashed border-black/20 rounded p-8 text-center text-black/40 mb-4">
                     No projects selected. Add projects from the list below.
                   </div>
                 ) : (
-                  <div className="space-y-2">
+                  <div className="space-y-2 mb-4">
                     {selectedProjects.map((project, index) => project && (
                       <div key={project.id} className="flex items-center gap-3 bg-neutral-50 p-3 rounded">
                         <GripVertical size={18} className="text-black/30" />
-                        <img src={project.image} alt={project.title} className="w-16 h-12 object-cover rounded" />
+                        <img src={getImageUrl(project.image)} alt={project.title} className="w-16 h-12 object-cover rounded"  loading="lazy" />
                         <div className="flex-1 min-w-0">
                           <p className="font-medium truncate">{project.title}</p>
                           <p className="text-sm text-black/60 capitalize">{project.category}</p>
@@ -702,31 +777,85 @@ export function AdminSettings() {
                     ))}
                   </div>
                 )}
+
+                <div>
+                  <label className="block mb-2 text-sm tracking-wider">ADD PROJECTS</label>
+                  {availableProjects.length === 0 ? (
+                    <p className="text-sm text-black/40">All published projects are already selected.</p>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-80 overflow-y-auto p-1">
+                      {availableProjects.map((project) => (
+                        <button
+                          key={project.id}
+                          onClick={() => addFeaturedProject(project.id)}
+                          className="flex items-center gap-3 p-3 border border-black/10 hover:border-black/30 rounded transition-colors text-left"
+                        >
+                          <img src={getImageUrl(project.image)} alt={project.title} className="w-16 h-12 object-cover rounded"  loading="lazy" />
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium truncate">{project.title}</p>
+                            <p className="text-sm text-black/60 capitalize">{project.category}</p>
+                          </div>
+                          <Plus size={18} className="text-black/40" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
-              {/* Available Projects */}
-              <div>
-                <label className="block mb-2 text-sm tracking-wider">ADD PROJECTS</label>
-                {availableProjects.length === 0 ? (
-                  <p className="text-sm text-black/40">All published projects are already selected.</p>
+              {/* Arabic Featured Projects */}
+              <div className="border-t pt-6">
+                <h3 className="text-lg font-medium mb-4">🇸🇦 Arabic Featured Projects ({selectedProjectIds_ar.length} selected)</h3>
+                <p className="text-sm text-black/50 mb-4">Select which projects appear in the Arabic version of the homepage featured section.</p>
+
+                {selectedProjects_ar.length === 0 ? (
+                  <div className="border-2 border-dashed border-black/20 rounded p-8 text-center text-black/40 mb-4">
+                    No projects selected. Add projects from the list below.
+                  </div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-80 overflow-y-auto p-1">
-                    {availableProjects.map((project) => (
-                      <button
-                        key={project.id}
-                        onClick={() => addFeaturedProject(project.id)}
-                        className="flex items-center gap-3 p-3 border border-black/10 hover:border-black/30 rounded transition-colors text-left"
-                      >
-                        <img src={project.image} alt={project.title} className="w-16 h-12 object-cover rounded" />
+                  <div className="space-y-2 mb-4">
+                    {selectedProjects_ar.map((project, index) => project && (
+                      <div key={project.id} className="flex items-center gap-3 bg-neutral-50 p-3 rounded">
+                        <GripVertical size={18} className="text-black/30" />
+                        <img src={getImageUrl(project.image)} alt={project.title} className="w-16 h-12 object-cover rounded" loading="lazy" />
                         <div className="flex-1 min-w-0">
                           <p className="font-medium truncate">{project.title}</p>
                           <p className="text-sm text-black/60 capitalize">{project.category}</p>
                         </div>
-                        <Plus size={18} className="text-black/40" />
-                      </button>
+                        <button
+                          onClick={() => removeFeaturedProject_ar(project.id)}
+                          className="p-2 hover:bg-red-50 text-red-600 rounded transition-colors"
+                        >
+                          <X size={18} />
+                        </button>
+                      </div>
                     ))}
                   </div>
                 )}
+
+                <div>
+                  <label className="block mb-2 text-sm tracking-wider">ADD PROJECTS</label>
+                  {availableProjects_ar.length === 0 ? (
+                    <p className="text-sm text-black/40">All published projects are already selected.</p>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-80 overflow-y-auto p-1">
+                      {availableProjects_ar.map((project) => (
+                        <button
+                          key={project.id}
+                          onClick={() => addFeaturedProject_ar(project.id)}
+                          className="flex items-center gap-3 p-3 border border-black/10 hover:border-black/30 rounded transition-colors text-left"
+                        >
+                          <Plus size={18} className="text-black/40" />
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium truncate">{project.title}</p>
+                            <p className="text-sm text-black/60 capitalize">{project.category}</p>
+                          </div>
+                          <img src={getImageUrl(project.image)} alt={project.title} className="w-16 h-12 object-cover rounded" loading="lazy" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -937,18 +1066,13 @@ export function AdminSettings() {
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">HERO IMAGE URL</label>
-                    <input
-                      type="url"
+                    <FileUploadField
+                      label=""
                       value={settings.aboutHeroImage}
-                      onChange={(e) => setSettings({ ...settings, aboutHeroImage: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="https://..."
+                      onChange={(url) => setSettings({ ...settings, aboutHeroImage: url })}
+                      accept="image"
+                      placeholder="/uploads/image.webp or https://..."
                     />
-                    {settings.aboutHeroImage && (
-                      <div className="mt-3 w-48 h-32 bg-neutral-100 overflow-hidden rounded">
-                        <img src={settings.aboutHeroImage} alt="Preview" className="w-full h-full object-cover" />
-                      </div>
-                    )}
                   </div>
                 </div>
               </div>
@@ -1159,18 +1283,13 @@ export function AdminSettings() {
                       </div>
                       <div>
                         <label className="block mb-2 text-xs text-black/60">Image URL</label>
-                        <input
-                          type="url"
+                        <FileUploadField
+                          label=""
                           value={(settings as any)[`aboutExpertise${num}Image`]}
-                          onChange={(e) => setSettings({ ...settings, [`aboutExpertise${num}Image`]: e.target.value })}
-                          className="w-full px-3 py-2 border border-black/20 focus:border-black focus:outline-none text-sm"
-                          placeholder="https://..."
+                          onChange={(url) => setSettings({ ...settings, [`aboutExpertise${num}Image`]: url })}
+                          accept="image"
+                          placeholder="/uploads/image.webp or https://..."
                         />
-                        {(settings as any)[`aboutExpertise${num}Image`] && (
-                          <div className="mt-2 w-32 h-24 bg-neutral-100 overflow-hidden rounded">
-                            <img src={(settings as any)[`aboutExpertise${num}Image`]} alt="Preview" className="w-full h-full object-cover" />
-                          </div>
-                        )}
                       </div>
                     </div>
                   ))}
@@ -1227,18 +1346,13 @@ export function AdminSettings() {
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">STORY IMAGE URL</label>
-                    <input
-                      type="url"
+                    <FileUploadField
+                      label=""
                       value={settings.aboutStoryImage}
-                      onChange={(e) => setSettings({ ...settings, aboutStoryImage: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="https://..."
+                      onChange={(url) => setSettings({ ...settings, aboutStoryImage: url })}
+                      accept="image"
+                      placeholder="/uploads/image.webp or https://..."
                     />
-                    {settings.aboutStoryImage && (
-                      <div className="mt-3 w-48 h-32 bg-neutral-100 overflow-hidden rounded">
-                        <img src={settings.aboutStoryImage} alt="Preview" className="w-full h-full object-cover" />
-                      </div>
-                    )}
                   </div>
                 </div>
               </div>
@@ -1535,12 +1649,43 @@ export function AdminSettings() {
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">HERO IMAGE URL</label>
+                    <FileUploadField
+                      label=""
+                      value={settings.workflowHeroImage}
+                      onChange={(url) => setSettings({ ...settings, workflowHeroImage: url })}
+                      accept="image"
+                      placeholder="/uploads/image.webp or https://..."
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Introduction Section */}
+              <div className="border-t pt-8">
+                <div className="border-b pb-4 mb-6">
+                  <h2 className="text-xl font-medium">Introduction Section</h2>
+                  <p className="text-sm text-black/60 mt-1">The section displayed after the hero</p>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">SECTION TITLE</label>
                     <input
                       type="text"
-                      value={settings.workflowHeroImage}
-                      onChange={(e) => setSettings({ ...settings, workflowHeroImage: e.target.value })}
+                      value={settings.workflowIntroTitle}
+                      onChange={(e) => setSettings({ ...settings, workflowIntroTitle: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="https://..."
+                      placeholder="Our Proven Process"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">SECTION PARAGRAPH</label>
+                    <textarea
+                      value={settings.workflowIntroParagraph}
+                      onChange={(e) => setSettings({ ...settings, workflowIntroParagraph: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={4}
+                      placeholder="At TRQ, we believe that exceptional design requires a structured yet flexible approach..."
                     />
                   </div>
                 </div>
@@ -1727,6 +1872,47 @@ export function AdminSettings() {
                 </div>
               </div>
 
+              {/* Project Timeline Section */}
+              <div className="border-t pt-8">
+                <div className="border-b pb-4 mb-6">
+                  <h2 className="text-xl font-medium">Project Timeline Section</h2>
+                  <p className="text-sm text-black/60 mt-1">Information about project timelines</p>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">SECTION TITLE</label>
+                    <input
+                      type="text"
+                      value={settings.workflowTimelineTitle}
+                      onChange={(e) => setSettings({ ...settings, workflowTimelineTitle: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="Project Timeline"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">PARAGRAPH 1</label>
+                    <textarea
+                      value={settings.workflowTimelineParagraph1}
+                      onChange={(e) => setSettings({ ...settings, workflowTimelineParagraph1: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={4}
+                      placeholder="While every project is unique, most projects follow a similar timeline..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">PARAGRAPH 2</label>
+                    <textarea
+                      value={settings.workflowTimelineParagraph2}
+                      onChange={(e) => setSettings({ ...settings, workflowTimelineParagraph2: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={3}
+                      placeholder="During our initial consultation, we'll provide you with a detailed timeline..."
+                    />
+                  </div>
+                </div>
+              </div>
+
               {/* CTA Section */}
               <div className="border-t pt-8">
                 <div className="border-b pb-4 mb-6">
@@ -1742,7 +1928,7 @@ export function AdminSettings() {
                       value={settings.workflowCtaTitle}
                       onChange={(e) => setSettings({ ...settings, workflowCtaTitle: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
-                      placeholder="Our Commitment"
+                      placeholder="Ready to Begin Your Journey?"
                     />
                   </div>
                   <div>
@@ -1752,7 +1938,7 @@ export function AdminSettings() {
                       onChange={(e) => setSettings({ ...settings, workflowCtaDescription: e.target.value })}
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
                       rows={3}
-                      placeholder="Built on years of experience and refined through countless successful projects..."
+                      placeholder="Let's start with a consultation to discuss your project..."
                     />
                   </div>
                 </div>
@@ -2486,18 +2672,13 @@ export function AdminSettings() {
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">MAP IMAGE URL (optional)</label>
-                    <input
-                      type="url"
+                    <FileUploadField
+                      label=""
                       value={settings.contactMapImage}
-                      onChange={(e) => setSettings({ ...settings, contactMapImage: e.target.value })}
-                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      onChange={(url) => setSettings({ ...settings, contactMapImage: url })}
+                      accept="image"
                       placeholder="https://... (leave empty for default placeholder)"
                     />
-                    {settings.contactMapImage && (
-                      <div className="mt-3 w-64 h-40 bg-neutral-100 overflow-hidden rounded">
-                        <img src={settings.contactMapImage} alt="Map Preview" className="w-full h-full object-cover" />
-                      </div>
-                    )}
                   </div>
                   <div>
                     <label className="block mb-2 text-sm tracking-wider">GOOGLE MAPS LINK</label>
@@ -3280,6 +3461,111 @@ export function AdminSettings() {
                       className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
                       rows={3}
                       placeholder="A passionate writer exploring the intersection of design..."
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Company Profile Settings */}
+          {activeTab === 'company-profile' && (
+            <div className="space-y-8">
+              <div>
+                <div className="border-b pb-4 mb-6">
+                  <h2 className="text-xl font-medium">Company Profile URLs</h2>
+                  <p className="text-sm text-black/60 mt-1">Manage flipbook URLs for different languages</p>
+                </div>
+                <div className="space-y-6">
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">ENGLISH FLIPBOOK URL</label>
+                    <input
+                      type="text"
+                      value={settings.companyProfileUrl_en}
+                      onChange={(e) => setSettings({ ...settings, companyProfileUrl_en: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="https://publuu.com/flip-book/..."
+                    />
+                    <p className="text-xs text-black/50 mt-2">URL for English version of the company profile flipbook</p>
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">ARABIC FLIPBOOK URL</label>
+                    <input
+                      type="text"
+                      value={settings.companyProfileUrl_ar}
+                      onChange={(e) => setSettings({ ...settings, companyProfileUrl_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="https://publuu.com/flip-book/..."
+                    />
+                    <p className="text-xs text-black/50 mt-2">URL for Arabic version of the company profile flipbook (optional)</p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div className="border-b pb-4 mb-6">
+                  <h2 className="text-xl font-medium">Display Text</h2>
+                  <p className="text-sm text-black/60 mt-1">Customize the text shown on the company profile page</p>
+                </div>
+                <div className="space-y-6">
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">TITLE (ENGLISH)</label>
+                    <input
+                      type="text"
+                      value={settings.companyProfileTitle}
+                      onChange={(e) => setSettings({ ...settings, companyProfileTitle: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="Company Profile"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">TITLE (ARABIC)</label>
+                    <input
+                      type="text"
+                      value={settings.companyProfileTitle_ar}
+                      onChange={(e) => setSettings({ ...settings, companyProfileTitle_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="ملف الشركة"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">DESCRIPTION (ENGLISH)</label>
+                    <textarea
+                      value={settings.companyProfileDescription}
+                      onChange={(e) => setSettings({ ...settings, companyProfileDescription: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={2}
+                      placeholder="Explore our comprehensive company profile and capabilities"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">DESCRIPTION (ARABIC)</label>
+                    <textarea
+                      value={settings.companyProfileDescription_ar}
+                      onChange={(e) => setSettings({ ...settings, companyProfileDescription_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none resize-none"
+                      rows={2}
+                      placeholder="استكشف ملف شركتنا الشامل وقدراتنا"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">BUTTON TEXT (ENGLISH)</label>
+                    <input
+                      type="text"
+                      value={settings.companyProfileButtonText}
+                      onChange={(e) => setSettings({ ...settings, companyProfileButtonText: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="Open Company Profile"
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm tracking-wider">BUTTON TEXT (ARABIC)</label>
+                    <input
+                      type="text"
+                      value={settings.companyProfileButtonText_ar}
+                      onChange={(e) => setSettings({ ...settings, companyProfileButtonText_ar: e.target.value })}
+                      className="w-full px-4 py-3 border border-black/20 focus:border-black focus:outline-none"
+                      placeholder="فتح ملف الشركة"
                     />
                   </div>
                 </div>

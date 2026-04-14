@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { BlogArticle } from './BlogArticle';
+import { LoadingScreen } from './LoadingScreen';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
 
 type BlogCategory = 'all' | 'design-tips' | 'trends' | 'projects' | 'insights';
@@ -34,6 +36,7 @@ export function Blog() {
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const { ts, td, translateBatch, isRTL, language } = useLanguage();
 
   // Trigger translation when language changes or articles load
@@ -69,6 +72,9 @@ export function Blog() {
         console.error('Error fetching articles:', error);
         setLoading(false);
       });
+    
+    // Initialize page loading
+    setTimeout(() => setIsPageLoading(false), 2500);
   }, []);
 
   // Handle hash changes for article navigation
@@ -142,11 +148,12 @@ export function Blog() {
 
   return (
     <div className={`w-full blog-page ${isRTL ? 'rtl' : 'ltr'}`}>
+      <LoadingScreen isLoading={isPageLoading} onLoadingComplete={() => setIsPageLoading(false)} />
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center text-white">
         <div className="absolute inset-0 bg-black/50 z-10" />
         <ImageWithFallback
-          src={featuredArticle?.image || '/images/blog-hero.jpg'}
+          src={featuredArticle?.image ? getImageUrl(featuredArticle.image) : '/images/blog-hero.jpg'}
           alt="TRQ Blog"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -170,7 +177,7 @@ export function Blog() {
           >
             <div className={`relative h-[400px] lg:h-[500px] overflow-hidden ${isRTL ? 'lg:order-2' : ''}`}>
               <ImageWithFallback
-                src={featuredArticle.image}
+                src={getImageUrl(featuredArticle.image)}
                 alt={featuredArticle.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
@@ -235,7 +242,7 @@ export function Blog() {
             >
               <div className="relative h-64 overflow-hidden mb-4">
                 <ImageWithFallback
-                  src={article.image}
+                  src={getImageUrl(article.image)}
                   alt={article.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />

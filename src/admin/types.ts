@@ -22,6 +22,7 @@ export interface Project {
   clientQuote: string;
   clientName: string;
   status: 'published' | 'draft';
+  sortOrder?: number;
   
   // Arabic fields (_ar suffix)
   title_ar?: string;

@@ -3,6 +3,7 @@ import { Plus, Edit, Trash2, Eye, EyeOff, Search } from 'lucide-react';
 import { ConfirmModal } from './ConfirmModal';
 import { ArticleEditor } from './ArticleEditor';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 
 interface Article {
   id: number;
@@ -49,9 +50,10 @@ export function AdminBlog() {
   const loadArticles = async () => {
     try {
       const data = await api.getArticles();
-      setArticles(data);
+      setArticles(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error loading articles:', error);
+      setArticles([]);
     } finally {
       setLoading(false);
     }
@@ -191,7 +193,7 @@ export function AdminBlog() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         <img
-                          src={article.image}
+                          src={getImageUrl(article.image)}
                           alt={article.title}
                           className="w-16 h-12 object-cover rounded"
                         />

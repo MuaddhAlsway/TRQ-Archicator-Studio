@@ -58,7 +58,7 @@
 /* Parallax Text */
 .parallax-text {
   font-size: 2rem;
-  font-weight: 300;
+  font-weight: 700;
   letter-spacing: 1px;
   line-height: 1.4;
 }
@@ -66,7 +66,7 @@
 /* Parallax Subtitle */
 .parallax-subtitle {
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 2px;
   text-transform: uppercase;
   opacity: 0.8;
@@ -81,10 +81,12 @@
 
   .parallax-text {
     font-size: 1.5rem;
+    font-weight: 700;
   }
 
   .parallax-subtitle {
     font-size: 0.8rem;
+    font-weight: 400;
   }
 }
 

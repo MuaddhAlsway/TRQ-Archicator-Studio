@@ -45,7 +45,7 @@ export function AdminPricing() {
     'commercial-restaurant': 'Commercial - Restaurant',
     'exhibition-booth': 'Exhibition Booth',
     'concept-design': 'Concept Design',
-    'furniture-design': 'Furniture Design',
+    'furniture-design': 'Custom Design',
     'other': 'Other',
   };
 

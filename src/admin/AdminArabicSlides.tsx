@@ -2,17 +2,28 @@ import { useState, useEffect } from 'react';
 import { Save, Plus, X, AlertCircle, Edit2 } from 'lucide-react';
 import { useAdmin } from './AdminContext';
 import { BilingualEditor } from './BilingualEditor';
+import * as api from '../api';
 
 interface ArabicSlide {
   id: number;
-  englishTitle: string;
-  arabicTitle: string;
-  englishDescription: string;
-  arabicDescription: string;
+  tag: string;
+  title: string;
+  description: string;
+  tag_ar: string;
+  title_ar: string;
+  description_ar: string;
+  video_ar?: string;
+  video_2_ar?: string;
+  video_3_ar?: string;
+  video_text_ar?: string;
+  video_2_text_ar?: string;
+  video_3_text_ar?: string;
+  buttonPrimaryText_ar?: string;
+  buttonSecondaryText_ar?: string;
 }
 
 export function AdminArabicSlides() {
-  const { slides } = useAdmin();
+  const { slides, loadSlides } = useAdmin();
   const [items, setItems] = useState<ArabicSlide[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -23,40 +34,33 @@ export function AdminArabicSlides() {
 
   useEffect(() => {
     loadItems();
-  }, []);
+  }, [slides]);
 
   const loadItems = async () => {
     setLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem('trq_token');
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api';
+      if (!slides || slides.length === 0) {
+        await loadSlides();
+      }
       
-      // Fetch slides
-      const slidesResponse = await fetch(`${apiUrl}/slides`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      const slidesResult = await slidesResponse.json();
-      
-      // Fetch settings for Arabic content
-      const settingsResponse = await fetch(`${apiUrl}/api/settings`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      const settingsResult = await settingsResponse.json();
-      
-      let slides = Array.isArray(slidesResult) ? slidesResult : (slidesResult?.data || []);
-      
-      // Map slides to Arabic format with settings
-      const arabicSlides: ArabicSlide[] = slides.map((slide: any) => ({
+      // Map slides to Arabic format
+      const arabicSlides: ArabicSlide[] = (slides || []).map((slide: any) => ({
         id: slide.id,
-        englishTitle: slide.title || '',
-        arabicTitle: settingsResult[`slide_${slide.id}_title_ar`] || slide.title || '',
-        englishDescription: slide.description || '',
-        arabicDescription: settingsResult[`slide_${slide.id}_desc_ar`] || slide.description || '',
+        tag: slide.tag || '',
+        title: slide.title || '',
+        description: slide.description || '',
+        tag_ar: slide.tag_ar || '',
+        title_ar: slide.title_ar || '',
+        description_ar: slide.description_ar || '',
+        video_ar: slide.video_ar || '',
+        video_2_ar: slide.video_2_ar || '',
+        video_3_ar: slide.video_3_ar || '',
+        video_text_ar: slide.video_text_ar || '',
+        video_2_text_ar: slide.video_2_text_ar || '',
+        video_3_text_ar: slide.video_3_text_ar || '',
+        buttonPrimaryText_ar: slide.buttonPrimaryText_ar || '',
+        buttonSecondaryText_ar: slide.buttonSecondaryText_ar || '',
       }));
       
       setItems(arabicSlides);
@@ -82,29 +86,32 @@ export function AdminArabicSlides() {
     setSuccessMessage(null);
 
     try {
-      const token = localStorage.getItem('trq_token');
-      const response = await fetch(` + import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api'/api/settings`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          [`slide_${editData.id}_title_ar`]: editData.arabicTitle,
-          [`slide_${editData.id}_desc_ar`]: editData.arabicDescription,
-        }),
-      });
+      // Update slide with Arabic fields
+      const updateData = {
+        tag_ar: editData.tag_ar,
+        title_ar: editData.title_ar,
+        description_ar: editData.description_ar,
+        video_ar: editData.video_ar,
+        video_2_ar: editData.video_2_ar,
+        video_3_ar: editData.video_3_ar,
+        video_text_ar: editData.video_text_ar,
+        video_2_text_ar: editData.video_2_text_ar,
+        video_3_text_ar: editData.video_3_text_ar,
+        buttonPrimaryText_ar: editData.buttonPrimaryText_ar,
+        buttonSecondaryText_ar: editData.buttonSecondaryText_ar,
+      };
 
-      const result = await response.json();
+      const result = await api.updateSlide(editData.id, updateData);
 
-      if (result.success) {
+      if (result) {
         setSuccessMessage('Slide Arabic content saved successfully!');
         setEditingId(null);
         setEditData({});
-        loadItems();
+        await loadSlides();
+        await loadItems();
         setTimeout(() => setSuccessMessage(null), 3000);
       } else {
-        setError(result.message || 'Failed to save content');
+        setError('Failed to save content');
       }
     } catch (err) {
       setError('Error saving content: ' + (err instanceof Error ? err.message : 'Unknown error'));
@@ -151,29 +158,102 @@ export function AdminArabicSlides() {
           // Edit Mode
           <div className="space-y-6">
             <div className="bg-blue-50 border border-blue-200 rounded p-4">
-              <p className="text-blue-700 font-medium">Editing: {editData.englishTitle}</p>
+              <p className="text-blue-700 font-medium">Editing: {editData.title}</p>
             </div>
 
-            <BilingualEditor
-              label="Title"
-              englishValue={editData.englishTitle || ''}
-              arabicValue={editData.arabicTitle || ''}
-              onEnglishChange={() => {}}
-              onArabicChange={(val) =>
-                setEditData({ ...editData, arabicTitle: val })
-              }
-            />
+            <div>
+              <label className="block text-sm font-medium mb-1">Tag (Arabic)</label>
+              <input
+                type="text"
+                value={editData.tag_ar || ''}
+                onChange={(e) => setEditData({ ...editData, tag_ar: e.target.value })}
+                className="w-full border p-2 text-right"
+                dir="rtl"
+                placeholder="العلامة"
+              />
+            </div>
 
-            <BilingualEditor
-              label="Description"
-              type="textarea"
-              englishValue={editData.englishDescription || ''}
-              arabicValue={editData.arabicDescription || ''}
-              onEnglishChange={() => {}}
-              onArabicChange={(val) =>
-                setEditData({ ...editData, arabicDescription: val })
-              }
-            />
+            <div>
+              <label className="block text-sm font-medium mb-1">Title (Arabic)</label>
+              <input
+                type="text"
+                value={editData.title_ar || ''}
+                onChange={(e) => setEditData({ ...editData, title_ar: e.target.value })}
+                className="w-full border p-2 text-right"
+                dir="rtl"
+                placeholder="العنوان"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">Description (Arabic)</label>
+              <textarea
+                value={editData.description_ar || ''}
+                onChange={(e) => setEditData({ ...editData, description_ar: e.target.value })}
+                className="w-full border p-2 h-24 resize-none text-right"
+                dir="rtl"
+                placeholder="الوصف"
+              />
+            </div>
+
+            <div className="border-t pt-4">
+              <h3 className="font-medium mb-3">Videos (Arabic)</h3>
+              <div className="space-y-3">
+                {[1, 2, 3].map((num) => {
+                  const videoKey = num === 1 ? 'video_ar' : `video_${num}_ar`;
+                  const textKey = num === 1 ? 'video_text_ar' : `video_${num}_text_ar`;
+                  return (
+                    <div key={num} className="p-3 bg-slate-50 rounded">
+                      <label className="block text-xs font-medium mb-1">Video {num} URL (Arabic)</label>
+                      <input
+                        type="text"
+                        value={(editData as any)[videoKey] || ''}
+                        onChange={(e) => setEditData({ ...editData, [videoKey]: e.target.value })}
+                        className="w-full border p-2 text-sm mb-2"
+                        placeholder="https://..."
+                      />
+                      <label className="block text-xs font-medium mb-1">Video {num} Text (Arabic)</label>
+                      <input
+                        type="text"
+                        value={(editData as any)[textKey] || ''}
+                        onChange={(e) => setEditData({ ...editData, [textKey]: e.target.value })}
+                        className="w-full border p-2 text-sm text-right"
+                        dir="rtl"
+                        placeholder="نص الفيديو"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="border-t pt-4">
+              <h3 className="font-medium mb-3">Buttons (Arabic)</h3>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium mb-1">Primary Button (Arabic)</label>
+                  <input
+                    type="text"
+                    value={editData.buttonPrimaryText_ar || ''}
+                    onChange={(e) => setEditData({ ...editData, buttonPrimaryText_ar: e.target.value })}
+                    className="w-full border p-2 text-sm text-right"
+                    dir="rtl"
+                    placeholder="الزر الأساسي"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium mb-1">Secondary Button (Arabic)</label>
+                  <input
+                    type="text"
+                    value={editData.buttonSecondaryText_ar || ''}
+                    onChange={(e) => setEditData({ ...editData, buttonSecondaryText_ar: e.target.value })}
+                    className="w-full border p-2 text-sm text-right"
+                    dir="rtl"
+                    placeholder="الزر الثانوي"
+                  />
+                </div>
+              </div>
+            </div>
 
             <div className="flex gap-3 justify-end">
               <button
@@ -205,8 +285,8 @@ export function AdminArabicSlides() {
                 className="flex items-center justify-between p-4 border border-black/10 rounded hover:bg-black/2 transition-colors"
               >
                 <div className="flex-1">
-                  <h3 className="font-medium text-black">{item.englishTitle}</h3>
-                  <p className="text-sm text-black/60 mt-1">{item.arabicTitle || 'Not translated'}</p>
+                  <h3 className="font-medium text-black">{item.title}</h3>
+                  <p className="text-sm text-black/60 mt-1 text-right" dir="rtl">{item.title_ar || 'لم يتم الترجمة'}</p>
                 </div>
                 <button
                   onClick={() => handleEdit(item)}

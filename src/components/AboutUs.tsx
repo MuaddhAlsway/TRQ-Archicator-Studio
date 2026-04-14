@@ -3,9 +3,12 @@ import * as Icons from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { AboutVideoHero } from './AboutVideoHero';
 import { LoadingScreen } from './LoadingScreen';
 import * as api from '../api';
+import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
+import { getContentFromSettings } from '../utils/contentHelper';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,14 +18,15 @@ const getIconComponent = (iconName: string) => {
 };
 
 export function AboutUs() {
-  const { td, isRTL } = useLanguage();
+  const { td, isRTL, language } = useLanguage();
   const [isLoading, setIsLoading] = useState(true);
   const heroRef = useRef<HTMLDivElement>(null);
   const visionMissionRef = useRef<HTMLDivElement>(null);
+  const videosRef = useRef<HTMLDivElement>(null);
   const approachRef = useRef<HTMLDivElement>(null);
   const expertiseRef = useRef<HTMLDivElement>(null);
-  const storyRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const [videos, setVideos] = useState<any[]>([]);
   const [settings, setSettings] = useState({
     aboutHeroTitle: 'About TRQ Studio',
     aboutHeroDescription: 'We are a luxury interior design studio dedicated to creating timeless, sophisticated spaces that reflect our clients\' refined taste and elevated lifestyle.',
@@ -50,7 +54,7 @@ export function AboutUs() {
     aboutExpertise1Title: 'Luxury Residential',
     aboutExpertise1Description: 'Private homes and estates designed with uncompromising attention to comfort, elegance, and personal expression.',
     aboutExpertise1Image: '/uploads/1.webp',
-    aboutExpertise2Title: 'Commercial Spaces',
+    aboutExpertise2Title: 'Premium Commercial Space',
     aboutExpertise2Description: 'Professional environments that embody brand identity while creating inspiring spaces for work and collaboration.',
     aboutExpertise2Image: '/uploads/2.webp',
     aboutExpertise3Title: 'Custom Furniture',
@@ -70,6 +74,8 @@ export function AboutUs() {
   });
 
   const [allSettings, setAllSettings] = useState<any>(null);
+  // Keep original defaults so language switching always has a clean English baseline
+  const defaultSettingsRef = useRef(settings);
 
   useEffect(() => {
     // Fetch all settings once on component mount
@@ -77,6 +83,13 @@ export function AboutUs() {
       setAllSettings(data);
     }).catch((err) => {
       console.error('Failed to fetch settings:', err);
+    });
+
+    // Fetch about videos
+    api.getActiveAboutVideos().then((data) => {
+      setVideos(data);
+    }).catch((err) => {
+      console.error('Failed to fetch about videos:', err);
     });
     
     // Keep loading screen visible for at least 4 seconds (3s animation + 1s buffer)
@@ -87,32 +100,30 @@ export function AboutUs() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Update settings when language changes
+  // Update settings when language changes — always derive from raw DB data + original defaults
   useEffect(() => {
     if (!allSettings) return;
     
-    const newSettings = { ...settings };
+    const defaults = defaultSettingsRef.current;
+    const newSettings = { ...defaults };
     
-    // For each about* key in default settings
     Object.keys(newSettings).forEach(key => {
       if (key.startsWith('about')) {
-        if (isRTL) {
-          // Arabic mode: use _ar suffixed key if it exists, otherwise use English
+        if (language === 'ar') {
           const arabicKey = `${key}_ar`;
-          newSettings[key] = allSettings[arabicKey] || allSettings[key] || newSettings[key];
+          newSettings[key] = allSettings[arabicKey] || allSettings[key] || defaults[key];
         } else {
-          // English mode: use regular key
-          newSettings[key] = allSettings[key] || newSettings[key];
+          newSettings[key] = allSettings[key] || defaults[key];
         }
       }
     });
     
     setSettings(newSettings);
-  }, [isRTL, allSettings]);
+  }, [language, allSettings]);
 
   // Scroll animations
   useEffect(() => {
-    const sections = [heroRef, visionMissionRef, approachRef, expertiseRef, storyRef, ctaRef];
+    const sections = [heroRef, visionMissionRef, videosRef, approachRef, expertiseRef, ctaRef];
     
     sections.forEach((sectionRef) => {
       if (!sectionRef.current) return;
@@ -150,62 +161,55 @@ export function AboutUs() {
   return (
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'} relative`}>
       <LoadingScreen isLoading={isLoading} onLoadingComplete={() => setIsLoading(false)} />
-      {/* Hero Section */}
+      
+      {/* Video Hero Section */}
+      <AboutVideoHero />
+      
+      {/* Vision & Mission Section */}
+      <section ref={visionMissionRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
+            <div className="flex flex-col gap-8">
+              <h2 className="text-3xl tracking-tight font-light">
+                {getContentFromSettings(language, settings, 'aboutVisionTitle')}
+              </h2>
+              <p className="text-base text-black leading-relaxed">
+                {getContentFromSettings(language, settings, 'aboutVisionDescription')}
+              </p>
+            </div>
+            <div className="flex flex-col gap-8">
+              <h2 className="text-3xl tracking-tight font-light">
+                {getContentFromSettings(language, settings, 'aboutMissionTitle')}
+              </h2>
+              <p className="text-base text-black leading-relaxed">
+                {getContentFromSettings(language, settings, 'aboutMissionDescription')}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Hero Image Section */}
       <section ref={heroRef} className="pt-24 pb-24 px-4 md:px-12">
         <div className="flex flex-col gap-16 max-w-7xl mx-auto">
-          <div className="max-w-5xl">
-            <h1 className="text-5xl md:text-6xl tracking-tight mb-8 font-light" style={{ fontFamily: 'Georgia, serif' }}>
-              {td(settings.aboutHeroTitle)}
-            </h1>
-            <p className="text-xl text-black/70 max-w-2xl leading-relaxed font-normal">
-              {td(settings.aboutHeroDescription)}
-            </p>
-          </div>
           <div className="w-full h-[600px]">
             <ImageWithFallback
-              src={settings.aboutHeroImage}
+              src={getImageUrl(getContentFromSettings(language, settings, 'aboutHeroImage'))}
               alt="About TRQ Studio"
               className="w-full h-full object-cover"
             />
           </div>
         </div>
       </section>
-
-      {/* Vision & Mission Section */}
-      <section ref={visionMissionRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
-            <div className="flex flex-col gap-8">
-              <h2 className="text-3xl tracking-tight font-light" style={{ fontFamily: 'Georgia, serif' }}>
-                {td(settings.aboutVisionTitle)}
-              </h2>
-              <p className="text-base text-black leading-relaxed">
-                {td(settings.aboutVisionDescription)}
-              </p>
-            </div>
-            <div className="flex flex-col gap-8">
-              <h2 className="text-3xl tracking-tight font-light" style={{ fontFamily: 'Georgia, serif' }}>
-                {td(settings.aboutMissionTitle)}
-              </h2>
-              <p className="text-base text-black leading-relaxed">
-                {td(settings.aboutMissionDescription)}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      
       {/* Approach Section */}
       <section ref={approachRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col gap-16">
             <div className="flex flex-col gap-4">
-              <h2 className="text-3xl tracking-tight font-light" style={{ fontFamily: 'Georgia, serif' }}>
-                {td(settings.aboutApproachTitle)}
+              <h2 className="text-3xl tracking-tight font-light">
+                {getContentFromSettings(language, settings, 'aboutApproachTitle')}
               </h2>
-              <p className="text-base text-black/60">
-                {td(settings.aboutApproachDescription)}
-              </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {[1, 2, 3, 4].map((num) => {
@@ -215,11 +219,11 @@ export function AboutUs() {
                     <div className="w-10 h-10 flex items-center justify-center bg-black rounded">
                       <Icon className="text-white" size={20} />
                     </div>
-                    <h3 className="text-xl font-medium" style={{ fontFamily: 'Georgia, serif' }}>
-                      {td((settings as any)[`aboutApproach${num}Title`])}
+                    <h3 className="text-xl font-medium">
+                      {getContentFromSettings(language, settings, `aboutApproach${num}Title`)}
                     </h3>
                     <p className="text-base text-black/70 leading-relaxed">
-                      {td((settings as any)[`aboutApproach${num}Description`])}
+                      {getContentFromSettings(language, settings, `aboutApproach${num}Description`)}
                     </p>
                   </div>
                 );
@@ -234,27 +238,24 @@ export function AboutUs() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col gap-16">
             <div className="flex flex-col gap-4">
-              <h2 className="text-3xl tracking-tight font-light" style={{ fontFamily: 'Georgia, serif' }}>
-                {td(settings.aboutExpertiseTitle)}
+              <h2 className="text-3xl tracking-tight font-light">
+                {getContentFromSettings(language, settings, 'aboutExpertiseTitle')}
               </h2>
-              <p className="text-base text-black/60">
-                {td(settings.aboutExpertiseDescription)}
-              </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[1, 2, 3, 4].map((num) => (
                 <div key={num} className="flex flex-col border border-black/15 rounded overflow-hidden">
                   <ImageWithFallback
-                    src={(settings as any)[`aboutExpertise${num}Image`]}
+                    src={getImageUrl((settings as any)[`aboutExpertise${num}Image`])}
                     alt={(settings as any)[`aboutExpertise${num}Title`]}
                     className="w-full h-[300px] object-cover"
                   />
                   <div className="flex flex-col gap-4 p-8">
-                    <h3 className="text-2xl tracking-tight" style={{ fontFamily: 'Georgia, serif' }}>
-                      {td((settings as any)[`aboutExpertise${num}Title`])}
+                    <h3 className="text-2xl tracking-tight">
+                      {getContentFromSettings(language, settings, `aboutExpertise${num}Title`)}
                     </h3>
                     <p className="text-base text-black/70 leading-relaxed">
-                      {td((settings as any)[`aboutExpertise${num}Description`])}
+                      {getContentFromSettings(language, settings, `aboutExpertise${num}Description`)}
                     </p>
                   </div>
                 </div>
@@ -264,48 +265,17 @@ export function AboutUs() {
         </div>
       </section>
 
-      {/* Story Section */}
-      <section ref={storyRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
-            <div className="flex flex-col gap-8">
-              <h2 className="text-3xl tracking-tight font-light" style={{ fontFamily: 'Georgia, serif' }}>
-                {td(settings.aboutStoryTitle)}
-              </h2>
-              <div className="flex flex-col gap-6">
-                <p className="text-base text-black leading-relaxed">
-                  {td(settings.aboutStoryText1)}
-                </p>
-                <p className="text-base text-black/70 leading-relaxed">
-                  {td(settings.aboutStoryText2)}
-                </p>
-                <p className="text-base text-black/70 leading-relaxed">
-                  {td(settings.aboutStoryText3)}
-                </p>
-              </div>
-            </div>
-            <div className="w-full h-[500px]">
-              <ImageWithFallback
-                src={settings.aboutStoryImage}
-                alt="TRQ Studio Team"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section ref={ctaRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
         <div className="max-w-7xl mx-auto text-center flex flex-col items-center gap-12">
-          <h2 className="text-4xl tracking-tight font-light" style={{ fontFamily: 'Georgia, serif' }}>
-            {td(settings.aboutCtaTitle)}
+          <h2 className="text-4xl tracking-tight font-light">
+            {getContentFromSettings(language, settings, 'aboutCtaTitle')}
           </h2>
           <p className="text-xl text-black/70 max-w-2xl leading-relaxed">
-            {td(settings.aboutCtaDescription)}
+            {getContentFromSettings(language, settings, 'aboutCtaDescription')}
           </p>
-          <button className="px-12 py-4 bg-black text-white text-sm tracking-wide uppercase hover:bg-black/90 transition-colors">
-            {td(settings.aboutCtaButton)}
+          <button className="px-12 py-4 bg-[rgb(174,3,1)] text-white text-sm tracking-wide uppercase hover:bg-[rgb(174,3,1)]/90 transition-colors">
+            {getContentFromSettings(language, settings, 'aboutCtaButton')}
           </button>
         </div>
       </section>

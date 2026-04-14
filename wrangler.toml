@@ -1,24 +1,8 @@
 name = "trq-studio"
-type = "javascript"
-compatibility_date = "2024-01-15"
+pages_build_output_dir = "dist"
 
-# Build configuration for Cloudflare Pages
-[build]
-command = "npm run build"
-cwd = "./"
-watch_paths = ["src/**/*.tsx", "src/**/*.ts", "src/**/*.css"]
-
-# Output directory for Pages
 [env.production]
 name = "trq-studio"
-routes = [
-  { pattern = "trq-studio.pages.dev/*", zone_name = "pages.dev" }
-]
 
-# Environment variables for production
-[env.production.vars]
-ENVIRONMENT = "production"
-
-# Environment variables for development
-[env.development.vars]
-ENVIRONMENT = "development"
+[env.preview]
+name = "trq-studio-preview"

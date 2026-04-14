@@ -20,6 +20,7 @@ export interface Project {
   materials?: string[];
   gallery?: string[];
   visible: boolean;
+  sortOrder?: number;
 }
 
 export interface CategoryItem {

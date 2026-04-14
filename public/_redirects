@@ -1,1 +1,5 @@
 /* /index.html 200
+!/uploads/* /uploads/:splat 200
+!/LOGO.png /LOGO.png 200
+!/Video*.mp4 /Video:splat.mp4 200
+!/vite.svg /vite.svg 200

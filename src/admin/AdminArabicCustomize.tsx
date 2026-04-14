@@ -53,7 +53,7 @@ export function AdminArabicCustomize({
           break;
       }
 
-      const response = await fetch(` + import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api'${endpoint}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`);
       const result = await response.json();
 
       if (result.success) {
@@ -93,8 +93,8 @@ export function AdminArabicCustomize({
           break;
       }
 
-      const token = localStorage.getItem('trq_token');
-      const response = await fetch(` + import.meta.env.VITE_API_URL || 'https://trq-api-prod.muaddhalsway.workers.dev/api'${endpoint}`, {
+      const token = localStorage.getItem('trq_access_token');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

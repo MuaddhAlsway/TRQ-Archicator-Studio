@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Calendar, MapPin, Users, Ruler, Award, CheckCircle, X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useLanguage } from '../context/LanguageContext';
+import { getImageUrl } from '../api';
 import gsap from 'gsap';
 
 interface Project {
@@ -90,36 +91,32 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
     return [];
   };
 
-  // Helper to normalize image paths
+  // Helper to normalize image paths — delegates to getImageUrl which strips
+  // any hardcoded domain and returns a root-relative path.
   const normalizeImagePath = (imagePath: string): string => {
     if (!imagePath) return '';
-    // If path already starts with /, return as is
-    if (imagePath.startsWith('/')) return imagePath;
-    // If it's a full URL, return as is
-    if (imagePath.startsWith('http')) return imagePath;
-    // If it's a relative path, prepend /
-    return `/${imagePath}`;
+    return getImageUrl(imagePath);
   };
 
   const projectData = {
     ...project,
-    title: language === 'ar' ? (project.title_ar || project.title) : project.title,
-    category: language === 'ar' ? (project.category_ar || project.category) : project.category,
-    subcategory: language === 'ar' ? (project.subcategory_ar || project.subcategory) : project.subcategory,
-    description: language === 'ar' ? (project.description_ar || project.description) : project.description,
-    location: language === 'ar' ? (project.location_ar || project.location || 'Riyadh, Saudi Arabia') : (project.location || 'Riyadh, Saudi Arabia'),
-    client: language === 'ar' ? (project.client_ar || project.client || 'Private Client') : (project.client || 'Private Client'),
-    size: language === 'ar' ? (project.size_ar || project.size || '500 sqm') : (project.size || '500 sqm'),
-    duration: language === 'ar' ? (project.duration_ar || project.duration || '6 months') : (project.duration || '6 months'),
-    detailedDescription: language === 'ar' ? (project.detailedDescription_ar || project.detailedDescription || `This exceptional ${(project.subcategory || 'design').toLowerCase()} project represents the pinnacle of luxury interior design.`) : (project.detailedDescription || `This exceptional ${(project.subcategory || 'design').toLowerCase()} project represents the pinnacle of luxury interior design.`),
-    challenge: language === 'ar' ? (project.challenge_ar || project.challenge || 'The primary challenge was to create a space that balanced contemporary design with timeless elegance.') : (project.challenge || 'The primary challenge was to create a space that balanced contemporary design with timeless elegance.'),
-    solution: language === 'ar' ? (project.solution_ar || project.solution || 'We developed a comprehensive design strategy that incorporated premium materials and custom-designed elements.') : (project.solution || 'We developed a comprehensive design strategy that incorporated premium materials and custom-designed elements.'),
-    features: parseArray(language === 'ar' ? (project.features_ar || project.features) : project.features),
-    materials: parseArray(language === 'ar' ? (project.materials_ar || project.materials) : project.materials),
-    awards: parseArray(language === 'ar' ? (project.awards_ar || project.awards) : project.awards),
-    team: parseArray(language === 'ar' ? (project.team_ar || project.team) : project.team),
-    clientQuote: language === 'ar' ? (project.clientQuote_ar || project.clientQuote) : project.clientQuote,
-    clientName: language === 'ar' ? (project.clientName_ar || project.clientName) : project.clientName,
+    title: language === 'ar' && project.title_ar ? project.title_ar : project.title,
+    category: language === 'ar' && project.category_ar ? project.category_ar : project.category,
+    subcategory: language === 'ar' && project.subcategory_ar ? project.subcategory_ar : project.subcategory,
+    description: language === 'ar' && project.description_ar ? project.description_ar : project.description,
+    location: language === 'ar' && project.location_ar ? project.location_ar : (project.location || 'Riyadh, Saudi Arabia'),
+    client: language === 'ar' && project.client_ar ? project.client_ar : (project.client || 'Private Client'),
+    size: language === 'ar' && project.size_ar ? project.size_ar : (project.size || '500 sqm'),
+    duration: language === 'ar' && project.duration_ar ? project.duration_ar : (project.duration || '6 months'),
+    detailedDescription: language === 'ar' && project.detailedDescription_ar ? project.detailedDescription_ar : (project.detailedDescription || `This exceptional ${(project.subcategory || 'design').toLowerCase()} project represents the pinnacle of luxury interior design.`),
+    challenge: language === 'ar' && project.challenge_ar ? project.challenge_ar : (project.challenge || 'The primary challenge was to create a space that balanced contemporary design with timeless elegance.'),
+    solution: language === 'ar' && project.solution_ar ? project.solution_ar : (project.solution || 'We developed a comprehensive design strategy that incorporated premium materials and custom-designed elements.'),
+    features: parseArray(language === 'ar' && project.features_ar ? project.features_ar : project.features),
+    materials: parseArray(language === 'ar' && project.materials_ar ? project.materials_ar : project.materials),
+    awards: parseArray(language === 'ar' && project.awards_ar ? project.awards_ar : project.awards),
+    team: parseArray(language === 'ar' && project.team_ar ? project.team_ar : project.team),
+    clientQuote: language === 'ar' && project.clientQuote_ar ? project.clientQuote_ar : project.clientQuote,
+    clientName: language === 'ar' && project.clientName_ar ? project.clientName_ar : project.clientName,
     gallery: parseArray(project.gallery).map(normalizeImagePath) || [normalizeImagePath(project.image)],
   };
 
@@ -233,9 +230,9 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         <div className={`absolute bottom-0 left-0 right-0 text-white p-8 ${isRTL ? 'text-right' : ''}`}>
           <div className="max-w-7xl mx-auto">
-            <p className="text-sm tracking-widest opacity-90 mb-2">{td(projectData.subcategory)}</p>
-            <h1 className="text-5xl md:text-6xl tracking-wider mb-4">{td(project.title)}</h1>
-            <p className="text-xl opacity-90 max-w-3xl">{td(project.description)}</p>
+            <p className="text-sm tracking-widest opacity-90 mb-2">{projectData.subcategory}</p>
+            <h1 className="text-5xl md:text-6xl tracking-wider mb-4">{projectData.title}</h1>
+            <p className="text-xl opacity-90 max-w-3xl">{projectData.description}</p>
           </div>
         </div>
       </section>
@@ -245,9 +242,9 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { icon: Calendar, label: ts('projectDetail.year'), value: projectData.year },
-              { icon: MapPin, label: ts('projectDetail.location'), value: td(projectData.location) },
+              { icon: MapPin, label: ts('projectDetail.location'), value: projectData.location },
               { icon: Ruler, label: ts('projectDetail.size'), value: projectData.size },
-              { icon: Users, label: ts('projectDetail.client'), value: td(projectData.client) },
+              { icon: Users, label: ts('projectDetail.client'), value: projectData.client },
             ].map((item, idx) => (
               <div key={idx} className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <item.icon size={24} className="text-white/60" />
@@ -265,7 +262,7 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className={isRTL ? 'text-right' : 'text-left'} dir={isRTL ? 'rtl' : 'ltr'}>
             <h2 className="text-4xl mb-8 tracking-wide">{ts('projectDetail.projectOverview')}</h2>
-            <p className="text-lg text-black/70">{td(projectData.detailedDescription)}</p>
+            <p className="text-lg text-black/70">{projectData.detailedDescription}</p>
           </div>
           <div className="space-y-8">
             <div className="border-2 border-black/10 p-8">
@@ -273,8 +270,8 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
               <div className="space-y-4">
                 {[
                   { label: ts('projectDetail.duration'), value: projectData.duration },
-                  { label: ts('projectDetail.category'), value: td(projectData.subcategory) },
-                  { label: ts('projectDetail.projectType'), value: td(project.category) },
+                  { label: ts('projectDetail.category'), value: projectData.subcategory },
+                  { label: ts('projectDetail.projectType'), value: projectData.category },
                   { label: 'Designer', value: 'TRQ STUDIO' },
                 ].map((item, idx) => (
                   <div key={idx} className={`flex justify-between border-b border-black/10 pb-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
@@ -282,10 +279,6 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
                     <span className="font-medium">{item.value}</span>
                   </div>
                 ))}
-                <div className={`flex justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-                  <span className="text-black/60">{ts('projectDetail.status')}</span>
-                  <span className="font-medium text-green-600">{ts('projectDetail.completed')}</span>
-                </div>
               </div>
             </div>
           </div>
@@ -421,27 +414,15 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
       )}
 
       {projectData.awards.length > 0 && (
-        <section className="py-24 bg-black text-white">
-          <div className="max-w-7xl mx-auto px-4 text-center">
-            <h2 className="text-4xl mb-12 tracking-wide">{ts('projectDetail.awardsRecognition')}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-              {projectData.awards.map((award, index) => (
-                <div key={index} className={`flex items-center justify-center gap-4 p-6 border-2 border-white/20 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                  <Award size={32} className="text-white/60" />
-                  <span className="text-xl tracking-wide">{td(award)}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <></>
       )}
 
       {showClientQuote && (
         <section className="py-24">
           <div className="max-w-4xl mx-auto px-4 text-center">
             <div className="text-6xl text-black/10 mb-4">"</div>
-            <p className="text-2xl text-black/70 mb-8 italic">{td(project.clientQuote || ts('projectDetail.defaultQuote'))}</p>
-            <div className="text-sm tracking-widest text-black/60">— {td(project.clientName || ts('projectDetail.projectClient'))}</div>
+            <p className="text-2xl text-black/70 mb-8 italic">{projectData.clientQuote || ts('projectDetail.defaultQuote')}</p>
+            <div className="text-sm tracking-widest text-black/60">— {projectData.clientName || ts('projectDetail.projectClient')}</div>
           </div>
         </section>
       )}
@@ -451,7 +432,7 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
           <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{ts('projectDetail.interestedSimilar')}</h2>
           <p className="text-lg text-black/60 mb-12">{ts('projectDetail.letDiscuss')}</p>
           <div className={`flex flex-col sm:flex-row gap-4 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-            <button className="px-8 py-4 bg-black text-white hover:bg-black/80 transition-colors tracking-wider">{ts('projectDetail.requestPricing')}</button>
+            <button className="px-8 py-4 bg-[rgb(174,3,1)] text-white hover:bg-[rgb(174,3,1)]/80 transition-colors tracking-wider">{ts('projectDetail.requestPricing')}</button>
             <button className="px-8 py-4 border-2 border-black text-black hover:bg-black hover:text-white transition-colors tracking-wider">{ts('projectDetail.contactUs')}</button>
           </div>
         </div>

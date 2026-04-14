@@ -38,26 +38,99 @@ const CACHE_TTL = 30 * 1000; // 30 seconds
 async function syncToTurso(sql, params) {
   if (!turso) return;
   try {
-    // Convert params to ensure Turso compatibility
     const convertedParams = params.map(param => {
-      // Convert undefined to null
       if (param === undefined) return null;
-      // Keep strings, numbers, booleans, and null as-is
       if (typeof param === 'string' || typeof param === 'number' || typeof param === 'boolean' || param === null) {
         return param;
       }
-      // Convert objects/arrays to JSON strings
-      if (typeof param === 'object') {
-        return JSON.stringify(param);
-      }
+      if (typeof param === 'object') return JSON.stringify(param);
       return param;
     });
-    
     await turso.execute({ sql, args: convertedParams });
   } catch (e) {
-    console.warn('[TURSO SYNC] Error:', e.message);
+    if (!e.message.includes('already exists') && !e.message.includes('duplicate')) {
+      console.warn('[TURSO SYNC] Error:', e.message);
+    }
   }
 }
+
+// Migrate Turso schema — adds missing columns and tables silently
+async function migrateTursoSchema() {
+  if (!turso) return;
+
+  // ── hero_slides columns ──────────────────────────────────────────────────
+  const heroColumns = [
+    'video', 'video_2', 'video_3',
+    'video_text', 'video_2_text', 'video_3_text',
+    'image_2', 'image_3',
+    'tag_ar', 'title_ar', 'description_ar',
+    'video_ar', 'video_2_ar', 'video_3_ar',
+    'video_text_ar', 'video_2_text_ar', 'video_3_text_ar',
+    'buttonPrimaryText_ar', 'buttonSecondaryText_ar',
+  ];
+
+  for (const col of heroColumns) {
+    try {
+      await turso.execute({ sql: `ALTER TABLE hero_slides ADD COLUMN ${col} TEXT` });
+    } catch (_) { /* already exists — ignore */ }
+  }
+
+  // ── newsletter_subscribers table ─────────────────────────────────────────
+  try {
+    await turso.execute({
+      sql: `CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT UNIQUE NOT NULL,
+        status TEXT DEFAULT 'active',
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      )`,
+    });
+  } catch (_) { /* already exists — ignore */ }
+
+  // ── about_videos table ───────────────────────────────────────────────────
+  try {
+    await turso.execute({
+      sql: `CREATE TABLE IF NOT EXISTS about_videos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT,
+        video_url TEXT NOT NULL,
+        image TEXT,
+        sortOrder INTEGER DEFAULT 0,
+        isActive INTEGER DEFAULT 1,
+        title_ar TEXT,
+        description_ar TEXT,
+        video_url_ar TEXT,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      )`,
+    });
+  } catch (_) { /* already exists — ignore */ }
+
+  // ── blog_articles table ──────────────────────────────────────────────────
+  try {
+    await turso.execute({
+      sql: `CREATE TABLE IF NOT EXISTS blog_articles (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        slug TEXT UNIQUE NOT NULL,
+        excerpt TEXT,
+        content TEXT,
+        image TEXT,
+        author TEXT,
+        date TEXT,
+        readTime TEXT,
+        category TEXT,
+        categorySlug TEXT,
+        tags TEXT,
+        status TEXT DEFAULT 'draft',
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      )`,
+    });
+  } catch (_) { /* already exists — ignore */ }
+}
+
+// Run migration on startup (non-blocking, errors suppressed)
+migrateTursoSchema().catch(() => {});
 
 // Create wrapper for SQLite (fast, primary)
 const dbWrapper = {
@@ -67,9 +140,7 @@ const dbWrapper = {
       run: (...params) => {
         try {
           const result = stmt.run(...params);
-          // Invalidate cache
-          cache.projects = null;
-          // Sync to Turso in background (don't wait)
+          cache.projects = null; // invalidate cache
           if (turso && (sql.includes('INSERT') || sql.includes('UPDATE') || sql.includes('DELETE'))) {
             syncToTurso(sql, params).catch(() => {});
           }
@@ -89,22 +160,17 @@ const dbWrapper = {
       },
       all: (...params) => {
         try {
-          // Check cache for projects
           if (sql.includes('SELECT * FROM projects') && !params.length) {
             if (cache.projects && cache.projectsExpiry > Date.now()) {
               console.log('[CACHE] Returning cached projects');
               return cache.projects;
             }
           }
-          
           const result = stmt.all(...params);
-          
-          // Cache projects
           if (sql.includes('SELECT * FROM projects') && !params.length) {
             cache.projects = result || [];
             cache.projectsExpiry = Date.now() + CACHE_TTL;
           }
-          
           return result || [];
         } catch (error) {
           console.error('[DB] All error:', error.message);
@@ -123,12 +189,11 @@ const dbWrapper = {
   },
 };
 
-// Quick initialization - create tables if they don't exist
+// ── SQLite table creation & local migrations ─────────────────────────────────
 (async () => {
   try {
     console.log('Initializing database tables...');
-    
-    // Create tables in SQLite
+
     db.exec(`
       CREATE TABLE IF NOT EXISTS translations (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -255,7 +320,10 @@ const dbWrapper = {
         username TEXT UNIQUE NOT NULL,
         email TEXT,
         password TEXT NOT NULL,
-        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+        isActive INTEGER DEFAULT 1,
+        lastLogin DATETIME,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
       );
 
       CREATE TABLE IF NOT EXISTS password_resets (
@@ -268,50 +336,138 @@ const dbWrapper = {
         FOREIGN KEY (userId) REFERENCES users(id)
       );
 
+      CREATE TABLE IF NOT EXISTS audit_logs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        action TEXT NOT NULL,
+        details TEXT,
+        ip_address TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id)
+      );
+
+      CREATE TABLE IF NOT EXISTS sessions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        token TEXT UNIQUE NOT NULL,
+        refresh_token TEXT UNIQUE NOT NULL,
+        expires_at DATETIME NOT NULL,
+        refresh_expires_at DATETIME NOT NULL,
+        ip_address TEXT,
+        user_agent TEXT,
+        is_active INTEGER DEFAULT 1,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id)
+      );
+
       CREATE TABLE IF NOT EXISTS hero_slides (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         tag TEXT NOT NULL,
         title TEXT NOT NULL,
         description TEXT,
         image TEXT,
+        image_2 TEXT,
+        image_3 TEXT,
+        video TEXT,
+        video_2 TEXT,
+        video_3 TEXT,
+        video_text TEXT,
+        video_2_text TEXT,
+        video_3_text TEXT,
         buttonPrimaryText TEXT DEFAULT 'VIEW PORTFOLIO',
         buttonPrimaryLink TEXT DEFAULT 'portfolio',
         buttonSecondaryText TEXT DEFAULT 'GET IN TOUCH',
         buttonSecondaryLink TEXT DEFAULT 'contact',
         sortOrder INTEGER DEFAULT 0,
         isActive INTEGER DEFAULT 1,
+        tag_ar TEXT,
+        title_ar TEXT,
+        description_ar TEXT,
+        buttonPrimaryText_ar TEXT,
+        buttonSecondaryText_ar TEXT,
+        video_ar TEXT,
+        video_2_ar TEXT,
+        video_3_ar TEXT,
+        video_text_ar TEXT,
+        video_2_text_ar TEXT,
+        video_3_text_ar TEXT,
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS about_videos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT,
+        video_url TEXT NOT NULL,
+        image TEXT,
+        sortOrder INTEGER DEFAULT 0,
+        isActive INTEGER DEFAULT 1,
+        title_ar TEXT,
+        description_ar TEXT,
+        video_url_ar TEXT,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS company_profile_settings (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        language TEXT NOT NULL,
+        url TEXT NOT NULL,
+        title TEXT,
+        description TEXT,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(language)
       );
 
       CREATE TABLE IF NOT EXISTS newsletter_subscribers (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         email TEXT UNIQUE NOT NULL,
-        isActive INTEGER DEFAULT 1,
-        subscribedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+        status TEXT DEFAULT 'active',
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    
-    // Add migration for missing columns in services table
+
+    // ── Local SQLite migrations (add missing columns to existing tables) ──
+    const addColumnIfMissing = (table, column, type = 'TEXT') => {
+      try {
+        const info = db.prepare(`PRAGMA table_info(${table})`).all();
+        if (!info.find(c => c.name === column)) {
+          db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${type}`);
+          console.log(`✓ Added ${column} to ${table}`);
+        }
+      } catch (e) {
+        if (!e.message.includes('duplicate')) console.warn(`Migration ${table}.${column}:`, e.message);
+      }
+    };
+
+    // hero_slides
+    const heroSlidesCols = [
+      'video', 'video_2', 'video_3',
+      'video_text', 'video_2_text', 'video_3_text',
+      'image_2', 'image_3',
+      'tag_ar', 'title_ar', 'description_ar',
+      'video_ar', 'video_2_ar', 'video_3_ar',
+      'video_text_ar', 'video_2_text_ar', 'video_3_text_ar',
+      'buttonPrimaryText_ar', 'buttonSecondaryText_ar',
+    ];
+    heroSlidesCols.forEach(col => addColumnIfMissing('hero_slides', col));
+
+    // services
+    ['title_ar', 'description_ar', 'features_ar'].forEach(col => addColumnIfMissing('services', col));
+
+    // newsletter_subscribers — migrate old isActive column to status if needed
     try {
-      const tableInfo = db.prepare("PRAGMA table_info(services)").all();
-      const columnNames = tableInfo.map(col => col.name);
-      
-      if (!columnNames.includes('title_ar')) {
-        console.log('Adding title_ar column to services table...');
-        db.exec('ALTER TABLE services ADD COLUMN title_ar TEXT');
-      }
-      if (!columnNames.includes('description_ar')) {
-        console.log('Adding description_ar column to services table...');
-        db.exec('ALTER TABLE services ADD COLUMN description_ar TEXT');
-      }
-      if (!columnNames.includes('features_ar')) {
-        console.log('Adding features_ar column to services table...');
-        db.exec('ALTER TABLE services ADD COLUMN features_ar TEXT');
+      const nlInfo = db.prepare('PRAGMA table_info(newsletter_subscribers)').all();
+      const hasIsActive = nlInfo.find(c => c.name === 'isActive');
+      const hasStatus   = nlInfo.find(c => c.name === 'status');
+      if (hasIsActive && !hasStatus) {
+        db.exec(`ALTER TABLE newsletter_subscribers ADD COLUMN status TEXT DEFAULT 'active'`);
+        db.exec(`UPDATE newsletter_subscribers SET status = CASE WHEN isActive = 1 THEN 'active' ELSE 'unsubscribed' END`);
+        console.log('✓ Migrated newsletter_subscribers isActive → status');
       }
     } catch (e) {
-      console.warn('Migration check error:', e.message);
+      if (!e.message.includes('duplicate')) console.warn('Newsletter migration:', e.message);
     }
-    
+
     console.log('✓ Database tables ready');
     console.log('✓ Database initialization complete');
   } catch (e) {

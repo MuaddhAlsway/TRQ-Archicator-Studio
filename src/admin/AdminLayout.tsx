@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { useAdmin } from './AdminContext';
 
-type AdminPage = 'dashboard' | 'projects' | 'contacts' | 'pricing' | 'services' | 'settings' | 'slides' | 'blog' | 'account' | 'newsletter' | 'slides-ar' | 'projects-ar' | 'services-ar' | 'blog-ar' | 'settings-ar';
+type AdminPage = 'dashboard' | 'projects' | 'contacts' | 'pricing' | 'services' | 'settings' | 'slides' | 'blog' | 'account' | 'newsletter' | 'slides-ar' | 'projects-ar' | 'services-ar' | 'blog-ar' | 'settings-ar' | 'about-videos' | 'about-videos-ar';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -25,6 +25,7 @@ export function AdminLayout({ children, currentPage, onPageChange }: AdminLayout
     
     // English Content Section
     { id: 'slides' as AdminPage, label: '🇬🇧 Hero Slides (EN)', icon: Image, section: 'English' },
+    { id: 'about-videos' as AdminPage, label: '🇬🇧 About Videos', icon: Image, section: 'English' },
     { id: 'projects' as AdminPage, label: '🇬🇧 Projects (EN)', icon: FolderOpen, section: 'English' },
     { id: 'services' as AdminPage, label: '🇬🇧 Services (EN)', icon: Layers, section: 'English' },
     { id: 'blog' as AdminPage, label: '🇬🇧 Blog Articles (EN)', icon: BookOpen, section: 'English' },
@@ -32,6 +33,7 @@ export function AdminLayout({ children, currentPage, onPageChange }: AdminLayout
     
     // Arabic Content Section
     { id: 'slides-ar' as AdminPage, label: '🇸🇦 Hero Slides (AR)', icon: Image, section: 'Arabic' },
+    { id: 'about-videos-ar' as AdminPage, label: '🇸🇦 About Videos (AR)', icon: Image, section: 'Arabic' },
     { id: 'projects-ar' as AdminPage, label: '🇸🇦 Projects (AR)', icon: FolderOpen, section: 'Arabic' },
     { id: 'services-ar' as AdminPage, label: '🇸🇦 Services (AR)', icon: Layers, section: 'Arabic' },
     { id: 'blog-ar' as AdminPage, label: '🇸🇦 Blog Articles (AR)', icon: BookOpen, section: 'Arabic' },

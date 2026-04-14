@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import * as api from '../api';
 
 export interface Project {
   id: number;
@@ -23,7 +24,7 @@ export interface Project {
   clientQuote?: string;
   clientName?: string;
   status?: 'draft' | 'published';
-  // Arabic fields
+  sortOrder?: number;
   title_ar?: string;
   category_ar?: string;
   subcategory_ar?: string;
@@ -81,7 +82,6 @@ export interface SiteSettings {
   contactEmail?: string;
   contactPhone?: string;
   contactAddress?: string;
-  // Arabic fields
   heroTitle_ar?: string;
   heroSubtitle_ar?: string;
   aboutTitle_ar?: string;
@@ -94,7 +94,7 @@ export interface SiteSettings {
 
 interface AdminContextType {
   isAuthenticated: boolean;
-  login: (password: string) => Promise<boolean>;
+  login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
   projects: Project[];
   loadProjects: () => Promise<void>;
@@ -127,22 +127,225 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Load projects from API on mount
   useEffect(() => {
-    loadProjects();
+    const token = localStorage.getItem('trq_access_token');
+    if (token) {
+      setIsAuthenticated(true);
+      loadProjects();
+    }
   }, []);
 
-  const getAuthToken = () => {
-    return localStorage.getItem('adminToken');
-  };
-
-  const login = async (password: string): Promise<boolean> => {
+  const login = async (username: string, password: string): Promise<boolean> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pass
+      const response = await api.login(username, password);
+      if (response && response.accessToken) {
+        setIsAuthenticated(true);
+        await loadProjects();
+        return true;
+      }
+      setError('Login failed');
+      return false;
+    } catch (err: any) {
+      setError(err.message || 'Login failed');
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const login = (pa
+  const logout = () => {
+    localStorage.removeItem('trq_access_token');
+    localStorage.removeItem('trq_refresh_token');
+    localStorage.removeItem('trq_token_expiry');
+    localStorage.removeItem('trq_user');
+    setIsAuthenticated(false);
+    setProjects([]);
+    setContactSubmissions([]);
+    setPricingRequests([]);
+    setSiteSettings({});
+  };
+
+  const loadProjects = async () => {
+    try {
+      setLoading(true);
+      const data = await api.getProjects();
+      setProjects(Array.isArray(data) ? data : []);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load projects');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addProject = async (project: Omit<Project, 'id'>) => {
+    try {
+      setLoading(true);
+      setError(null);
+      await api.createProject(project);
+      await loadProjects();
+    } catch (err: any) {
+      setError(err.message || 'Failed to add project');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateProject = async (id: number, project: Partial<Project>) => {
+    try {
+      setLoading(true);
+      setError(null);
+      await api.updateProject(id, project);
+      await loadProjects();
+    } catch (err: any) {
+      setError(err.message || 'Failed to update project');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteProject = async (id: number) => {
+    try {
+      setLoading(true);
+      setError(null);
+      await api.deleteProject(id);
+      await loadProjects();
+    } catch (err: any) {
+      setError(err.message || 'Failed to delete project');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadContactSubmissions = async () => {
+    try {
+      setLoading(true);
+      const data = await api.getContacts();
+      setContactSubmissions(Array.isArray(data) ? data : []);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load contacts');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const markContactRead = async (id: number) => {
+    try {
+      await api.markContactRead(id);
+      await loadContactSubmissions();
+    } catch (err: any) {
+      setError(err.message || 'Failed to mark contact as read');
+      throw err;
+    }
+  };
+
+  const deleteContact = async (id: number) => {
+    try {
+      await api.deleteContact(id);
+      await loadContactSubmissions();
+    } catch (err: any) {
+      setError(err.message || 'Failed to delete contact');
+      throw err;
+    }
+  };
+
+  const loadPricingRequests = async () => {
+    try {
+      setLoading(true);
+      const data = await api.getPricingRequests();
+      setPricingRequests(Array.isArray(data) ? data : []);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load pricing requests');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updatePricingStatus = async (id: number, status: PricingRequest['status']) => {
+    try {
+      await api.updatePricingStatus(id, status);
+      await loadPricingRequests();
+    } catch (err: any) {
+      setError(err.message || 'Failed to update pricing status');
+      throw err;
+    }
+  };
+
+  const deletePricingRequest = async (id: number) => {
+    try {
+      await api.deletePricingRequest(id);
+      await loadPricingRequests();
+    } catch (err: any) {
+      setError(err.message || 'Failed to delete pricing request');
+      throw err;
+    }
+  };
+
+  const loadSiteSettings = async () => {
+    try {
+      setLoading(true);
+      const data = await api.getSettings();
+      setSiteSettings(data || {});
+    } catch (err: any) {
+      setError(err.message || 'Failed to load settings');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateSiteSettings = async (settings: Partial<SiteSettings>) => {
+    try {
+      setLoading(true);
+      setError(null);
+      await api.updateSettings(settings);
+      await loadSiteSettings();
+    } catch (err: any) {
+      setError(err.message || 'Failed to update settings');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const value: AdminContextType = {
+    isAuthenticated,
+    login,
+    logout,
+    projects,
+    loadProjects,
+    addProject,
+    updateProject,
+    deleteProject,
+    contactSubmissions,
+    loadContactSubmissions,
+    markContactRead,
+    deleteContact,
+    pricingRequests,
+    loadPricingRequests,
+    updatePricingStatus,
+    deletePricingRequest,
+    siteSettings,
+    loadSiteSettings,
+    updateSiteSettings,
+    loading,
+    error,
+  };
+
+  return (
+    <AdminContext.Provider value={value}>
+      {children}
+    </AdminContext.Provider>
+  );
+}
+
+export function useAdmin() {
+  const context = useContext(AdminContext);
+  if (!context) {
+    throw new Error('useAdmin must be used within AdminProvider');
+  }
+  return context;
+}

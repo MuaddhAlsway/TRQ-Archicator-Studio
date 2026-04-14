@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { useLanguage } from '../context/LanguageContext';
 import './LoadingScreen.css';
 
 interface LoadingScreenProps {
   isLoading: boolean;
   onLoadingComplete?: () => void;
   useCurtainEffect?: boolean;
+  useBarLogo?: boolean;
 }
 
-export function LoadingScreen({ isLoading, onLoadingComplete, useCurtainEffect = false }: LoadingScreenProps) {
+export function LoadingScreen({ isLoading, onLoadingComplete, useCurtainEffect = false, useBarLogo = false }: LoadingScreenProps) {
+  const { language } = useLanguage();
   const overlayTopRef = useRef<HTMLDivElement>(null);
   const overlayBottomRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -20,18 +23,20 @@ export function LoadingScreen({ isLoading, onLoadingComplete, useCurtainEffect =
   useEffect(() => {
     if (!isLoading) return;
 
-    const duration = 2500; // Slightly shorter for better UX
+    // TIMING: 2.5s bar fill + 1.5s pause = 4s total (matches About component)
+    const barDuration = 2500; // 2.5 seconds for bar to fill
+    const pauseDuration = 1500; // 1.5 seconds pause after bar completes
     const startTime = Date.now();
 
     const animateLoading = () => {
       const elapsed = Date.now() - startTime;
-      const newProgress = Math.min((elapsed / duration) * 100, 100);
+      const newProgress = Math.min((elapsed / barDuration) * 100, 100);
       setLoadingProgress(newProgress);
 
       if (newProgress < 100) {
         requestAnimationFrame(animateLoading);
       } else {
-        // Small delay before animation starts
+        // Bar is complete - wait for pause duration before opening curtain
         setTimeout(() => {
           const tl = gsap.timeline({
             onComplete: () => {
@@ -40,24 +45,24 @@ export function LoadingScreen({ isLoading, onLoadingComplete, useCurtainEffect =
           });
 
           if (useCurtainEffect) {
-            // BLACK CURTAIN SPLIT EFFECT
-            // 1. Fade out the loading content (TRQ logo + loading text)
+            // BLACK CURTAIN SPLIT EFFECT (TOP TO BOTTOM)
+            // 1. Fade out the loading content (barlogo + loading text)
             tl.to(loadingContentRef.current, {
               opacity: 0,
               scale: 0.8,
               duration: 0.5
             });
 
-            // 2. Left curtain slides LEFT (off screen)
+            // 2. Top curtain slides UP (off screen)
             tl.to(curtainLeftRef.current, {
-              xPercent: -100,  // Moves 100% to the left
+              yPercent: -100,  // Moves 100% up
               duration: 1.2,
               ease: 'power4.inOut'
             }, '-=0.2');
 
-            // 3. Right curtain slides RIGHT (off screen) - at the same time
+            // 3. Bottom curtain slides DOWN (off screen) - at the same time
             tl.to(curtainRightRef.current, {
-              xPercent: 100,   // Moves 100% to the right
+              yPercent: 100,   // Moves 100% down
               duration: 1.2,
               ease: 'power4.inOut'
             }, '<');  // '<' means start at same time as previous
@@ -109,12 +114,12 @@ export function LoadingScreen({ isLoading, onLoadingComplete, useCurtainEffect =
               ease: 'power2.inOut'
             }, '+=0.6');
           }
-        }, 300); // Wait 300ms after bar completes
+        }, pauseDuration); // Wait for pause duration after bar completes
       }
     };
 
     requestAnimationFrame(animateLoading);
-  }, [isLoading, onLoadingComplete, useCurtainEffect]);
+  }, [isLoading, onLoadingComplete, useCurtainEffect, language]);
 
   if (!isLoading) return null;
 
@@ -127,10 +132,8 @@ export function LoadingScreen({ isLoading, onLoadingComplete, useCurtainEffect =
           <div className="hero-curtain left" ref={curtainLeftRef}></div>
           <div className="hero-curtain right" ref={curtainRightRef}></div>
           <div className="loading-content" ref={loadingContentRef}>
-            <div className="loading-logo">
-              {'TRQ'.split('').map((letter, index) => (
-                <span key={index} className="loading-letter">{letter}</span>
-              ))}
+            <div className="loading-logo" dir="ltr" style={{ direction: 'ltr' }}>
+              <img src="/barlogo.png" alt="TRQ Loading" className="loading-logo-img" />
             </div>
             <div className="loading-bar-wrapper">
               <div
@@ -138,7 +141,7 @@ export function LoadingScreen({ isLoading, onLoadingComplete, useCurtainEffect =
                 style={{ width: `${loadingProgress}%` }}
               />
             </div>
-            <div className="loading-text">Loading</div>
+            <div className="loading-text" dir="ltr" style={{ direction: 'ltr' }}>Loading</div>
           </div>
         </>
       ) : (
@@ -147,10 +150,8 @@ export function LoadingScreen({ isLoading, onLoadingComplete, useCurtainEffect =
           <div className="loading-overlay-top" ref={overlayTopRef}></div>
           <div className="loading-overlay-bottom" ref={overlayBottomRef}></div>
           <div className="loading-content" ref={loadingContentRef}>
-            <div className="loading-logo">
-              {'TRQ'.split('').map((letter, index) => (
-                <span key={index} className="loading-letter">{letter}</span>
-              ))}
+            <div className="loading-logo" dir="ltr" style={{ direction: 'ltr' }}>
+              <img src="/barlogo.png" alt="TRQ Loading" className="loading-logo-img" />
             </div>
             <div className="loading-bar-wrapper">
               <div
@@ -158,7 +159,7 @@ export function LoadingScreen({ isLoading, onLoadingComplete, useCurtainEffect =
                 style={{ width: `${loadingProgress}%` }}
               />
             </div>
-            <div className="loading-text">Loading</div>
+            <div className="loading-text" dir="ltr" style={{ direction: 'ltr' }}>Loading</div>
           </div>
         </>
       )}

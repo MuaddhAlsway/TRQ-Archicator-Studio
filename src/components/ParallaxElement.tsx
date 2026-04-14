@@ -19,7 +19,7 @@ interface ParallaxElementProps {
  * 
  * Usage:
  * <ParallaxElement speed={0.5} className="parallax">
- *   <img src="image.jpg" alt="parallax" />
+ *   <img src="image.jpg" alt="parallax"  loading="lazy" />
  * </ParallaxElement>
  */
 export function ParallaxElement({
