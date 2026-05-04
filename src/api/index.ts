@@ -649,6 +649,14 @@ export function getImageUrl(imagePath: string): string {
     return clean;
   }
 
+  // Project images from /TRQ STUDIO _ PROJECTS/ or other project folders
+  // Serve via API endpoint /api/images/
+  if (clean.includes('/') && !clean.startsWith('/api/')) {
+    // Encode the path for URL safety
+    const encodedPath = encodeURIComponent(clean.substring(1)); // Remove leading /
+    return `${API_URL}/images/${encodedPath}`;
+  }
+
   return clean;
 }
 
