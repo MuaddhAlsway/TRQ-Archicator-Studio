@@ -35,7 +35,9 @@ const corsOptions = {
     'http://localhost:5173',      // Vite dev
     'http://localhost:4242',      // Local backend
     'http://localhost:3000',      // Alternative local
-    'https://trq-studio.pages.dev' // Cloudflare Pages
+    'https://trq-studio.pages.dev', // Cloudflare Pages production
+    'https://d77c7f3d.trq-studio-7ie.pages.dev', // Cloudflare Pages preview
+    /\.trq-studio-7ie\.pages\.dev$/ // Allow all preview deployments
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

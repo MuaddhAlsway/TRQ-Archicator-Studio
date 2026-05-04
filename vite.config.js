@@ -8,16 +8,19 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: false,
     minify: 'esbuild',
-    // copyPublicDir defaults to true — public/ folder is copied to dist/
+    copyPublicDir: false, // Disable Vite's copy, use our script instead
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor': ['react', 'react-dom'],
-          'ui': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+          'vendor': ['react', 'react-dom', 'react-i18next', 'i18next'],
+          'ui': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-presence'],
+          'animations': ['gsap', 'react-scroll-parallax'],
+          'charts': ['recharts'],
+          'carousel': ['embla-carousel-react'],
         }
       }
     },
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 500
   },
   server: {
     proxy: {

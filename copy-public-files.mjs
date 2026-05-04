@@ -9,25 +9,42 @@ const __dirname = dirname(__filename);
 const publicDir = path.join(__dirname, 'public');
 const distDir = path.join(__dirname, 'dist');
 
-// Files/folders to exclude (large videos and unnecessary folders)
+// Files/folders to exclude (only exclude unnecessary folders)
+// Strategy: Copy all images and project folders, exclude only non-essential items
 const excludePatterns = [
-  'Full.mp4',
-  'CottonSkin',
+  '.DS_Store',
   'Graphik_Collection',
   'larsseit-sans-serif-font-family',
   'GretaTextArabicAR',
-  'videos/',
-  '.DS_Store'
+  'GretaArabicAR',
+  'NewsFontFamily',
+  'FontArabic',
+  'TRQ STUDIO _ PROJECTS' // Exclude the source folder, keep individual project folders
 ];
 
-// Small images to include (for testing)
-const includePatterns = [];
+// Files/folders to INCLUDE (whitelist - takes priority)
+const includePatterns = [
+  'LOGO.png',
+  'barlogo.png',
+  'SFMada-Bold.otf',
+  'SFMada-Regular.otf',
+  'SFMada-Regular2.otf',
+  'vite.svg',
+  '_redirects'
+];
 
 function shouldExclude(filePath) {
   const relativePath = path.relative(publicDir, filePath);
+  const fileName = path.basename(filePath);
   
-  // Check if should be included
-  if (includePatterns.some(pattern => relativePath.includes(pattern))) {
+  // Check if should be included (whitelist takes priority)
+  if (includePatterns.some(pattern => {
+    if (pattern.includes('*')) {
+      const regex = new RegExp('^' + pattern.replace(/\*/g, '.*') + '$');
+      return regex.test(fileName) || regex.test(relativePath);
+    }
+    return fileName === pattern || relativePath.includes(pattern);
+  })) {
     return false;
   }
   

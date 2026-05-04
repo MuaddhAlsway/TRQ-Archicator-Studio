@@ -624,6 +624,33 @@ async function handleRequest(request, env) {
       return json({ success: true });
     }
 
+    // ── IMAGE SERVING ──────────────────────────────────────────────────────
+    // Serve images from public folder (now in dist)
+    if (path.startsWith('/api/images/') && method === 'GET') {
+      try {
+        const imagePath = path.substring('/api/images/'.length);
+        
+        // Validate path to prevent directory traversal
+        if (imagePath.includes('..')) {
+          return json({ error: 'Invalid path' }, 400);
+        }
+        
+        // Redirect to Cloudflare Pages where images are now deployed
+        const imageUrl = `https://trqlatestversion.trq-studio-7ie.pages.dev/${imagePath}`;
+        
+        return new Response(null, {
+          status: 302,
+          headers: { 
+            'Location': imageUrl,
+            'Cache-Control': 'public, max-age=86400'
+          }
+        });
+      } catch (err) {
+        console.error('Image serving error:', err);
+        return json({ error: 'Error serving image' }, 500);
+      }
+    }
+
     // ── 404 ─────────────────────────────────────────────────────────────────
     return json({ error: 'Not found', path }, 404);
 
