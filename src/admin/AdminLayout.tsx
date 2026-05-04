@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { 
   LayoutDashboard, FolderOpen, MessageSquare, FileText, 
-  Settings, LogOut, Menu, X, ChevronRight, Layers, Image, BookOpen, User, Mail, Globe
+  Settings, LogOut, Menu, X, ChevronRight, Layers, Image, BookOpen, User, Mail, Globe, Users
 } from 'lucide-react';
 import { useAdmin } from './AdminContext';
 
-type AdminPage = 'dashboard' | 'projects' | 'contacts' | 'pricing' | 'services' | 'settings' | 'slides' | 'blog' | 'account' | 'newsletter' | 'slides-ar' | 'projects-ar' | 'services-ar' | 'blog-ar' | 'settings-ar' | 'about-videos' | 'about-videos-ar';
+type AdminPage = 'dashboard' | 'projects' | 'contacts' | 'pricing' | 'services' | 'settings' | 'slides' | 'blog' | 'account' | 'newsletter' | 'slides-ar' | 'projects-ar' | 'services-ar' | 'blog-ar' | 'settings-ar' | 'about-videos' | 'about-videos-ar' | 'clients';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -40,6 +40,7 @@ export function AdminLayout({ children, currentPage, onPageChange }: AdminLayout
     { id: 'settings-ar' as AdminPage, label: '🇸🇦 Site Settings (AR)', icon: Settings, section: 'Arabic' },
     
     // Other
+    { id: 'clients' as AdminPage, label: 'Client Logos', icon: Users },
     { id: 'contacts' as AdminPage, label: 'Contact Messages', icon: MessageSquare, badge: newContacts },
     { id: 'pricing' as AdminPage, label: 'Pricing Requests', icon: FileText, badge: newPricing },
     { id: 'newsletter' as AdminPage, label: 'Newsletter', icon: Mail },

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import * as Icons from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ClientsCarousel } from './ClientsCarousel';
 import * as api from '../api';
 import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
@@ -160,61 +161,36 @@ export function Services() {
       <section className="pb-24">
         <div className="max-w-7xl mx-auto px-4">
           {services && services.length > 0 ? (
-            services.map((service, index) => {
-              const Icon = getIconComponent(service?.icon || 'Briefcase');
-              
-              // Use Arabic content if available and in RTL mode, otherwise use English
-              const serviceTitle = isRTL && (service as any)?.title_ar 
-                ? (service as any).title_ar 
-                : service?.title || 'Service';
-              const serviceDescription = isRTL && (service as any)?.description_ar 
-                ? (service as any).description_ar 
-                : service?.description || '';
-              const serviceFeatures = isRTL && (service as any)?.features_ar 
-                ? (service as any).features_ar 
-                : service?.features || [];
-              const serviceImage = getImageUrl(service?.image || '');
-              
-              // Alternate layout: image left, text right (always)
-              const imageOnLeft = true;
-              
-              return (
-                <div key={service?.id || index} className={`mb-12 last:mb-0 py-12 lg:py-16`}>
-                  <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-7xl mx-auto px-4 lg:px-0 ${isRTL ? 'lg:grid-flow-dense' : ''}`}>
-                    {/* Image - Always on left in LTR, right in RTL */}
-                    <div className={`relative h-[400px] sm:h-[500px] overflow-hidden rounded-lg ${isRTL ? 'lg:order-2' : ''}`}>
-                      <ImageWithFallback 
-                        src={serviceImage} 
-                        alt={serviceTitle} 
-                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
-                      />
-                    </div>
-                    
-                    {/* Text Content - Always on right in LTR, left in RTL */}
-                    <div className={`${isRTL ? 'lg:order-1 text-right' : 'text-left'}`}>
-                      <div className={`w-16 h-16 bg-black flex items-center justify-center mb-6 ${isRTL ? 'ml-auto' : ''}`}>
-                        <Icon className="text-white" size={32} />
-                      </div>
-                      <h3 className="text-3xl md:text-4xl mb-4 tracking-wide">{serviceTitle}</h3>
-                      <p className="text-lg text-black/70 mb-8">{serviceDescription}</p>
-                      {(() => {
-                        const features = parseFeatures(serviceFeatures);
-                        return features && features.length > 0 && (
-                          <div className="space-y-3">
-                            {features.map((feature, idx) => (
-                              <div key={idx} className={`flex items-start gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                                <div className="w-1.5 h-1.5 bg-black rounded-full mt-2.5 flex-shrink-0" />
-                                <p className="text-black/70">{feature}</p>
-                              </div>
-                            ))}
-                          </div>
-                        );
-                      })()}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {services.map((service, index) => {
+                // Use Arabic content if available and in RTL mode, otherwise use English
+                const serviceTitle = isRTL && (service as any)?.title_ar 
+                  ? (service as any).title_ar 
+                  : service?.title || 'Service';
+                const serviceDescription = isRTL && (service as any)?.description_ar 
+                  ? (service as any).description_ar 
+                  : service?.description || '';
+                const serviceImage = getImageUrl(service?.image || '');
+                
+                return (
+                  <div key={service?.id || index} className={`flex flex-col border border-black/15 rounded overflow-hidden ${isRTL ? 'md:grid-flow-dense' : ''}`}>
+                    <ImageWithFallback 
+                      src={serviceImage} 
+                      alt={serviceTitle} 
+                      className="w-full h-[300px] object-cover" 
+                    />
+                    <div className={`flex flex-col gap-4 p-8 ${isRTL ? 'text-right' : ''}`}>
+                      <h3 className="text-2xl tracking-tight">
+                        {serviceTitle}
+                      </h3>
+                      <p className="text-base text-black/70 leading-relaxed">
+                        {serviceDescription}
+                      </p>
                     </div>
                   </div>
-                </div>
-              );
-            })
+                );
+              })}
+            </div>
           ) : (
             <div className="text-center py-12">
               <p className="text-lg text-black/60">Loading services...</p>
@@ -242,6 +218,11 @@ export function Services() {
           </div>
         </div>
       </section>
+
+      {/* Clients Carousel */}
+      <ClientsCarousel />
+
+      {/* CTA Section */}
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-5xl mb-6 tracking-wide">{getContentFromSettings(language, settings, 'servicesCtaTitle')}</h2>

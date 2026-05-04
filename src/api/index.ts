@@ -624,19 +624,29 @@ export function getImageUrl(imagePath: string): string {
     return `${API_URL.replace('/api', '')}${imagePath}`;
   }
 
-  // Already an absolute URL — use as-is (could be external CDN or local server)
+  // Already an absolute URL pointing to API — convert to local path
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-    // For API URLs, try to use them directly first
-    // If they fail, the ImageWithFallback component will show error
-    return imagePath;
+    // Extract the path from the URL
+    try {
+      const url = new URL(imagePath);
+      const pathname = url.pathname;
+      // If it's an uploads path, serve from public folder
+      if (pathname.includes('/uploads/')) {
+        // Return just the /uploads/... part
+        const uploadsIndex = pathname.indexOf('/uploads/');
+        return pathname.substring(uploadsIndex);
+      }
+      // Otherwise return as-is
+      return imagePath;
+    } catch {
+      return imagePath;
+    }
   }
 
-  // Root-relative /uploads/ path — serve from the API server (not the Pages host)
-  // because these files only exist on the Express/Worker backend
+  // Root-relative /uploads/ path — serve from public folder
   const clean = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
   if (clean.startsWith('/uploads/')) {
-    const base = API_URL.replace(/\/api$/, '');
-    return `${base}${clean}`;
+    return clean;
   }
 
   return clean;

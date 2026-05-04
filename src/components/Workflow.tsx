@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import * as Icons from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ClientsCarousel } from './ClientsCarousel';
 import * as api from '../api';
 import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
@@ -194,7 +195,7 @@ export function Workflow() {
                     <p className="text-xl text-black/60 mb-8">{step.description}</p>
                     <div className="space-y-4">
                       {step.details.map((detail: string, idx: number) => (
-                        <div key={idx} className={`flex items-start gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div key={idx} className="flex items-start gap-4" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
                           <div className="w-2 h-2 bg-black rounded-full mt-2.5 flex-shrink-0" />
                           <p className="text-black/70">{detail}</p>
                         </div>
@@ -216,6 +217,9 @@ export function Workflow() {
           <p className="text-lg text-white/70">{getContentFromSettings(language, settings, 'workflowTimelineParagraph2')}</p>
         </div>
       </section>
+
+      {/* Clients Carousel */}
+      <ClientsCarousel />
 
       {/* CTA Section */}
       <section className="py-24 bg-neutral-50">

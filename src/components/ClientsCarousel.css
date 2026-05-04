@@ -1,0 +1,68 @@
+.clients-carousel-wrapper {
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  user-select: none;
+}
+
+.clients-carousel-track {
+  width: max-content;
+  will-change: transform;
+  display: flex;
+  gap: 3rem;
+}
+
+/* LTR: scroll right to left (continuous) - FASTER */
+.animate-scroll-ltr {
+  animation: scroll-ltr-infinite var(--scroll-speed, 25s) linear infinite;
+}
+
+/* RTL: scroll left to right (continuous) - FASTER */
+.animate-scroll-rtl {
+  animation: scroll-rtl-infinite var(--scroll-speed, 25s) linear infinite;
+}
+
+/* When dragging - no animation, no transition */
+.clients-carousel-track.dragging {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Pause on hover (when not dragging) */
+.clients-carousel-wrapper:hover .clients-carousel-track:not(.dragging) {
+  animation-play-state: paused;
+}
+
+/* Infinite scroll LTR - moves continuously without stopping */
+@keyframes scroll-ltr-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% / 12));
+  }
+}
+
+/* Infinite scroll RTL - moves continuously without stopping */
+@keyframes scroll-rtl-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(100% / 12));
+  }
+}
+

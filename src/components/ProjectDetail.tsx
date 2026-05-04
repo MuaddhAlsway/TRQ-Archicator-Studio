@@ -100,7 +100,8 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
 
   const projectData = {
     ...project,
-    title: language === 'ar' && project.title_ar ? project.title_ar : project.title,
+    // ALWAYS keep English title - never replace with Arabic
+    title: project.title,
     category: language === 'ar' && project.category_ar ? project.category_ar : project.category,
     subcategory: language === 'ar' && project.subcategory_ar ? project.subcategory_ar : project.subcategory,
     description: language === 'ar' && project.description_ar ? project.description_ar : project.description,

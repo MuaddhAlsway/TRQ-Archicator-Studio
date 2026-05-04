@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import * as Icons from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ClientsCarousel } from './ClientsCarousel';
 import * as api from '../api';
 import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
@@ -28,14 +29,8 @@ export function Contact() {
     contactFormDescription: 'Fill out the form below and our team will get back to you within 24 hours.',
     contactFormSubjects: 'residential|Residential Project|commercial|Commercial Project|booth|Exhibition Booth|concept|Concept Design|furniture|Custom Design|general|General Inquiry',
     contactQuickTitle: 'Quick Contact',
-    contactQuick1Icon: 'MessageCircle', contactQuick1Title: 'WhatsApp', contactQuick1Description: 'Fastest way to reach us', contactQuick1ButtonText: 'CHAT ON WHATSAPP', contactQuick1Link: 'https://wa.me/966XXXXXXXXX', contactQuick1Color: 'green',
-    contactQuick2Icon: 'Mail', contactQuick2Title: 'Email', contactQuick2Description: 'For detailed inquiries', contactQuick2ButtonText: 'SEND EMAIL', contactQuick2Link: 'mailto:info@trq.design?subject=Inquiry%20from%20TRQ%20Website&body=Hello%20TRQ%20Design%20Team%2C%0A%0AI%20am%20interested%20in%20your%20interior%20design%20services.%0A%0APlease%20contact%20me%20to%20discuss%20my%20project.%0A%0AThank%20you.', contactQuick2Color: 'black',
-    contactOfficeHoursDay1: 'Monday - Thursday', contactOfficeHoursTime1: '9:00 AM - 6:00 PM',
-    contactOfficeHoursDay2: 'Friday', contactOfficeHoursTime2: 'Closed',
-    contactOfficeHoursDay3: 'Saturday', contactOfficeHoursTime3: '10:00 AM - 4:00 PM',
-    contactOfficeHoursDay4: 'Sunday', contactOfficeHoursTime4: '9:00 AM - 6:00 PM',
-    contactStudioShow: 'false', contactStudioTitle: 'Visit Our Studio', contactStudioDescription: 'Schedule an appointment to visit our design studio.', contactStudioButtonText: 'SCHEDULE A VISIT',
-    contactMapShow: 'false', contactMapTitle: 'Find Us', contactMapAddress: 'TRQ Design Studio, King Fahd Road, Riyadh & Jeddah', contactMapImage: '', contactMapLink: 'https://maps.google.com/?q=Riyadh+Jeddah,Saudi+Arabia',
+    contactQuick1Icon: 'MessageCircle', contactQuick1Title: 'WhatsApp', contactQuick1Description: 'Fastest way to reach us', contactQuick1ButtonText: 'CONTACT NOW', contactQuick1Link: 'https://wa.me/966XXXXXXXXX', contactQuick1Color: 'green',
+    contactQuick2Icon: 'Mail', contactQuick2Title: 'Email', contactQuick2Description: 'For detailed inquiries', contactQuick2ButtonText: 'CONTAC NOW', contactQuick2Link: 'mailto:info@trq.design?subject=Inquiry%20from%20TRQ%20Website&body=Hello%20TRQ%20Design%20Team%2C%0A%0AI%20am%20interested%20in%20your%20interior%20design%20services.%0A%0APlease%20contact%20me%20to%20discuss%20my%20project.%0A%0AThank%20you.', contactQuick2Color: 'black',
   });
 
   const [allSettings, setAllSettings] = useState<any>(null);
@@ -71,7 +66,7 @@ export function Contact() {
     setSettings(newSettings);
   }, [language, allSettings]);
 
-  // Translate dynamic content from database (contact info details, office hours)
+  // Translate dynamic content from database (contact info details)
   useEffect(() => {
     if (language === 'ar') {
       const dynamicTexts: string[] = [];
@@ -80,11 +75,9 @@ export function Contact() {
         dynamicTexts.push((settings as any)[`contactInfo${i}Detail1`]);
         dynamicTexts.push((settings as any)[`contactInfo${i}Detail2`]);
         dynamicTexts.push((settings as any)[`contactInfo${i}Detail3`]);
-        dynamicTexts.push((settings as any)[`contactOfficeHoursDay${i}`]);
       }
       dynamicTexts.push(settings.contactQuick1Title, settings.contactQuick1Description);
       dynamicTexts.push(settings.contactQuick2Title, settings.contactQuick2Description);
-      dynamicTexts.push(settings.contactStudioDescription, settings.contactMapAddress);
       translateBatch(dynamicTexts.filter(Boolean));
     }
   }, [language, settings]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -112,8 +105,6 @@ export function Contact() {
       details: [(settings as any)[`contactInfo${num}Detail1`], (settings as any)[`contactInfo${num}Detail2`], (settings as any)[`contactInfo${num}Detail3`]].filter((d: string) => d && d.trim()),
     }));
 
-  const officeHours = [1, 2, 3, 4].map((num) => ({ day: (settings as any)[`contactOfficeHoursDay${num}`], time: (settings as any)[`contactOfficeHoursTime${num}`] })).filter((item) => item.day && item.time);
-
   return (
     <div className={`w-full ${isRTL ? 'rtl' : 'ltr'}`}>
       <section className="relative h-[50vh] sm:h-[60vh] flex items-center justify-center overflow-hidden">
@@ -139,8 +130,36 @@ export function Contact() {
           })}
         </div>
 
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 ${isRTL ? 'lg:grid-flow-dense' : ''}`}>
-          <div className={isRTL ? 'lg:order-2' : ''}>
+        <div className="mb-12 sm:mb-16 md:mb-24 max-w-5xl mx-auto">
+          <h2 className={`text-2xl sm:text-3xl md:text-4xl mb-6 sm:mb-8 tracking-wide text-center ${isRTL ? 'text-right' : ''}`}>{ts('contact.quickContact')}</h2>
+          <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 ${isRTL ? 'direction-rtl' : ''}`}>
+            {[1, 2].map((num) => {
+              const title = (settings as any)[`contactQuick${num}Title`];
+              const description = (settings as any)[`contactQuick${num}Description`];
+              const link = (settings as any)[`contactQuick${num}Link`];
+              const color = (settings as any)[`contactQuick${num}Color`];
+              const iconName = (settings as any)[`contactQuick${num}Icon`];
+              if (!title || !link) return null;
+              const Icon = getIconComponent(iconName);
+              const isGreen = color === 'green';
+              return (
+                <div key={num} className={`border p-4 sm:p-6 ${isGreen ? 'bg-green-50 border-green-200' : 'bg-neutral-50 border-black/10'}`}>
+                  <div className={`flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0 ${isGreen ? 'bg-green-500' : 'bg-black'}`}><Icon className="text-white" size={20} /></div>
+                    <div className={isRTL ? 'text-right' : ''}>
+                      <h3 className="text-lg sm:text-xl tracking-wide">{td(title)}</h3>
+                      {description && <p className="text-xs sm:text-sm text-black/60">{td(description)}</p>}
+                    </div>
+                  </div>
+                  <a href={link} target={link.startsWith('http') ? '_blank' : undefined} rel={link.startsWith('http') ? 'noopener noreferrer' : undefined} className={`block w-full px-4 sm:px-6 py-2 sm:py-3 text-center transition-colors tracking-wider text-sm sm:text-base ${isGreen ? 'bg-green-500 text-white hover:bg-green-600' : 'border-2 border-black text-black hover:bg-black hover:text-white'}`}>{isGreen ? ts('common.chatOnWhatsapp') : ts('common.sendEmail')}</a>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className={`grid grid-cols-1 gap-8 sm:gap-12 md:gap-16 max-w-5xl mx-auto`}>
+          <div>
             <div className="bg-white border-2 border-black/10 p-6 sm:p-8">
               <h2 className={`text-2xl sm:text-3xl md:text-4xl mb-4 sm:mb-6 tracking-wide ${isRTL ? 'text-right' : ''}`}>{ts('contact.formTitle')}</h2>
               <p className={`text-sm sm:text-base text-black/70 mb-6 sm:mb-8 ${isRTL ? 'text-right' : ''}`}>{ts('contact.formSubtitle')}</p>
@@ -189,74 +208,22 @@ export function Contact() {
               )}
             </div>
           </div>
-
-          <div className={`space-y-6 sm:space-y-8 ${isRTL ? 'lg:order-1' : ''}`}>
-            <div>
-              <h2 className={`text-2xl sm:text-3xl md:text-4xl mb-4 sm:mb-6 tracking-wide ${isRTL ? 'text-right' : ''}`}>{ts('contact.quickContact')}</h2>
-              <div className="space-y-3 sm:space-y-4">
-                {[1, 2].map((num) => {
-                  const title = (settings as any)[`contactQuick${num}Title`];
-                  const description = (settings as any)[`contactQuick${num}Description`];
-                  const link = (settings as any)[`contactQuick${num}Link`];
-                  const color = (settings as any)[`contactQuick${num}Color`];
-                  const iconName = (settings as any)[`contactQuick${num}Icon`];
-                  if (!title || !link) return null;
-                  const Icon = getIconComponent(iconName);
-                  const isGreen = color === 'green';
-                  return (
-                    <div key={num} className={`border p-4 sm:p-6 ${isGreen ? 'bg-green-50 border-green-200' : 'bg-neutral-50 border-black/10'}`}>
-                      <div className={`flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                        <div className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center ${isGreen ? 'bg-green-500' : 'bg-black'}`}><Icon className="text-white" size={20} /></div>
-                        <div className={isRTL ? 'text-right' : ''}>
-                          <h3 className="text-lg sm:text-xl tracking-wide">{td(title)}</h3>
-                          {description && <p className="text-xs sm:text-sm text-black/60">{td(description)}</p>}
-                        </div>
-                      </div>
-                      <a href={link} target={link.startsWith('http') ? '_blank' : undefined} rel={link.startsWith('http') ? 'noopener noreferrer' : undefined} className={`block w-full px-4 sm:px-6 py-2 sm:py-3 text-center transition-colors tracking-wider text-sm sm:text-base ${isGreen ? 'bg-green-500 text-white hover:bg-green-600' : 'border-2 border-black text-black hover:bg-black hover:text-white'}`}>{isGreen ? ts('common.chatOnWhatsapp') : ts('common.sendEmail')}</a>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="bg-black text-white p-6 sm:p-8">
-              <div className={`flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6 ${isRTL ? 'flex-row-reverse' : ''}`}><Icons.Clock size={24} /><h3 className="text-xl sm:text-2xl tracking-wide">{ts('contact.officeHours')}</h3></div>
-              <div className="space-y-2 sm:space-y-3">
-                {officeHours.map((item, index) => (<div key={index} className={`flex justify-between text-sm sm:text-base ${isRTL ? 'flex-row-reverse' : ''}`}><span className="text-white/60">{td(item.day)}</span><span>{item.time}</span></div>))}
-              </div>
-            </div>
-            {getContentFromSettings(language, settings, 'contactStudioShow') === 'true' && (
-              <div>
-                <h3 className={`text-xl sm:text-2xl mb-3 sm:mb-4 tracking-wide ${isRTL ? 'text-right' : ''}`}>{ts('contact.visitStudio')}</h3>
-                <p className={`text-sm sm:text-base text-black/70 mb-3 sm:mb-4 ${isRTL ? 'text-right' : ''}`}>{ts('contact.visitStudioText')}</p>
-                <button className={`px-4 sm:px-6 py-2 sm:py-3 border-2 border-black text-black hover:bg-black hover:text-white transition-colors tracking-wider text-sm sm:text-base ${isRTL ? 'float-right' : ''}`}>{ts('contact.scheduleVisit')}</button>
-                <div className="clear-both"></div>
-              </div>
-            )}
-          </div>
         </div>
       </section>
 
-      {getContentFromSettings(language, settings, 'contactMapShow') === 'true' && (
-        <section className="py-12 sm:py-16 md:py-24 bg-neutral-50">
-          <div className="max-w-7xl mx-auto px-4">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl mb-6 sm:mb-8 text-center tracking-wide">{ts('contact.findUs')}</h2>
-            <a href={getContentFromSettings(language, settings, 'contactMapLink')} target="_blank" rel="noopener noreferrer" className="block h-64 sm:h-80 md:h-96 bg-neutral-200 overflow-hidden cursor-pointer group relative">
-              {getContentFromSettings(language, settings, 'contactMapImage') ? (
-                <>
-                  <img src={getImageUrl(getContentFromSettings(language, settings, 'contactMapImage'))} alt={getContentFromSettings(language, settings, 'contactMapAddress')} loading="lazy" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white px-4 sm:px-6 py-2 sm:py-3 flex items-center gap-2 text-sm sm:text-base"><Icons.ExternalLink size={18} /><span className="tracking-wider">{ts('contact.openInMaps')}</span></div>
-                  </div>
-                </>
-              ) : (
-                <div className="h-full flex items-center justify-center group-hover:bg-neutral-300 transition-colors">
-                  <div className="text-center text-black/40 px-4"><Icons.MapPin size={36} className="mx-auto mb-3 sm:mb-4" /><p className="text-base sm:text-lg">{ts('contact.openInMaps')}</p><p className="text-xs sm:text-sm">{td(getContentFromSettings(language, settings, 'contactMapAddress'))}</p></div>
-                </div>
-              )}
-            </a>
+      {/* Clients Carousel */}
+      <ClientsCarousel />
+
+      <section className="py-12 sm:py-16 md:py-24">
+        <div className="max-w-4xl mx-auto px-4 text-center" dir={isRTL ? 'rtl' : 'ltr'}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl mb-4 sm:mb-6 tracking-wide">{ts('contact.ctaTitle')}</h2>
+          <p className="text-base sm:text-lg text-black/60 mb-8 sm:mb-12 max-w-2xl mx-auto">{ts('contact.ctaDescription')}</p>
+          <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+            <a href="#pricing" className="px-6 sm:px-8 py-3 sm:py-4 bg-[rgb(174,3,1)] text-white hover:bg-[rgb(174,3,1)]/80 transition-colors tracking-wider inline-block text-sm sm:text-base">{ts('common.requestPricing')}</a>
+            <a href="#home" className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-black text-black hover:bg-black hover:text-white transition-colors tracking-wider inline-block text-sm sm:text-base">{ts('common.backToHome')}</a>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import { HeroSlider } from './HeroSlider';
 import { useLanguage } from '../context/LanguageContext';
 import { ParallaxContainer } from './ParallaxContainer';
 import { getContentFromSettings } from '../utils/contentHelper';
+import { ClientsCarousel } from './ClientsCarousel';
 import { gsap } from 'gsap';
 
 interface Project {
@@ -305,12 +306,13 @@ export function Home({ onNavigate }: HomeProps) {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                     <div className={`absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white ${isRTL ? 'text-right' : ''}`}>
-                      {/* Dynamic content from database - use Arabic if available */}
+                      {/* Category in Arabic when in Arabic mode */}
                       <p className="text-xs sm:text-sm tracking-widest opacity-80 mb-1 sm:mb-2">
                         {language === 'ar' && project.category_ar ? project.category_ar : project.category}
                       </p>
-                      <h3 className="text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-4 tracking-wide">
-                        {language === 'ar' && project.title_ar ? project.title_ar : project.title}
+                      {/* Project title always in English */}
+                      <h3 className="text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-4 tracking-wide text-left">
+                        {project.title}
                       </h3>
                       {/* Static UI text */}
                       <span className={`inline-flex items-center gap-2 text-xs sm:text-sm tracking-wider group-hover:gap-4 transition-all ${isRTL ? 'flex-row-reverse' : ''}`}>
@@ -368,8 +370,11 @@ export function Home({ onNavigate }: HomeProps) {
         </div>
       </section>
 
-      {/* CTA Section - All static text */}
-      <section className="py-12 sm:py-16 md:py-24">
+      {/* Clients Carousel */}
+      <ClientsCarousel />
+
+      {/* CTA Section - Ready to Transform Your Space? */}
+      <section className="py-12 sm:py-16 md:py-24 bg-neutral-50">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl mb-4 sm:mb-6 tracking-wide">
             {getContentFromSettings(language, settings, 'homeCtaTitle')}
@@ -377,10 +382,10 @@ export function Home({ onNavigate }: HomeProps) {
           <p className="text-base sm:text-lg text-black/60 mb-8 sm:mb-12 max-w-2xl mx-auto">
             {getContentFromSettings(language, settings, 'homeCtaDescription')}
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+          <div className={`flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center ${isRTL ? 'flex-row-reverse' : ''}`}>
             <button
               onClick={() => onNavigate(settings.homeCtaButton1Page as any)}
-              className="px-6 sm:px-8 py-3 sm:py-4 bg-[rgb(174,3,1)] text-white hover:bg-[rgb(174,3,1)]/80 transition-colors tracking-wider text-sm sm:text-base"
+              className="px-6 sm:px-8 py-3 sm:py-4 bg-black text-white hover:bg-black/80 transition-colors tracking-wider text-sm sm:text-base"
             >
               {getContentFromSettings(language, settings, 'homeCtaButton1Text')}
             </button>
@@ -393,6 +398,7 @@ export function Home({ onNavigate }: HomeProps) {
           </div>
         </div>
       </section>
+
     </div>
   );
 }

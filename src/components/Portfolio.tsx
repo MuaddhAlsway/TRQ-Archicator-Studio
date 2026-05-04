@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { ProjectDetail } from './ProjectDetail';
+import { ClientsCarousel } from './ClientsCarousel';
 import * as api from '../api';
 import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
@@ -123,7 +124,8 @@ export function Portfolio() {
     if (language === 'ar') {
       return {
         ...project,
-        title: project.title_ar || project.title,
+        // ALWAYS keep English title - never replace with Arabic
+        title: project.title,
         category: project.category_ar || project.category,
         subcategory: project.subcategory_ar || project.subcategory,
         description: project.description_ar || project.description,
@@ -372,7 +374,7 @@ export function Portfolio() {
                   <div className="p-4 sm:p-6 border-t border-black/5">
                     <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
                       <div>
-                        <h3 className="text-base sm:text-lg md:text-xl mb-1 tracking-wide">{td(displayProject.title)}</h3>
+                        <h3 className="text-base sm:text-lg md:text-xl mb-1 tracking-wide">{project.title}</h3>
                         <p className="text-xs sm:text-sm text-black/60">{td(displayProject.subcategory)}</p>
                       </div>
                       <span className="text-xs sm:text-sm text-black/40">{project.year}</span>
@@ -388,6 +390,9 @@ export function Portfolio() {
         )}
         
       </section>
+
+      {/* Clients Carousel */}
+      <ClientsCarousel />
 
       <section className="py-12 sm:py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-4 text-center">

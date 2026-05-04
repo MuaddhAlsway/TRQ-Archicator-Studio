@@ -44,7 +44,7 @@ export function AboutVideoHero({ onNavigate }: AboutVideoHeroProps) {
 
   // Recalculate slide content when language changes
   const slide = useMemo(() => ({
-    title: language === 'ar' && video?.title_ar ? video.title_ar : video?.title || 'About TRQ Studio',
+    title: language === 'ar' && video?.title_ar ? video.title_ar : video?.title || 'TRQ Studio',
     description: language === 'ar' && video?.description_ar ? video.description_ar : video?.description || 'We are a luxury interior design studio dedicated to creating timeless, sophisticated spaces that reflect our clients\' refined taste and elevated lifestyle.',
     buttonPrimaryText: language === 'ar' ? 'عرض المشاريع' : 'VIEW PORTFOLIO',
     buttonPrimaryLink: 'portfolio',
@@ -75,11 +75,8 @@ export function AboutVideoHero({ onNavigate }: AboutVideoHeroProps) {
 
       {/* Content - Left Side */}
       <div className={`relative z-20 text-white px-4 sm:px-6 md:px-8 lg:px-12 max-w-2xl ${isRTL ? 'text-right' : 'text-left'}`}>
-        <p className="text-xs sm:text-sm tracking-widest opacity-90 mb-3 sm:mb-4">
-          {language === 'ar' ? 'عن TRQ' : 'ABOUT TRQ'}
-        </p>
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-wider mb-3 sm:mb-4 text-white">
-          {slide.title}
+          TRQ Studio
         </h1>
         <p className="text-sm sm:text-base md:text-lg opacity-90 mb-6 sm:mb-8 max-w-xl text-white">
           {slide.description}

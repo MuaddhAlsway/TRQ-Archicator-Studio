@@ -20,8 +20,9 @@ import { AdminArabicServices } from './AdminArabicServices';
 import { AdminArabicBlog } from './AdminArabicBlog';
 import { AdminSettingsArabic } from './AdminSettingsArabic';
 import { AdminArabicPanel } from './AdminArabicPanel';
+import { AdminClients } from './AdminClients';
 
-type AdminPage = 'dashboard' | 'projects' | 'contacts' | 'pricing' | 'services' | 'settings' | 'slides' | 'blog' | 'account' | 'newsletter' | 'slides-ar' | 'projects-ar' | 'services-ar' | 'blog-ar' | 'settings-ar' | 'arabic-panel' | 'about-videos' | 'about-videos-ar';
+type AdminPage = 'dashboard' | 'projects' | 'contacts' | 'pricing' | 'services' | 'settings' | 'slides' | 'blog' | 'account' | 'newsletter' | 'slides-ar' | 'projects-ar' | 'services-ar' | 'blog-ar' | 'settings-ar' | 'arabic-panel' | 'about-videos' | 'about-videos-ar' | 'clients';
 
 function AdminContent() {
   const { user, loading } = useAdmin();
@@ -71,6 +72,8 @@ function AdminContent() {
         return <AdminSettings />;
       case 'account':
         return <AdminAccount />;
+      case 'clients':
+        return <AdminClients />;
       // Arabic Pages
       case 'slides-ar':
         return <AdminArabicSlides />;

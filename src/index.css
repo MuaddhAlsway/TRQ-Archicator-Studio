@@ -241,6 +241,20 @@ body.loading-active {
   font-style: normal;
 }
 
+/* ============ SF Mada Font Family - Primary Font (English & Arabic) ============ */
+@font-face {
+  font-family: 'SFMada';
+  src: url('/SFMada-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SFMada';
+  src: url('/SFMada-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
 /* ============ CSS VARIABLES ============ */
 
 @layer base {
@@ -267,12 +281,12 @@ body.loading-active {
     --radius: 0.5rem;
     
     /* Font families */
-    --font-primary: 'ModernMT', Georgia, serif;
-    --font-heading: 'ModernMT', Georgia, serif;
-    --font-body: 'Larsseit', 'Graphik', sans-serif;
-    --font-blog: 'ModernMT', Georgia, serif;
-    --font-arabic: 'GretaTextArabic', 'GretaArabic', sans-serif;
-    --font-arabic-heading: 'GretaArabic', 'GretaTextArabic', sans-serif;
+    --font-primary: 'SFMada', sans-serif;
+    --font-heading: 'SFMada', sans-serif;
+    --font-body: 'SFMada', sans-serif;
+    --font-blog: 'SFMada', sans-serif;
+    --font-arabic: 'SFMada', sans-serif;
+    --font-arabic-heading: 'SFMada', sans-serif;
   }
 
   .dark {

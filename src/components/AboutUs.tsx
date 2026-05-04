@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { AboutVideoHero } from './AboutVideoHero';
+import { ClientsCarousel } from './ClientsCarousel';
 import * as api from '../api';
 import { getImageUrl } from '../api';
 import { useLanguage } from '../context/LanguageContext';
@@ -21,12 +22,13 @@ export function AboutUs() {
   const heroRef = useRef<HTMLDivElement>(null);
   const visionMissionRef = useRef<HTMLDivElement>(null);
   const videosRef = useRef<HTMLDivElement>(null);
+  const quotesRef = useRef<HTMLDivElement>(null);
   const approachRef = useRef<HTMLDivElement>(null);
   const expertiseRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const [videos, setVideos] = useState<any[]>([]);
   const [settings, setSettings] = useState({
-    aboutHeroTitle: 'About TRQ Studio',
+    aboutHeroTitle: 'TRQ Studio',
     aboutHeroDescription: 'We are a luxury interior design studio dedicated to creating timeless, sophisticated spaces that reflect our clients\' refined taste and elevated lifestyle.',
     aboutHeroImage: '/uploads/14.webp',
     aboutVisionTitle: 'Our Vision',
@@ -69,6 +71,14 @@ export function AboutUs() {
     aboutCtaTitle: 'Ready to Transform Your Space?',
     aboutCtaDescription: 'Let\'s collaborate to create a space that reflects your vision and exceeds your expectations.',
     aboutCtaButton: 'Start Your Project',
+    aboutQuote1: 'Architecture is a visual art, and the buildings speak for themselves.',
+    aboutQuote1Author: 'Julia Morgan',
+    aboutQuote2: 'Interior design is about creating a space that reflects the person living in it.',
+    aboutQuote2Author: 'Kelly Wearstler',
+    aboutQuote3: 'The space within becomes the reality of the building.',
+    aboutQuote3Author: 'Frank Lloyd Wright',
+    aboutQuote4: 'Design is not just what it looks like. Design is how it works.',
+    aboutQuote4Author: 'Steve Jobs',
   });
 
   const [allSettings, setAllSettings] = useState<any>(null);
@@ -114,7 +124,7 @@ export function AboutUs() {
 
   // Scroll animations
   useEffect(() => {
-    const sections = [heroRef, visionMissionRef, videosRef, approachRef, expertiseRef, ctaRef];
+    const sections = [heroRef, visionMissionRef, videosRef, quotesRef, approachRef, expertiseRef, ctaRef];
     
     sections.forEach((sectionRef) => {
       if (!sectionRef.current) return;
@@ -155,6 +165,22 @@ export function AboutUs() {
       {/* Video Hero Section */}
       <AboutVideoHero />
       
+      {/* Quotes Section */}
+      <section ref={quotesRef} className="py-24 px-4 md:px-12 bg-black">
+        <div className="max-w-7xl mx-auto flex justify-center">
+          <div className="flex flex-col gap-6 p-12 text-center w-full max-w-3xl" dir={isRTL ? 'rtl' : 'ltr'}>
+            <div className="flex flex-col items-center gap-1 text-2xl text-white leading-relaxed italic">
+              <span className="block">"Architecture is a visual art,</span>
+              <span className="block w-full">and the buildings speak for themselves.</span>
+              <span className="block max-w-xs">Always and forever."</span>
+            </div>
+            <p className="text-base text-white/60 font-medium">
+              — {getContentFromSettings(language, settings, 'aboutQuote1Author')}
+            </p>
+          </div>
+        </div>
+      </section>
+      
       {/* Vision & Mission Section */}
       <section ref={visionMissionRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
         <div className="max-w-7xl mx-auto">
@@ -180,8 +206,8 @@ export function AboutUs() {
       </section>
       
       {/* Hero Image Section */}
-      <section ref={heroRef} className="pt-24 pb-24 px-4 md:px-12">
-        <div className="flex flex-col gap-16 max-w-7xl mx-auto">
+      <section ref={heroRef} className="pt-24 pb-24 px-0 md:px-0">
+        <div className="flex flex-col gap-16 w-full">
           <div className="w-full h-[600px]">
             <ImageWithFallback
               src={getImageUrl(getContentFromSettings(language, settings, 'aboutHeroImage'))}
@@ -224,27 +250,27 @@ export function AboutUs() {
       </section>
 
       {/* Expertise Section */}
-      <section ref={expertiseRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">
+      <section ref={expertiseRef} className="pt-24 pb-24 px-4 md:px-12 bg-black">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col gap-16">
             <div className="flex flex-col gap-4">
-              <h2 className="text-3xl tracking-tight font-light">
+              <h2 className="text-3xl tracking-tight font-light text-white">
                 {getContentFromSettings(language, settings, 'aboutExpertiseTitle')}
               </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[1, 2, 3, 4].map((num) => (
-                <div key={num} className={`flex flex-col border border-black/15 rounded overflow-hidden ${isRTL ? 'md:grid-flow-dense' : ''}`}>
+                <div key={num} className={`flex flex-col border border-white/15 rounded overflow-hidden ${isRTL ? 'md:grid-flow-dense' : ''}`}>
                   <ImageWithFallback
                     src={getImageUrl((settings as any)[`aboutExpertise${num}Image`])}
                     alt={(settings as any)[`aboutExpertise${num}Title`]}
                     className="w-full h-[300px] object-cover"
                   />
-                  <div className={`flex flex-col gap-4 p-8 ${isRTL ? 'text-right' : ''}`}>
-                    <h3 className="text-2xl tracking-tight">
+                  <div className={`flex flex-col gap-4 p-8 bg-black ${isRTL ? 'text-right' : ''}`}>
+                    <h3 className="text-2xl tracking-tight text-white">
                       {getContentFromSettings(language, settings, `aboutExpertise${num}Title`)}
                     </h3>
-                    <p className="text-base text-black/70 leading-relaxed">
+                    <p className="text-base text-white/70 leading-relaxed">
                       {getContentFromSettings(language, settings, `aboutExpertise${num}Description`)}
                     </p>
                   </div>
@@ -254,6 +280,9 @@ export function AboutUs() {
           </div>
         </div>
       </section>
+
+      {/* Clients Carousel */}
+      <ClientsCarousel />
 
       {/* CTA Section */}
       <section ref={ctaRef} className="pt-24 pb-24 px-4 md:px-12 border-t border-black/10">

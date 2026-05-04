@@ -1,7 +1,7 @@
 import { useLanguage } from '../context/LanguageContext';
 
 export function CompanyProfile() {
-  const { isRTL } = useLanguage();
+  const { isRTL, ts } = useLanguage();
   const flipbookUrl = 'https://publuu.com/flip-book/829640/2262213';
 
   // Show embedded flipbook on both mobile and desktop
@@ -18,6 +18,18 @@ export function CompanyProfile() {
           className="w-full h-full block"
         />
       </div>
+
+      {/* CTA Section */}
+      <section className="py-12 sm:py-16 md:py-24">
+        <div className="max-w-4xl mx-auto px-4 text-center" dir={isRTL ? 'rtl' : 'ltr'}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl mb-4 sm:mb-6 tracking-wide">{ts('home.ctaTitle')}</h2>
+          <p className="text-base sm:text-lg text-black/60 mb-8 sm:mb-12 max-w-2xl mx-auto">{ts('home.ctaDescription')}</p>
+          <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+            <a href="#pricing" className="px-6 sm:px-8 py-3 sm:py-4 bg-[rgb(174,3,1)] text-white hover:bg-[rgb(174,3,1)]/80 transition-colors tracking-wider inline-block text-sm sm:text-base">{ts('common.requestPricing')}</a>
+            <a href="#contact" className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-black text-black hover:bg-black hover:text-white transition-colors tracking-wider inline-block text-sm sm:text-base">{ts('common.contactUs')}</a>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-black text-white">

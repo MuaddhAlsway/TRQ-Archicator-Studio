@@ -15,6 +15,7 @@ import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { ScrollToTop } from './components/ScrollToTop';
 import { LoadingScreen } from './components/LoadingScreen';
 import { useLanguage } from './context/LanguageContext';
+
 import * as api from './api';
 
 type Page = 'home' | 'about' | 'services' | 'workflow' | 'portfolio' | 'blog' | 'contact' | 'pricing' | 'profile' | 'admin';
