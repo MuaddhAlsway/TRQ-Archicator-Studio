@@ -6,7 +6,7 @@
   "main": "src/worker.js",
   "scripts": {
     "dev": "wrangler dev",
-    "build": "vite build",
+    "build": "npm install --legacy-peer-deps && vite build",
     "deploy": "wrangler deploy",
     "deploy:prod": "wrangler deploy --env production",
     "db:migrate": "wrangler d1 execute trq-db --file migrations/001_init_schema.sql",
