@@ -8,19 +8,38 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: false,
     minify: 'esbuild',
-    copyPublicDir: false, // Disable Vite's copy, use our script instead
+    copyPublicDir: true, // Copy public assets (fonts, images, etc.)
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor': ['react', 'react-dom', 'react-i18next', 'i18next'],
-          'ui': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-presence'],
-          'animations': ['gsap', 'react-scroll-parallax'],
-          'charts': ['recharts'],
-          'carousel': ['embla-carousel-react'],
+        manualChunks(id) {
+          // Vendor chunks
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) return 'vendor-react'
+            if (id.includes('@radix-ui')) return 'vendor-ui'
+            if (id.includes('gsap')) return 'vendor-gsap'
+            if (id.includes('recharts')) return 'vendor-charts'
+            if (id.includes('embla-carousel')) return 'vendor-carousel'
+            if (id.includes('i18next')) return 'vendor-i18n'
+            return 'vendor-other'
+          }
+          // Component chunks
+          if (id.includes('components')) {
+            if (id.includes('Portfolio')) return 'page-portfolio'
+            if (id.includes('Contact')) return 'page-contact'
+            if (id.includes('AboutUs')) return 'page-about'
+            if (id.includes('Home')) return 'page-home'
+            return 'components'
+          }
         }
       }
     },
-    chunkSizeWarningLimit: 500
+    chunkSizeWarningLimit: 1000,
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    }
   },
   server: {
     proxy: {

@@ -10,7 +10,7 @@ const publicDir = path.join(__dirname, 'public');
 const distDir = path.join(__dirname, 'dist');
 
 // Files/folders to exclude (only exclude unnecessary folders)
-// Strategy: Copy all images and project folders, exclude only non-essential items
+// Strategy: Exclude all project images - serve from backend API instead
 const excludePatterns = [
   '.DS_Store',
   'Graphik_Collection',
@@ -19,7 +19,41 @@ const excludePatterns = [
   'GretaArabicAR',
   'NewsFontFamily',
   'FontArabic',
-  'TRQ STUDIO _ PROJECTS' // Exclude the source folder, keep individual project folders
+  'TRQ STUDIO _ PROJECTS',
+  'uploads',
+  // Exclude all project image folders - serve from backend API
+  '011',
+  'ALULAH',
+  'ALFUNDATIONDay',
+  'ALMajid',
+  'ApartmentA',
+  'ARYASH AL-DRIIYAH',
+  'CLASSIC BEDROOM',
+  'coffeE',
+  'Contemporary & luxury',
+  'CottonSkin',
+  'daria',
+  'Diriyah Gate Development Authority',
+  'DIRIYAH MARKET',
+  'DIRIYAH NATIONAL DAY EVENT',
+  'DIRIYAH PARADE',
+  'H & P',
+  'Half million',
+  'HERITAGE Day',
+  'Luxe Residence',
+  'Modern LuxuryLiving room',
+  'Modern minimalist',
+  'Oasis',
+  'PAWS & PARTNERS',
+  'playGround',
+  'QUALITY OF LIFE PROGRAM',
+  'RAFAL APARTMENT',
+  'REC. HEAVEN',
+  'RSG BOOTH',
+  'A Fusion of Art and Elegance',
+  '25. Cliff house',
+  '8. Coffee & Dates',
+  'confirmed'
 ];
 
 // Files/folders to INCLUDE (whitelist - takes priority)

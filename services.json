@@ -1,0 +1,58 @@
+[
+  {
+    "id": 22,
+    "title": "Interior Design",
+    "description": "Transform your spaces with innovative interior design solutions",
+    "image": "/uploads/3.webp",
+    "icon": "Home",
+    "features": "[\"Space Planning\",\"Color Consultation\",\"Furniture Selection\"]",
+    "sortOrder": 1,
+    "isActive": 1,
+    "createdAt": "2026-01-20 20:42:01",
+    "title_ar": "تصميم داخلي",
+    "description_ar": "حول مساحاتك بحلول تصميم داخلي مبتكرة",
+    "features_ar": "[\"تخطيط المساحة\",\"استشارة الألوان\",\"اختيار الأثاث\"]"
+  },
+  {
+    "id": 23,
+    "title": "Booth & Exhibition Design",
+    "description": "Create impactful booth and exhibition designs that captivate audiences",
+    "image": "/uploads/1.webp",
+    "icon": "Boxes",
+    "features": "[\"3D Visualization\",\"Material Selection\",\"Installation Support\"]",
+    "sortOrder": 2,
+    "isActive": 1,
+    "createdAt": "2026-01-20 20:42:01",
+    "title_ar": "تصميم جناح ومعرض",
+    "description_ar": "أنشئ تصاميم أجنحة ومعارض مؤثرة تأسر الجماهير",
+    "features_ar": "[\"تصور ثلاثي الأبعاد\",\"اختيار المواد\",\"دعم التثبيت\"]"
+  },
+  {
+    "id": 24,
+    "title": "Concept Design",
+    "description": "Design memorable events with creative and functional solutions",
+    "image": "/uploads/Event Gate A.webp",
+    "icon": "Calendar",
+    "features": "[\"Concept Development\",\"Layout Planning\",\"Decor Design\"]",
+    "sortOrder": 3,
+    "isActive": 1,
+    "createdAt": "2026-01-20 20:42:01",
+    "title_ar": "تصميم الفعاليات",
+    "description_ar": "صمم فعاليات لا تُنسى بحلول إبداعية وعملية",
+    "features_ar": "[\"تطوير المفهوم\",\"تخطيط التخطيط\",\"تصميم الديكور\"]"
+  },
+  {
+    "id": 25,
+    "title": "Custom Design",
+    "description": "Custom furniture design tailored to your unique needs and style",
+    "image": "/uploads/14c.webp",
+    "icon": "Armchair",
+    "features": "[\"Custom Design\",\"Material Sourcing\",\"Production Oversight\"]",
+    "sortOrder": 4,
+    "isActive": 1,
+    "createdAt": "2026-01-20 20:42:01",
+    "title_ar": "تصميم الأثاث",
+    "description_ar": "تصميم أثاث مخصص مصمم خصيصاً لاحتياجاتك وأسلوبك الفريد",
+    "features_ar": "[\"تصميم مخصص\",\"توفير المواد\",\"الإشراف على الإنتاج\"]"
+  }
+]

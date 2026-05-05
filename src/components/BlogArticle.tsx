@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Calendar, Clock, User, Share2, Facebook, Twitter, Linkedin, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, User, Share2, CheckCircle } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useLanguage } from '../context/LanguageContext';
 import * as api from '../api';
@@ -122,9 +122,9 @@ export function BlogArticle({ article, onBack }: BlogArticleProps) {
               <span className="text-sm text-black/60 tracking-wider">{ts('blogArticle.shareArticle')}</span>
             </div>
             <div className={`flex gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-              <button className="w-10 h-10 border border-black/20 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-colors"><Facebook size={18} /></button>
-              <button className="w-10 h-10 border border-black/20 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-colors"><Twitter size={18} /></button>
-              <button className="w-10 h-10 border border-black/20 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-colors"><Linkedin size={18} /></button>
+              <button className="w-10 h-10 border border-black/20 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-colors text-xs font-bold">f</button>
+              <button className="w-10 h-10 border border-black/20 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-colors text-xs font-bold">𝕏</button>
+              <button className="w-10 h-10 border border-black/20 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-colors text-xs font-bold">in</button>
             </div>
           </div>
 

@@ -1,140 +1,189 @@
 #!/usr/bin/env node
 
 /**
- * Multi-part upload to Cloudflare R2
- * Uploads public folder in chunks to avoid size limits
+ * Upload all images from public/ to Cloudflare R2
+ * Usage: node upload-to-r2.mjs
+ * 
+ * SETUP REQUIRED:
+ * 1. Enable R2 in Cloudflare Dashboard
+ * 2. Create buckets: trq-studio-images, trq-studio-images-preview
+ * 3. Create R2 API token with Object Read & Write permissions
+ * 4. Set environment variables:
+ *    - CLOUDFLARE_ACCOUNT_ID
+ *    - CLOUDFLARE_R2_ACCESS_KEY_ID
+ *    - CLOUDFLARE_R2_SECRET_ACCESS_KEY
  */
 
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// R2 Configuration
+const R2_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
+const R2_ACCESS_KEY_ID = process.env.CLOUDFLARE_R2_ACCESS_KEY_ID;
+const R2_SECRET_ACCESS_KEY = process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY;
+const R2_BUCKET_NAME = 'trq-studio-images';
+
+console.log('\n📋 R2 Upload Configuration Check\n');
+
+if (!R2_ACCOUNT_ID) {
+  console.error('❌ Missing: CLOUDFLARE_ACCOUNT_ID');
+}
+if (!R2_ACCESS_KEY_ID) {
+  console.error('❌ Missing: CLOUDFLARE_R2_ACCESS_KEY_ID');
+}
+if (!R2_SECRET_ACCESS_KEY) {
+  console.error('❌ Missing: CLOUDFLARE_R2_SECRET_ACCESS_KEY');
+}
+
+if (!R2_ACCOUNT_ID || !R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY) {
+  console.error('\n⚠️  SETUP REQUIRED:\n');
+  console.error('1. Go to https://dash.cloudflare.com');
+  console.error('2. Enable R2 (if not already enabled)');
+  console.error('3. Create two buckets:');
+  console.error('   - trq-studio-images');
+  console.error('   - trq-studio-images-preview');
+  console.error('4. Go to R2 → Settings → Create API token');
+  console.error('5. Set these environment variables:\n');
+  console.error('   export CLOUDFLARE_ACCOUNT_ID="your-account-id"');
+  console.error('   export CLOUDFLARE_R2_ACCESS_KEY_ID="your-access-key"');
+  console.error('   export CLOUDFLARE_R2_SECRET_ACCESS_KEY="your-secret-key"\n');
+  process.exit(1);
+}
+
+console.log('✓ CLOUDFLARE_ACCOUNT_ID:', R2_ACCOUNT_ID.substring(0, 8) + '...');
+console.log('✓ CLOUDFLARE_R2_ACCESS_KEY_ID:', R2_ACCESS_KEY_ID.substring(0, 8) + '...');
+console.log('✓ CLOUDFLARE_R2_SECRET_ACCESS_KEY: (set)\n');
+
+// Initialize S3 client for R2
+const s3Client = new S3Client({
+  region: 'auto',
+  endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+  credentials: {
+    accessKeyId: R2_ACCESS_KEY_ID,
+    secretAccessKey: R2_SECRET_ACCESS_KEY,
+  },
+});
+
 const publicDir = path.join(__dirname, 'public');
+const excludePatterns = [
+  '.DS_Store',
+  'Graphik_Collection',
+  'larsseit-sans-serif-font-family',
+  'GretaTextArabicAR',
+  'GretaArabicAR',
+  'NewsFontFamily',
+  'FontArabic',
+  'TRQ STUDIO _ PROJECTS',
+  'clientLogos', // Keep client logos in frontend
+  'vite.svg',
+  '_redirects',
+  'Video1.mp4',
+  'Video2.mp4',
+  'Video3.mp4',
+  'SFMada',
+];
 
-// Configuration
-const CHUNK_SIZE = 50 * 1024 * 1024; // 50MB chunks
-const UPLOAD_PARTS = {
-  'part1': ['uploads', 'TRQ STUDIO _ PROJECTS'],
-  'part2': ['CottonSkin', 'playGround', 'Modern minimalist', '011'],
-  'part3': ['DIRIYAH PARADE', 'ALULAH', 'PAWS & PARTNERS', 'daria'],
-  'part4': ['DIRIYAH MARKET', '8. Coffee', 'coffeE', 'ApartmentA'],
-  'part5': ['REC. HEAVEN', 'confirmed', 'DIRIYAH NATIONAL DAY', 'CLASSIC'],
-  'part6': ['ARYASH', 'Half million', 'HERITAGE Day', 'Luxe Residence'],
-  'part7': ['Modern LuxuryLiving', 'Modern minimalist', 'Oasis', 'QUALITY'],
-  'part8': ['RAFAL APARTMENT', 'RSG BOOTH', 'TRQ STUDIO', 'Contemporary'],
-  'part9': ['25. Cliff house', 'A Fusion', 'ALFUNDATIONDay', 'ALMajid'],
-  'part10': ['ALULAH', 'ApartmentA', 'ARYASH', 'clientLogos', 'confirmed', 'H & P', 'Luxe', 'Oasis'],
-  'fonts': ['SFMada-Bold.otf', 'SFMada-Regular.otf', 'SFMada-Regular2.otf', 'LOGO.png', 'barlogo.png'],
-  'videos': ['Video1.mp4', 'Video2.mp4', 'Video3.mp4']
-};
-
-function getFilesInPart(partName) {
-  const patterns = UPLOAD_PARTS[partName] || [];
-  const files = [];
-  
-  function walkDir(dir) {
-    const entries = fs.readdirSync(dir);
-    entries.forEach(entry => {
-      const fullPath = path.join(dir, entry);
-      const stat = fs.statSync(fullPath);
-      
-      if (stat.isDirectory()) {
-        // Check if this directory matches any pattern
-        const matches = patterns.some(pattern => 
-          entry.includes(pattern) || pattern.includes(entry)
-        );
-        if (matches) {
-          walkDir(fullPath);
-        }
-      } else {
-        // Check if file matches any pattern
-        const matches = patterns.some(pattern => 
-          entry.includes(pattern) || entry === pattern
-        );
-        if (matches) {
-          files.push(fullPath);
-        }
-      }
-    });
-  }
-  
-  walkDir(publicDir);
-  return files;
+function shouldExclude(filePath) {
+  const relativePath = path.relative(publicDir, filePath);
+  return excludePatterns.some(pattern => relativePath.includes(pattern));
 }
 
-function formatSize(bytes) {
-  const mb = bytes / (1024 * 1024);
-  return mb.toFixed(2) + ' MB';
-}
-
-async function uploadPart(partName) {
-  console.log(`\n📦 Uploading ${partName}...`);
-  
-  const files = getFilesInPart(partName);
-  let totalSize = 0;
-  
-  files.forEach(file => {
-    const stat = fs.statSync(file);
-    totalSize += stat.size;
-  });
-  
-  console.log(`   Files: ${files.length}`);
-  console.log(`   Size: ${formatSize(totalSize)}`);
-  
-  // Simulate upload
-  console.log(`   ✓ Ready to upload to R2`);
-  console.log(`   Command: wrangler r2 object put trq-images/${partName}/* --recursive`);
-  
-  return {
-    part: partName,
-    files: files.length,
-    size: totalSize
+function getContentType(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  const types = {
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.png': 'image/png',
+    '.gif': 'image/gif',
+    '.webp': 'image/webp',
+    '.svg': 'image/svg+xml',
+    '.mp4': 'video/mp4',
+    '.webm': 'video/webm',
+    '.mov': 'video/quicktime',
   };
+  return types[ext] || 'application/octet-stream';
+}
+
+async function uploadFile(filePath, s3Key) {
+  try {
+    const fileContent = fs.readFileSync(filePath);
+    const contentType = getContentType(filePath);
+
+    await s3Client.send(
+      new PutObjectCommand({
+        Bucket: R2_BUCKET_NAME,
+        Key: s3Key,
+        Body: fileContent,
+        ContentType: contentType,
+        CacheControl: 'public, max-age=31536000, immutable',
+      })
+    );
+
+    return true;
+  } catch (error) {
+    console.error(`❌ Failed to upload ${s3Key}:`, error.message);
+    return false;
+  }
+}
+
+function walkDir(dir, callback) {
+  const files = fs.readdirSync(dir);
+  files.forEach(file => {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+    if (stat.isDirectory()) {
+      walkDir(filePath, callback);
+    } else {
+      callback(filePath);
+    }
+  });
 }
 
 async function main() {
-  console.log('╔════════════════════════════════════════════════════════════╗');
-  console.log('║         Multi-Part Upload to Cloudflare R2                 ║');
-  console.log('╚════════════════════════════════════════════════════════════╝');
-  
-  const parts = Object.keys(UPLOAD_PARTS);
-  let totalFiles = 0;
-  let totalSize = 0;
-  
-  console.log('\n📋 Upload Plan:');
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  
-  for (const part of parts) {
-    const result = await uploadPart(part);
-    totalFiles += result.files;
-    totalSize += result.size;
+  console.log('🚀 Starting R2 upload...\n');
+
+  let uploadedCount = 0;
+  let skippedCount = 0;
+  let failedCount = 0;
+  const files = [];
+
+  walkDir(publicDir, (filePath) => {
+    if (shouldExclude(filePath)) {
+      skippedCount++;
+      return;
+    }
+    files.push(filePath);
+  });
+
+  // Upload files sequentially
+  for (const filePath of files) {
+    const relativePath = path.relative(publicDir, filePath);
+    const s3Key = relativePath.replace(/\\/g, '/'); // Convert Windows paths to forward slashes
+
+    const success = await uploadFile(filePath, s3Key);
+    if (success) {
+      console.log(`✓ Uploaded: ${s3Key}`);
+      uploadedCount++;
+    } else {
+      failedCount++;
+    }
   }
-  
-  console.log('\n📊 Summary:');
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  console.log(`   Total Parts: ${parts.length}`);
-  console.log(`   Total Files: ${totalFiles}`);
-  console.log(`   Total Size: ${formatSize(totalSize)}`);
-  
-  console.log('\n🚀 Upload Instructions:');
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  console.log('1. Create R2 bucket:');
-  console.log('   wrangler r2 bucket create trq-images');
-  console.log('\n2. Upload each part:');
-  
-  for (const part of parts) {
-    console.log(`   wrangler r2 object put trq-images/${part}/* --recursive`);
+
+  console.log(`\n✓ Upload complete!`);
+  console.log(`  Uploaded: ${uploadedCount} files`);
+  console.log(`  Skipped: ${skippedCount} files`);
+  if (failedCount > 0) {
+    console.log(`  Failed: ${failedCount} files`);
   }
-  
-  console.log('\n3. Configure Cloudflare Pages:');
-  console.log('   - Add R2 bucket binding');
-  console.log('   - Update image URLs to R2');
-  
-  console.log('\n✅ Multi-part upload plan ready!');
 }
 
-main().catch(console.error);
+main().catch(error => {
+  console.error('Fatal error:', error);
+  process.exit(1);
+});

@@ -1,0 +1,3692 @@
+[
+  {
+    "key": "blogHidden",
+    "value": "true",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeIntroTitle",
+    "value": "Refined Design, Thoughtfully Integrated",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeIntroText1",
+    "value": "TRQ STUDIO is an interior design studio that crafts luxurious spaces embodying elegance through a holistic approach that harmoniously balances aesthetics, functionality, and sensory experience.",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeIntroText2",
+    "value": "The studio delivers fully integrated design solutions that respect context and identity, executed to the highest standards across high-end residential, commercial, and distinguished institutional projects.",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeIntroImage",
+    "value": "/uploads/5.webp",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeIntroLinkText",
+    "value": "LEARN MORE ABOUT TRQ",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeIntroLinkPage",
+    "value": "about",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeFeaturedTitle",
+    "value": "Featured Projects",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeFeaturedDescription",
+    "value": "A glimpse into our recent work and design excellence",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeFeaturedProjects",
+    "value": "22,9",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeWorkflowTitle",
+    "value": "How We Work",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeWorkflowDescription",
+    "value": "A seamless process designed to bring your vision to life",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeWorkflowStep1Title",
+    "value": "Discovery",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeWorkflowStep1Desc",
+    "value": "Understanding your vision",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeWorkflowStep2Title",
+    "value": "Concept",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeWorkflowStep2Desc",
+    "value": "Design development",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeWorkflowStep3Title",
+    "value": "Approval",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeWorkflowStep3Desc",
+    "value": "Refinement & planning",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeWorkflowStep4Title",
+    "value": "Execution",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeWorkflowStep4Desc",
+    "value": "Bringing it to life",
+    "updatedAt": "2026-02-28 00:42:26"
+  },
+  {
+    "key": "homeWorkflowStep5Title",
+    "value": "Delivery",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "homeWorkflowStep5Desc",
+    "value": "Final handover",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "homeWorkflowLinkText",
+    "value": "LEARN MORE",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "homeWorkflowLinkPage",
+    "value": "workflow",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "homeCtaTitle",
+    "value": "Ready to Transform Your Space?",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "homeCtaDescription",
+    "value": "Let's discuss your project and create something extraordinary together. Get in touch with our team today.",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "homeCtaButton1Text",
+    "value": "REQUEST PRICING",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "homeCtaButton1Page",
+    "value": "pricing",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "homeCtaButton2Text",
+    "value": "CONTACT US",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "homeCtaButton2Page",
+    "value": "contact",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutHeroTitle",
+    "value": "حول TRQ",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutHeroDescription",
+    "value": "We are a luxury interior design studio dedicated to creating timeless, sophisticated spaces that reflect our clients' refined taste and elevated lifestyle.",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutHeroImage",
+    "value": "/uploads/14.webp",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutVisionTitle",
+    "value": "رؤيتنا",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutVisionDescription",
+    "value": "إعادة تعريف الحياة الفاخرة من خلال التصميم المدروس الذي يتجاوز الاتجاهات ويخلق جمالاً دائماً. نؤمن بمساحات تحكي القصص وتثير المشاعر وتصمد أمام اختبار الزمن.",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutMissionTitle",
+    "value": "مهمتنا",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutMissionDescription",
+    "value": "نخدم العملاء المميزين بتحويل مساحاتهم إلى ملاذات شخصية من الأناقة والوظيفة. من خلال الاهتمام الدقيق بالتفاصيل والشراكة التعاونية نقدم ديكورات داخلية تتجاوز التوقعات.",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproachTitle",
+    "value": "نهجنا",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproachDescription",
+    "value": "كيف نحقق رؤيتك",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproach1Title",
+    "value": "التوجيه المدروس",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproach1Description",
+    "value": "Every design decision is purposeful, guided by deep understanding of our clients' lifestyle and aesthetic preferences.",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproach1Icon",
+    "value": "Compass",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproach2Title",
+    "value": "التميز المتعدد الطبقات",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproach2Description",
+    "value": "نبني التعقيد من خلال الطبقات الحذرة للنسيج والمواد والعناصر التي تخلق العمق والاهتمام البصري.",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproach2Icon",
+    "value": "Layers",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproach3Title",
+    "value": "الجودة الخالدة",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproach3Description",
+    "value": "نعطي الأولوية للجمال الدائم على الاتجاهات العابرة واختيار المواد والتشطيبات التي تتقدم بأناقة.",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproach3Icon",
+    "value": "Star",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproach4Title",
+    "value": "الشراكة التعاونية",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproach4Description",
+    "value": "نعمل بشكل وثيق مع العملاء كشركاء إبداعيين مما يضمن أن كل مساحة تعكس بصدق رؤيتهم واحتياجاتهم.",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutApproach4Icon",
+    "value": "Users",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertiseTitle",
+    "value": "خبرتنا",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertiseDescription",
+    "value": "ما نتخصص فيه",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertise1Title",
+    "value": "السكنية الفاخرة",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertise1Description",
+    "value": "المنازل الخاصة والعقارات المصممة بعناية لا تتزعزع للراحة والأناقة والتعبير الشخصي.",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertise1Image",
+    "value": "/uploads/1.webp",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertise2Title",
+    "value": "المساحات التجارية",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertise2Description",
+    "value": "البيئات المهنية التي تجسد هوية العلامة التجارية مع إنشاء مساحات ملهمة للعمل والتعاون.",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertise2Image",
+    "value": "/uploads/2.webp",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertise3Title",
+    "value": "الأثاث المخصص",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertise3Description",
+    "value": "القطع المصممة والمصنوعة بشكل مخصص لتكمل كل مساحة بشكل مثالي وتعكس تفضيلات النمط الفردية.",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertise3Image",
+    "value": "/uploads/14.webp",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertise4Title",
+    "value": "تصميم المفهوم",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertise4Description",
+    "value": "مفاهيم التصميم المبتكرة التي تحول المساحات إلى تجارب بصرية مذهلة تمزج الإبداع مع الوظيفة.",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutExpertise4Image",
+    "value": "/uploads/11 cave.webp",
+    "updatedAt": "2026-02-28 00:42:27"
+  },
+  {
+    "key": "aboutHeroParagraph",
+    "value": "Crafting exceptional spaces through vision, expertise, and dedication",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "aboutWhoWeAreTitle",
+    "value": "Who We Are",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "aboutWhoWeAreParagraph1",
+    "value": "TRQ is a luxury and creative interior design studio based in Riyadh, Saudi Arabia. Founded on the principles of excellence, innovation, and client-centric service, we have established ourselves as a premier design partner for discerning clients who demand the best.",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "aboutWhoWeAreParagraph2",
+    "value": "Our multidisciplinary team brings together expertise in interior design, architecture, furniture design, and project management to deliver comprehensive solutions that exceed expectations.",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "aboutWhoWeAreParagraph3",
+    "value": "Whether creating intimate residential spaces or grand commercial environments, we approach each project with the same level of dedication, creativity, and attention to detail that has become our hallmark.",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "aboutWhoWeAreImage",
+    "value": "https://images.unsplash.com/photo-1669387448840-610c588f003d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "aboutVisionIcon",
+    "value": "Eye",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "aboutVisionParagraph",
+    "value": "To be recognized as the leading luxury design studio in Saudi Arabia and beyond, setting new standards for creative excellence and transforming spaces into timeless works of art that inspire and elevate the human experience.",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "aboutMissionIcon",
+    "value": "Target",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "aboutMissionParagraph",
+    "value": "To deliver exceptional, bespoke design solutions that reflect our clients' unique vision while exceeding their expectations. We are committed to combining artistic innovation with practical expertise, creating spaces that are both beautiful and functional.",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "blogCtaButton1Page",
+    "value": "blog",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "contactCtaButton1Page",
+    "value": "contact",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "aboutWhoWeArePara1",
+    "value": "TRQ STUDIO is an interior design studio that crafts luxurious spaces embodying elegance through a holistic approach that harmoniously balances aesthetics, functionality, and sensory experience.",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "aboutWhoWeArePara2",
+    "value": "The studio delivers fully integrated design solutions that respect context and identity, executed to the highest standards across high-end residential, commercial, and distinguished institutional projects.",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "aboutWhoWeArePara3",
+    "value": "We create lasting design solutions that reflect your vision and enhance the way you live and work through a combination of artistic vision and practical expertise.",
+    "updatedAt": "2026-02-28 00:42:30"
+  },
+  {
+    "key": "blogHidden_ar",
+    "value": "true",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeIntroTitle_ar",
+    "value": "أناقة تصميمية متكاملة",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeIntroText1_ar",
+    "value": "TRQ STUDIO هو أستديو تصميم داخلي يبدع مساحات فاخرة تجسد الأناقة من خلال نهج شامل يوازن بين الجمال, الوظيفة والتجربة الحسية.",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeIntroText2_ar",
+    "value": "تقدم تصاميم متكاملة تراعي في السياق والهوية وتنفذ بأعلى المعايير سواء في المشاريع السكنية الراقية أو التجارية والمؤسسية الرفيعة.",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeIntroImage_ar",
+    "value": "/uploads/5.webp",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeIntroLinkText_ar",
+    "value": "تعرف على المزيد عن TRQ",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeIntroLinkPage_ar",
+    "value": "about",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeFeaturedTitle_ar",
+    "value": "المشاريع ",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeFeaturedDescription_ar",
+    "value": "استكشف مجموعة من أفضل مشاريعنا التي تعكس التزامنا بالتميز والابتكار",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeFeaturedProjects_ar",
+    "value": "14,18",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowTitle_ar",
+    "value": "كيف نعمل",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowDescription_ar",
+    "value": "عملية سلسة مصممة لتحقيق رؤيتك",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowStep1Title_ar",
+    "value": "الاستشارة الأولية",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowStep1Desc_ar",
+    "value": "نستمع إلى احتياجاتك ونفهم رؤيتك بعمق",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowStep2Title_ar",
+    "value": "التخطيط والتصميم",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowStep2Desc_ar",
+    "value": "نطور استراتيجية تصميمية شاملة تتوافق مع أهدافك",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowStep3Title_ar",
+    "value": "التطوير والتنفيذ",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowStep3Desc_ar",
+    "value": "نحول التصاميم إلى واقع باستخدام أحدث التقنيات",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowStep4Title_ar",
+    "value": "الاختبار والتحسين",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowStep4Desc_ar",
+    "value": "نختبر كل جزء بعناية لضمان الجودة العالية",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowStep5Title_ar",
+    "value": "الإطلاق والدعم",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowStep5Desc_ar",
+    "value": "نطلق المشروع ونوفر الدعم المستمر",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowLinkText_ar",
+    "value": "تعرف على المزيد",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeWorkflowLinkPage_ar",
+    "value": "workflow",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeCtaTitle_ar",
+    "value": "هل أنت مستعد لتحويل رؤيتك؟",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeCtaDescription_ar",
+    "value": "دعنا نساعدك في إنشاء حل تصميمي استثنائي يحقق أهدافك",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeCtaButton1Text_ar",
+    "value": "اطلب عرض سعر",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeCtaButton1Page_ar",
+    "value": "pricing",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeCtaButton2Text_ar",
+    "value": "تواصل معنا",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "homeCtaButton2Page_ar",
+    "value": "contact",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "aboutHeroTitle_ar",
+    "value": "من نحن",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "aboutHeroDescription_ar",
+    "value": "نحن استوديو تصميم داخلي فاخر مكرس لإنشاء مساحات خالدة وراقية تعكس ذوق عملائنا الرفيع وأسلوب حياتهم المرتفع.",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "aboutHeroImage_ar",
+    "value": "/uploads/14.webp",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "aboutVisionTitle_ar",
+    "value": "رؤيتنا",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "aboutVisionDescription_ar",
+    "value": "إعادة تعريف الحياة الفاخرة من خلال التصميم المدروس الذي يتجاوز الاتجاهات ويخلق جمالاً دائماً. نؤمن بمساحات تحكي القصص وتثير المشاعر وتصمد أمام اختبار الزمن.",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "aboutMissionTitle_ar",
+    "value": "مهمتنا",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "aboutMissionDescription_ar",
+    "value": "نخدم العملاء المميزين بتحويل مساحاتهم إلى ملاذات شخصية من الأناقة والوظيفة. من خلال الاهتمام الدقيق بالتفاصيل والشراكة التعاونية، نقدم ديكورات داخلية تتجاوز التوقعات.",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "aboutApproachTitle_ar",
+    "value": "نهجنا",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "aboutApproachDescription_ar",
+    "value": "كيف نحقق رؤيتك",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "aboutApproach1Title_ar",
+    "value": "التوجيه المدروس",
+    "updatedAt": "2026-02-28 01:10:46"
+  },
+  {
+    "key": "aboutApproach1Description_ar",
+    "value": "كل قرار تصميمي له غرض، موجه بفهم عميق لأسلوب حياة عملائنا وتفضيلاتهم الجمالية.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutApproach1Icon_ar",
+    "value": "Compass",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutApproach2Title_ar",
+    "value": "التميز المتعدد الطبقات",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutApproach2Description_ar",
+    "value": "نبني التعقيد من خلال الطبقات الحذرة للنسيج والمواد والعناصر التي تخلق العمق والاهتمام البصري.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutApproach2Icon_ar",
+    "value": "Layers",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutApproach3Title_ar",
+    "value": "الجودة الخالدة",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutApproach3Description_ar",
+    "value": "نعطي الأولوية للجمال الدائم على الاتجاهات العابرة، واختيار المواد والتشطيبات التي تتقدم بأناقة.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutApproach3Icon_ar",
+    "value": "Star",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutApproach4Title_ar",
+    "value": "الشراكة التعاونية",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutApproach4Description_ar",
+    "value": "نعمل بشكل وثيق مع العملاء كشركاء إبداعيين، مما يضمن أن كل مساحة تعكس بصدق رؤيتهم واحتياجاتهم.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutApproach4Icon_ar",
+    "value": "Users",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertiseTitle_ar",
+    "value": "خبرتنا",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertiseDescription_ar",
+    "value": "ما نتخصص فيه",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertise1Title_ar",
+    "value": "السكنية الفاخرة",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertise1Description_ar",
+    "value": "المنازل الخاصة والعقارات المصممة بعناية لا تتزعزع للراحة والأناقة والتعبير الشخصي.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertise1Image_ar",
+    "value": "/uploads/1.webp",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertise2Title_ar",
+    "value": "المساحات التجارية",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertise2Description_ar",
+    "value": "البيئات المهنية التي تجسد هوية العلامة التجارية مع إنشاء مساحات ملهمة للعمل والتعاون.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertise2Image_ar",
+    "value": "/uploads/2.webp",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertise3Title_ar",
+    "value": "الأثاث المخصص",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertise3Description_ar",
+    "value": "القطع المصممة والمصنوعة بشكل مخصص لتكمل كل مساحة بشكل مثالي وتعكس تفضيلات النمط الفردية.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertise3Image_ar",
+    "value": "/uploads/14.webp",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertise4Title_ar",
+    "value": "تصميم المفهوم",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertise4Description_ar",
+    "value": "مفاهيم التصميم المبتكرة التي تحول المساحات إلى تجارب بصرية مذهلة، تمزج الإبداع مع الوظيفة.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutExpertise4Image_ar",
+    "value": "/uploads/11 cave.webp",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutStoryTitle",
+    "value": "قصتنا",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutStoryText1",
+    "value": "تأسست بشغف لإنشاء مساحات استثنائية، ظهرت TRQ من الاعتقاد بأن التصميم الرائع له القوة على تحويل ليس فقط الغرف، بل الحياة.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutStoryText2",
+    "value": "Our journey began with a simple philosophy: luxury isn't about excess, it's about refinement. Every project we undertake is an opportunity to push creative boundaries while honoring the principles of timeless design.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutStoryText3",
+    "value": "اليوم، نستمر في التطور، ونسعى دائماً إلى طرق جديدة لإنشاء مساحات تلهم وتستمر.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutStoryImage",
+    "value": "/uploads/1 copy.webp",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutCtaTitle",
+    "value": "هل أنت مستعد لتحويل مساحتك",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutCtaDescription",
+    "value": "Let's collaborate to create a space that reflects your vision and exceeds your expectations.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutCtaButton",
+    "value": "ابدأ مشروعك",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValuesTitle",
+    "value": "Our Values",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValuesDescription",
+    "value": "The principles that guide our design philosophy",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValue1Title",
+    "value": "Attention to Detail",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValue1Description",
+    "value": "Meticulous craftsmanship in every element, from concept to completion.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValue1Icon",
+    "value": "Eye",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValue2Title",
+    "value": "Project Management",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValue2Description",
+    "value": "From concept to completion, we manage every aspect of your project with meticulous care.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValue2Icon",
+    "value": "Layers",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValue3Title",
+    "value": "Cultural Sensitivity",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValue3Description",
+    "value": "Deep understanding of Saudi Arabian culture combined with global design perspectives.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValue3Icon",
+    "value": "Compass",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValue4Title",
+    "value": "Proven Track Record",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValue4Description",
+    "value": "Successfully delivered premium projects across residential, commercial, and exhibition sectors.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutValue4Icon",
+    "value": "Award",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutWhyTitle",
+    "value": "Why Choose TRQ",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutWhyDescription",
+    "value": "What sets us apart in the design industry",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutWhy1Title",
+    "value": "Innovative Design",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutWhy1Description",
+    "value": "Cutting-edge design concepts that push creative boundaries.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutWhy2Title",
+    "value": "Expert Team",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutWhy2Description",
+    "value": "From concept to completion, we manage every aspect of your project with meticulous care.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutWhy3Title",
+    "value": "Cultural Expertise",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutWhy3Description",
+    "value": "Deep understanding of Saudi Arabian culture combined with global design perspectives.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutWhy4Title",
+    "value": "Proven Success",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutWhy4Description",
+    "value": "Successfully delivered premium projects across residential, commercial, and exhibition sectors.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutImpactTitle",
+    "value": "Our Impact on Clients",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutImpactParagraph1",
+    "value": "We don't just design spacesâ€”we transform the way our clients live, work, and experience their environments. Through thoughtful design, meticulous execution, and unwavering commitment to quality, we create spaces that inspire, comfort, and elevate daily life.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "aboutImpactParagraph2",
+    "value": "Every project is an opportunity to make a lasting positive impact, and we take this responsibility seriously. Our success is measured not just in completed projects, but in the satisfaction and delight of our clients.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesHeroTitle",
+    "value": "خدماتنا",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesHeroParagraph",
+    "value": "حلول تصميمية شاملة مصممة خصيصاً لاحتياجاتك",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesHeroImage",
+    "value": "/uploads/5.webp",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesTitle",
+    "value": "حلول تصميمية متكاملة",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesDescription",
+    "value": "من المساحات السكنية الفاخرة إلى المشاريع التجارية الكبرى نقدم مجموعة شاملة من خدمات التصميم الداخلي والخارجي",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesHighlightsTitle",
+    "value": "مميزات خدماتنا",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesHighlightsDescription",
+    "value": "ما يمكنك توقعه عند التعامل مع TRQ",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesHighlight1Title",
+    "value": "حلول مخصصة",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesHighlight1Description",
+    "value": "كل مشروع فريد. نقوم بإنشاء تصاميم مخصصة تعكس احتياجاتك وتفضيلاتك ورؤيتك الخاصة",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesHighlight2Title",
+    "value": "خدمة شاملة",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesHighlight2Description",
+    "value": "من الاستشارة الأولية إلى التثبيت النهائي نتولى كل التفاصيل لضمان تجربة سلسة",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesHighlight3Title",
+    "value": "جودة عالية",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesHighlight3Description",
+    "value": "نختار أفضل المواد ونعمل مع حرفيين ماهرين لتقديم نتائج استثنائية",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesCtaTitle",
+    "value": "هل أنت مستعد للبدء",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesCtaDescription",
+    "value": "Let's discuss your project and explore how our services can bring your vision to life.",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesCtaButton1Text",
+    "value": "اطلب عرض سعر",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesCtaButton1Page",
+    "value": "pricing",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesCtaButton2Text",
+    "value": "تواصل معنا",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "servicesCtaButton2Page",
+    "value": "contact",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "workflowHeroTitle",
+    "value": "كيف نعمل",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "workflowHeroParagraph",
+    "value": "عملية سلسة مصممة لتحقيق رؤيتك",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "workflowHeroImage",
+    "value": "https://static.paraflowcontent.com/public/resource/image/eedd6672-a725-43e8-9320-8ea80b92c7f1.jpeg",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "workflowIntroTitle",
+    "value": "عملية عملنا المثبتة",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "workflowIntroParagraph",
+    "value": "في TRQ نؤمن بأن التصميم الاستثنائي يتطلب نهجا منظما ومرنا. تضمن عمليتنا المكونة من خمس خطوات أن كل مشروع يحصل على الاهتمام والخبرة والرعاية التي يستحقها",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "workflowStep1Title",
+    "value": "الاستشارة والاكتشاف",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "workflowStep1Icon",
+    "value": "Search",
+    "updatedAt": "2026-02-28 01:10:47"
+  },
+  {
+    "key": "workflowStep1Description",
+    "value": "فهم احتياجاتك ومتطلباتك",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep1Features",
+    "value": "استشارة أولية لفهم احتياجاتك وتفضيلاتك والميزانية|زيارة الموقع وتقييم المساحة الموجودة|مناقشة أهداف المشروع والجدول الزمني والقيود|مراجعة المواد المرجعية والإلهام|تحديد النطاق الأولي وتحليل الجدوى",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep2Title",
+    "value": "تطوير المفهوم والتصميم",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep2Icon",
+    "value": "Lightbulb",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep2Description",
+    "value": "تحقيق رؤيتك من خلال التصميم الإبداعي",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep2Features",
+    "value": "تطوير مفاهيم التصميم الأولية ولوحات المزاج|تخطيط المساحة وخيارات التخطيط|اختيار لوحات الألوان والمواد والتشطيبات|تصورات ثلاثية الأبعاد وعروض توضيحية|عرض مقترحات التصميم لمراجعتك",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep3Title",
+    "value": "الموافقة والتخطيط",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep3Icon",
+    "value": "CheckCircle",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep3Description",
+    "value": "التحسين والتخطيط التفصيلي",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep3Features",
+    "value": "دمج ملاحظاتك وتحسين التصميم|إعداد الرسومات التقنية التفصيلية والمواصفات|إنهاء اختيارات المواد والأثاث|تأكيد الميزانية وإنشاء الجدول الزمني للمشروع|التنسيق مع المقاولين والموردين",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep4Title",
+    "value": "التنفيذ والإشراف",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep4Icon",
+    "value": "Hammer",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep4Description",
+    "value": "تحقيق التصميم على أرض الواقع",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep4Features",
+    "value": "الحصول على المواد والأثاث والتركيبات|التنسيق والإشراف على أعمال البناء|مراقبة الجودة والفحوصات المنتظمة للموقع|حل المشاكل والتعديلات على التصميم في الموقع|تحديثات منتظمة والتواصل",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep5Title",
+    "value": "التسليم والتسليم النهائي",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep5Icon",
+    "value": "Home",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep5Description",
+    "value": "إكمال مساحتك المثالية",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowStep5Features",
+    "value": "Final installation of furniture and dÃ©cor|Styling and finishing touches|Comprehensive walk-through and inspection|Documentation of completed project|Post-completion support and maintenance guidance",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowWhyTitle",
+    "value": "لماذا تعمل عمليتنا",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowWhyDescription",
+    "value": "مبنية على سنوات من الخبرة وتحسينها من خلال عدد لا يحصى من المشاريع الناجحة",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowWhy1Title",
+    "value": "تعاوني",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowWhy1Description",
+    "value": "نعمل بشكل وثيق معك في كل مرحلة مما يضمن أن رؤيتك توجه العملية بأكملها والنتيجة النهائية تتجاوز توقعاتك",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowWhy1Icon",
+    "value": "Users",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowWhy2Title",
+    "value": "شفاف",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowWhy2Description",
+    "value": "التواصل الواضح والتحديثات المنتظمة والشفافية الكاملة في الجداول الزمنية والميزانيات واتخاذ القرارات طوال المشروع",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowWhy2Icon",
+    "value": "Eye",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowWhy3Title",
+    "value": "فعال",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowWhy3Description",
+    "value": "سير عمل مبسط وإدارة مشاريع ذات خبرة والاهتمام بالتفاصيل يضمن إكمال المشاريع في الوقت المحدد وبأعلى المعايير",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowWhy3Icon",
+    "value": "Zap",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowTimelineTitle",
+    "value": "جدول المشروع الزمني",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowTimelineParagraph1",
+    "value": "بينما كل مشروع فريد تتبع معظم المشاريع جدولا زمنيا مماثلا. عادة ما تستغرق المشاريع السكنية 3-6 أشهر من المفهوم إلى الإنجاز بينما قد تتطلب المشاريع التجارية الأكبر 6-12 شهرا أو أكثر. عادة ما يكون لتصاميم أكشاك المعارض أوقات تسليم أسرع من 2-6 أسابيع حسب التعقيد",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowTimelineParagraph2",
+    "value": "During our initial consultation, we'll provide you with a detailed timeline specific to your project's scope and requirements.",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowCtaTitle",
+    "value": "هل أنت مستعد لبدء رحلتك",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowCtaDescription",
+    "value": "Let's start with a consultation to discuss your project and explore how we can bring your vision to life.",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowCtaButton1Text",
+    "value": "اطلب عرض سعر",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowCtaButton1Page",
+    "value": "pricing",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowCtaButton2Text",
+    "value": "جدول استشارة",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "workflowCtaButton2Page",
+    "value": "contact",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioHeroTitle",
+    "value": "محفظتنا",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioHeroParagraph",
+    "value": "استكشف مجموعتنا من مشاريع التصميم الاستثنائية",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioHeroImage",
+    "value": "/TRQ STUDIO _ PROJECTS/A Fusion of Art and Elegance  Living room/14.webp",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioIntroParagraph",
+    "value": "كل مشروع يمثل التزامنا بالتميز والإبداع والاهتمام بالتفاصيل. من المساحات السكنية الحميمية إلى البيئات التجارية الكبرى، تعرض محفظتنا عمق وشمول خبرتنا في التصميم",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioCategories",
+    "value": "[{\"id\":\"all\",\"label\":\"جميع المشاريع\"},{\"id\":\"interior-design\",\"label\":\"تصميم داخلي\"},{\"id\":\"event-design\",\"label\":\"تصميم الأحداث\"},{\"id\":\"booths\",\"label\":\"أكشاك ومعارض\"},{\"id\":\"custom-design\",\"label\":\"تصميم مخصص\"}]",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioStat1Value",
+    "value": "150+",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioStat1Label",
+    "value": "المشاريع المنجزة",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioStat2Value",
+    "value": "100+",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioStat2Label",
+    "value": "العملاء السعداء",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioStat3Value",
+    "value": "15+",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioStat3Label",
+    "value": "الجوائز المكتسبة",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioStat4Value",
+    "value": "8+",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioStat4Label",
+    "value": "سنوات الخبرة",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioCtaTitle",
+    "value": "Let's Create Your Project",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioCtaDescription",
+    "value": "هل أنت مستعد لبدء رحلتك الخاصة في التصميم تواصل مع فريقنا لمناقشة رؤيتك واستكشف كيف يمكننا تحقيقها",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioCtaButton1Text",
+    "value": "اطلب عرض سعر",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioCtaButton1Page",
+    "value": "pricing",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioCtaButton2Text",
+    "value": "تواصل معنا",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "portfolioCtaButton2Page",
+    "value": "contact",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactHeroTitle",
+    "value": "تواصل معنا",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactHeroParagraph",
+    "value": "دعنا نناقش مشروعك وننشئ شيئا استثنائيا معا",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactHeroImage",
+    "value": "/TRQ STUDIO _ PROJECTS/REC. HEAVEN/13.jpg",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo1Show",
+    "value": "true",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo1Icon",
+    "value": "MapPin",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo1Title",
+    "value": "زيارتنا",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo1Detail1",
+    "value": "استوديو TRQ للتصميم",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo1Detail2",
+    "value": "طريق الملك فهد",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo1Detail3",
+    "value": "الرياض المملكة العربية السعودية",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo2Show",
+    "value": "true",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo2Icon",
+    "value": "Phone",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo2Title",
+    "value": "اتصل بنا",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo2Detail1",
+    "value": "+966 XX XXX XXXX",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo2Detail2",
+    "value": "الاثنين - الجمعة: 9:00 صباحاً - 6:00 مساءً",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo2Detail3",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo3Show",
+    "value": "true",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo3Icon",
+    "value": "Mail",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo3Title",
+    "value": "راسلنا",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo3Detail1",
+    "value": "info@trq.design",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo3Detail2",
+    "value": "projects@trq.design",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo3Detail3",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:48"
+  },
+  {
+    "key": "contactInfo4Show",
+    "value": "true",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactInfo4Icon",
+    "value": "MessageCircle",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactInfo4Title",
+    "value": "واتس آب",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactInfo4Detail1",
+    "value": "+966 XX XXX XXXX",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactInfo4Detail2",
+    "value": "ضمان الرد السريع",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactInfo4Detail3",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactFormTitle",
+    "value": "أرسل لنا رسالة",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactFormDescription",
+    "value": "املأ النموذج أدناه وسيرد عليك فريقنا في غضون 24 ساعة.",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactFormButtonText",
+    "value": "أرسل الرسالة",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactFormButtonIcon",
+    "value": "Send",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactFormSubjects",
+    "value": "residential|Residential Project|commercial|Commercial Project|booth|Exhibition Booth|concept|Concept Design|furniture|Furniture Design|general|General Inquiry",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuickTitle",
+    "value": "تواصل سريع",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick1Icon",
+    "value": "MessageCircle",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick1Title",
+    "value": "واتس آب",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick1Description",
+    "value": "أسرع طريقة للتواصل معنا",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick1ButtonText",
+    "value": "دردش على واتس آب",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick1Link",
+    "value": "https://wa.me/966XXXXXXXXX",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick1Color",
+    "value": "green",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick2Icon",
+    "value": "Mail",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick2Title",
+    "value": "Email",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick2Description",
+    "value": "للاستفسارات التفصيلية",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick2ButtonText",
+    "value": "أرسل بريدا إلكترونيا",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick2Link",
+    "value": "mailto:info@trq.design?subject=Inquiry%20from%20TRQ%20Website&body=Hello%20TRQ%20Design%20Team%2C%0A%0AI%20am%20interested%20in%20your%20interior%20design%20services.%0A%0APlease%20contact%20me%20to%20discuss%20my%20project.%0A%0AThank%20you.",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick2Color",
+    "value": "black",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick3Icon",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick3Title",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick3Description",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick3ButtonText",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick3Link",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick3Color",
+    "value": "black",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick4Icon",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick4Title",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick4Description",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick4ButtonText",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick4Link",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactQuick4Color",
+    "value": "black",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactOfficeHoursDay1",
+    "value": "الاثنين - الخميس",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactOfficeHoursTime1",
+    "value": "9:00 AM - 6:00 PM",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactOfficeHoursDay2",
+    "value": "الجمعة",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactOfficeHoursTime2",
+    "value": "مغلق",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactOfficeHoursDay3",
+    "value": "السبت",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactOfficeHoursTime3",
+    "value": "10:00 صباحا - 4:00 مساء",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactOfficeHoursDay4",
+    "value": "الأحد",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactOfficeHoursTime4",
+    "value": "9:00 AM - 6:00 PM",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactStudioShow",
+    "value": "true",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactStudioTitle",
+    "value": "زيارة استوديونا",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactStudioDescription",
+    "value": "حدد موعدا لزيارة استوديو التصميم الخاص بنا واعرض محفظتنا وناقش مشروعك شخصيا.",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactStudioButtonText",
+    "value": "حدد موعدا للزيارة",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactStudioButtonPage",
+    "value": "contact",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactMapShow",
+    "value": "true",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactMapTitle",
+    "value": "ابحث عننا",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactMapAddress",
+    "value": "استوديو TRQ للتصميم طريق الملك فهد الرياض",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactMapImage",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "contactMapLink",
+    "value": "https://maps.google.com/?q=Riyadh,Saudi+Arabia",
+    "updatedAt": "2026-02-28 01:10:49"
+  },
+  {
+    "key": "pricingHeroTitle",
+    "value": "اطلب عرض سعر",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingHeroParagraph",
+    "value": "احصل على عرض سعر مخصص لمشروعك",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingIntroTitle",
+    "value": "أخبرنا عن مشروعك",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingIntroParagraph",
+    "value": "يرجى تقديم أكبر قدر من التفاصيل حول مشروعك. كلما عرفنا أكثر كان عرضنا أكثر دقة وملاءمة. جميع المعلومات سرية وسيتم استخدامها فقط لإعداد عرض السعر المخصص لك.",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingFormContactTitle",
+    "value": "معلومات الاتصال",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingFormProjectTitle",
+    "value": "تفاصيل المشروع",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingFormMethodTitle",
+    "value": "كيف يجب أن نتواصل معك",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingProjectTypes",
+    "value": "[{\"value\":\"residential-villa\",\"label\":\"سكني - فيلا\"},{\"value\":\"residential-apartment\",\"label\":\"سكني - شقة\"},{\"value\":\"commercial-office\",\"label\":\"تجاري - مكتب\"},{\"value\":\"commercial-retail\",\"label\":\"تجاري - بيع بالتجزئة\"},{\"value\":\"commercial-hotel\",\"label\":\"تجاري - فندق\"},{\"value\":\"commercial-restaurant\",\"label\":\"تجاري - مطعم\"},{\"value\":\"exhibition-booth\",\"label\":\"كشك المعرض\"},{\"value\":\"concept-design\",\"label\":\"تصميم المفهوم\"},{\"value\":\"furniture-design\",\"label\":\"Furniture Design\"},{\"value\":\"آخر\",\"label\":\"آخر\"}]",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingProjectSizes",
+    "value": "[{\"value\":\"small\",\"label\":\"صغير (أقل من 100 متر مربع)\"},{\"value\":\"medium\",\"label\":\"متوسط (100-300 متر مربع)\"},{\"value\":\"large\",\"label\":\"كبير (300-1000 متر مربع)\"},{\"value\":\"xlarge\",\"label\":\"كبير جدا (1000+ متر مربع)\"}]",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingTimelines",
+    "value": "[{\"value\":\"urgent\",\"label\":\"عاجل (خلال شهر واحد)\"},{\"value\":\"1-3months\",\"label\":\"1-3 أشهر\"},{\"value\":\"3-6months\",\"label\":\"3-6 أشهر\"},{\"value\":\"6-12months\",\"label\":\"6-12 شهرا\"},{\"value\":\"مرن\",\"label\":\"مرن\"}]",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingBudgets",
+    "value": "[{\"value\":\"under-100k\",\"label\":\"أقل من 100,000 ريال سعودي\"},{\"value\":\"100k-300k\",\"label\":\"100,000 - 300,000 ريال سعودي\"},{\"value\":\"300k-500k\",\"label\":\"300,000 - 500,000 ريال سعودي\"},{\"value\":\"500k-1m\",\"label\":\"500,000 - 1,000,000 ريال سعودي\"},{\"value\":\"1m-plus\",\"label\":\"1,000,000+ ريال سعودي\"},{\"value\":\"not-sure\",\"label\":\"لست متأكدا بعد\"}]",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingContactFields",
+    "value": "[{\"id\":\"name\",\"label\":\"الاسم الكامل\",\"type\":\"text\",\"placeholder\":\"اسمك\",\"required\":true,\"halfWidth\":false},{\"id\":\"company\",\"label\":\"اسم الشركة (اختياري)\",\"type\":\"text\",\"placeholder\":\"شركتك\",\"required\":false,\"halfWidth\":false},{\"id\":\"email\",\"label\":\"عنوان البريد الإلكتروني\",\"type\":\"email\",\"placeholder\":\"your@email.com\",\"required\":true,\"halfWidth\":true},{\"id\":\"phone\",\"label\":\"رقم الهاتف\",\"type\":\"tel\",\"placeholder\":\"+966 XX XXX XXXX\",\"required\":true,\"halfWidth\":true}]",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingMethodEmailDesc",
+    "value": "التواصل المكتوب التفصيلي",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingMethodWhatsappDesc",
+    "value": "الرد السريع والتواصل السهل",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSubmitText",
+    "value": "إرسال الطلب",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSubmitNote",
+    "value": "نرد عادة في غضون 24 ساعة",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessTitle",
+    "value": "تم استقبال الطلب!",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessParagraph",
+    "value": "شكرا لاهتمامك بـ TRQ Design Studio. لقد استقبلنا طلب السعر الخاص بك وسنراجعه بعناية.",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessNextTitle",
+    "value": "ماذا يحدث بعد ذلك",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessStep1Title",
+    "value": "المراجعة الأولية",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessStep1Desc",
+    "value": "سيراجع فريقنا تفاصيل مشروعك في غضون 24 ساعة.",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessStep2Title",
+    "value": "متابعة الاتصال",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessStep2Desc",
+    "value": "We'll reach out to discuss your project in more detail.",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessStep3Title",
+    "value": "عرض مخصص",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessStep3Desc",
+    "value": "We'll prepare a detailed proposal with pricing tailored to your needs.",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessWhatsappText",
+    "value": "دردش على واتس آب",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessWhatsappLink",
+    "value": "https://wa.me/966XXXXXXXXX",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessEmailText",
+    "value": "أرسل بريدا إلكترونيا",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingSuccessEmailLink",
+    "value": "mailto:info@trq.design",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingExpectTitle",
+    "value": "ما يمكن توقعه",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingExpectParagraph",
+    "value": "عملية التسعير الخاصة بنا شفافة ومخصصة لاحتياجاتك المحددة",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingExpectStep1Number",
+    "value": "01",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingExpectStep1Title",
+    "value": "المراجعة التفصيلية",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingExpectStep1Desc",
+    "value": "نراجع بعناية متطلباتك ونطاق المشروع لفهم رؤيتك.",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingExpectStep2Number",
+    "value": "02",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingExpectStep2Title",
+    "value": "عرض مخصص",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingExpectStep2Desc",
+    "value": "نعد عرضا شاملا مع تسعير مفصل وجدول زمني للمشروع.",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingExpectStep3Number",
+    "value": "03",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingExpectStep3Title",
+    "value": "استشارة",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "pricingExpectStep3Desc",
+    "value": "نحدد موعدا لمناقشة العرض والإجابة على أي أسئلة لديك.",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "blogHeroTitle",
+    "value": "رؤى التصميم",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "blogHeroParagraph",
+    "value": "وجهات نظر الخبراء حول التصميم الداخلي الفاخر والاتجاهات والإلهام",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "blogFeaturedLabel",
+    "value": "مقالة مميزة",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "blogReadArticleText",
+    "value": "اقرأ المقالة",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "blogCategoryAll",
+    "value": "جميع المقالات",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "blogCategoryDesignTips",
+    "value": "نصائح التصميم",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "blogCategoryTrends",
+    "value": "الاتجاهات",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "blogCategoryProjects",
+    "value": "المشاريع",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "blogCategoryInsights",
+    "value": "الرؤى",
+    "updatedAt": "2026-02-28 01:10:50"
+  },
+  {
+    "key": "blogNewsletterTitle",
+    "value": "ابق مستوحى",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "blogNewsletterParagraph",
+    "value": "اشترك لتلقي أحدث مقالاتنا ورؤى التصميم وتحديثات المشاريع مباشرة في صندوق بريدك الإلكتروني.",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "blogNewsletterPlaceholder",
+    "value": "عنوان بريدك الإلكتروني",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "blogNewsletterButton",
+    "value": "اشترك",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "blogNewsletterDisclaimer",
+    "value": "نحن نحترم خصوصيتك. ألغ الاشتراك في أي وقت.",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "blogExploreTitle",
+    "value": "استكشف حسب الفئة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "blogArticleBackText",
+    "value": "العودة إلى المدونة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "blogArticleShareText",
+    "value": "شارك هذه المقالة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "blogArticleTagsLabel",
+    "value": "الوسوم",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "blogArticleRelatedTitle",
+    "value": "مقالات ذات صلة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "blogArticleAuthorRole",
+    "value": "كاتب تصميم أول",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "blogArticleAuthorBio",
+    "value": "كاتب شغوف يستكشف تقاطع التصميم والعمارة وأسلوب الحياة. مع أكثر من 10 سنوات من الخبرة في صناعة التصميم الداخلي يقدم رؤى وإلهام لعشاق التصميم في جميع أنحاء العالم.",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "companyProfileTitle",
+    "value": "ملف الشركة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "companyProfileTitle_ar",
+    "value": "Ù…Ù„Ù Ø§Ù„Ø´Ø±ÙƒØ©",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "companyProfileDescription",
+    "value": "استكشف ملف شركتنا الشامل وقدراتنا",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "companyProfileDescription_ar",
+    "value": "Ø§Ø³ØªÙƒØ´Ù Ù…Ù„Ù Ø´Ø±ÙƒØªÙ†Ø§ Ø§Ù„Ø´Ø§Ù…Ù„ ÙˆÙ‚Ø¯Ø±Ø§ØªÙ†Ø§",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "companyProfileButtonText",
+    "value": "فتح ملف الشركة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "companyProfileButtonText_ar",
+    "value": "ÙØªØ­ Ù…Ù„Ù Ø§Ù„Ø´Ø±ÙƒØ©",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "companyProfileUrl_en",
+    "value": "https://publuu.com/flip-book/829640/2262213",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "companyProfileUrl_ar",
+    "value": "https://publuu.com/flip-book/829640/2262213",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "aboutStoryTitle_ar",
+    "value": "قصتنا",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "aboutStoryText1_ar",
+    "value": "تأسست بشغف لإنشاء مساحات استثنائية، ظهرت TRQ من الاعتقاد بأن التصميم الرائع له القوة على تحويل ليس فقط الغرف، بل الحياة.",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "aboutStoryText2_ar",
+    "value": "بدأت رحلتنا بفلسفة بسيطة: الفخامة ليست عن الإفراط، بل عن التحسين. كل مشروع نتولاه هو فرصة لدفع الحدود الإبداعية مع احترام مبادئ التصميم الخالد.",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "aboutStoryText3_ar",
+    "value": "اليوم، نستمر في التطور، ونسعى دائماً إلى طرق جديدة لإنشاء مساحات تلهم وتستمر.",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "aboutStoryImage_ar",
+    "value": "/uploads/1 copy.webp",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "aboutCtaTitle_ar",
+    "value": "هل أنت مستعد لتحويل مساحتك؟",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "aboutCtaDescription_ar",
+    "value": "دعنا نتعاون لإنشاء مساحة تعكس رؤيتك وتتجاوز توقعاتك.",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "aboutCtaButton_ar",
+    "value": "ابدأ مشروعك",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesHeroTitle_ar",
+    "value": "خدماتنا",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesHeroParagraph_ar",
+    "value": "مجموعة شاملة من الخدمات التصميمية المتخصصة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesTitle_ar",
+    "value": "حلول تصميم كاملة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesDescription_ar",
+    "value": "من المساحات السكنية الحميمة إلى المشاريع التجارية الكبرى، من أجنحة المعارض إلى الأثاث المخصص، يقدم TRQ مجموعة شاملة من خدمات التصميم. يضمن نهجنا متعدد التخصصات التكامل السلس عبر جميع جوانب مشروعك، مما يوفر نتائج متماسكة واستثنائية.",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesHighlightsTitle_ar",
+    "value": "مميزات الخدمة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesHighlightsDescription_ar",
+    "value": "كل خدمة مصممة لتقديم قيمة استثنائية وتحويل رؤيتك إلى واقع",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesHighlight1Title_ar",
+    "value": "حلول مخصصة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesHighlight1Description_ar",
+    "value": "كل مشروع فريد. نقوم بإنشاء تصاميم مخصصة تعكس احتياجاتك وتفضيلاتك ورؤيتك الخاصة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesHighlight2Title_ar",
+    "value": "خدمة شاملة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesHighlight2Description_ar",
+    "value": "من الاستشارة الأولية إلى التثبيت النهائي، نتولى كل التفاصيل لضمان تجربة سلسة",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesHighlight3Title_ar",
+    "value": "جودة عالية",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesHighlight3Description_ar",
+    "value": "نختار أفضل المواد ونعمل مع حرفيين ماهرين لتقديم نتائج استثنائية",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesCtaTitle_ar",
+    "value": "هل تحتاج إلى خدمة تصميمية؟",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesCtaDescription_ar",
+    "value": "تواصل معنا اليوم لمناقشة احتياجاتك",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesCtaButton1Text_ar",
+    "value": "طلب عرض سعر",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesCtaButton1Page_ar",
+    "value": "pricing",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesCtaButton2Text_ar",
+    "value": "تواصل معنا",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "servicesCtaButton2Page_ar",
+    "value": "contact",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowHeroTitle_ar",
+    "value": "عملية عملنا",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowHeroParagraph_ar",
+    "value": "نتبع عملية منظمة وفعالة لضمان نجاح كل مشروع",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowIntroTitle_ar",
+    "value": "كيف نعمل",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowIntroParagraph_ar",
+    "value": "في TRQ، نؤمن بأن التصميم الاستثنائي يتطلب نهجاً منظماً ومرناً. تضمن عمليتنا المكونة من خمس خطوات أن كل مشروع يحصل على الاهتمام والخبرة والرعاية التي يستحقها",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep1Title_ar",
+    "value": "الاستشارة والاكتشاف",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep1Icon_ar",
+    "value": "Search",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep1Description_ar",
+    "value": "نبدأ برفع مستوى فهمنا لرؤيتك وأهدافك وتطلعاتك.",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep1Features_ar",
+    "value": "استشارة أولية|فهم الاحتياجات|تحديد الميزانية والجدول الزمني",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep2Title_ar",
+    "value": "التخطيط والاستراتيجية",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep2Icon_ar",
+    "value": "Lightbulb",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep2Description_ar",
+    "value": "نطور مفاهيم تصميم متعددة تعكس رؤيتك.",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep2Features_ar",
+    "value": "تطوير المفهوم|عروض التصميم|التعليقات والتكرار",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep3Title_ar",
+    "value": "التصميم والإبداع",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep3Icon_ar",
+    "value": "CheckCircle",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep3Description_ar",
+    "value": "نحسّن التصميم المختار ونخطط للتنفيذ.",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep3Features_ar",
+    "value": "التصميم المفصل|اختيار المواد|خطة التنفيذ",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep4Title_ar",
+    "value": "التطوير والتنفيذ",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep4Icon_ar",
+    "value": "Hammer",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep4Description_ar",
+    "value": "نحول التصميم إلى واقع ملموس مع إدارة دقيقة للمشروع.",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep4Features_ar",
+    "value": "الإشراف على الموقع|مراقبة الجودة|التنسيق مع الحرفيين",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep5Title_ar",
+    "value": "الإطلاق والدعم",
+    "updatedAt": "2026-02-28 01:10:51"
+  },
+  {
+    "key": "workflowStep5Icon_ar",
+    "value": "Home",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowStep5Description_ar",
+    "value": "نسلم المشروع النهائي ونقدم الدعم المستمر.",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowStep5Features_ar",
+    "value": "الفحص النهائي|التسليم|الدعم ما بعد الانتهاء",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowWhyTitle_ar",
+    "value": "لماذا تنجح عمليتنا",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowWhyDescription_ar",
+    "value": "مبنية على سنوات من الخبرة وتحسينها من خلال عدد لا يحصى من المشاريع الناجحة",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowWhy1Title_ar",
+    "value": "التركيز على التفاصيل",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowWhy1Description_ar",
+    "value": "نهتم بكل جانب من جوانب مشروعك، من المفهوم الأولي إلى التسليم النهائي.",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowWhy2Title_ar",
+    "value": "التواصل الواضح",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowWhy2Description_ar",
+    "value": "نبقيك مطلعاً في كل خطوة، مما يضمن عدم وجود مفاجآت.",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowWhy3Title_ar",
+    "value": "الجودة المضمونة",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowWhy3Description_ar",
+    "value": "معايير الجودة العالية والحرفية الاستثنائية في كل مشروع.",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowTimelineTitle_ar",
+    "value": "جدول المشروع الزمني",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowTimelineParagraph1_ar",
+    "value": "بينما كل مشروع فريد، تتبع معظم المشاريع جدولاً زمنياً مماثلاً. عادة ما تستغرق المشاريع السكنية 3-6 أشهر من المفهوم إلى الإنجاز، بينما قد تتطلب المشاريع التجارية الأكبر 6-12 شهراً أو أكثر. عادة ما يكون لتصاميم أكشاك المعارض أوقات تسليم أسرع من 2-6 أسابيع حسب التعقيد",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowTimelineParagraph2_ar",
+    "value": "خلال استشارتنا الأولية، سنزودك بجدول زمني مفصل خاص بنطاق مشروعك ومتطلباته",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowCtaTitle_ar",
+    "value": "مستعد لبدء رحلتك؟",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowCtaDescription_ar",
+    "value": "دعنا نبدأ باستشارة لمناقشة مشروعك واستكشاف كيف يمكننا تحقيق رؤيتك",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowCtaButton1Text_ar",
+    "value": "طلب عرض سعر",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowCtaButton1Page_ar",
+    "value": "pricing",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowCtaButton2Text_ar",
+    "value": "حجز استشارة",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "workflowCtaButton2Page_ar",
+    "value": "contact",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioHeroTitle_ar",
+    "value": "أعمالنا",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioHeroParagraph_ar",
+    "value": "استكشف مجموعة من أفضل مشاريعنا",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioIntroParagraph_ar",
+    "value": "كل مشروع يمثل التزامنا بالتميز والإبداع والاهتمام بالتفاصيل. من المساحات السكنية الحميمية إلى البيئات التجارية الكبرى، تعرض محفظتنا عمق وشمول خبرتنا في التصميم",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioCategories_ar",
+    "value": "[{\"id\":\"all\",\"label\":\"جميع المشاريع\"},{\"id\":\"residential\",\"label\":\"سكني\"},{\"id\":\"commercial\",\"label\":\"تجاري\"},{\"id\":\"booths\",\"label\":\"أكشاك ومعارض\"},{\"id\":\"events\",\"label\":\"الأحداث\"},{\"id\":\"furniture\",\"label\":\"الأثاث\"}]",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioStat1Value_ar",
+    "value": "150+",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioStat1Label_ar",
+    "value": "مشروع منجز",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioStat2Value_ar",
+    "value": "100+",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioStat2Label_ar",
+    "value": "عميل سعيد",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioStat3Value_ar",
+    "value": "15+",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioStat3Label_ar",
+    "value": "جائزة",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioStat4Value_ar",
+    "value": "8+",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioStat4Label_ar",
+    "value": "سنوات خبرة",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioCtaTitle_ar",
+    "value": "لنصنع مشروعك",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioCtaDescription_ar",
+    "value": "هل أنت مستعد لبدء رحلتك الخاصة في التصميم؟ تواصل مع فريقنا لمناقشة رؤيتك واستكشف كيف يمكننا تحقيقها",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioCtaButton1Text_ar",
+    "value": "طلب عرض سعر",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioCtaButton1Page_ar",
+    "value": "pricing",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioCtaButton2Text_ar",
+    "value": "تواصل معنا",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "portfolioCtaButton2Page_ar",
+    "value": "contact",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactHeroTitle_ar",
+    "value": "تواصل معنا",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactHeroParagraph_ar",
+    "value": "نحن هنا للإجابة على أسئلتك والاستماع إلى أفكارك",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo1Show_ar",
+    "value": "true",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo1Icon_ar",
+    "value": "MapPin",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo1Title_ar",
+    "value": "زيارتنا",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo1Detail1_ar",
+    "value": "استوديو TRQ للتصميم",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo1Detail2_ar",
+    "value": "طريق الملك فهد",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo1Detail3_ar",
+    "value": "الرياض، المملكة العربية السعودية",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo2Show_ar",
+    "value": "true",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo2Icon_ar",
+    "value": "Phone",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo2Title_ar",
+    "value": "اتصل بنا",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo2Detail1_ar",
+    "value": "+966 XX XXX XXXX",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo2Detail2_ar",
+    "value": "الاثنين - الجمعة: 9:00 صباحاً - 6:00 مساءً",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo2Detail3_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo3Show_ar",
+    "value": "true",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo3Icon_ar",
+    "value": "Mail",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo3Title_ar",
+    "value": "راسلنا",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo3Detail1_ar",
+    "value": "info@trq.design",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo3Detail2_ar",
+    "value": "projects@trq.design",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo3Detail3_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:52"
+  },
+  {
+    "key": "contactInfo4Show_ar",
+    "value": "true",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactInfo4Icon_ar",
+    "value": "MessageCircle",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactInfo4Title_ar",
+    "value": "واتس آب",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactInfo4Detail1_ar",
+    "value": "+966 XX XXX XXXX",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactInfo4Detail2_ar",
+    "value": "ضمان الرد السريع",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactInfo4Detail3_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactFormTitle_ar",
+    "value": "أرسل لنا رسالة",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactFormDescription_ar",
+    "value": "املأ النموذج أدناه وسيرد عليك فريقنا في غضون 24 ساعة.",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuickTitle_ar",
+    "value": "تواصل سريع",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick1Icon_ar",
+    "value": "MessageCircle",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick1Title_ar",
+    "value": "واتس آب",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick1Description_ar",
+    "value": "أسرع طريقة للتواصل معنا",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick1ButtonText_ar",
+    "value": "دردش على واتس آب",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick1Link_ar",
+    "value": "https://wa.me/966XXXXXXXXX",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick1Color_ar",
+    "value": "green",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick2Icon_ar",
+    "value": "Mail",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick2Title_ar",
+    "value": "البريد الإلكتروني",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick2Description_ar",
+    "value": "للاستفسارات التفصيلية",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick2ButtonText_ar",
+    "value": "أرسل بريداً إلكترونياً",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick2Link_ar",
+    "value": "mailto:info@trq.design?subject=استفسار%20من%20موقع%20TRQ&body=مرحباً%20بفريق%20TRQ%20للتصميم",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick2Color_ar",
+    "value": "black",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick3Icon_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick3Title_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick3Description_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick3ButtonText_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick3Link_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick3Color_ar",
+    "value": "black",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick4Icon_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick4Title_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick4Description_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick4ButtonText_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick4Link_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactQuick4Color_ar",
+    "value": "black",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactOfficeHoursDay1_ar",
+    "value": "الاثنين - الخميس",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactOfficeHoursTime1_ar",
+    "value": "9:00 صباحاً - 6:00 مساءً",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactOfficeHoursDay2_ar",
+    "value": "الجمعة",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactOfficeHoursTime2_ar",
+    "value": "مغلق",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactOfficeHoursDay3_ar",
+    "value": "السبت",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactOfficeHoursTime3_ar",
+    "value": "10:00 صباحاً - 4:00 مساءً",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactOfficeHoursDay4_ar",
+    "value": "الأحد",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactOfficeHoursTime4_ar",
+    "value": "9:00 صباحاً - 6:00 مساءً",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactStudioShow_ar",
+    "value": "true",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactStudioTitle_ar",
+    "value": "زيارة استوديونا",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactStudioDescription_ar",
+    "value": "حدد موعداً لزيارة استوديو التصميم الخاص بنا، واعرض محفظتنا، وناقش مشروعك شخصياً.",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactStudioButtonText_ar",
+    "value": "حدد موعداً للزيارة",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactMapTitle_ar",
+    "value": "ابحث عننا",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactMapAddress_ar",
+    "value": "استوديو TRQ للتصميم، طريق الملك فهد، الرياض",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactMapImage_ar",
+    "value": "",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "contactMapLink_ar",
+    "value": "https://maps.google.com/?q=Riyadh,Saudi+Arabia",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogHeroTitle_ar",
+    "value": "المدونة",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogHeroParagraph_ar",
+    "value": "اكتشف أحدث المقالات والنصائح في مجال التصميم",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogFeaturedLabel_ar",
+    "value": "مقالة مميزة",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogReadArticleText_ar",
+    "value": "اقرأ المقالة",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogCategoryAll_ar",
+    "value": "الكل",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogCategoryDesignTips_ar",
+    "value": "نصائح التصميم",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogCategoryTrends_ar",
+    "value": "الاتجاهات",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogCategoryProjects_ar",
+    "value": "المشاريع",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogCategoryInsights_ar",
+    "value": "الرؤى",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogNewsletterTitle_ar",
+    "value": "اشترك في نشرتنا البريدية",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogNewsletterParagraph_ar",
+    "value": "اشترك لتلقي أحدث مقالاتنا ورؤى التصميم وتحديثات المشاريع مباشرة في صندوق بريدك الإلكتروني.",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogNewsletterPlaceholder_ar",
+    "value": "أدخل بريدك الإلكتروني",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogNewsletterButton_ar",
+    "value": "اشترك",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogNewsletterDisclaimer_ar",
+    "value": "نحن نحترم خصوصيتك. ألغِ الاشتراك في أي وقت.",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogExploreTitle_ar",
+    "value": "استكشف المزيد",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogArticleBackText_ar",
+    "value": "العودة إلى المدونة",
+    "updatedAt": "2026-02-28 01:10:53"
+  },
+  {
+    "key": "blogArticleShareText_ar",
+    "value": "شارك هذه المقالة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "blogArticleTagsLabel_ar",
+    "value": "الوسوم",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "blogArticleRelatedTitle_ar",
+    "value": "مقالات ذات صلة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "blogArticleAuthorRole_ar",
+    "value": "كاتب تصميم أول",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "blogArticleAuthorBio_ar",
+    "value": "كاتب شغوف يستكشف تقاطع التصميم والعمارة وأسلوب الحياة. مع أكثر من 10 سنوات من الخبرة في صناعة التصميم الداخلي، يقدم رؤى وإلهام لعشاق التصميم في جميع أنحاء العالم.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "slide_1_title_ar",
+    "value": "الارتقاء بالمساحات، وصياغة الفخامة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "slide_1_desc_ar",
+    "value": "حلول تصميم داخلي فاخرة لعملاء مميزين لا يرضون إلا بالتميّز.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "slide_2_title_ar",
+    "value": "مساحات معيشة فاخرة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "slide_2_desc_ar",
+    "value": "نصمّم مساحات سكنية خالدة تعكس أسلوب حياتك وذوقك الفريد.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "slide_3_title_ar",
+    "value": "مساحات عمل مُلهمة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "slide_3_desc_ar",
+    "value": "نحوّل البيئات التجارية إلى مساحات منتجة وجذابة بصريًا.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "slide_4_title_ar",
+    "value": "تصاميم داخلية راقية",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "slide_4_desc_ar",
+    "value": "نطمح إلى ابتكار تجربة داخلية تجمع بين التفرّد والخلود.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "slide_5_title_ar",
+    "value": "المشاريع المميزة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "slide_5_desc_ar",
+    "value": "استكشف مجموعتنا من مشاريع التصميم الحائزة على جوائز في جميع أنحاء المملكة العربية السعودية.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "service_22_description_ar",
+    "value": "حول مساحاتك بحلول تصميم داخلي مبتكرة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "service_23_description_ar",
+    "value": "أنشئ تصاميم أكشاك ومعارض مؤثرة تأسر الجماهير",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "service_24_title_ar",
+    "value": "تصميم الفعاليات",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "service_24_description_ar",
+    "value": "صمم فعاليات لا تُنسى بحلول إبداعية وعملية",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "service_25_title_ar",
+    "value": "تصميم الأثاث",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "service_25_description_ar",
+    "value": "تصميم أثاث مخصص يناسب احتياجاتك وأسلوبك الفريد",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "portfolioIntroText_ar",
+    "value": "يمثل كل مشروع التزامنا بالتميز والإبداع والاهتمام بالتفاصيل.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "portfolioCtaText_ar",
+    "value": "مستعد لبدء رحلة التصميم الخاصة بك؟ تواصل مع فريقنا.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "workflowWhySubtitle_ar",
+    "value": "مبنية على سنوات من الخبرة ومُحسّنة من خلال مشاريع ناجحة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "workflowCtaText_ar",
+    "value": "لنبدأ باستشارة لمناقشة مشروعك واستكشاف كيف يمكننا تحقيق رؤيتك.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "blogIntroText_ar",
+    "value": "استكشف أحدث مقالاتنا ورؤى التصميم والإلهام.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "blogCtaTitle_ar",
+    "value": "ابقَ مُلهماً",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "blogCtaText_ar",
+    "value": "اشترك في نشرتنا الإخبارية لأحدث رؤى التصميم وتحديثات المشاريع.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "blogCtaButton1Text_ar",
+    "value": "اشترك",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "contactFormSubtitle_ar",
+    "value": "املأ النموذج أدناه وسيتواصل معك فريقنا خلال 24 ساعة.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "contactOfficeHours_ar",
+    "value": "ساعات العمل",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "contactVisitStudio_ar",
+    "value": "زُر استوديونا",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "contactVisitStudioText_ar",
+    "value": "حدد موعداً لزيارة استوديو التصميم لدينا.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "contactFindUs_ar",
+    "value": "موقعنا",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "contactCtaButton1Text_ar",
+    "value": "تواصل معنا",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutWhoWeAreText1_ar",
+    "value": "TRQ هو استوديو تصميم داخلي فاخر وإبداعي مقره الرياض، المملكة العربية السعودية. تأسسنا على مبادئ التميز والابتكار والخدمة المتمحورة حول العميل.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutWhoWeAreText2_ar",
+    "value": "يجمع فريقنا متعدد التخصصات خبرات في التصميم الداخلي والهندسة المعمارية وتصميم الأثاث وإدارة المشاريع.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutWhoWeAreText3_ar",
+    "value": "سواء كنا نصمم مساحات سكنية حميمة أو بيئات تجارية فخمة، نتعامل مع كل مشروع بنفس مستوى التفاني والإبداع.",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutValuesTitle_ar",
+    "value": "قيمنا",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutValuesSubtitle_ar",
+    "value": "المبادئ التي توجه عملنا وتحدد نهجنا في التصميم",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "homeCtaPrimaryBtn_ar",
+    "value": "ابدأ الآن",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "homeCtaSecondaryBtn_ar",
+    "value": "تعرف على المزيد",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutHeroParagraph_ar",
+    "value": "شركة متخصصة في تقديم حلول تصميمية مبتكرة وفعالة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutWhoWeAreTitle_ar",
+    "value": "من نحن",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutVisionText_ar",
+    "value": "أن نكون الشركة الرائدة في تقديم حلول تصميمية مبتكرة تحول الأفكار إلى واقع ملموس",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutMissionText_ar",
+    "value": "تقديم خدمات تصميمية عالية الجودة تساعد العملاء على تحقيق أهدافهم وتجاوز توقعاتهم",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutValue1Title_ar",
+    "value": "الابتكار",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutValue1Desc_ar",
+    "value": "نسعى دائماً للبحث عن حلول جديدة ومبتكرة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutValue2Title_ar",
+    "value": "الجودة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutValue2Desc_ar",
+    "value": "نلتزم بأعلى معايير الجودة في كل مشروع",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutValue3Title_ar",
+    "value": "التعاون",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutValue3Desc_ar",
+    "value": "نعمل بشكل وثيق مع عملائنا لفهم احتياجاتهم",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutValue4Title_ar",
+    "value": "الاستدامة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutValue4Desc_ar",
+    "value": "نهتم بالتأثير البيئي والاجتماعي لعملنا",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutWhyChooseTitle_ar",
+    "value": "لماذا تختار TRQ",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutWhyChoose1_ar",
+    "value": "خبرة تزيد عن 10 سنوات في مجال التصميم",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutWhyChoose2_ar",
+    "value": "فريق متخصص من المصممين والمطورين",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutWhyChoose3_ar",
+    "value": "حلول مخصصة تناسب احتياجات عملائنا",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutWhyChoose4_ar",
+    "value": "دعم مستمر وخدمة عملاء ممتازة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutImpactTitle_ar",
+    "value": "تأثيرنا",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutImpactPara1_ar",
+    "value": "لقد ساعدنا مئات العملاء على تحقيق أهدافهم من خلال حلول تصميمية مبتكرة",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "aboutImpactPara2_ar",
+    "value": "نفخر بالعلاقات طويلة الأمد التي بنيناها مع عملائنا",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "servicesIntroTitle_ar",
+    "value": "ما الذي نقدمه",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "servicesIntroText_ar",
+    "value": "نقدم مجموعة واسعة من الخدمات التصميمية التي تغطي جميع احتياجات عملائنا",
+    "updatedAt": "2026-02-28 01:10:54"
+  },
+  {
+    "key": "servicesHighlight1_ar",
+    "value": "تصميم الهوية البصرية",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "servicesHighlight2_ar",
+    "value": "تصميم الواجهات والتجارب",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "servicesHighlight3_ar",
+    "value": "تطوير المواقع والتطبيقات",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "servicesCtaBtn_ar",
+    "value": "اطلب عرض سعر",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "workflowIntroText_ar",
+    "value": "نتبع منهجية محددة وفعالة في كل مشروع لضمان تحقيق أفضل النتائج",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "workflowStep1Feature1_ar",
+    "value": "فهم احتياجاتك وأهدافك",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "workflowStep1Feature2_ar",
+    "value": "تحليل السوق والمنافسين",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "workflowStep2Feature1_ar",
+    "value": "وضع خطة تصميمية شاملة",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "workflowStep2Feature2_ar",
+    "value": "تحديد الأهداف والمؤشرات",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "workflowStep3Feature1_ar",
+    "value": "إنشاء تصاميم مبتكرة",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "workflowStep3Feature2_ar",
+    "value": "الحصول على ملاحظاتك وتحسينها",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "workflowStep4Feature1_ar",
+    "value": "تطوير الحل بأحدث التقنيات",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "workflowStep4Feature2_ar",
+    "value": "اختبار شامل وضمان الجودة",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "workflowStep5Feature1_ar",
+    "value": "إطلاق المشروع بنجاح",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "workflowStep5Feature2_ar",
+    "value": "توفير الدعم المستمر",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "portfolioFilterAll_ar",
+    "value": "الكل",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "portfolioFilterBranding_ar",
+    "value": "الهوية البصرية",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "portfolioFilterWeb_ar",
+    "value": "تصميم المواقع",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "portfolioFilterApp_ar",
+    "value": "تطبيقات الجوال",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "portfolioFilterPackaging_ar",
+    "value": "تصميم العبوات",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "portfolioViewProject_ar",
+    "value": "عرض المشروع",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "contactFormName_ar",
+    "value": "الاسم",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "contactFormEmail_ar",
+    "value": "البريد الإلكتروني",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "contactFormPhone_ar",
+    "value": "رقم الهاتف",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "contactFormSubject_ar",
+    "value": "الموضوع",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "contactFormMessage_ar",
+    "value": "الرسالة",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "contactInfoPhone_ar",
+    "value": "الهاتف",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "contactInfoEmail_ar",
+    "value": "البريد الإلكتروني",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "contactInfoAddress_ar",
+    "value": "العنوان",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "contactMapSection_ar",
+    "value": "موقعنا",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingHeroTitle_ar",
+    "value": "الأسعار والعروض",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingHeroParagraph_ar",
+    "value": "نقدم عروضاً مرنة تناسب احتياجات وميزانيات مختلفة",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingFormIntro_ar",
+    "value": "اطلب عرض سعر مخصص",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingFormName_ar",
+    "value": "الاسم الكامل",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingFormEmail_ar",
+    "value": "البريد الإلكتروني",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingFormPhone_ar",
+    "value": "رقم الهاتف",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingFormCompany_ar",
+    "value": "اسم الشركة",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingProjectType_ar",
+    "value": "نوع المشروع",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingProjectSize_ar",
+    "value": "حجم المشروع",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingLocation_ar",
+    "value": "الموقع",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingBudget_ar",
+    "value": "الميزانية المتوقعة",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingTimeline_ar",
+    "value": "الجدول الزمني",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingDescription_ar",
+    "value": "وصف المشروع",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingContactMethod_ar",
+    "value": "طريقة التواصل المفضلة",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingContactMethodEmail_ar",
+    "value": "البريد الإلكتروني",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingContactMethodPhone_ar",
+    "value": "الهاتف",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingContactMethodWhatsapp_ar",
+    "value": "واتس آب",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingSubmitBtn_ar",
+    "value": "إرسال الطلب",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingSubmittingBtn_ar",
+    "value": "جاري الإرسال...",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingResponseTime_ar",
+    "value": "سنرد عليك خلال 24 ساعة",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingWhatToExpectTitle_ar",
+    "value": "ماذا تتوقع",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingWhatToExpect1_ar",
+    "value": "استقبال عرض سعر مفصل",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingWhatToExpect2_ar",
+    "value": "استشارة مجانية مع فريقنا",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "pricingWhatToExpect3_ar",
+    "value": "خطة عمل شاملة للمشروع",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "blogCategoryDesign_ar",
+    "value": "التصميم",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "blogCategoryDevelopment_ar",
+    "value": "التطوير",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "blogCategoryBusiness_ar",
+    "value": "الأعمال",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "blogCategoryTutorials_ar",
+    "value": "الدروس",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "blogNewsletterDescription_ar",
+    "value": "احصل على أحدث المقالات والنصائح مباشرة في بريدك الإلكتروني",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "blogNewsletterBtn_ar",
+    "value": "اشترك",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "blogExploreDescription_ar",
+    "value": "تصفح مجموعة واسعة من المقالات والموارد",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "blogArticleReadMore_ar",
+    "value": "اقرأ المزيد",
+    "updatedAt": "2026-02-28 01:10:55"
+  },
+  {
+    "key": "blogArticleAuthor_ar",
+    "value": "الكاتب",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "blogArticleDate_ar",
+    "value": "التاريخ",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "blogArticleReadTime_ar",
+    "value": "وقت القراءة",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailBackBtn_ar",
+    "value": "العودة",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailYear_ar",
+    "value": "السنة",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailLocation_ar",
+    "value": "الموقع",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailSize_ar",
+    "value": "الحجم",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailClient_ar",
+    "value": "العميل",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailDuration_ar",
+    "value": "المدة",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailTeam_ar",
+    "value": "الفريق",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailOverviewTitle_ar",
+    "value": "نظرة عامة",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailChallengeTitle_ar",
+    "value": "التحدي",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailSolutionTitle_ar",
+    "value": "الحل",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailFeaturesTitle_ar",
+    "value": "المميزات",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailMaterialsTitle_ar",
+    "value": "المواد المستخدمة",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailAwardsTitle_ar",
+    "value": "الجوائز",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailGalleryTitle_ar",
+    "value": "المعرض",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailClientQuoteTitle_ar",
+    "value": "رأي العميل",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailCtaTitle_ar",
+    "value": "هل أعجبك هذا المشروع؟",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailCtaDescription_ar",
+    "value": "دعنا نساعدك في إنشاء مشروع مشابه",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "projectDetailCtaBtn_ar",
+    "value": "ابدأ مشروعك",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "commonRequestPricing_ar",
+    "value": "اطلب عرض سعر",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "commonContactUs_ar",
+    "value": "تواصل معنا",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "commonSubmitRequest_ar",
+    "value": "إرسال الطلب",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "commonSubmitting_ar",
+    "value": "جاري الإرسال...",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "commonLoading_ar",
+    "value": "جاري التحميل...",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "commonChatWhatsapp_ar",
+    "value": "دردش معنا على واتس آب",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "aboutWhoWeArePara1_ar",
+    "value": "TRQ STUDIO هو أستديو تصميم داخلي يبدع مساحات فاخرة تجسد الأناقة من خلال نهج شامل يوازن بين الجمال, الوظيفة والتجربة الحسية.",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "aboutWhoWeArePara2_ar",
+    "value": "تقدم تصاميم متكاملة تراعي في السياق والهوية وتنفذ بأعلى المعايير سواء في المشاريع السكنية الراقية أو التجارية والمؤسسية الرفيعة.",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "aboutWhoWeArePara3_ar",
+    "value": "نحن نصنع حلول تصميم خالدة تعكس رؤيتك وتحسّن طريقة عيشك وعملك من خلال الجمع بين الرؤية الفنية والخبرة العملية.",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "service_22_title_ar",
+    "value": "تصميم داخلي",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "service_22_desc_ar",
+    "value": "حول مساحاتك بحلول تصميم داخلي مبتكرة",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "service_23_title_ar",
+    "value": "تصميم جناح ومعرض",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "service_23_desc_ar",
+    "value": "أنشئ تصاميم أجنحة ومعارض مؤثرة تأسر الجماهير",
+    "updatedAt": "2026-02-28 01:10:56"
+  },
+  {
+    "key": "site_name",
+    "value": "TRQ Studio Test",
+    "updatedAt": "2026-04-04 11:10:18"
+  }
+]

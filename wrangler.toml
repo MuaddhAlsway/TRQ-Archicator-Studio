@@ -1,8 +1,40 @@
-name = "trq-studio"
-pages_build_output_dir = "dist"
+name = "trq-api"
+main = "src/worker-v2.js"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
 
+# D1 Database Binding
+[[d1_databases]]
+binding = "DB"
+database_name = "trq-db"
+database_id = "f05d3a1f-b144-469f-88f5-fc712a5a591a"
+
+# KV Namespace for caching & rate limiting
+[[kv_namespaces]]
+binding = "CACHE"
+id = "c5b94d0f987c4bfbacbf72c502e3f8d5"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "7efeed9d85c3442a844914c4db77c06b"
+
+# Environment variables
 [env.production]
-name = "trq-studio"
+vars = { ENVIRONMENT = "production", JWT_SECRET = "trq-design-studio-secret-key-2026" }
+d1_databases = [{ binding = "DB", database_name = "trq-db", database_id = "f05d3a1f-b144-469f-88f5-fc712a5a591a" }]
+kv_namespaces = [
+  { binding = "CACHE", id = "c5b94d0f987c4bfbacbf72c502e3f8d5" },
+  { binding = "RATE_LIMIT", id = "7efeed9d85c3442a844914c4db77c06b" }
+]
 
-[env.preview]
-name = "trq-studio-preview"
+[env.development]
+vars = { ENVIRONMENT = "development", JWT_SECRET = "trq-design-studio-secret-key-2026" }
+d1_databases = [{ binding = "DB", database_name = "trq-db", database_id = "f05d3a1f-b144-469f-88f5-fc712a5a591a" }]
+kv_namespaces = [
+  { binding = "CACHE", id = "c5b94d0f987c4bfbacbf72c502e3f8d5" },
+  { binding = "RATE_LIMIT", id = "7efeed9d85c3442a844914c4db77c06b" }
+]
+
+# Triggers for scheduled tasks
+[triggers]
+crons = ["0 */6 * * *"]

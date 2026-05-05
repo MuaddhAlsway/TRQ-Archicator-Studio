@@ -1,0 +1,205 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                    CLOUDFLARE WORKERS + R2 ARCHITECTURE                       ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              USER BROWSER                                   │
+│                                                                             │
+│  Visits: https://trq-studio.pages.dev                                      │
+└────────────────────────────────┬────────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        CLOUDFLARE EDGE NETWORK                             │
+│                                                                             │
+│  ┌──────────────────────────────────────────────────────────────────────┐  │
+│  │                    CLOUDFLARE WORKER                                │  │
+│  │                    (src/worker.js)                                  │  │
+│  │                                                                      │  │
+│  │  Incoming Request                                                   │  │
+│  │         │                                                           │  │
+│  │         ├─ /images/* ──────────────────┐                           │  │
+│  │         │                              │                           │  │
+│  │         ├─ /uploads/* ─────────────────┼──→ R2 BUCKET              │  │
+│  │         │                              │    (Images)               │  │
+│  │         │                              │                           │  │
+│  │         ├─ /api/* ──────────────────┐  │                           │  │
+│  │         │                           │  │                           │  │
+│  │         │                           └──→ BACKEND API               │  │
+│  │         │                              (Render)                    │  │
+│  │         │                                                           │  │
+│  │         └─ /* (SPA) ────────────────→ dist/index.html              │  │
+│  │                                      (Frontend)                    │  │
+│  │                                                                      │  │
+│  └──────────────────────────────────────────────────────────────────────┘  │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+         │                    │                         │
+         │                    │                         │
+         ▼                    ▼                         ▼
+    ┌─────────┐          ┌──────────┐          ┌──────────────┐
+    │   R2    │          │ BACKEND  │          │   FRONTEND   │
+    │ STORAGE │          │   API    │          │   (dist/)    │
+    │         │          │          │          │              │
+    │ Images  │          │ Render   │          │ React App    │
+    │ 762     │          │ Express  │          │ 54MB         │
+    │ files   │          │ Turso DB │          │              │
+    │ 859MB   │          │          │          │              │
+    └─────────┘          └──────────┘          └──────────────┘
+
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                            REQUEST FLOW EXAMPLES                               ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+1. IMAGE REQUEST
+   ┌──────────────────────────────────────────────────────────────────────────┐
+   │ GET /images/ALULAH/Image38.png                                           │
+   │                                                                          │
+   │ Worker:                                                                  │
+   │   1. Detect /images/ prefix                                             │
+   │   2. Extract path: ALULAH/Image38.png                                   │
+   │   3. Fetch from R2 bucket                                               │
+   │   4. Return with cache headers (1 year)                                 │
+   │                                                                          │
+   │ Response:                                                                │
+   │   Content-Type: image/png                                               │
+   │   Cache-Control: public, max-age=31536000, immutable                    │
+   │   Access-Control-Allow-Origin: *                                        │
+   └──────────────────────────────────────────────────────────────────────────┘
+
+2. API REQUEST
+   ┌──────────────────────────────────────────────────────────────────────────┐
+   │ GET /api/projects                                                        │
+   │                                                                          │
+   │ Worker:                                                                  │
+   │   1. Detect /api/ prefix                                                │
+   │   2. Proxy to: https://trq-express-api.onrender.com/api/projects       │
+   │   3. Add CORS headers                                                   │
+   │   4. Return response                                                    │
+   │                                                                          │
+   │ Response:                                                                │
+   │   [{ id: 1, name: "Project 1", ... }, ...]                             │
+   │   Access-Control-Allow-Origin: *                                        │
+   └──────────────────────────────────────────────────────────────────────────┘
+
+3. SPA ROUTE REQUEST
+   ┌──────────────────────────────────────────────────────────────────────────┐
+   │ GET /portfolio                                                           │
+   │                                                                          │
+   │ Worker:                                                                  │
+   │   1. No matching prefix                                                 │
+   │   2. Serve dist/index.html                                              │
+   │   3. React Router handles /portfolio route                              │
+   │                                                                          │
+   │ Response:                                                                │
+   │   HTML with React app                                                   │
+   │   React Router renders Portfolio component                              │
+   └──────────────────────────────────────────────────────────────────────────┘
+
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                            DEPLOYMENT PROCESS                                  ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+Step 1: Create R2 Buckets
+   wrangler r2 bucket create trq-studio-images
+   wrangler r2 bucket create trq-studio-images-preview
+
+Step 2: Create API Token
+   Cloudflare Dashboard → R2 → Settings → Create API token
+   Save: Account ID, Access Key ID, Secret Access Key
+
+Step 3: Set Environment Variables
+   export CLOUDFLARE_ACCOUNT_ID="..."
+   export CLOUDFLARE_R2_ACCESS_KEY_ID="..."
+   export CLOUDFLARE_R2_SECRET_ACCESS_KEY="..."
+
+Step 4: Install Dependencies
+   npm install
+
+Step 5: Upload Images to R2
+   npm run upload:r2
+   
+   Uploads 762 image files to R2 bucket
+   Sets cache headers (1 year)
+   Skips fonts, videos, client logos
+
+Step 6: Deploy Worker
+   npm run deploy:worker:prod
+   
+   Deploys src/worker.js to Cloudflare Workers
+   Binds R2 bucket
+   Sets up routes
+
+Step 7: Test
+   Visit: https://trq-studio.pages.dev
+   Check: Images load, API works, SPA routing works
+
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                            PERFORMANCE COMPARISON                              ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+                    BEFORE (Pages)          AFTER (Workers + R2)
+                    ──────────────          ────────────────────
+Upload Size         1.77 GB                 54 MB
+Upload Time         180+ seconds            ~30 seconds
+Upload Status       STUCK at 49/59          ✓ COMPLETE
+Images Location     dist/ folder            R2 Storage
+Image Caching       Not optimized           1 year cache
+Global CDN          Limited                 Full Cloudflare CDN
+Cost                $0                      ~$5-10/month
+Scalability         Limited                 Unlimited
+
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                            FILE ORGANIZATION                                   ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+Cloudflare Workers (54 MB)
+├── index.html (0.68 KB)
+├── assets/
+│   ├── index-D4BnxGx6.js (1.6 MB) ← Main bundle
+│   ├── index-CSGcRCa9.css (143 KB)
+│   ├── vendor-CqM-x5R1.js (54 KB)
+│   ├── animations-B7Hl6Vit.js (88 KB)
+│   └── *.otf fonts (2.5 MB)
+└── clientLogos/ (small logos)
+
+R2 Storage (859 MB)
+├── ALULAH/ (50 MB)
+├── ALFUNDATIONDay/ (30 MB)
+├── ARYASH AL-DRIIYAH/ (45 MB)
+├── CottonSkin/ (124 MB)
+├── daria/ (40 MB)
+├── DIRIYAH MARKET/ (35 MB)
+├── DIRIYAH PARADE/ (57 MB)
+├── playGround/ (95 MB)
+└── ... (762 total image files)
+
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                            QUICK REFERENCE                                     ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+Deploy Everything:
+   npm run deploy:full
+
+Deploy Only Worker:
+   npm run deploy:worker:prod
+
+Upload Only Images:
+   npm run upload:r2
+
+Check R2 Bucket:
+   wrangler r2 object list trq-studio-images
+
+View Worker Logs:
+   wrangler tail
+
+Rollback to Pages:
+   npm run deploy:prod
+
+Test Locally:
+   wrangler dev
