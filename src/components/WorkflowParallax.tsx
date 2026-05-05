@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { useGSAPParallax, useImageParallax, useSlideAnimation } from '../hooks/useGSAPParallax';
-import '../styles/workflow-parallax.css';
+import '../Styles/workflow-parallax.css';
 import { getImageUrl } from '../api';
 
 interface WorkflowStep {
