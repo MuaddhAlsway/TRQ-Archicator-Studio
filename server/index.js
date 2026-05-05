@@ -37,6 +37,8 @@ const corsOptions = {
     'http://localhost:3000',      // Alternative local
     'https://trq-studio.pages.dev', // Cloudflare Pages production
     'https://d77c7f3d.trq-studio-7ie.pages.dev', // Cloudflare Pages preview
+    'https://trqlatestversion.trq-efw.pages.dev', // Current deployment
+    /\.trq-efw\.pages\.dev$/, // Allow all trq-efw preview deployments
     /\.trq-studio-7ie\.pages\.dev$/ // Allow all preview deployments
   ],
   credentials: true,
